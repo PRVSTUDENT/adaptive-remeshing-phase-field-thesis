@@ -1,0 +1,63 @@
+{
+  "task_id": "F1849-DAMAGE-ENVELOPE-FRAMEWORK",
+  "driver": "CONSTRUCTED_DAMAGE_ENVELOPE",
+  "qualifies_native_miseseri": false,
+  "base_commit": "c8d8588fb",
+  "max_new_pbs": 0,
+  "cases": [
+    {
+      "case_id": 1,
+      "target_F1779": 20232,
+      "config": "models/pandey_kumar_mode1/279_f1849_damage_envelope/case1_config.json",
+      "expected_donors": [
+        "models/pandey_kumar_mode1/239_f1772_case1_remesh/PK_F1772_CASE1_ENVELOPE.odb",
+        "models/pandey_kumar_mode1/237_f1768_case1_donor/PK_F1769_C1_DONOR.odb"
+      ],
+      "status": "BLOCKED_MISSING_DONOR",
+      "donor": null,
+      "existing_envelope": false,
+      "historical_note": "F1779 cases 3/5 used stress-error donors; all-damage sizing is a different experiment."
+    },
+    {
+      "case_id": 2,
+      "target_F1779": 17280,
+      "config": "models/pandey_kumar_mode1/279_f1849_damage_envelope/case2_config.json",
+      "expected_donors": [
+        "models/pandey_kumar_mode1/224_f1734_case2_distal_refinement/PK_F1779_CASE2_ENVELOPE.odb",
+        "models/pandey_kumar_mode1/176_method_a_plate_with_hole/PK_HOLE_COARSE_JOB1.odb"
+      ],
+      "status": "READY",
+      "donor": "models/pandey_kumar_mode1/224_f1734_case2_distal_refinement/PK_F1779_CASE2_ENVELOPE.odb",
+      "existing_envelope": true,
+      "historical_note": "F1779 cases 3/5 used stress-error donors; all-damage sizing is a different experiment.",
+      "donor_bytes": 518260408,
+      "donor_sha256": "0aa9601559f26859d6a8b5e814153dbac27d4a6a4cb932a2f9c0457b4c8d58d8"
+    },
+    {
+      "case_id": 3,
+      "target_F1779": 9975,
+      "config": "models/pandey_kumar_mode1/279_f1849_damage_envelope/case3_config.json",
+      "expected_donors": [
+        "models/pandey_kumar_mode1/192_pk_sec43_staggered_job1/PK_SEC43_STAGGERED_JOB1.odb"
+      ],
+      "status": "BLOCKED_MISSING_DONOR",
+      "donor": null,
+      "existing_envelope": false,
+      "historical_note": "F1779 cases 3/5 used stress-error donors; all-damage sizing is a different experiment."
+    },
+    {
+      "case_id": 5,
+      "target_F1779": 15330,
+      "config": "models/pandey_kumar_mode1/279_f1849_damage_envelope/case5_config.json",
+      "expected_donors": [
+        "models/pandey_kumar_mode1/218_f1726_seven_hole_study/PK_F1726_SEVEN_HOLE_COARSE.odb"
+      ],
+      "status": "READY",
+      "donor": "models/pandey_kumar_mode1/218_f1726_seven_hole_study/PK_F1726_SEVEN_HOLE_COARSE.odb",
+      "existing_envelope": false,
+      "historical_note": "F1779 cases 3/5 used stress-error donors; all-damage sizing is a different experiment.",
+      "donor_bytes": 194344892,
+      "donor_sha256": "cb673713fde31593ae452a21bc05bffc140bccce71f1d43d601ee17b43802b0e"
+    }
+  ]
+}

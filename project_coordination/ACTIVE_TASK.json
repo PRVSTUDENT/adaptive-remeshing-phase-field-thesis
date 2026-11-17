@@ -1,37 +1,37 @@
-﻿{
-    "task_id": "F1848-WAIT-NEXT-DIRECTION",
-    "title": "Task F1848: WAIT - Await User Direction on the Next Scientific Step",
-    "task_status": "WAITING_FOR_USER_DIRECTION",
-    "master_goal_status": "OPEN",
-    "status": "WAITING_FOR_USER_DIRECTION",
-    "review_verdict": "APPROVED",
-    "review_correlation_id": "HND-F1847-F1846-EVIDENCE-CORRECTION-001",
-    "classification": "SHARED_FRAMEWORK_IMPROVEMENT",
-    "assigned_agent": "gemini-antigravity",
-    "active_pbs_job_id": null,
-    "last_successful_pbs_job_id": "1424198.mmaster02",
+{
+  "task_id": "F1849-DAMAGE-ENVELOPE-FRAMEWORK",
+  "title": "F1849 Generalized constructed damage-envelope framework",
+  "task_status": "PARTIAL_PENDING_REVIEW",
+  "master_goal_status": "OPEN",
+  "status": "PARTIAL_PENDING_REVIEW",
+  "review_verdict": "PENDING",
+  "review_correlation_id": "HND-F1849-DAMAGE-ENVELOPE-FRAMEWORK-001",
+  "classification": "SHARED_FRAMEWORK_IMPROVEMENT",
+  "assigned_agent": "codex",
+  "active_pbs_job_id": null,
+  "last_successful_pbs_job_id": "1424198.mmaster02",
+  "checkpoint_artifact": "docs/validation/F1849_DAMAGE_ENVELOPE_FRAMEWORK_REPORT.md",
+  "review_directive": "Execute user-attached F1849 task. Primary driver CONSTRUCTED_DAMAGE_ENVELOPE, zero new PBS, frozen production and F1846 frameworks unchanged. Prior diagnostic task superseded by explicit user handover; historical session retained.",
+  "predecessor_task": {
+    "task_id": "F1847-F1846-EVIDENCE-CORRECTION",
     "checkpoint_artifact": "docs/validation/F1846_GENERALIZED_FRAMEWORK_FROM_F1779_REPORT.md",
-    "review_directive": "WAIT. Do no new work. The F1846/F1847 evidence chain is complete and independently reviewed (F1847 APPROVE at commit c3839191). Preserve that state exactly and await the user's explicit direction on the next scientific step. Do not infer, select or start the next task yourself; do not modify any file; do not submit any PBS job (max_new_pbs = 0, cumulative 36 preserved). Report WAIT and stop.",
-    "predecessor_task": {
-        "task_id": "F1847-F1846-EVIDENCE-CORRECTION",
-        "checkpoint_artifact": "docs/validation/F1846_GENERALIZED_FRAMEWORK_FROM_F1779_REPORT.md",
-        "classification": "EVIDENCE_CORRECTION",
-        "review_verdict": "APPROVE",
-        "correlation_id": "HND-F1847-F1846-EVIDENCE-CORRECTION-001"
-    },
-    "re_review_correlation_id": "HND-F1848-WAIT-NEXT-DIRECTION-001",
-    "scientific_operation": "shared_framework_improvement",
-    "scientific_operation_id": "f1848_wait_next_direction_001",
-    "scientific_checkpoint_required": false,
-    "frozen_uel_sha256": "CE8D5EDCD2911DCB018BB15275271F874E7EA62B8FB48CF4A8297469A83ACDD6",
-    "framework_sha256": "B0857C521AE8E212C74F711CC3373AD57B081167727104905A0F4D2FBBDA0129",
-    "frozen_f1779_framework_sha256": "CDD88460E4BA4753C2E9D12E8DF27FF908EBD7AA16C61A14457C9EBBA180E654",
-    "generalized_framework_f1846_sha256": "22C58ED7631EE12E8E0837C0CB2E742CE9A55438B5226B0B9830A6DEF880D8D2",
-    "max_new_pbs_submissions": 0,
-    "submissions_consumed": 0,
-    "cumulative_pbs_submissions": 36,
-    "notes": "Task F1848: Holding in WAIT state following official independent supervisory APPROVAL of Task F1847 under HND-F1847-F1846-EVIDENCE-CORRECTION-001. Awaiting explicit user direction on next scientific step. Cumulative PBS 36 preserved. MASTER_GOAL_STATUS = OPEN.",
-    "historical_pbs_job_ids": [
-        "1424198.mmaster02"
-    ]
+    "classification": "EVIDENCE_CORRECTION",
+    "review_verdict": "APPROVE",
+    "correlation_id": "HND-F1847-F1846-EVIDENCE-CORRECTION-001"
+  },
+  "re_review_correlation_id": "HND-F1849-THREE-CASE-DIAGNOSTIC-001",
+  "scientific_operation": "shared_framework_improvement",
+  "scientific_operation_id": "f1849_three_case_diagnostic_001",
+  "scientific_checkpoint_required": true,
+  "frozen_uel_sha256": "CE8D5EDCD2911DCB018BB15275271F874E7EA62B8FB48CF4A8297469A83ACDD6",
+  "framework_sha256": "B0857C521AE8E212C74F711CC3373AD57B081167727104905A0F4D2FBBDA0129",
+  "frozen_f1779_framework_sha256": "CDD88460E4BA4753C2E9D12E8DF27FF908EBD7AA16C61A14457C9EBBA180E654",
+  "generalized_framework_f1846_sha256": "22C58ED7631EE12E8E0837C0CB2E742CE9A55438B5226B0B9830A6DEF880D8D2",
+  "max_new_pbs_submissions": 0,
+  "submissions_consumed": 0,
+  "cumulative_pbs_submissions": 36,
+  "notes": "Codex takeover authorized in chat. Fresh Case2=17280; Case5=4375 (not reproduction). Cases1/3 missing required local Job1/envelope donors. Five offline tests passed; 0 new PBS. Independent review pending; master OPEN.",
+  "historical_pbs_job_ids": [
+    "1424198.mmaster02"
+  ]
 }

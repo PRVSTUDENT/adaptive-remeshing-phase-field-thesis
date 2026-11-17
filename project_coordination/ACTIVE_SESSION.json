@@ -1,13 +1,21 @@
 {
-  "active": false,
-  "agent": "gemini-antigravity",
-  "session_id": "gemini-antigravity-f1847-evidence-correction-20261117",
-  "task_id": "F1848-WAIT-NEXT-DIRECTION",
-  "started_at": "2026-11-17T18:25:00+01:00",
-  "completed_at": "2026-11-17T21:45:00+01:00",
-  "starting_commit": "414633928b93312443c94465fde422bd03809d4d",
+  "active": true,
+  "agent": "codex",
+  "session_id": "codex-f1849-damage-envelope-20261117",
+  "task_id": "F1849-DAMAGE-ENVELOPE-FRAMEWORK",
+  "started_at": "2026-11-17T23:19:51.170671+01:00",
+  "starting_commit": "963becf1d0136068460c9ee4190664c514f74b3d",
   "allowed_write_scope": [
-    "project_coordination/*"
+    "scripts/remeshing/*f1849*",
+    "configs/remeshing/*f1849*",
+    "models/pandey_kumar_mode1/279_f1849_damage_envelope/*",
+    "results/validation/f1849_*",
+    "results/figures/fig_f1849_*",
+    "docs/validation/F1849_DAMAGE_ENVELOPE_FRAMEWORK_REPORT.md",
+    "tests/unit/test_f1849_*",
+    "project_coordination/*",
+    ".agents/scripts/*f1849*",
+    ".agents/bridge_history/*f1849*"
   ],
-  "notes": "Task F1847 officially approved under HND-F1847-F1846-EVIDENCE-CORRECTION-001. Session lock released in WAIT state for Task F1848 awaiting user direction on next scientific step. MASTER_GOAL_STATUS = OPEN."
+  "notes": "Explicit user handover: AGY stopped; Codex executes attached damage-envelope task, no new PBS; old active session preserved in session report."
 }

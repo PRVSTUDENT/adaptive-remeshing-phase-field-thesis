@@ -1,0 +1,237 @@
+{
+  "task_id": "F1849-DAMAGE-ENVELOPE-FRAMEWORK",
+  "driver": "CONSTRUCTED_DAMAGE_ENVELOPE",
+  "qualifies_native_miseseri": false,
+  "base_commit": "c8d8588fb",
+  "max_new_pbs": 0,
+  "cases": [
+    {
+      "case_id": 1,
+      "target_F1779": 20232,
+      "config": "models/pandey_kumar_mode1/279_f1849_damage_envelope/case1_config.json",
+      "expected_donors": [
+        "models/pandey_kumar_mode1/239_f1772_case1_remesh/PK_F1772_CASE1_ENVELOPE.odb",
+        "models/pandey_kumar_mode1/237_f1768_case1_donor/PK_F1769_C1_DONOR.odb"
+      ],
+      "status": "BLOCKED_MISSING_DONOR",
+      "donor": null,
+      "existing_envelope": false,
+      "historical_note": "F1779 cases 3/5 used stress-error donors; all-damage sizing is a different experiment."
+    },
+    {
+      "case_id": 2,
+      "target_F1779": 17280,
+      "config": "models/pandey_kumar_mode1/279_f1849_damage_envelope/case2_config.json",
+      "expected_donors": [
+        "models/pandey_kumar_mode1/224_f1734_case2_distal_refinement/PK_F1779_CASE2_ENVELOPE.odb",
+        "models/pandey_kumar_mode1/176_method_a_plate_with_hole/PK_HOLE_COARSE_JOB1.odb"
+      ],
+      "status": "GENERATED_COMPARISON_NOT_ACCEPTED",
+      "donor": "models/pandey_kumar_mode1/224_f1734_case2_distal_refinement/PK_F1779_CASE2_ENVELOPE.odb",
+      "existing_envelope": true,
+      "historical_note": "F1779 cases 3/5 used stress-error donors; all-damage sizing is a different experiment.",
+      "donor_bytes": 518260408,
+      "donor_sha256": "0aa9601559f26859d6a8b5e814153dbac27d4a6a4cb932a2f9c0457b4c8d58d8",
+      "audit": {
+        "total_physical_elements": 17280,
+        "total_elements": 17280,
+        "total_nodes": 17390,
+        "quad_count": 16805,
+        "tri_count": 475,
+        "quad_percent": 97.2511574074074,
+        "quad_fraction_pct": 97.2511574074074,
+        "tri_fraction_pct": 2.7488425925925926,
+        "total_physical_nodes": 17390,
+        "min_signed_jacobian": 4.93866998513768e-07,
+        "min_det_j": 4.93866998513768e-07,
+        "non_positive_jacobians": 0,
+        "zero_or_negative_jacobians": 0,
+        "distorted_elements": 0,
+        "jacobian_status": "PASS",
+        "jacobian_valid": true,
+        "median_aspect_ratio": 1.2140881430758947,
+        "max_aspect_ratio": 2.645585446848588,
+        "worst_aspect_ratio": 2.645585446848588,
+        "min_corner_angle_deg": 29.754581394822715,
+        "max_corner_angle_deg": 139.72280242701572,
+        "min_h_area_mm": 0.000908049595141402,
+        "min_h_area_um": 0.9080495951414019,
+        "max_h_area_mm": 0.013907494419713645,
+        "mean_h_area_mm": 0.007071824165329632,
+        "mean_process_zone_h_area_mm": 0.003470781180280649,
+        "mean_process_zone_h_area_um": 3.4707811802806487,
+        "mean_far_field_h_area_mm": 0.007652356530166118,
+        "refinement_ratio_far_to_core": 2.204793714349732,
+        "process_zone_elements_count": 2399,
+        "elements_le_l0": 6956,
+        "pct_elements_le_l0": 40.254629629629626,
+        "elements_le_l0_half": 3281,
+        "pct_elements_le_l0_half": 18.98726851851852,
+        "elements_le_l0_third": 762,
+        "pct_elements_le_l0_third": 4.409722222222222,
+        "task_id": "F1849-DAMAGE-ENVELOPE-FRAMEWORK",
+        "case_id": 2,
+        "sizing_driver": "CONSTRUCTED_DAMAGE_ENVELOPE",
+        "qualifies_native_miseseri": false,
+        "donor": "models/pandey_kumar_mode1/224_f1734_case2_distal_refinement/PK_F1779_CASE2_ENVELOPE.odb",
+        "donor_sha256": "0aa9601559f26859d6a8b5e814153dbac27d4a6a4cb932a2f9c0457b4c8d58d8",
+        "active_donor": "models/pandey_kumar_mode1/224_f1734_case2_distal_refinement/PK_F1779_CASE2_ENVELOPE.odb",
+        "active_donor_sha256": "0aa9601559f26859d6a8b5e814153dbac27d4a6a4cb932a2f9c0457b4c8d58d8",
+        "source_sha256": "694e7ababd739e6f5cbca5597cb39ada500116895b8c4a21ca470b64f9247096",
+        "physical_mesh": "models/pandey_kumar_mode1/279_f1849_damage_envelope/case2/PK_ADAPT_CASE_2_PHYS.inp",
+        "mesh_sha256": "ceaf471c3b957cc9ab024bb467f6bba647021756302640f14e07e07216134a20",
+        "construction_seconds": 0.0,
+        "remesh_seconds": 4.752319574356079,
+        "target_F1779": 17280,
+        "delta_F1779_pct": 0.0
+      },
+      "global_resolution": {
+        "area_mm2": 0.9686127994141357,
+        "area_pct_h_le_l0": 17.417879364625335,
+        "area_pct_h_le_half_l0": 2.8178059383659666
+      }
+    },
+    {
+      "case_id": 3,
+      "target_F1779": 9975,
+      "config": "models/pandey_kumar_mode1/279_f1849_damage_envelope/case3_config.json",
+      "expected_donors": [
+        "models/pandey_kumar_mode1/192_pk_sec43_staggered_job1/PK_SEC43_STAGGERED_JOB1.odb"
+      ],
+      "status": "BLOCKED_MISSING_DONOR",
+      "donor": null,
+      "existing_envelope": false,
+      "historical_note": "F1779 cases 3/5 used stress-error donors; all-damage sizing is a different experiment."
+    },
+    {
+      "case_id": 5,
+      "target_F1779": 15330,
+      "config": "models/pandey_kumar_mode1/279_f1849_damage_envelope/case5_config.json",
+      "expected_donors": [
+        "models/pandey_kumar_mode1/218_f1726_seven_hole_study/PK_F1726_SEVEN_HOLE_COARSE.odb"
+      ],
+      "status": "GENERATED_COMPARISON_NOT_ACCEPTED",
+      "donor": "models/pandey_kumar_mode1/218_f1726_seven_hole_study/PK_F1726_SEVEN_HOLE_COARSE.odb",
+      "existing_envelope": false,
+      "historical_note": "F1779 cases 3/5 used stress-error donors; all-damage sizing is a different experiment.",
+      "donor_bytes": 194344892,
+      "donor_sha256": "cb673713fde31593ae452a21bc05bffc140bccce71f1d43d601ee17b43802b0e",
+      "audit": {
+        "total_physical_elements": 4375,
+        "total_elements": 4375,
+        "total_nodes": 4549,
+        "quad_count": 4226,
+        "tri_count": 149,
+        "quad_percent": 96.5942857142857,
+        "quad_fraction_pct": 96.59428571428572,
+        "tri_fraction_pct": 3.4057142857142857,
+        "total_physical_nodes": 4549,
+        "min_signed_jacobian": 6.4720197018078274e-06,
+        "min_det_j": 6.4720197018078274e-06,
+        "non_positive_jacobians": 0,
+        "zero_or_negative_jacobians": 0,
+        "distorted_elements": 0,
+        "jacobian_status": "PASS",
+        "jacobian_valid": true,
+        "median_aspect_ratio": 1.2433158432546396,
+        "max_aspect_ratio": 2.525306125939636,
+        "worst_aspect_ratio": 2.525306125939636,
+        "min_corner_angle_deg": 32.873206674125456,
+        "max_corner_angle_deg": 139.50950398709182,
+        "min_h_area_mm": 0.00391245892640601,
+        "min_h_area_um": 3.9124589264060097,
+        "max_h_area_mm": 0.020744847255933212,
+        "mean_h_area_mm": 0.01384206411791733,
+        "mean_process_zone_h_area_mm": 0.010502301300382027,
+        "mean_process_zone_h_area_um": 10.502301300382026,
+        "mean_far_field_h_area_mm": 0.014047912153746978,
+        "refinement_ratio_far_to_core": 1.337603231135254,
+        "process_zone_elements_count": 254,
+        "elements_le_l0": 247,
+        "pct_elements_le_l0": 5.645714285714286,
+        "elements_le_l0_half": 1,
+        "pct_elements_le_l0_half": 0.022857142857142857,
+        "elements_le_l0_third": 0,
+        "pct_elements_le_l0_third": 0.0,
+        "task_id": "F1849-DAMAGE-ENVELOPE-FRAMEWORK",
+        "case_id": 5,
+        "sizing_driver": "CONSTRUCTED_DAMAGE_ENVELOPE",
+        "qualifies_native_miseseri": false,
+        "donor": "models/pandey_kumar_mode1/218_f1726_seven_hole_study/PK_F1726_SEVEN_HOLE_COARSE.odb",
+        "donor_sha256": "cb673713fde31593ae452a21bc05bffc140bccce71f1d43d601ee17b43802b0e",
+        "active_donor": "models/pandey_kumar_mode1/279_f1849_damage_envelope/case5/PK_F1849_DAMAGE_ENVELOPE.odb",
+        "active_donor_sha256": "7ec4a1d4c2825c1a273b1efc809feb4328081d1a8d2e2822616d4bc91de17a04",
+        "source_sha256": "694e7ababd739e6f5cbca5597cb39ada500116895b8c4a21ca470b64f9247096",
+        "physical_mesh": "models/pandey_kumar_mode1/279_f1849_damage_envelope/case5/PK_ADAPT_CASE_5_PHYS.inp",
+        "mesh_sha256": "1705b75f304c22e5bf353be65be1fcc0edf6726932b876b4b50ebaf99c7df5fa",
+        "construction_seconds": 5.189920663833618,
+        "remesh_seconds": 1.2805325984954834,
+        "target_F1779": 15330,
+        "delta_F1779_pct": -71.46118721461188
+      },
+      "global_resolution": {
+        "area_mm2": 0.87500918644418,
+        "area_pct_h_le_l0": 1.450831885289486,
+        "area_pct_h_le_half_l0": 0.0017493913307384825
+      }
+    }
+  ],
+  "source": {
+    "path": "scripts/remeshing/generalized_2d_adaptive_framework_damage_envelope_f1849.py",
+    "bytes": 73922,
+    "sha256": "694e7ababd739e6f5cbca5597cb39ada500116895b8c4a21ca470b64f9247096",
+    "lines": 1617
+  },
+  "frozen_preservation": {
+    "scripts/remeshing/reusable_2d_adaptive_framework.py": "b0857c521ae8e212c74f711cc3373ad57b081167727104905a0f4d2fbbda0129",
+    "scripts/remeshing/generalized_2d_adaptive_framework_f1846.py": "22c58ed7631ee12e8e0837c0cb2e742ce9a55438b5226b0b9830a6def880d8d2"
+  },
+  "images": [
+    {
+      "case_id": 2,
+      "path": "results/figures/fig_f1849_case_2_mesh.png",
+      "sha256": "96a8b0415f53f2dec886621dd82c16e541b210d422ff91e0ed96e56a0d56203f",
+      "bytes": 2523220,
+      "mesh_sha256": "ceaf471c3b957cc9ab024bb467f6bba647021756302640f14e07e07216134a20",
+      "source_sha256": "694e7ababd739e6f5cbca5597cb39ada500116895b8c4a21ca470b64f9247096"
+    },
+    {
+      "case_id": 2,
+      "path": "results/figures/fig_f1849_case_2_mesh.pdf",
+      "sha256": "2912e59e2ea1c18b9669131132df20aad16b88f58b157ba706701c7e7cfbf345",
+      "bytes": 574092,
+      "mesh_sha256": "ceaf471c3b957cc9ab024bb467f6bba647021756302640f14e07e07216134a20",
+      "source_sha256": "694e7ababd739e6f5cbca5597cb39ada500116895b8c4a21ca470b64f9247096"
+    },
+    {
+      "case_id": 5,
+      "path": "results/figures/fig_f1849_case_5_mesh.png",
+      "sha256": "c928c9c4e0b9338368d96959adfb39a2ec8d50bcf2675df326217e92cae7d959",
+      "bytes": 1479366,
+      "mesh_sha256": "1705b75f304c22e5bf353be65be1fcc0edf6726932b876b4b50ebaf99c7df5fa",
+      "source_sha256": "694e7ababd739e6f5cbca5597cb39ada500116895b8c4a21ca470b64f9247096"
+    },
+    {
+      "case_id": 5,
+      "path": "results/figures/fig_f1849_case_5_mesh.pdf",
+      "sha256": "fe716fbe0abd503c125be6b42be2b66d1b7e46728581145487265c0c85b2ab8e",
+      "bytes": 158288,
+      "mesh_sha256": "1705b75f304c22e5bf353be65be1fcc0edf6726932b876b4b50ebaf99c7df5fa",
+      "source_sha256": "694e7ababd739e6f5cbca5597cb39ada500116895b8c4a21ca470b64f9247096"
+    },
+    {
+      "case_id": "composite",
+      "path": "results/figures/fig_f1849_partial_composite.png",
+      "sha256": "eaf45d2501aa1b742e99f145333d288e16098e2173f6916cc6164755bdba31ed",
+      "bytes": 4154527,
+      "source_sha256": "694e7ababd739e6f5cbca5597cb39ada500116895b8c4a21ca470b64f9247096"
+    },
+    {
+      "case_id": "composite",
+      "path": "results/figures/fig_f1849_partial_composite.pdf",
+      "sha256": "7d7c0799b6ec606d1f79d677c73db2f2a625b38f5b5e0e570834c22f6871e8cf",
+      "bytes": 721389,
+      "source_sha256": "694e7ababd739e6f5cbca5597cb39ada500116895b8c4a21ca470b64f9247096"
+    }
+  ]
+}
