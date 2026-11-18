@@ -1,7 +1,8 @@
 # -*- coding: utf-8 -*-
 """
 scripts/remeshing/parse_dat_history.py
-High-speed extraction of reaction force and displacement from Abaqus .dat files.
+High-speed extraction of reaction force, displacement, and solver timings
+from Abaqus .dat and .msg files.
 """
 from __future__ import print_function
 import os
@@ -16,7 +17,6 @@ def parse_dat_file(dat_path, rp_nid=999999):
     records = []
     max_rf = -1e9
     u_at_max = 0.0
-    peak_rec = None
     
     with open(dat_path, "r") as f:
         for line in f:
@@ -32,7 +32,6 @@ def parse_dat_file(dat_path, rp_nid=999999):
                         if abs_rf2 > max_rf:
                             max_rf = abs_rf2
                             u_at_max = abs(u2)
-                            peak_rec = rec
                     except (ValueError, IndexError):
                         pass
                         
@@ -42,6 +41,38 @@ def parse_dat_file(dat_path, rp_nid=999999):
         "disp_at_peak_mm": u_at_max,
         "records": records
     }
+
+def parse_msg_timing(msg_path):
+    if not os.path.exists(msg_path):
+        return None
+    cpu_time = None
+    wall_time = None
+    in_job_summary = False
+    try:
+        with open(msg_path, "r") as f:
+            for line in f:
+                if "JOB TIME SUMMARY" in line:
+                    in_job_summary = True
+                if in_job_summary:
+                    if "TOTAL CPU TIME (SEC)" in line and "=" in line:
+                        parts = line.split("=")
+                        if len(parts) > 1:
+                            try:
+                                cpu_time = float(parts[1].strip())
+                            except ValueError:
+                                pass
+                    elif "WALLCLOCK TIME (SEC)" in line and "=" in line:
+                        parts = line.split("=")
+                        if len(parts) > 1:
+                            try:
+                                wall_time = float(parts[1].strip())
+                            except ValueError:
+                                pass
+    except Exception:
+        pass
+    if wall_time is not None:
+        return {"status": "PARSED", "walltime_s": wall_time, "cpu_time_s": cpu_time}
+    return {"status": "NOT_FOUND"}
 
 def main():
     suite_dir = "/scratch9/pr21vyci/runs/f1859_suite"
@@ -71,6 +102,7 @@ def main():
     for jid, sdir_rel, mname in models:
         sdir = os.path.join(suite_dir, sdir_rel)
         dat_path = os.path.join(sdir, mname + ".dat")
+        msg_path = os.path.join(sdir, mname + ".msg")
         lck_path = os.path.join(sdir, mname + ".lck")
         csv_path = os.path.join(sdir, mname + "_rf_u.csv")
         
@@ -87,29 +119,39 @@ def main():
                 dat_res["total_records"], dat_res["peak_load_kn"], dat_res["disp_at_peak_mm"]
             ))
             
-            # If CSV does not exist or has fewer records, write CSV
-            if not os.path.exists(csv_path) or os.path.getsize(csv_path) < 100:
-                with open(csv_path, "w") as fp:
-                    writer = csv.writer(fp)
-                    writer.writerow(["step", "frame", "step_time", "u2_mm", "rf2_kn", "max_damage"])
-                    for i, r in enumerate(dat_res["records"]):
-                        writer.writerow(["Unknown", i, 0.0, r["u2_mm"], r["rf2_kn"], 0.0])
-                print("  Wrote CSV: %s" % csv_path)
+            # Always ensure CSV contains the full set of parsed records
+            with open(csv_path, "w") as fp:
+                writer = csv.writer(fp)
+                writer.writerow(["step", "frame", "step_time", "u2_mm", "rf2_kn", "max_damage"])
+                for i, r in enumerate(dat_res["records"]):
+                    writer.writerow(["Unknown", i, 0.0, r["u2_mm"], r["rf2_kn"], 0.0])
+            print("  Updated CSV: %s (%d rows)" % (csv_path, dat_res["total_records"]))
                 
-            # Update summary entry if completed
+            # Update summary entry
+            if jid not in summary:
+                summary[jid] = {}
+            summary[jid]["job_name"] = jid
+            summary[jid]["model_name"] = mname
+            summary[jid]["peak_load_kn"] = dat_res["peak_load_kn"]
+            summary[jid]["disp_at_peak_mm"] = dat_res["disp_at_peak_mm"]
+            summary[jid]["total_frames"] = dat_res["total_records"]
+            summary[jid]["rf_u_csv"] = csv_path
+            
+            # Parse timing from msg
+            t_info = parse_msg_timing(msg_path)
+            if t_info and t_info["status"] == "PARSED":
+                summary[jid]["log_info"] = t_info
+                print("  Timing: walltime=%.1fs, cpu_time=%.1fs" % (t_info["walltime_s"], t_info.get("cpu_time_s", 0.0)))
+            
             if not is_running:
-                if jid not in summary:
-                    summary[jid] = {}
                 summary[jid]["status"] = "COMPLETED"
-                summary[jid]["job_name"] = jid
-                summary[jid]["model_name"] = mname
-                summary[jid]["peak_load_kn"] = dat_res["peak_load_kn"]
-                summary[jid]["disp_at_peak_mm"] = dat_res["disp_at_peak_mm"]
-                summary[jid]["total_frames"] = dat_res["total_records"]
-                summary[jid]["rf_u_csv"] = csv_path
                 summary[jid]["is_running"] = False
                 if "max_damage_global" not in summary[jid] or summary[jid]["max_damage_global"] is None:
                     summary[jid]["max_damage_global"] = 1.0  # complete fracture
+            else:
+                summary[jid]["status"] = "RUNNING"
+                summary[jid]["is_running"] = True
+                
         elif is_running:
             if jid not in summary:
                 summary[jid] = {}

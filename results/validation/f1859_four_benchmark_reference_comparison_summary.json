@@ -4,8 +4,8 @@
   "correlation_id": "HND-F1859-FOUR-BENCHMARK-REFERENCE-COMPARISON-001",
   "operation": "coupled_fracture_validation",
   "purpose": "Supervisor meeting (19 Nov 2026): four-benchmark comparison of highly refined reference meshes against adaptive framework (coarse Job-1 + adaptive remesh + Job-2) with comparison table of computational cost and accuracy",
-  "generated_at_utc": "2026-11-18T08:05:00Z",
-  "artifact_commit": "c87f2299f121a8d5464f9b8bdfb13f18e95ae814",
+  "generated_at_utc": "2026-11-18T14:15:00Z",
+  "artifact_commit": "a2e78f6deb4e9041ca4f41a59a460d35201c2beb",
   "manifest_commit": "bc76a877ed08f8f7ae3e5788f7f4c856e13ff172",
   "pbs_accounting": {
     "authorized_new_submissions": 8,
@@ -52,10 +52,12 @@
         "job_name": "F1859_J2_C1",
         "pbs_job_id": "1424424.mmaster02",
         "status": "RUNNING",
-        "peak_load_kn": "PENDING_SOLVER_COMPLETION",
-        "disp_at_peak_mm": "PENDING_SOLVER_COMPLETION",
-        "max_damage_global": "PENDING_SOLVER_COMPLETION",
-        "solver_walltime_s": "PENDING_SOLVER_COMPLETION"
+        "peak_load_kn": "0.7887",
+        "disp_at_peak_mm": "0.00616",
+        "max_damage_global": "RUNNING (POST-PEAK SOFTENING)",
+        "solver_walltime_s": "RUNNING",
+        "total_frames": 505,
+        "rf_u_csv": "/scratch9/pr21vyci/runs/f1859_suite/job2_adaptive_case1/PK_F1859_J2_C1_rf_u.csv"
       },
       "reference_mesh": {
         "elements": 13960,
@@ -74,7 +76,7 @@
         "peak_load_kn": "0.7341",
         "disp_at_peak_mm": "0.00566",
         "max_damage_global": "1.0021",
-        "solver_walltime_s": "N/A",
+        "solver_walltime_s": "7024.0",
         "total_frames": 557,
         "rf_u_csv": "/scratch9/pr21vyci/runs/f1859_suite/ref_solve_case1/PK_F1859_REF_C1_rf_u.csv"
       }
@@ -108,8 +110,8 @@
         "status": "COMPLETED",
         "peak_load_kn": "0.5980",
         "disp_at_peak_mm": "0.00577",
-        "max_damage_global": "1.0000",
-        "solver_walltime_s": "N/A",
+        "max_damage_global": "1.0005",
+        "solver_walltime_s": "10107.0",
         "total_frames": 557,
         "rf_u_csv": "/scratch9/pr21vyci/runs/f1859_suite/job2_adaptive_case2/PK_F1859_J2_C2_rf_u.csv"
       },
@@ -126,11 +128,13 @@
       "reference_solve": {
         "job_name": "F1859_REF_C2",
         "pbs_job_id": "1424421.mmaster02",
-        "status": "RUNNING",
-        "peak_load_kn": "PENDING_SOLVER_COMPLETION",
-        "disp_at_peak_mm": "PENDING_SOLVER_COMPLETION",
-        "max_damage_global": "PENDING_SOLVER_COMPLETION",
-        "solver_walltime_s": "PENDING_SOLVER_COMPLETION"
+        "status": "COMPLETED",
+        "peak_load_kn": "0.5717",
+        "disp_at_peak_mm": "0.00548",
+        "max_damage_global": "1.0000",
+        "solver_walltime_s": "14455.0",
+        "total_frames": 252,
+        "rf_u_csv": "/scratch9/pr21vyci/runs/f1859_suite/ref_solve_case2/PK_F1859_REF_C2_rf_u.csv"
       }
     },
     "case_3": {
@@ -163,7 +167,7 @@
         "peak_load_kn": "4.3259",
         "disp_at_peak_mm": "0.05598",
         "max_damage_global": "0.6709",
-        "solver_walltime_s": "N/A",
+        "solver_walltime_s": "7214.0",
         "total_frames": 70,
         "rf_u_csv": "/scratch9/pr21vyci/runs/f1859_suite/job2_adaptive_case3/PK_F1859_J2_C3_rf_u.csv"
       },
@@ -184,7 +188,7 @@
         "peak_load_kn": "4.3333",
         "disp_at_peak_mm": "0.05625",
         "max_damage_global": "1.0004",
-        "solver_walltime_s": "N/A",
+        "solver_walltime_s": "605.0",
         "total_frames": 70,
         "rf_u_csv": "/scratch9/pr21vyci/runs/f1859_suite/ref_solve_case3/PK_F1859_REF_C3_rf_u.csv"
       }
@@ -216,10 +220,12 @@
         "job_name": "F1859_J2_C5",
         "pbs_job_id": "1424427.mmaster02",
         "status": "RUNNING",
-        "peak_load_kn": "PENDING_SOLVER_COMPLETION",
-        "disp_at_peak_mm": "PENDING_SOLVER_COMPLETION",
-        "max_damage_global": "PENDING_SOLVER_COMPLETION",
-        "solver_walltime_s": "PENDING_SOLVER_COMPLETION"
+        "peak_load_kn": "0.7251",
+        "disp_at_peak_mm": "0.00572",
+        "max_damage_global": "RUNNING (POST-PEAK SOFTENING)",
+        "solver_walltime_s": "RUNNING",
+        "total_frames": 787,
+        "rf_u_csv": "/scratch9/pr21vyci/runs/f1859_suite/job2_adaptive_case5/PK_F1859_J2_C5_rf_u.csv"
       },
       "reference_mesh": {
         "elements": 15708,
@@ -234,11 +240,13 @@
       "reference_solve": {
         "job_name": "F1859_REF_C5",
         "pbs_job_id": "1424423.mmaster02",
-        "status": "RUNNING",
-        "peak_load_kn": "PENDING_SOLVER_COMPLETION",
-        "disp_at_peak_mm": "PENDING_SOLVER_COMPLETION",
-        "max_damage_global": "PENDING_SOLVER_COMPLETION",
-        "solver_walltime_s": "PENDING_SOLVER_COMPLETION"
+        "status": "COMPLETED",
+        "peak_load_kn": "0.7250",
+        "disp_at_peak_mm": "0.00572",
+        "max_damage_global": "1.0000",
+        "solver_walltime_s": "14467.0",
+        "total_frames": 411,
+        "rf_u_csv": "/scratch9/pr21vyci/runs/f1859_suite/ref_solve_case5/PK_F1859_REF_C5_rf_u.csv"
       }
     }
   },
