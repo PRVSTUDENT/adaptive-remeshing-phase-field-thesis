@@ -8,7 +8,7 @@
     "review_correlation_id":  "HND-F1859-FOUR-BENCHMARK-REFERENCE-COMPARISON-001",
     "classification":  "COUPLED_FRACTURE_VALIDATION",
     "assigned_agent":  "gemini-antigravity",
-    "active_pbs_job_id":  "1424411.mmaster02,1424412.mmaster02,1424413.mmaster02,1424414.mmaster02,1424415.mmaster02,1424416.mmaster02,1424417.mmaster02,1424418.mmaster02",
+    "active_pbs_job_id":  "1424420.mmaster02,1424421.mmaster02,1424422.mmaster02,1424423.mmaster02,1424424.mmaster02,1424425.mmaster02,1424426.mmaster02,1424427.mmaster02",
     "last_successful_pbs_job_id":  "1424382.mmaster02",
     "checkpoint_artifact":  "docs/validation/F1859_FOUR_BENCHMARK_REFERENCE_COMPARISON_REPORT.md",
     "review_directive":  "Four-benchmark comparison of highly refined reference meshes vs framework (coarse Job-1 + adaptive remesh + Job-2). User authorized 8 parallel PBS jobs, multicore, long walltime. Check F1828 results first.",
@@ -30,7 +30,7 @@
     "max_new_pbs_submissions":  8,
     "submissions_consumed":  8,
     "cumulative_pbs_submissions":  45,
-    "notes":  "All 8 F1859 jobs submitted in parallel via entry_imfdfkmq (8 CPUs SMP, 24GB RAM, 48h walltime each).",
+    "notes":  "All 8 F1859 jobs resubmitted following preflight repair (EXPECTED_INP_SHA LF normalization). Running on entry_imfdfkmq (8 CPUs SMP, 24GB RAM, 48h walltime each).",
     "historical_pbs_job_ids":  [
                                    "1424198.mmaster02",
                                    "1424382.mmaster02"

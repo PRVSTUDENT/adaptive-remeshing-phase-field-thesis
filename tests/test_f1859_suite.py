@@ -79,8 +79,11 @@ def test_report_exists_and_non_empty():
         text = f.read()
     assert len(text) > 3000
     assert "F1859-FOUR-BENCHMARK-REFERENCE-COMPARISON" in text
-    assert "1424411.mmaster02" in text
-    assert "1424418.mmaster02" in text
+    sub_p = os.path.join(REPO_ROOT, "models", "pandey_kumar_mode1", "286_f1859_four_benchmark_reference_comparison", "f1859_submission_receipt.json")
+    with open(sub_p, "r", encoding="utf-8-sig") as f:
+        sub = json.load(f)
+    assert sub[0]["pbs_job_id"] in text
+    assert sub[-1]["pbs_job_id"] in text
     assert "QUEUED / RUNNING" in text
 
 def test_active_task_accounting():
