@@ -1589,4 +1589,5 @@ F1849-THREE-CASE-DIAGNOSTIC-INVESTIGATION,Method-A,"Task F1849: Three-Case Diagn
 F1849-DAMAGE-ENVELOPE-FRAMEWORK,,Constructed damage comparison: C2 17280; C5 4375 FAIL; C1/C3 missing donors; 5 tests PASS; 0 new PBS,blocked_transport_and_missing_donors,codex,,,,,,,2026-11-17T23:32:05.052665+01:00
 F1850-DONOR-RECOVERY,,,PENDING_REVIEW,codex,,,,,,,
 F1851-NATIVE-DIAGNOSTICS,,"Native diagnostics: exact mapping, absent EVOL, incomplete sources",COMPLETED_PENDING_REVIEW,codex,,,,,,,
-F1852-DRIVER-SELECTION,,Measured driver selection; Case5improvement; strong cases identical,NUMERICS_COMPLETE_REVIEW_TRANSPORT_BLOCKED,codex,,,,,,,
+F1852-DRIVER-SELECTION,Method-A,"Measured driver selection; Case5improvement; strong cases identical; independently approved",reviewed_approved,codex,1b002d9d9fe6c5a9bec9002aeff9eed791395134,e655c7e4,,none,SHARED_FRAMEWORK_IMPROVEMENT,F1853-WAIT-NEXT-DIRECTION,2026-11-18T01:10:00+01:00
+F1853-WAIT-NEXT-DIRECTION,Method-A,"Task F1853: WAIT - Await User Direction on the Next Scientific Step",waiting_for_user_direction,gemini-antigravity,1deb3a938bb4fec255b79587232b0508bdde8cd3,,,none,COORDINATION_WAIT,,2026-11-18T01:10:00+01:00
