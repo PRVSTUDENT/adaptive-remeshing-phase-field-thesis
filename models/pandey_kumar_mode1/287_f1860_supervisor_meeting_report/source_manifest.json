@@ -1,0 +1,98 @@
+{
+  "source_revision": "4ef02faaa0004e495b468fcf288e3bb9dfc43840",
+  "sources": [
+    {
+      "path": "scripts/remeshing/generalized_2d_adaptive_framework_driver_selection_f1852.py",
+      "sha256": "42217dab0b8c3b7eff9c8bf46fd75b7e99f06e436d9841846df36c46e618a30a",
+      "commit": "4ef02faaa0004e495b468fcf288e3bb9dfc43840"
+    },
+    {
+      "path": "scripts/remeshing/generalized_2d_adaptive_framework_damage_envelope_f1849.py",
+      "sha256": "694e7ababd739e6f5cbca5597cb39ada500116895b8c4a21ca470b64f9247096",
+      "commit": "4ef02faaa0004e495b468fcf288e3bb9dfc43840"
+    },
+    {
+      "path": "scripts/remeshing/generalized_2d_adaptive_framework_f1846.py",
+      "sha256": "22c58ed7631ee12e8e0837c0cb2e742ce9a55438b5226b0b9830a6def880d8d2",
+      "commit": "4ef02faaa0004e495b468fcf288e3bb9dfc43840"
+    },
+    {
+      "path": "docs/validation/F1812_UNIVERSAL_CRACK_PATH_REFINEMENT_REPORT.md",
+      "sha256": "d3063f569aa022b56d4c18f5745e26f938f0569f133a4834aba58b8043c55831",
+      "commit": "4ef02faaa0004e495b468fcf288e3bb9dfc43840"
+    },
+    {
+      "path": "docs/validation/F1852_DRIVER_SELECTION_REPORT.md",
+      "sha256": "81a43dd36fc17ac5bd25273b9cc731ae72821f605d8b0c7a8cfba709e888ac48",
+      "commit": "4ef02faaa0004e495b468fcf288e3bb9dfc43840"
+    },
+    {
+      "path": "results/validation/f1852_driver_selection_summary.json",
+      "sha256": "3b9fe926b4e7201e7bd2d38bc563b905f10159bc0cedd416936e10a0bd4b8cee",
+      "commit": "4ef02faaa0004e495b468fcf288e3bb9dfc43840"
+    },
+    {
+      "path": "scripts/remeshing/run_f1812_single_target.py",
+      "sha256": "c83eec21f3f8cb5f303d893c229a8f1ecc8a0d682c08c369bce02c4232cfc791",
+      "commit": "4ef02faaa0004e495b468fcf288e3bb9dfc43840"
+    },
+    {
+      "path": "docs/validation/F1851_NATIVE_MISESERI_DIAGNOSTICS_REPORT.md",
+      "sha256": "eda49df81f9c8d5565e982b377da6c35ca7380efa272e6b5be7d46e873f54304",
+      "commit": "4ef02faaa0004e495b468fcf288e3bb9dfc43840"
+    },
+    {
+      "path": "models/pandey_kumar_mode1/279_f1849_damage_envelope/case1_config.json",
+      "sha256": "7ac3a54f4baf47e8e5ae592736aac8c7ca941fbea90090bddf63b7e4fcc0d1dc",
+      "commit": "4ef02faaa0004e495b468fcf288e3bb9dfc43840"
+    },
+    {
+      "path": "models/pandey_kumar_mode1/279_f1849_damage_envelope/case2_config.json",
+      "sha256": "5d22014e1a8e1fa281f975c1c4d32eee9d9eca763bea6794e4ae5f79b8b2c088",
+      "commit": "4ef02faaa0004e495b468fcf288e3bb9dfc43840"
+    },
+    {
+      "path": "models/pandey_kumar_mode1/279_f1849_damage_envelope/case3_config.json",
+      "sha256": "ef42522a51c8f06644027fd0793858690df46c65bcd01f7e76e0fb8e4d23d691",
+      "commit": "4ef02faaa0004e495b468fcf288e3bb9dfc43840"
+    },
+    {
+      "path": "models/pandey_kumar_mode1/279_f1849_damage_envelope/case5_config.json",
+      "sha256": "a262360e9c32f6837aad11fc0c18e9609c223e4d18e5bc8a1c22dea1c1db5b48",
+      "commit": "4ef02faaa0004e495b468fcf288e3bb9dfc43840"
+    }
+  ],
+  "reused_mesh_images": [
+    {
+      "case": 1,
+      "path": "results/figures/fig_f1852_case_1_mesh.png",
+      "sha256": "24754f7a5a1081fa3dd991765c56c57e092446f1e9d225973af6c1bc30f61721",
+      "reuse_unchanged": true
+    },
+    {
+      "case": 2,
+      "path": "results/figures/fig_f1852_case_2_mesh.png",
+      "sha256": "a05d93bb4b7864207505b2877e45bd5ff6c3b91f8973dbfe085d02ff8739d923",
+      "reuse_unchanged": true
+    },
+    {
+      "case": 3,
+      "path": "results/figures/fig_f1852_case_3_mesh.png",
+      "sha256": "3fd89a68b729c684280f0c72a833982753887866f1d043be09c6ffe42f0291f8",
+      "reuse_unchanged": true
+    },
+    {
+      "case": 5,
+      "path": "results/figures/fig_f1852_case_5_mesh.png",
+      "sha256": "0553f3fabd81aa570b9b68c0c9207ed6badf731bb07755a9d774d0a1e66ad194",
+      "reuse_unchanged": true
+    }
+  ],
+  "scope": "User-authorized documentation parallel to AGY F1859; no shared ownership changes",
+  "excluded_from_writes": [
+    "framework",
+    "models except F1860 evidence",
+    "AGY session",
+    "HPC"
+  ]
+}
