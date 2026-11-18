@@ -177,7 +177,7 @@
     }
   },
   "synthesis_and_verdict": {
-    "fracture_remesh_character": "Broad ligament refinement reflecting diffuse damage in coarse Job-1 donor (188/340 elements at d>=0.10); ligament band receives 5,888 elements with 100% h<=l0 coverage and 99.4% h<=l0/2 coverage.",
+    "fracture_remesh_character": "Broad ligament refinement reflecting diffuse damage in coarse Job-1 donor (188/340 elements at d>=0.10); ligament band receives 3,365 elements with 100% h<=l0 coverage and 31.35% h<=l0/2 count coverage (21.72% area).",
     "elastic_remesh_character": "Pure stress-singularity refinement concentrated at re-entrant corner (50,50); 567 elements, 2.58x geometric coarsening PASS, mesh block 100% bitwise identical to F1846.",
     "driver_selection_rule_validated": "Successfully selects CONSTRUCTED_DAMAGE_ENVELOPE for max(d)=0.6772 >= 0.50, and NATIVE_ABAQUS_STRESS_RECOVERY_ERROR for max(d)=0.0 < 0.50 with verified native gate.",
     "scientific_verdict": "QUALIFIED_DIAGNOSTIC_PASS"

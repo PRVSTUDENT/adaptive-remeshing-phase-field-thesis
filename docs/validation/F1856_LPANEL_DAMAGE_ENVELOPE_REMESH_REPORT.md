@@ -28,9 +28,9 @@ Strictly **0 new PBS jobs** were consumed (cumulative PBS count remains invarian
 | **Max Aspect Ratio** | **2.524** (PASS $< 4.0$) | **2.270** (PASS $< 4.0$) | **2.270** (PASS $< 4.0$) |
 | **Gate 06 Geometric Coarsening** | **1.039x** (FAIL $< 2.0x$) | **2.579x (PASS $\ge 2.0x$)** | **2.579x (PASS $\ge 2.0x$)** |
 | **Gate 06 Partition Coarsening** | **0.985x** (FAIL $< 2.0x$) | **2.331x (PASS $\ge 2.0x$)** | **2.331x (PASS $\ge 2.0x$)** |
-| **Ligament Band Elements** | **3,365 elements** ($x \in [0, 50], y \in [45, 65]$) | 129 elements | 129 elements |
-| **Ligament $h \le l_0$ Count %** | **100.0%** | 63.57% | 63.57% |
-| **Ligament $h \le l_0$ Area %** | **100.0%** | 38.65% | 38.65% |
+| **Ligament Band Elements** | **3,365 elements** ($x \in [0, 50], y \in [45, 65]$) | 117 elements | 117 elements |
+| **Ligament $h \le l_0$ Count %** | **100.0%** | 0.85% (1 element) | 0.85% (1 element) |
+| **Ligament $h \le l_0$ Area %** | **100.0%** | 0.05% | 0.05% |
 | **Ligament $h \le l_0/2$ Count %** | **31.35%** (1,055 crack-core elements) | 0.00% | 0.00% |
 | **Ligament $h \le l_0/2$ Area %** | **21.72%** | 0.00% | 0.00% |
 | **Mesh Block SHA-256** | `60b452be...` | **`6d09fee1...` (EXACT MATCH)** | **`6d09fee1...`** |
