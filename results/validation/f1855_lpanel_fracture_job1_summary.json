@@ -1,0 +1,205 @@
+{
+  "cluster_run_dir": "/scratch9/pr21vyci/runs/f1855_lpanel_fracture_job1",
+  "correlation_id": "HND-F1855-LPANEL-FRACTURE-JOB1-001",
+  "cumulative_pbs_jobs": 37,
+  "donor_provenance": {
+    "coarse_mesh_cpe3": 12,
+    "coarse_mesh_cpe4": 328,
+    "coarse_mesh_elements": 340,
+    "coarse_mesh_nodes": 375,
+    "coarse_mesh_path": "models/pandey_kumar_mode1/276_f1846_generalized_framework/l_panel/PK_F1846_LPANEL_COARSE.inp",
+    "frozen_uel_sha256": "ce8d5edcd2911dcb018bb15275271f874e7ea62b8fb48cf4a8297469a83acdd6",
+    "native_interface_sha256": "e5c98b6f601b1cd586571f8e24f357d15abbd1c5d5487b52903ba249734279b2",
+    "snapshot_json_bytes": 363103,
+    "snapshot_json_path": "models/pandey_kumar_mode1/284_f1855_lpanel_fracture_job1/lpanel_coarse_final_snapshot.json",
+    "snapshot_json_sha256": "6e793339b1f1e0ef999571f12f2bf072e0a8e613cdf3993befddd61ccb878f3c",
+    "source_odb_bytes": 47029616,
+    "source_odb_path": "models/pandey_kumar_mode1/284_f1855_lpanel_fracture_job1/PK_F1855_LPANEL_COARSE_JOB1.odb",
+    "source_odb_sha256": "6dad3f9d9deaaca1028d1bd8061191974d1d632eb3c7cbf0290495a22b6ffbb1"
+  },
+  "donor_suitability_verdict": {
+    "max_damage_ge_0_5": true,
+    "rationale": "Peak phase field damage d = 0.6772 >= 0.5 nucleates directly at the re-entrant corner (50,50) on physical element 93 (dist = 3.97 mm) and propagates across the ligament with 4 elements >= 0.4. Meets all entry criteria for the F1852 driver-selection CONSTRUCTED_DAMAGE_ENVELOPE branch on the unfamiliar L-panel geometry.",
+    "selected_sizing_driver": "CONSTRUCTED_DAMAGE_ENVELOPE",
+    "suitable_for_damage_envelope_remesh": true
+  },
+  "master_goal_status": "OPEN",
+  "native_error_fields": {
+    "evol_present": true,
+    "evol_total_area_mm2": 7499.999995708466,
+    "misesavg_max": 1.149706449021879e-14,
+    "misesavg_present": true,
+    "miseseri_max": 9.817281265266792e-15,
+    "miseseri_min": 2.1748897718456696e-17,
+    "miseseri_nonzero": true,
+    "miseseri_present": true,
+    "stress_tensor_s_present": true
+  },
+  "new_pbs_jobs_submitted": 1,
+  "pbs_job_id": "1424382.mmaster02",
+  "pbs_queue": "normal_imfdfkmq",
+  "physical_donor_state": {
+    "damage_forming_connected_path_from_corner": true,
+    "damage_ge_0_1_elements_count": 188,
+    "damage_ge_0_4_elements_count": 4,
+    "damage_ge_0_5_elements_count": 2,
+    "distance_to_reentrant_corner_mm": 3.9742691355216633,
+    "max_sdv1_centroid": [
+      47.17955780029297,
+      52.79998588562012
+    ],
+    "max_sdv1_companion_element": 773,
+    "max_sdv1_damage": 0.677208662033081,
+    "max_sdv1_physical_element": 93,
+    "reentrant_corner_coords": [
+      50.0,
+      50.0
+    ],
+    "top_damaged_elements": [
+      {
+        "area_mm2": 28.855334593798034,
+        "centroid": [
+          47.17955780029297,
+          52.79998588562012
+        ],
+        "companion_element_id": 773,
+        "distance_to_reentrant_corner_mm": 3.9742691355216633,
+        "evol": 28.855335235595703,
+        "max_damage": 0.677208662033081,
+        "mean_damage": 0.677208662033081,
+        "misesavg": 5.7318990591241625e-15,
+        "miseseri": 1.1967992150760842e-15,
+        "physical_element_id": 93
+      },
+      {
+        "area_mm2": 26.43628377620189,
+        "centroid": [
+          47.35860729217529,
+          57.8391056060791
+        ],
+        "companion_element_id": 703,
+        "distance_to_reentrant_corner_mm": 8.272154020580754,
+        "evol": 26.436283111572266,
+        "max_damage": 0.575433075428009,
+        "mean_damage": 0.575433075428009,
+        "misesavg": 6.390115233424797e-15,
+        "miseseri": 1.093013856235791e-15,
+        "physical_element_id": 23
+      },
+      {
+        "area_mm2": 27.565125594373967,
+        "centroid": [
+          41.68691349029541,
+          53.67452049255371
+        ],
+        "companion_element_id": 828,
+        "distance_to_reentrant_corner_mm": 9.088977289444044,
+        "evol": 27.565126419067383,
+        "max_damage": 0.48640263080596924,
+        "mean_damage": 0.48640263080596924,
+        "misesavg": 8.645239235052175e-15,
+        "miseseri": 1.5623832937922502e-15,
+        "physical_element_id": 148
+      },
+      {
+        "area_mm2": 25.36043491730379,
+        "centroid": [
+          42.157297134399414,
+          58.635857582092285
+        ],
+        "companion_element_id": 705,
+        "distance_to_reentrant_corner_mm": 11.66559147305787,
+        "evol": 25.360435485839844,
+        "max_damage": 0.4304456114768982,
+        "mean_damage": 0.4304456114768982,
+        "misesavg": 9.013074303825669e-15,
+        "miseseri": 8.62380866621193e-16,
+        "physical_element_id": 25
+      },
+      {
+        "area_mm2": 33.41561360874039,
+        "centroid": [
+          46.969343185424805,
+          47.56502342224121
+        ],
+        "companion_element_id": 810,
+        "distance_to_reentrant_corner_mm": 3.887671753371801,
+        "evol": 33.41561508178711,
+        "max_damage": 0.3256402611732483,
+        "mean_damage": 0.3256402611732483,
+        "misesavg": 6.872318384802461e-15,
+        "miseseri": 6.327103181929129e-16,
+        "physical_element_id": 130
+      },
+      {
+        "area_mm2": 24.762913605532958,
+        "centroid": [
+          36.5035400390625,
+          54.88954162597656
+        ],
+        "companion_element_id": 884,
+        "distance_to_reentrant_corner_mm": 14.354861503663022,
+        "evol": 24.76291275024414,
+        "max_damage": 0.3099197745323181,
+        "mean_damage": 0.3099197745323181,
+        "misesavg": 9.997333364798744e-15,
+        "miseseri": 9.191898840858813e-16,
+        "physical_element_id": 204
+      },
+      {
+        "area_mm2": 23.92129067730275,
+        "centroid": [
+          37.10545825958252,
+          59.61198616027832
+        ],
+        "companion_element_id": 850,
+        "distance_to_reentrant_corner_mm": 16.08289416245567,
+        "evol": 23.92129135131836,
+        "max_damage": 0.3091332018375397,
+        "mean_damage": 0.3091332018375397,
+        "misesavg": 1.0409890926154318e-14,
+        "miseseri": 6.968977867215741e-16,
+        "physical_element_id": 170
+      },
+      {
+        "area_mm2": 32.376333284373686,
+        "centroid": [
+          40.964484214782715,
+          48.51136875152588
+        ],
+        "companion_element_id": 1010,
+        "distance_to_reentrant_corner_mm": 9.157323216903745,
+        "evol": 32.37633514404297,
+        "max_damage": 0.3074333667755127,
+        "mean_damage": 0.3074333667755127,
+        "misesavg": 8.561482923161775e-15,
+        "miseseri": 2.6695625055214484e-16,
+        "physical_element_id": 330
+      }
+    ]
+  },
+  "structural_response": {
+    "displacement_at_peak_kn_mm": 0.13519999384880066,
+    "final_displacement_mm": 0.13907752931118011,
+    "final_reaction_force_kn": 11.632660865783691,
+    "load_drop_percent": 3.254221796250038,
+    "load_softening_demonstrated": true,
+    "peak_reaction_force_kn": 12.023946762084961
+  },
+  "task_id": "F1855-LPANEL-FRACTURE-JOB1",
+  "terminal_state": {
+    "elapsed_cputime_sec": 31.0,
+    "elapsed_walltime_sec": 74.0,
+    "status": "CUTBACK_MIN_INCREMENT_REACHED",
+    "step1_achieved_u2_mm": 0.1,
+    "step1_frames": 51,
+    "step1_status": "COMPLETED_FULL",
+    "step1_target_u2_mm": 0.1,
+    "step2_achieved_time": 0.39077529311180115,
+    "step2_achieved_u2_mm": 0.13907752931118011,
+    "step2_frames": 204,
+    "step2_status": "TERMINATED_CONVERGENCE_CUTBACK",
+    "step2_target_u2_mm": 0.2,
+    "total_frames": 255
+  }
+}

@@ -1,0 +1,55 @@
+{
+  "task_id": "F1855-LPANEL-FRACTURE-JOB1",
+  "benchmark": "unfamiliar_l_panel",
+  "job_name": "PK_F1855_LPANEL_COARSE_JOB1",
+  "remote_run_dir": "/scratch9/pr21vyci/runs/f1855_lpanel_fracture_job1",
+  "inputs": {
+    "source_coarse_mesh": {
+      "path": "D:\\Master thesis\\Adaptive remeshing\\models\\pandey_kumar_mode1\\276_f1846_generalized_framework\\l_panel\\PK_F1846_LPANEL_COARSE.inp",
+      "sha256": "7555F72D98042D6CA62E2DA0CC8312CD03247FFA7C525C44F37EEC3F7B561566",
+      "physical_elements": 340,
+      "quads": 328,
+      "tris": 12,
+      "nodes": 375
+    },
+    "config": {
+      "path": "D:\\Master thesis\\Adaptive remeshing\\configs\\remeshing\\f1846_unfamiliar_l_panel.json",
+      "step1_u2": 0.1,
+      "step2_u2": 0.2
+    },
+    "frozen_uel": {
+      "path": "D:\\Master thesis\\Adaptive remeshing\\models\\pandey_kumar_mode1\\f42_mixed_uel.for",
+      "sha256": "CE8D5EDCD2911DCB018BB15275271F874E7EA62B8FB48CF4A8297469A83ACDD6"
+    },
+    "native_interface": {
+      "path": "D:\\Master thesis\\Adaptive remeshing\\models\\pandey_kumar_mode1\\271_f1830_stress_output_interface\\f42_native_miseseri_interface_v1.for",
+      "sha256": "E5C98B6F601B1CD586571F8E24F357D15ABBD1C5D5487B52903BA249734279B2",
+      "bytes": 33042
+    }
+  },
+  "staged_artifacts": {
+    "input_deck": {
+      "path": "D:\\Master thesis\\Adaptive remeshing\\models\\pandey_kumar_mode1\\284_f1855_lpanel_fracture_job1\\PK_F1855_LPANEL_COARSE_JOB1.inp",
+      "filename": "PK_F1855_LPANEL_COARSE_JOB1.inp",
+      "sha256": "B0ED02F59B1F06A46234164920CC8AAE148FB7398B197D6209C084707C38FA53",
+      "size_bytes": 42637,
+      "physical_elements": 340,
+      "layered_elements": 1020,
+      "total_nodes": 376
+    },
+    "user_subroutine": {
+      "path": "D:\\Master thesis\\Adaptive remeshing\\models\\pandey_kumar_mode1\\284_f1855_lpanel_fracture_job1\\f42_native_miseseri_interface_v1.for",
+      "filename": "f42_native_miseseri_interface_v1.for",
+      "sha256": "E5C98B6F601B1CD586571F8E24F357D15ABBD1C5D5487B52903BA249734279B2"
+    },
+    "pbs_script": {
+      "path": "D:\\Master thesis\\Adaptive remeshing\\models\\pandey_kumar_mode1\\284_f1855_lpanel_fracture_job1\\submit_f1855_lpanel_job1.pbs",
+      "filename": "submit_f1855_lpanel_job1.pbs",
+      "sha256": "158264E9DB14AB7559AB66DDAD28686C7135D639CE64EBCEA5F541447A650313",
+      "queue": "entry_imfdfkmq",
+      "cpus": 1,
+      "mem": "16gb",
+      "walltime": "04:00:00"
+    }
+  }
+}

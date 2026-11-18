@@ -1,13 +1,10 @@
 {
   "active": false,
-  "agent": "gemini-antigravity",
-  "session_id": "gemini-antigravity-f1853-wait-next-direction-20261118",
-  "task_id": "F1853-WAIT-NEXT-DIRECTION",
-  "started_at": "2026-11-18T01:08:50+01:00",
-  "starting_commit": "1deb3a938bb4fec255b79587232b0508bdde8cd3",
-  "allowed_write_scope": [
-    "project_coordination/*"
-  ],
-  "notes": "Task F1852 approved; Task F1853 in WAIT state holding for user direction. Master goal remains OPEN.",
-  "completed_at": "2026-11-18T01:10:45+01:00"
+  "agent": null,
+  "session_id": null,
+  "task_id": null,
+  "started_at": null,
+  "starting_commit": null,
+  "allowed_write_scope": [],
+  "notes": "Session released following successful completion of Task F1855-LPANEL-FRACTURE-JOB1. Job 1424382.mmaster02 completed, donor snapshot published, 4/4 tests PASS, report and summary generated. Cumulative PBS jobs: 37. Master goal OPEN."
 }
