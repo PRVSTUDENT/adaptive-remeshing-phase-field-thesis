@@ -5,7 +5,7 @@
   "operation": "coupled_fracture_validation",
   "purpose": "Supervisor meeting (19 Nov 2026): four-benchmark comparison of highly refined reference meshes against adaptive framework (coarse Job-1 + adaptive remesh + Job-2) with comparison table of computational cost and accuracy",
   "generated_at_utc": "2026-11-18T14:15:00Z",
-  "artifact_commit": "a2e78f6deb4e9041ca4f41a59a460d35201c2beb",
+  "artifact_commit": "70130fcdeea4e6b99a1bcd08ca15dc0fd0241ae9",
   "manifest_commit": "bc76a877ed08f8f7ae3e5788f7f4c856e13ff172",
   "pbs_accounting": {
     "authorized_new_submissions": 8,
@@ -56,7 +56,7 @@
         "disp_at_peak_mm": "0.00616",
         "max_damage_global": "RUNNING (POST-PEAK SOFTENING)",
         "solver_walltime_s": "RUNNING",
-        "total_frames": 505,
+        "total_frames": 509,
         "rf_u_csv": "/scratch9/pr21vyci/runs/f1859_suite/job2_adaptive_case1/PK_F1859_J2_C1_rf_u.csv"
       },
       "reference_mesh": {
@@ -219,12 +219,12 @@
       "adaptive_job2": {
         "job_name": "F1859_J2_C5",
         "pbs_job_id": "1424427.mmaster02",
-        "status": "RUNNING",
+        "status": "COMPLETED",
         "peak_load_kn": "0.7251",
         "disp_at_peak_mm": "0.00572",
-        "max_damage_global": "RUNNING (POST-PEAK SOFTENING)",
-        "solver_walltime_s": "RUNNING",
-        "total_frames": 787,
+        "max_damage_global": "1.0000",
+        "solver_walltime_s": "22095.0",
+        "total_frames": 874,
         "rf_u_csv": "/scratch9/pr21vyci/runs/f1859_suite/job2_adaptive_case5/PK_F1859_J2_C5_rf_u.csv"
       },
       "reference_mesh": {

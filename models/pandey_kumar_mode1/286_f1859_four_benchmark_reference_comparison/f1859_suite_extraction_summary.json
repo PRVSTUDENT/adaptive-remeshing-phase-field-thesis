@@ -105,7 +105,7 @@
     },
     "job_name": "F1859_J2_C1",
     "max_damage_global": null,
-    "total_frames": 505,
+    "total_frames": 509,
     "rf_u_csv": "/scratch9/pr21vyci/runs/f1859_suite/job2_adaptive_case1/PK_F1859_J2_C1_rf_u.csv"
   },
   "F1859_J2_C5": {
@@ -115,8 +115,8 @@
     "odb_exists": true,
     "model_name": "PK_F1859_J2_C5",
     "disp_at_peak_mm": 0.00572,
-    "status": "RUNNING",
-    "is_running": true,
+    "status": "COMPLETED",
+    "is_running": false,
     "sta_info": {
       "status": "PARSED",
       "total_cutbacks": 24,
@@ -137,12 +137,12 @@
     "peak_load_kn": 0.72508281,
     "log_info": {
       "status": "PARSED",
-      "walltime_s": 1.0,
-      "cpu_time_s": 0.45
+      "walltime_s": 22095.0,
+      "cpu_time_s": 11100.0
     },
     "job_name": "F1859_J2_C5",
-    "max_damage_global": null,
-    "total_frames": 787,
+    "max_damage_global": 1.0,
+    "total_frames": 874,
     "rf_u_csv": "/scratch9/pr21vyci/runs/f1859_suite/job2_adaptive_case5/PK_F1859_J2_C5_rf_u.csv"
   },
   "F1859_REF_C1": {

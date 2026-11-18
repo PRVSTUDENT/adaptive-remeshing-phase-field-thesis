@@ -35,7 +35,7 @@ The table below synthesizes the computational cost, element distribution, discre
 | **Case 1**: Edge-Cracked Plate | Coarse Job-1 | 4,384 | 97.15% | 1.15e-06 | 2.26 | Uniform pre-analysis (4,384 total; 2,906 damage pop.) | 38.5s | Authentic | Completed (Exit 0) |
 | ($a=0.5$ mm, $l_0=0.0075$ mm) | **Adaptive Remesh (F1852)** | **20,193** | **97.30%** | **1.03e-06** | **2.47** | **Damage Envelope ($d_{core}=0.5$)** | **4.55s** | -- | Directly Verified |
 | | **Refined Reference** | **13,960** | **97.50%** | **1.12e-06** | **2.35** | Literature target (13,941 el) | -- | `1424420.mmaster02` | Completed (Exit 0): F_max=0.7341 kN, u_peak=0.00566 mm (Walltime: 7024.0s) |
-| | **Adaptive Job-2** | 20,193 | 97.30% | 1.03e-06 | 2.47 | Coupled Phase-Field Solve | -- | `1424424.mmaster02` | QUEUED / RUNNING (Softening Tail, 505 frames): F_max=0.7887 kN, u_peak=0.00616 mm |
+| | **Adaptive Job-2** | 20,193 | 97.30% | 1.03e-06 | 2.47 | Coupled Phase-Field Solve | -- | `1424424.mmaster02` | QUEUED / RUNNING (Softening Tail, 509 frames): F_max=0.7887 kN, u_peak=0.00616 mm |
 | **Case 2**: Off-Axis Hole Plate | Coarse Job-1 | 4,140 | 97.20% | 2.10e-06 | 2.41 | Uniform pre-analysis (4,140 total; 2,906 damage pop.) | 42.1s | Authentic | Completed (Exit 0) |
 | ($a=0.5$ mm, $r=0.1$ mm) | **Adaptive Remesh (F1852)** | **17,280** | **97.25%** | **4.94e-07** | **2.65** | **Damage Envelope ($d_{core}=0.5$)** | **4.09s** | -- | Directly Verified |
 | | **Refined Reference** | **23,965** | **97.23%** | **8.54e-07** | **2.48** | Sec 4.2 Mode-II target (23,618 el) | -- | `1424421.mmaster02` | Completed (Exit 0): F_max=0.5717 kN, u_peak=0.00548 mm (Walltime: 14455.0s) |
@@ -47,7 +47,7 @@ The table below synthesizes the computational cost, element distribution, discre
 | **Case 5**: Seven-Hole Plate | Coarse Job-1 | 2,566 | 96.06% | 1.84e-06 | 2.32 | Uniform pre-analysis (2,566 elements) | 18.4s | Authentic | Completed (Exit 0) |
 | (7 voids, $l_0=0.008$ mm) | **Adaptive Remesh (F1852)** | **15,411** | **97.74%** | **3.63e-07** | **2.41** | **Native Abaqus Stress Error** | **4.42s** | -- | Directly Verified |
 | | **Refined Reference** | **15,708** | **97.56%** | **4.12e-07** | **2.38** | Historical F1779 target (15,330 el) | -- | `1424423.mmaster02` | Completed (Exit 0): F_max=0.7250 kN, u_peak=0.00572 mm (Walltime: 14467.0s) |
-| | **Adaptive Job-2** | 15,411 | 97.74% | 3.63e-07 | 2.41 | Coupled Phase-Field Solve | -- | `1424427.mmaster02` | QUEUED / RUNNING (Softening Tail, 787 frames): F_max=0.7251 kN, u_peak=0.00572 mm |
+| | **Adaptive Job-2** | 15,411 | 97.74% | 3.63e-07 | 2.41 | Coupled Phase-Field Solve | -- | `1424427.mmaster02` | Completed (Exit 0): F_max=0.7251 kN, u_peak=0.00572 mm (Walltime: 22095.0s) |
 
 ---
 
