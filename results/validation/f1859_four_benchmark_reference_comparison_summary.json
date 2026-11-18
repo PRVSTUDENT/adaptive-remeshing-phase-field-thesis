@@ -1,0 +1,404 @@
+{
+  "protocol": "INDEPENDENT_STRUCTURED_REVIEW_V1",
+  "task_id": "F1859-FOUR-BENCHMARK-REFERENCE-COMPARISON",
+  "correlation_id": "HND-F1859-FOUR-BENCHMARK-REFERENCE-COMPARISON-001",
+  "operation": "coupled_fracture_validation",
+  "purpose": "Supervisor meeting (19 Nov 2026): four-benchmark comparison of highly refined reference meshes against adaptive framework (coarse Job-1 + adaptive remesh + Job-2) with comparison table of computational cost and accuracy",
+  "generated_at_utc": "2026-11-18T07:36:00Z",
+  "pbs_accounting": {
+    "authorized_new_submissions": 8,
+    "submissions_consumed": 8,
+    "predecessor_cumulative": 37,
+    "current_cumulative": 45,
+    "parallel_execution": true,
+    "queue": "entry_imfdfkmq",
+    "cpus_per_job": 8,
+    "threads_per_job": 8,
+    "memory_per_job": "24gb",
+    "walltime_per_job": "48:00:00"
+  },
+  "step_0_f1828_check": {
+    "status": "COMPLETED",
+    "usable_f1828_results_found": false,
+    "details": "Searched repo and cluster /scratch9/pr21vyci/runs/mode1_pk_f1824_job2_batch/. Only Case 1 had a datacheck run; Cases 2, 3, 5 were never executed. No completed Job-2 ODBs or snapshots exist. All 4 adaptive benchmarks require fresh Job-2 submissions."
+  },
+  "benchmarks": {
+    "case_1": {
+      "name": "Case 1: Mode-I Edge-Cracked Plate",
+      "geometry": "1.0 x 1.0 mm plate, a=0.5 mm edge notch, l0=0.0075 mm",
+      "coarse_job1": {
+        "elements": 4384,
+        "quad_percent": 97.15,
+        "donor_cost_seconds": 38.5,
+        "status": "AUTHENTIC_RECORDED"
+      },
+      "adaptive_mesh_f1852": {
+        "elements": 20193,
+        "quad_percent": 97.3,
+        "min_det_j": 1.026e-06,
+        "max_aspect_ratio": 2.469,
+        "selected_driver": "CONSTRUCTED_DAMAGE_ENVELOPE",
+        "remesh_cost_seconds": 4.545,
+        "gate06_coarsening": "1.919 (FAIL)"
+      },
+      "adaptive_job2": {
+        "job_name": "F1859_J2_C1",
+        "pbs_job_id": "1424415.mmaster02",
+        "status": "QUEUED_PENDING_SOLVER_COMPLETION",
+        "peak_load_kn": "MISSING (SOLVER IN QUEUE)",
+        "disp_at_peak_mm": "MISSING (SOLVER IN QUEUE)",
+        "solver_walltime_s": "MISSING (SOLVER IN QUEUE)"
+      },
+      "reference_mesh": {
+        "elements": 13960,
+        "target_elements_literature": 13941,
+        "difference_elements": 19,
+        "difference_percent": 0.14,
+        "quad_percent": 97.5,
+        "file_sha256": "938D2D9308D47141262E08AA1756643B3F6CEFDADD51D585266734E876E9A33D",
+        "body_sha256": "b3224058f28a72f5ef82d7d5abb6dfb4192aafb743d728599c5776093706690f"
+      },
+      "reference_solve": {
+        "job_name": "F1859_REF_C1",
+        "pbs_job_id": "1424411.mmaster02",
+        "status": "QUEUED_PENDING_SOLVER_COMPLETION",
+        "peak_load_kn": "MISSING (SOLVER IN QUEUE)",
+        "disp_at_peak_mm": "MISSING (SOLVER IN QUEUE)",
+        "solver_walltime_s": "MISSING (SOLVER IN QUEUE)"
+      }
+    },
+    "case_2": {
+      "name": "Case 2: Mode-I Plate with Off-Axis Hole",
+      "geometry": "1.0 x 1.0 mm plate, a=0.3 mm notch, off-axis hole r=0.1 mm, l0=0.0075 mm",
+      "coarse_job1": {
+        "elements": 4140,
+        "quad_percent": 97.2,
+        "donor_cost_seconds": 42.1,
+        "status": "AUTHENTIC_RECORDED"
+      },
+      "adaptive_mesh_f1852": {
+        "elements": 17280,
+        "quad_percent": 97.25,
+        "min_det_j": 4.939e-07,
+        "max_aspect_ratio": 2.646,
+        "selected_driver": "CONSTRUCTED_DAMAGE_ENVELOPE",
+        "remesh_cost_seconds": 4.094,
+        "gate06_coarsening": "2.205 (PASS)"
+      },
+      "adaptive_job2": {
+        "job_name": "F1859_J2_C2",
+        "pbs_job_id": "1424416.mmaster02",
+        "status": "QUEUED_PENDING_SOLVER_COMPLETION",
+        "peak_load_kn": "MISSING (SOLVER IN QUEUE)",
+        "disp_at_peak_mm": "MISSING (SOLVER IN QUEUE)",
+        "solver_walltime_s": "MISSING (SOLVER IN QUEUE)"
+      },
+      "reference_mesh": {
+        "elements": 23965,
+        "target_elements_literature": 23618,
+        "difference_elements": 347,
+        "difference_percent": 1.47,
+        "quad_percent": 97.23,
+        "file_sha256": "FE8DD4867A9775C45460315002ECBB0544AC5D6D705C96A245B407F15CAB12A8",
+        "body_sha256": "64017b78c47ff99ac4da54b0a076b240b6ca9c06d8059d164fb9403f492b8661"
+      },
+      "reference_solve": {
+        "job_name": "F1859_REF_C2",
+        "pbs_job_id": "1424412.mmaster02",
+        "status": "QUEUED_PENDING_SOLVER_COMPLETION",
+        "peak_load_kn": "MISSING (SOLVER IN QUEUE)",
+        "disp_at_peak_mm": "MISSING (SOLVER IN QUEUE)",
+        "solver_walltime_s": "MISSING (SOLVER IN QUEUE)"
+      }
+    },
+    "case_3": {
+      "name": "Case 3: Notched Plate with Pins and Hole",
+      "geometry": "65 x 120 mm plate, two rigid pins, center hole, notch a=10 mm, l0=0.50 mm",
+      "coarse_job1": {
+        "elements": 6835,
+        "quad_percent": 96.85,
+        "donor_cost_seconds": 58.4,
+        "status": "AUTHENTIC_RECORDED"
+      },
+      "adaptive_mesh_f1852": {
+        "elements": 45009,
+        "quad_percent": 97.29,
+        "min_det_j": 0.001136,
+        "max_aspect_ratio": 2.922,
+        "selected_driver": "CONSTRUCTED_DAMAGE_ENVELOPE",
+        "remesh_cost_seconds": 10.489,
+        "gate06_coarsening": "2.004 (PASS)"
+      },
+      "adaptive_job2": {
+        "job_name": "F1859_J2_C3",
+        "pbs_job_id": "1424417.mmaster02",
+        "status": "QUEUED_PENDING_SOLVER_COMPLETION",
+        "peak_load_kn": "MISSING (SOLVER IN QUEUE)",
+        "disp_at_peak_mm": "MISSING (SOLVER IN QUEUE)",
+        "solver_walltime_s": "MISSING (SOLVER IN QUEUE)"
+      },
+      "reference_mesh": {
+        "elements": 12110,
+        "target_elements_literature": 12168,
+        "difference_elements": -58,
+        "difference_percent": -0.48,
+        "quad_percent": 96.73,
+        "file_sha256": "0BC6DB1BE718FB41442E7514FAFCA3F85D14293FAEE612C48069A7BB5730A900",
+        "body_sha256": "9a1e15af8814e03826077a1851e10dc5bc6168d67bf13852b579c5ee8e68ff0a"
+      },
+      "reference_solve": {
+        "job_name": "F1859_REF_C3",
+        "pbs_job_id": "1424413.mmaster02",
+        "status": "QUEUED_PENDING_SOLVER_COMPLETION",
+        "peak_load_kn": "MISSING (SOLVER IN QUEUE)",
+        "disp_at_peak_mm": "MISSING (SOLVER IN QUEUE)",
+        "solver_walltime_s": "MISSING (SOLVER IN QUEUE)"
+      }
+    },
+    "case_5": {
+      "name": "Case 5: Square Plate with Seven Holes",
+      "geometry": "1.0 x 1.0 mm plate, 7 staggered circular voids, l0=0.0075 mm",
+      "coarse_job1": {
+        "elements": 2566,
+        "quad_percent": 96.06,
+        "donor_cost_seconds": 18.4,
+        "status": "AUTHENTIC_RECORDED"
+      },
+      "adaptive_mesh_f1852": {
+        "elements": 15411,
+        "quad_percent": 97.74,
+        "min_det_j": 3.628e-07,
+        "max_aspect_ratio": 2.409,
+        "selected_driver": "NATIVE_ABAQUS_STRESS_RECOVERY_ERROR",
+        "remesh_cost_seconds": 4.415,
+        "gate06_coarsening": "1.939 (FAIL)"
+      },
+      "adaptive_job2": {
+        "job_name": "F1859_J2_C5",
+        "pbs_job_id": "1424418.mmaster02",
+        "status": "QUEUED_PENDING_SOLVER_COMPLETION",
+        "peak_load_kn": "MISSING (SOLVER IN QUEUE)",
+        "disp_at_peak_mm": "MISSING (SOLVER IN QUEUE)",
+        "solver_walltime_s": "MISSING (SOLVER IN QUEUE)"
+      },
+      "reference_mesh": {
+        "elements": 15708,
+        "target_elements_literature": 15330,
+        "difference_elements": 378,
+        "difference_percent": 2.47,
+        "quad_percent": 97.56,
+        "file_sha256": "1B6F9127B2ED9ADE1E67CC006A98CBBC4BC571F08F9A61A5A09A8D248ADCDE79",
+        "body_sha256": "716fb88049549320d10d99de70f370a09235491c8cb12ebbcfe7d7b5c8cecce1"
+      },
+      "reference_solve": {
+        "job_name": "F1859_REF_C5",
+        "pbs_job_id": "1424414.mmaster02",
+        "status": "QUEUED_PENDING_SOLVER_COMPLETION",
+        "peak_load_kn": "MISSING (SOLVER IN QUEUE)",
+        "disp_at_peak_mm": "MISSING (SOLVER IN QUEUE)",
+        "solver_walltime_s": "MISSING (SOLVER IN QUEUE)"
+      }
+    }
+  },
+  "submitted_jobs_receipt": [
+    {
+      "job_name": "F1859_REF_C1",
+      "pbs_job_id": "1424411.mmaster02",
+      "category": "reference",
+      "case_id": "case_1",
+      "model_name": "PK_F1859_REF_C1",
+      "physical_elements": 13960,
+      "layered_elements": 41880,
+      "cpus": 8,
+      "memory": "24gb",
+      "walltime": "48:00:00",
+      "queue": "entry_imfdfkmq",
+      "scratch_dir": "/scratch9/pr21vyci/runs/f1859_suite/ref_solve_case1",
+      "deck_sha256": "2A1ABDEE1BB10A6CE233D32E0E02EB7F3332DBD7052D56E939741591522ACA06",
+      "submitted_at_utc": "2026-11-18T07:21:12Z"
+    },
+    {
+      "job_name": "F1859_REF_C2",
+      "pbs_job_id": "1424412.mmaster02",
+      "category": "reference",
+      "case_id": "case_2",
+      "model_name": "PK_F1859_REF_C2",
+      "physical_elements": 23965,
+      "layered_elements": 71895,
+      "cpus": 8,
+      "memory": "24gb",
+      "walltime": "48:00:00",
+      "queue": "entry_imfdfkmq",
+      "scratch_dir": "/scratch9/pr21vyci/runs/f1859_suite/ref_solve_case2",
+      "deck_sha256": "2135D3CFCFE9AE148698681DF2E8FE0FC6770BAAB742089F32C32ABF0549F08E",
+      "submitted_at_utc": "2026-11-18T07:24:24Z"
+    },
+    {
+      "job_name": "F1859_REF_C3",
+      "pbs_job_id": "1424413.mmaster02",
+      "category": "reference",
+      "case_id": "case_3",
+      "model_name": "PK_F1859_REF_C3",
+      "physical_elements": 12110,
+      "layered_elements": 36330,
+      "cpus": 8,
+      "memory": "24gb",
+      "walltime": "48:00:00",
+      "queue": "entry_imfdfkmq",
+      "scratch_dir": "/scratch9/pr21vyci/runs/f1859_suite/ref_solve_case3",
+      "deck_sha256": "499C6DE31972C9A12BACBD0CC05AC7011B2A8247051AB75BBC7AFCA059457592",
+      "submitted_at_utc": "2026-11-18T07:25:27Z"
+    },
+    {
+      "job_name": "F1859_REF_C5",
+      "pbs_job_id": "1424414.mmaster02",
+      "category": "reference",
+      "case_id": "case_5",
+      "model_name": "PK_F1859_REF_C5",
+      "physical_elements": 15708,
+      "layered_elements": 47124,
+      "cpus": 8,
+      "memory": "24gb",
+      "walltime": "48:00:00",
+      "queue": "entry_imfdfkmq",
+      "scratch_dir": "/scratch9/pr21vyci/runs/f1859_suite/ref_solve_case5",
+      "deck_sha256": "F24F229AF329668634052958DE4EF701B73C7390AC16B52A25324BB5FB0476AB",
+      "submitted_at_utc": "2026-11-18T07:27:37Z"
+    },
+    {
+      "job_name": "F1859_J2_C1",
+      "pbs_job_id": "1424415.mmaster02",
+      "category": "adaptive_job2",
+      "case_id": "case_1",
+      "model_name": "PK_F1859_J2_C1",
+      "physical_elements": 20193,
+      "layered_elements": 60579,
+      "cpus": 8,
+      "memory": "24gb",
+      "walltime": "48:00:00",
+      "queue": "entry_imfdfkmq",
+      "scratch_dir": "/scratch9/pr21vyci/runs/f1859_suite/job2_adaptive_case1",
+      "deck_sha256": "B2CA3FF2891D667B0E3FB5A77DE54739878F7BCDF7409130E5B2F6796D7A7F18",
+      "submitted_at_utc": "2026-11-18T07:28:02Z"
+    },
+    {
+      "job_name": "F1859_J2_C2",
+      "pbs_job_id": "1424416.mmaster02",
+      "category": "adaptive_job2",
+      "case_id": "case_2",
+      "model_name": "PK_F1859_J2_C2",
+      "physical_elements": 17280,
+      "layered_elements": 51840,
+      "cpus": 8,
+      "memory": "24gb",
+      "walltime": "48:00:00",
+      "queue": "entry_imfdfkmq",
+      "scratch_dir": "/scratch9/pr21vyci/runs/f1859_suite/job2_adaptive_case2",
+      "deck_sha256": "EDEC3DA4AA359151EECCC87C927039AFF7926B4466AD05C771E558B03BC39100",
+      "submitted_at_utc": "2026-11-18T07:28:24Z"
+    },
+    {
+      "job_name": "F1859_J2_C3",
+      "pbs_job_id": "1424417.mmaster02",
+      "category": "adaptive_job2",
+      "case_id": "case_3",
+      "model_name": "PK_F1859_J2_C3",
+      "physical_elements": 45009,
+      "layered_elements": 135027,
+      "cpus": 8,
+      "memory": "24gb",
+      "walltime": "48:00:00",
+      "queue": "entry_imfdfkmq",
+      "scratch_dir": "/scratch9/pr21vyci/runs/f1859_suite/job2_adaptive_case3",
+      "deck_sha256": "DDDC337F311F90EBD130882D2D1CD9AD4F3F1EDF59C95F3DD25009727ACCC14A",
+      "submitted_at_utc": "2026-11-18T07:28:54Z"
+    },
+    {
+      "job_name": "F1859_J2_C5",
+      "pbs_job_id": "1424418.mmaster02",
+      "category": "adaptive_job2",
+      "case_id": "case_5",
+      "model_name": "PK_F1859_J2_C5",
+      "physical_elements": 15411,
+      "layered_elements": 46233,
+      "cpus": 8,
+      "memory": "24gb",
+      "walltime": "48:00:00",
+      "queue": "entry_imfdfkmq",
+      "scratch_dir": "/scratch9/pr21vyci/runs/f1859_suite/job2_adaptive_case5",
+      "deck_sha256": "7FFA6E7ED7F80B30D77CB81F9081CFBD5EEC29739DC491050D62D5E43204466C",
+      "submitted_at_utc": "2026-11-18T07:29:15Z"
+    }
+  ],
+  "image_manifest": {
+    "task_id": "F1859-FOUR-BENCHMARK-REFERENCE-COMPARISON",
+    "correlation_id": "HND-F1859-FOUR-BENCHMARK-REFERENCE-COMPARISON-001",
+    "generated_at_utc": "2026-11-18T07:35:00Z",
+    "description": "Publication mesh images and composite for four-benchmark reference comparison suite",
+    "images": [
+      {
+        "case_id": "case_1_ref",
+        "relative_path": "results/figures/fig_f1859_ref_case_1_mesh.png",
+        "description": "Case 1 Reference Mesh (13,960 elements)",
+        "sha256": "D1A6C3C33DD65516008477035C1CE6950243F8ED6B01644B91020924C96BF78A",
+        "bytes": 1848365
+      },
+      {
+        "case_id": "case_2_ref",
+        "relative_path": "results/figures/fig_f1859_ref_case_2_mesh.png",
+        "description": "Case 2 Reference Mesh (23,965 elements)",
+        "sha256": "A18AB5E16487BA030B4ACE82A4FDD000D5BABF4C7BF917AF9280247B935C03DC",
+        "bytes": 2253808
+      },
+      {
+        "case_id": "case_3_ref",
+        "relative_path": "results/figures/fig_f1859_ref_case_3_mesh.png",
+        "description": "Case 3 Reference Mesh (12,110 elements)",
+        "sha256": "670C53ED77DAFBD14749ABF1F0537F8239DFCF7D11E78165E061FD1DA232B175",
+        "bytes": 1472996
+      },
+      {
+        "case_id": "case_5_ref",
+        "relative_path": "results/figures/fig_f1859_ref_case_5_mesh.png",
+        "description": "Case 5 Reference Mesh (15,708 elements)",
+        "sha256": "D88AC1FC522027B60C25AF62F385D642FE00B530D55B6B72D6AF34E10648BDDA",
+        "bytes": 1894076
+      },
+      {
+        "case_id": "case_1_adapt",
+        "relative_path": "results/figures/fig_f1859_adapt_case_1_mesh.png",
+        "description": "Case 1 Adaptive Mesh F1852 (20,193 elements)",
+        "sha256": "D833F67D8191AF9EDCFE48CF3BDEF9771D6911E4D8B7D13B8B09812A32AAEDD7",
+        "bytes": 2657474
+      },
+      {
+        "case_id": "case_2_adapt",
+        "relative_path": "results/figures/fig_f1859_adapt_case_2_mesh.png",
+        "description": "Case 2 Adaptive Mesh F1852 (17,280 elements)",
+        "sha256": "77225B60F13260256C34662B0690E0AB1A0C502A1B2A0000798CBDAA8608CBE0",
+        "bytes": 2426690
+      },
+      {
+        "case_id": "case_3_adapt",
+        "relative_path": "results/figures/fig_f1859_adapt_case_3_mesh.png",
+        "description": "Case 3 Adaptive Mesh F1852 (45,009 elements)",
+        "sha256": "3FF86B36B178B6BBCF23EE4EEA53B5AC05388C2C07EE5B09B29E01BCCEE88949",
+        "bytes": 2294378
+      },
+      {
+        "case_id": "case_5_adapt",
+        "relative_path": "results/figures/fig_f1859_adapt_case_5_mesh.png",
+        "description": "Case 5 Adaptive Mesh F1852 (15,411 elements)",
+        "sha256": "3D70E07DD5364A15D19F353DD444D726798E0AC04553308D63D5BF2802CF5C77",
+        "bytes": 1961026
+      },
+      {
+        "case_id": "composite",
+        "relative_path": "results/figures/fig_f1859_four_benchmark_composite.png",
+        "description": "Four-Benchmark Comparison 2x4 Composite (Reference vs Adaptive)",
+        "sha256": "BA7C1BD50615B372ACBD80D54217B01ADD175F4D5C131B7B504539881129974D",
+        "bytes": 7871222
+      }
+    ]
+  }
+}
