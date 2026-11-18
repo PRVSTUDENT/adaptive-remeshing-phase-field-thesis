@@ -1,0 +1,132 @@
+{
+  "protocol": "INDEPENDENT_STRUCTURED_REVIEW_V1",
+  "task_id": "F1857-F1856-REPORT-CORRECTION",
+  "correlation_id": "HND-F1857-F1856-REPORT-CORRECTION-001",
+  "predecessor_correlation_id": "HND-F1856-LPANEL-DAMAGE-ENVELOPE-REMESH-001",
+  "verdict": "APPROVE",
+  "checkpoint": "de218e539c",
+  "checkpoint_message": "F1857: Correct F1856 report table and summary synthesis ligament-coverage numbers (GAP-F1856-01/02)",
+  "review_date": "2026-11-18T07:30:00+01:00",
+  "reviewer": "Muse (independent reviewer)",
+  "master_goal_status": "OPEN",
+  "summary": "Both F1856 corrections are verified exact from the committed artifacts at de218e53: the report table's elastic/baseline ligament rows now read 117 elements, 0.85% h<=l0 count (1 element), 0.05% h<=l0 area, and the summary synthesis now reads 3,365 ligament elements with 100% h<=l0 and 31.35% h<=l0/2 count coverage (21.72% area). Nothing else changed: the diffs show only those two number sets, the meshes and figures are byte-identical to F1856, and all 8 tests (F1856 4/4 and F1855 predecessor 4/4) pass when executed by Muse. The L-panel thread is now closed. The next scientific step awaits the user's direction, so F1858 WAIT is issued.",
+  "verification": {
+    "report": {
+      "path": "docs/validation/F1856_LPANEL_DAMAGE_ENVELOPE_REMESH_REPORT.md",
+      "bytes": 11382,
+      "sha256": "f799ef3343f3887bfae294250ac6f65952d7a3cef0b6425a21b7c3dd6bfbedd7",
+      "diff_vs_f1856": "Only 3 table rows changed (lines 31-33): Ligament Band Elements 129 -> 117 (elastic and baseline columns); Ligament h<=l0 Count % 63.57% -> 0.85% (1 element); Ligament h<=l0 Area % 38.65% -> 0.05%. The Fracture column (3,365 elements, 100.0%, 100.0%, 31.35%, 21.72%) is unchanged.",
+      "old_wrong_values_absent": {
+        "129 elements": 0,
+        "63.57%": 0,
+        "38.65%": 0,
+        "5,888": 0,
+        "99.4%": 0
+      },
+      "new_correct_values_present": "117 elements, 0.85% (1 element), 0.05% in the Section 2 table rows."
+    },
+    "summary_json": {
+      "path": "results/validation/f1856_lpanel_damage_envelope_remesh_summary.json",
+      "bytes": 8835,
+      "sha256": "167f6badbee5091344d7e1f5ff7cf202bc1d7820f283cb73601a19a16061d437",
+      "diff_vs_f1856": "Only 1 line changed (line 180): synthesis_and_verdict.fracture_remesh_character from 'ligament band receives 5,888 elements with 100% h<=l0 coverage and 99.4% h<=l0/2 coverage' to 'ligament band receives 3,365 elements with 100% h<=l0 coverage and 31.35% h<=l0/2 count coverage (21.72% area)'. The coverage table and all other fields are unchanged.",
+      "synthesis_now": "Broad ligament refinement reflecting diffuse damage in coarse Job-1 donor (188/340 elements at d>=0.10); ligament band receives 3,365 elements with 100% h<=l0 coverage and 31.35% h<=l0/2 count coverage (21.72% area)."
+    },
+    "test_file": {
+      "path": "tests/unit/test_f1856_lpanel_damage_envelope_remesh.py",
+      "bytes": 7230,
+      "sha256": "d20dabff2375be93dc0952c3a0b104efaf6388c10dcf3eb6e89b2a7d55b87788",
+      "diff_vs_f1856": "Additive guard assertions only (file grew 5879 -> 7230 B): a Synthesis text audit in the fracture test (asserts '3,365 elements', '100% h<=l0 coverage', '31.35% h<=l0/2 count coverage' present and '5,888', '99.4%' absent) and a Ligament coverage + Report table audit in the elastic test (asserts elastic ligament 117 / 1 / 0.85% / 0.05% and the corrected report rows present, with '129 elements', '63.57%', '38.65%' absent). No existing assertion was changed. This is a disclosed, in-scope addition that makes the correction verifiable; it is not a framework or frozen-source edit.",
+      "note": "The F1857 instruction did not explicitly authorize modifying the test file, but adding assertions that guard the corrected values is standard correction practice and the change is fully disclosed in the diff. Recorded as an observation, not a defect."
+    },
+    "meshes_unchanged": {
+      "fracture_mesh_body_sha256": "0fe997b545ff9d83d0a5c61f3b4619af623650f679461c397c20e28efdf3db6c",
+      "fracture_mesh_file_sha256_prefix": "db279f77db52eba6",
+      "elastic_mesh_body_sha256": "9b6e3535e3c5c57e93b03d8e061d243afa36fad742252e4200738a4472911801",
+      "elastic_mesh_file_sha256_prefix": "3aaae516f42c0503",
+      "f1846_baseline_body_sha256": "f6e3e9b56797b6a4722d7896ea508fda754bf243dc71eaeb3a1e5c460d4bf00b",
+      "all_match_f1856": true
+    },
+    "figures_unchanged": {
+      "fracture_png_sha256_prefix": "a2b77e01",
+      "elastic_png_sha256_prefix": "0590d082",
+      "composite_png_sha256_prefix": "b184e526",
+      "all_match_f1856_manifest": true
+    },
+    "tests_executed_by_muse": {
+      "f1856_test_file": "tests/unit/test_f1856_lpanel_damage_envelope_remesh.py",
+      "f1856_functions": [
+        "test_f1856_fracture_donor_signal_and_selection",
+        "test_f1856_fracture_remesh_properties_and_ligament_coverage",
+        "test_f1856_elastic_fallback_native_gate_and_reproduction",
+        "test_f1856_figure_generation"
+      ],
+      "f1856_result": "4/4 PASS (executed by Muse directly, including the new correction-guard assertions)",
+      "f1855_predecessor_test_file": "tests/unit/test_f1855_lpanel_fracture_job1.py",
+      "f1855_predecessor_result": "4/4 PASS (executed by Muse directly)"
+    },
+    "pbs": {
+      "new_pbs_jobs": 0,
+      "cumulative_pbs_jobs": 37,
+      "note": "Correction-only; no PBS in this task."
+    },
+    "scope_check": "Only the report (3 table rows), the summary (1 synthesis sentence), and the test file (additive guard assertions) changed. No mesh, figure, framework, frozen source, snapshot, gate, or donor was modified. The task stayed within its correction-only instruction."
+  },
+  "image_review": {
+    "note": "F1857 is a correction-only task; no figure was regenerated. The three F1856 PNGs were visually inspected in the F1856 review (fracture honestly diffuse, elastic corner-refined, composite correct with a minor title overlap, GAP-F1856-04). The figure SHAs at de218e53 are byte-identical to the F1856 manifest (fracture a2b77e01, elastic 0590d082, composite b184e526), so no re-inspection is required. The composite title overlap (GAP-F1856-04) was cosmetic and was not required to be fixed; it remains as recorded.",
+    "verification_status": "Figures unchanged and previously inspected; no new image review required for a correction-only task."
+  },
+  "gaps": [
+    {
+      "id": "GAP-F1857-01",
+      "severity": "non-blocking",
+      "title": "Composite title overlap not fixed (carried from GAP-F1856-04)",
+      "detail": "The dual-driver composite's title block still overlaps the (a)/(b) panel headings. This was recorded as cosmetic in the F1856 review and was not required for the correction task. It remains as a minor cosmetic note; it does not affect any number or conclusion.",
+      "blocks_follow_up": false
+    },
+    {
+      "id": "GAP-F1857-02",
+      "severity": "non-blocking",
+      "title": "Fracture Gate 06 partition ratio (0.9846) still not independently recomputed",
+      "detail": "Carried from GAP-F1856-03. The partition ratio for the fracture mesh was not independently recomputed by Muse in either the F1856 or F1857 review. The geometric ratio (1.0394) is verified exact and is the headline Gate 06. The partition value is executor-computed and unchanged by this correction.",
+      "blocks_follow_up": false
+    }
+  ],
+  "observations_for_follow_up": [
+    "The test file's additive guard assertions now lock the corrected values in place: any future regression to 129 / 63.57% / 38.65% or 5,888 / 99.4% will fail the F1856 test suite. This is the correct way to close a correction chain.",
+    "The L-panel thread is closed: F1854 completed (elastic native fallback reproduces F1846), F1855 donor qualified (max d 0.677), F1856 remeshes verified (fracture diffuse 1.039x FAIL, elastic 2.579x PASS), F1857 corrections applied and approved."
+  ],
+  "next_instruction": {
+    "task_id": "F1858-WAIT-NEXT-DIRECTION",
+    "correlation_id": "HND-F1858-WAIT-NEXT-DIRECTION-001",
+    "operation": "wait_next_direction",
+    "max_new_pbs": 0,
+    "cumulative_pbs": 37,
+    "master_goal_status": "OPEN",
+    "purpose": "WAIT for the user's direction on the next scientific step. The L-panel thread is closed and no further work is authorized until the user chooses the next priority. This is a hold, not a scientific task.",
+    "state": {
+      "l_panel_thread": "CLOSED",
+      "f1854": "COMPLETED (elastic native fallback reproduces F1846 567-element mesh, mesh block identical)",
+      "f1855": "APPROVED (donor qualified, max d 0.677, report corrected)",
+      "f1856": "APPROVED after F1857 correction (fracture remesh diffuse Gate 06 1.039x FAIL; elastic remesh Gate 06 2.579x PASS)",
+      "f1857": "APPROVED (both ligament-coverage corrections verified exact)"
+    },
+    "open_items_for_user_decision": [
+      "Gate 06 still FAILS for Case 5 (1.939x) and Case 1 (1.919x) at the F1852 state, and for the L-panel fracture remesh (1.039x).",
+      "Case 3 remains diffuse (45,009 elements, Gate 06 1.4462x FAIL at F1812 / 2.0039x PASS at F1852 under the summary definition).",
+      "Codex Tasks 4-6 (literal Case 1 paper benchmark, native sequence, transfer across cases) and the 6-step reproduction spec remain unissued/unexecuted.",
+      "The F1850 transport response remains unresolved (outer envelope missing; do not fabricate).",
+      "F1828 Job-2 coupled validation status remains unknown; Method C and thesis/presentation work remain paused."
+    ],
+    "instruction": "Enter WAIT state. Do not execute any new scientific work, framework edit, remesh, or PBS submission. Preserve the OPEN master goal and the current checkpoint (de218e53). Await the user's explicit direction on the next scientific step.",
+    "constraints": [
+      "0 new PBS jobs. No framework edit, no remesh, no new task.",
+      "Do not invoke a past conditional instruction as authorization for a scope change. Do not advance to coupled validation, Method C, thesis, or presentations without the user's explicit, current reprioritization in that turn.",
+      "The F1850 transport response remains unresolved; do not fabricate an outer envelope."
+    ],
+    "output": {
+      "status": "WAIT recorded in project_coordination/ACTIVE_SESSION.json (or equivalent session record)"
+    },
+    "delivery_note": "This is a WAIT instruction. The executor should acknowledge the hold and stop the loop until the user gives the next direction. Do not present this WAIT as goal completion; the master goal remains OPEN."
+  }
+}
