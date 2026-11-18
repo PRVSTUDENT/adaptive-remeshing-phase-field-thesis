@@ -1,0 +1,26 @@
+{
+  "accepted": true,
+  "step": "Step-1",
+  "frame_id": 1,
+  "source": "models/pandey_kumar_mode1/276_f1846_generalized_framework/l_panel/PK_F1846_LPANEL_COARSE.odb",
+  "source_sha256": "84fe528239f5649a185bbb5da9752b54ac288aed8393425e676d71e449554056",
+  "source_bytes": 365628,
+  "native_fields_present": true,
+  "element_type_audit": {
+    "CPE3": {
+      "elements": 12,
+      "zero_stress_tensors": 0,
+      "zero_base": 0,
+      "missing_stress": 0
+    },
+    "CPE4": {
+      "elements": 328,
+      "zero_stress_tensors": 0,
+      "zero_base": 0,
+      "missing_stress": 0
+    }
+  },
+  "triangle_anomaly_detected": false,
+  "triangle_total_error_proxy_pct": 0.14216999183314413,
+  "snapshot_sha256": "4d25825422c1c899adcc37a349242da3f06d2482f10673611423d45d54101359"
+}

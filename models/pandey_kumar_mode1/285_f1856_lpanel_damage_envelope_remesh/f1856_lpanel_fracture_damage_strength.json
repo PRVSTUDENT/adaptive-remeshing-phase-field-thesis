@@ -1,0 +1,15 @@
+{
+  "source": "models/pandey_kumar_mode1/284_f1855_lpanel_fracture_job1/lpanel_coarse_final_snapshot.json",
+  "source_bytes": 363103,
+  "source_sha256": "6e793339b1f1e0ef999571f12f2bf072e0a8e613cdf3993befddd61ccb878f3c",
+  "source_odb_sha256": "6dad3f9d9deaaca1028d1bd8061191974d1d632eb3c7cbf0290495a22b6ffbb1",
+  "max_damage": 0.677208662033081,
+  "d_core": 0.5,
+  "elements_ge_core": 2,
+  "fraction_ge_core": 0.0058823529411764705,
+  "total_elements": 340,
+  "damage_ge_0_4_count": 4,
+  "damage_ge_0_1_count": 188,
+  "selected_driver": "CONSTRUCTED_DAMAGE_ENVELOPE",
+  "rationale": "max_damage (0.6772) >= d_core (0.50)"
+}

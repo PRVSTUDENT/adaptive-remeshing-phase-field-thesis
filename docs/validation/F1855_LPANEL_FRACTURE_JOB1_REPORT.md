@@ -4,7 +4,7 @@
 
 Task **F1855-LPANEL-FRACTURE-JOB1** executes exactly **one** authentic coarse phase-field Job-1 simulation on the unfamiliar L-shaped panel geometry (340 physical elements: 328 CPE4, 12 CPE3) to produce an authentic damage-evolving donor for testing the `generalized_2d_adaptive_framework_driver_selection_f1852.py` framework on a geometry beyond the benchmark suite (Cases 1, 2, 3, 5).
 
-The simulation was submitted under explicit user authorization (granting exactly 1 new PBS job, incrementing cumulative PBS jobs from 36 to **37**) to the HPC cluster as **PBS Job ID 1424382.mmaster02** in queue `normal_imfdfkmq`. The execution employed the bitwise frozen production UEL (`f42_mixed_uel.for`, SHA-256: `ce8d5edc...`) and the verified F1830 native stress-output interface (`f42_native_miseseri_interface_v1.for`, SHA-256: `e5c98b6f...`).
+The simulation was submitted under explicit user authorization (granting exactly 1 new PBS job, incrementing cumulative PBS jobs from 36 to **37**) to the HPC cluster as **PBS Job ID 1424382.mmaster02** via queue `entry_imfdfkmq` (04:00:00 walltime limit). The execution employed the bitwise frozen production UEL (`f42_mixed_uel.for`, SHA-256: `ce8d5edc...`) and the verified F1830 native stress-output interface (`f42_native_miseseri_interface_v1.for`, SHA-256: `e5c98b6f...`).
 
 ### Decisive Finding: Donor Suitability
 
@@ -33,7 +33,7 @@ The 3-layer Method A Abaqus deck was generated via `scripts/remeshing/prepare_f1
   - Layer 3 (Companion UMAT): Elements 681–1020 (offset: $+680$)
 - **Total Nodes**: 376 (375 physical mesh nodes + Reference Point 999999).
 - **Line Wrapping Compliance**: All `*NSET` and `*ELSET` cards strictly wrapped at $\le 16$ entries and $\le 80$ characters, eliminating input-deck reader line-truncation defects.
-- **Material Properties**: $E = 20.0\,\text{kN/mm}^2$ ($20.0\,\text{GPa}$), $\nu = 0.18$, $G_c = 8.9 \times 10^{-4}\,\text{kN/mm}$ ($890.0\,\text{N/m}$), $l_0 = 7.5\,\text{mm}$.
+- **Material Properties**: $l_0 = 1.0\,\text{mm}$, $G_c = 0.0027\,\text{kN/mm}$ ($2,700.0\,\text{N/m}$), $E = 210.0\,\text{kN/mm}^2$ ($210.0\,\text{GPa}$), $\nu = 0.30$, residual stiffness $k = 1.0 \times 10^{-7}$, matching the committed deck `*UEL PROPERTY` card line (`1.0000, 0.0027, 210.0, 0.30, 1.0e-07, 340.0`) and `configs/remeshing/f1846_unfamiliar_l_panel.json`.
 - **Boundary Conditions & Kinematics**:
   - Bottom edge clamped ($u_1 = u_2 = 0$ along $y = 0$, $x \in [0, 100]$).
   - Upper loading surface coupled to Reference Point 999999 at $(50, 100)$.
@@ -53,10 +53,10 @@ Execution was managed via `scripts/hpc/Stage-And-Submit-F1855-LPanel-Job1.ps1`:
 | :--- | :--- |
 | **PBS Job ID** | `1424382.mmaster02` |
 | **Job Name** | `F1855_LPANEL_J1` |
-| **Queue** | `normal_imfdfkmq` |
+| **Queue** | `entry_imfdfkmq` |
 | **Cluster Node** | Compute node running standard PBS batch environment |
 | **Cluster Directory** | `/scratch9/pr21vyci/runs/f1855_lpanel_fracture_job1` |
-| **Resources** | 1 CPU, 16 GB RAM, 8:00:00 walltime limit |
+| **Resources** | 1 CPU, 16 GB RAM, 04:00:00 walltime limit (per PBS script and receipt) |
 | **Elapsed Walltime** | **74.0 seconds** |
 | **Elapsed CPU Time** | **31.0 seconds** |
 | **Solver Exit Status** | `EXIT 0` (Clean termination on cutback limit) |
@@ -121,10 +121,10 @@ At the terminal converged state ($u_2 = 0.1391\,\text{mm}$), the phase-field dam
 
 All native stress recovery fields requested on the companion set were verified present:
 
-- `EVOL`: Total companion element area $\sum A = 7,500.0\,\text{mm}^2$, matching the exact theoretical L-panel domain area ($100 \times 100 - 50 \times 50 = 7,500\,\text{mm}^2$).
-- `MISESAVG`: Verified non-zero and populated across companion elements.
-- `MISESERI`: Discretization stress recovery error present across all companion elements.
-- `S`: Full plane stress components ($S_{11}, S_{22}, S_{12}$) recorded.
+- `EVOL`: Total companion element area $\sum A = 7,499.999996\,\text{mm}^2$, matching the exact theoretical L-panel domain area ($100 \times 100 - 50 \times 50 = 7,500\,\text{mm}^2$).
+- `MISESAVG`: Positive and non-zero across all 328 quadrilateral (CPE4) elements (max $1.15 \times 10^{-14}$ at dummy scale); all 12 triangular (CPE3) elements (physical elements 1–12) evaluate to `0.0` (matching the F1851 zero-stress-triangle anomaly class).
+- `MISESERI`: Discretization stress recovery error present and non-zero across all 340 companion elements (min $2.17 \times 10^{-17}$, max $9.82 \times 10^{-15}$ at dummy scale).
+- `S`: Full plane stress components ($S_{11}, S_{22}, S_{12}$) recorded (non-zero on all 328 CPE4 elements; zero on 12 CPE3 elements).
 
 ---
 

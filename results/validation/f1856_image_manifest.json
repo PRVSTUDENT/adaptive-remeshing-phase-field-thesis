@@ -1,0 +1,48 @@
+{
+  "task_id": "F1856-LPANEL-DAMAGE-ENVELOPE-REMESH",
+  "correlation_id": "HND-F1856-LPANEL-DAMAGE-ENVELOPE-REMESH-001",
+  "images": [
+    {
+      "path": "results/figures/fig_f1856_lpanel_fracture_mesh.png",
+      "bytes": 1866580,
+      "sha256": "a2b77e01a46378837aaa3ff4473bfa362ba22ea8832e2568e13836d85353be0c",
+      "mesh_path": "models/pandey_kumar_mode1/285_f1856_lpanel_damage_envelope_remesh/fracture_remesh/PK_ADAPT_UNFAMILIAR_L_PANEL_PHYS.inp",
+      "mesh_body_sha256": "0fe997b545ff9d83d0a5c61f3b4619af623650f679461c397c20e28efdf3db6c",
+      "elements": 15896,
+      "driver": "CONSTRUCTED_DAMAGE_ENVELOPE",
+      "caption": "F1856 L-Panel adapted mesh from F1855 fracture donor: 15,896 elements (98.11% quads, min det J = 0.0175 > 0, max AR 2.52) with 100% h<=l0 coverage in the 3,365-element ligament band."
+    },
+    {
+      "path": "results/figures/fig_f1856_lpanel_elastic_mesh.png",
+      "bytes": 545027,
+      "sha256": "0590d0827adcf2030c0c64fe5eb4384614784f375c25dd3aacaa2b3533c668ac",
+      "mesh_path": "models/pandey_kumar_mode1/285_f1856_lpanel_damage_envelope_remesh/elastic_fallback_remesh/PK_GEN_ADAPT_UNFAMILIAR_L_PANEL_PHYS.inp",
+      "mesh_body_sha256": "9b6e3535e3c5c57e93b03d8e061d243afa36fad742252e4200738a4472911801",
+      "mesh_block_sha256": "6d09fee1f664fcfcee696c1a399d32fbbe68ce22cc406609e3de76596fc61d32",
+      "elements": 567,
+      "driver": "NATIVE_ABAQUS_STRESS_RECOVERY_ERROR",
+      "caption": "F1856 L-Panel adapted mesh from linear-elastic donor (completing F1854): 567 elements (97.53% quads, min det J = 0.2113 > 0, max AR 2.27, Gate 06 = 2.58x PASS) with mesh block 100% bitwise identical to F1846 baseline."
+    },
+    {
+      "path": "results/figures/fig_f1856_lpanel_dual_driver_composite.png",
+      "bytes": 2296603,
+      "sha256": "b184e5262fc6bfb4c6b69256a194dbe6802f0ee24b8017cf6894d225134e9a21",
+      "caption": "F1856 L-Panel dual-driver comparison composite: (a) fracture donor remesh under CONSTRUCTED_DAMAGE_ENVELOPE (15,896 elements) versus (b) linear-elastic donor remesh under NATIVE_ABAQUS_STRESS_RECOVERY_ERROR (567 elements)."
+    },
+    {
+      "path": "results/figures/fig_f1856_lpanel_fracture_mesh.pdf",
+      "bytes": 465622,
+      "sha256": "0b78c7d30ac232a0dd37ce58f7cf58b1d61b55498d949cd9db52b446865b6b53"
+    },
+    {
+      "path": "results/figures/fig_f1856_lpanel_elastic_mesh.pdf",
+      "bytes": 48442,
+      "sha256": "dee22dca0a6aeb48f45724fd1ffa9471fc59d6097f676439b1bd432b19ee4979"
+    },
+    {
+      "path": "results/figures/fig_f1856_lpanel_dual_driver_composite.pdf",
+      "bytes": 482598,
+      "sha256": "581c40ec1c5b83f3806e2beb6a0ef4ceea0e0866e2ce98f2159b19bb7c3732f8"
+    }
+  ]
+}
