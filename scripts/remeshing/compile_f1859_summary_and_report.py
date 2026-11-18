@@ -32,6 +32,53 @@ def main():
     # Build sub_map for job IDs
     sub_map = {j["job_name"]: j["pbs_job_id"] for j in sub_receipt}
 
+    # Try loading cluster extraction summary if available
+    ext_path = os.path.join(SUITE_DIR, "f1859_suite_extraction_summary.json")
+    ext_data = {}
+    if os.path.exists(ext_path):
+        try:
+            with open(ext_path, "r", encoding="utf-8") as f:
+                ext_data = json.load(f)
+        except Exception as e:
+            print("Warning loading extraction summary: %s" % e)
+
+    def get_solve_metrics(job_name, fallback_pbs_id):
+        m_data = ext_data.get(job_name, {})
+        status = m_data.get("status", "QUEUED")
+        pbs_id = sub_map.get(job_name, fallback_pbs_id)
+        if status == "COMPLETED":
+            return {
+                "job_name": job_name,
+                "pbs_job_id": pbs_id,
+                "status": "COMPLETED",
+                "peak_load_kn": f"{m_data.get('peak_load_kn', 0.0):.4f}",
+                "disp_at_peak_mm": f"{m_data.get('disp_at_peak_mm', 0.0):.5f}",
+                "max_damage_global": f"{m_data.get('max_damage_global', 0.0):.4f}",
+                "solver_walltime_s": f"{m_data.get('log_info', {}).get('walltime_s', 'N/A')}",
+                "total_frames": m_data.get("total_frames", 0),
+                "rf_u_csv": m_data.get("rf_u_csv", "")
+            }
+        elif status == "RUNNING" or m_data.get("is_running", False):
+            return {
+                "job_name": job_name,
+                "pbs_job_id": pbs_id,
+                "status": "RUNNING",
+                "peak_load_kn": "PENDING_SOLVER_COMPLETION",
+                "disp_at_peak_mm": "PENDING_SOLVER_COMPLETION",
+                "max_damage_global": "PENDING_SOLVER_COMPLETION",
+                "solver_walltime_s": "PENDING_SOLVER_COMPLETION"
+            }
+        else:
+            return {
+                "job_name": job_name,
+                "pbs_job_id": pbs_id,
+                "status": "QUEUED_PENDING_SOLVER_COMPLETION",
+                "peak_load_kn": "MISSING (SOLVER IN QUEUE)",
+                "disp_at_peak_mm": "MISSING (SOLVER IN QUEUE)",
+                "max_damage_global": "MISSING (SOLVER IN QUEUE)",
+                "solver_walltime_s": "MISSING (SOLVER IN QUEUE)"
+            }
+
     # Ensure manifest has correct GitHub URLs
     img_manifest["commit_sha"] = COMMIT_SHA
     img_manifest["repository"] = "PRVSTUDENT/adaptive-remeshing-phase-field-thesis"
@@ -84,14 +131,7 @@ def main():
                     "remesh_cost_seconds": 4.545,
                     "gate06_coarsening": "1.919 (FAIL)"
                 },
-                "adaptive_job2": {
-                    "job_name": "F1859_J2_C1",
-                    "pbs_job_id": sub_map.get("F1859_J2_C1", "1424424.mmaster02"),
-                    "status": "QUEUED_PENDING_SOLVER_COMPLETION",
-                    "peak_load_kn": "MISSING (SOLVER IN QUEUE)",
-                    "disp_at_peak_mm": "MISSING (SOLVER IN QUEUE)",
-                    "solver_walltime_s": "MISSING (SOLVER IN QUEUE)"
-                },
+                "adaptive_job2": get_solve_metrics("F1859_J2_C1", "1424424.mmaster02"),
                 "reference_mesh": {
                     "elements": 13960,
                     "target_elements_literature": 13941,
@@ -102,14 +142,7 @@ def main():
                     "file_sha256": suite_receipt["step_1_reference_meshes"]["case_1"]["file_sha256"],
                     "body_sha256": suite_receipt["step_1_reference_meshes"]["case_1"]["body_sha256"]
                 },
-                "reference_solve": {
-                    "job_name": "F1859_REF_C1",
-                    "pbs_job_id": sub_map.get("F1859_REF_C1", "1424420.mmaster02"),
-                    "status": "QUEUED_PENDING_SOLVER_COMPLETION",
-                    "peak_load_kn": "MISSING (SOLVER IN QUEUE)",
-                    "disp_at_peak_mm": "MISSING (SOLVER IN QUEUE)",
-                    "solver_walltime_s": "MISSING (SOLVER IN QUEUE)"
-                }
+                "reference_solve": get_solve_metrics("F1859_REF_C1", "1424420.mmaster02")
             },
             "case_2": {
                 "name": "Case 2: Mode-I Plate with Off-Axis Hole",
@@ -134,14 +167,7 @@ def main():
                     "remesh_cost_seconds": 4.094,
                     "gate06_coarsening": "2.205 (PASS)"
                 },
-                "adaptive_job2": {
-                    "job_name": "F1859_J2_C2",
-                    "pbs_job_id": sub_map.get("F1859_J2_C2", "1424425.mmaster02"),
-                    "status": "QUEUED_PENDING_SOLVER_COMPLETION",
-                    "peak_load_kn": "MISSING (SOLVER IN QUEUE)",
-                    "disp_at_peak_mm": "MISSING (SOLVER IN QUEUE)",
-                    "solver_walltime_s": "MISSING (SOLVER IN QUEUE)"
-                },
+                "adaptive_job2": get_solve_metrics("F1859_J2_C2", "1424425.mmaster02"),
                 "reference_mesh": {
                     "elements": 23965,
                     "target_elements_literature": 23618,
@@ -152,14 +178,7 @@ def main():
                     "file_sha256": suite_receipt["step_1_reference_meshes"]["case_2"]["file_sha256"],
                     "body_sha256": suite_receipt["step_1_reference_meshes"]["case_2"]["body_sha256"]
                 },
-                "reference_solve": {
-                    "job_name": "F1859_REF_C2",
-                    "pbs_job_id": sub_map.get("F1859_REF_C2", "1424421.mmaster02"),
-                    "status": "QUEUED_PENDING_SOLVER_COMPLETION",
-                    "peak_load_kn": "MISSING (SOLVER IN QUEUE)",
-                    "disp_at_peak_mm": "MISSING (SOLVER IN QUEUE)",
-                    "solver_walltime_s": "MISSING (SOLVER IN QUEUE)"
-                }
+                "reference_solve": get_solve_metrics("F1859_REF_C2", "1424421.mmaster02")
             },
             "case_3": {
                 "name": "Case 3: Notched Plate with Pins and Hole",
@@ -184,14 +203,7 @@ def main():
                     "remesh_cost_seconds": 10.490,
                     "gate06_coarsening": "1.309 (FAIL)"
                 },
-                "adaptive_job2": {
-                    "job_name": "F1859_J2_C3",
-                    "pbs_job_id": sub_map.get("F1859_J2_C3", "1424426.mmaster02"),
-                    "status": "QUEUED_PENDING_SOLVER_COMPLETION",
-                    "peak_load_kn": "MISSING (SOLVER IN QUEUE)",
-                    "disp_at_peak_mm": "MISSING (SOLVER IN QUEUE)",
-                    "solver_walltime_s": "MISSING (SOLVER IN QUEUE)"
-                },
+                "adaptive_job2": get_solve_metrics("F1859_J2_C3", "1424426.mmaster02"),
                 "reference_mesh": {
                     "elements": 12110,
                     "target_elements_literature": 12168,
@@ -202,14 +214,7 @@ def main():
                     "file_sha256": suite_receipt["step_1_reference_meshes"]["case_3"]["file_sha256"],
                     "body_sha256": suite_receipt["step_1_reference_meshes"]["case_3"]["body_sha256"]
                 },
-                "reference_solve": {
-                    "job_name": "F1859_REF_C3",
-                    "pbs_job_id": sub_map.get("F1859_REF_C3", "1424422.mmaster02"),
-                    "status": "QUEUED_PENDING_SOLVER_COMPLETION",
-                    "peak_load_kn": "MISSING (SOLVER IN QUEUE)",
-                    "disp_at_peak_mm": "MISSING (SOLVER IN QUEUE)",
-                    "solver_walltime_s": "MISSING (SOLVER IN QUEUE)"
-                }
+                "reference_solve": get_solve_metrics("F1859_REF_C3", "1424422.mmaster02")
             },
             "case_5": {
                 "name": "Case 5: Square Plate with Seven Holes",
@@ -234,14 +239,7 @@ def main():
                     "remesh_cost_seconds": 4.415,
                     "gate06_coarsening": "1.939 (FAIL)"
                 },
-                "adaptive_job2": {
-                    "job_name": "F1859_J2_C5",
-                    "pbs_job_id": sub_map.get("F1859_J2_C5", "1424427.mmaster02"),
-                    "status": "QUEUED_PENDING_SOLVER_COMPLETION",
-                    "peak_load_kn": "MISSING (SOLVER IN QUEUE)",
-                    "disp_at_peak_mm": "MISSING (SOLVER IN QUEUE)",
-                    "solver_walltime_s": "MISSING (SOLVER IN QUEUE)"
-                },
+                "adaptive_job2": get_solve_metrics("F1859_J2_C5", "1424427.mmaster02"),
                 "reference_mesh": {
                     "elements": 15708,
                     "target_elements_literature": 15330,
@@ -252,14 +250,7 @@ def main():
                     "file_sha256": suite_receipt["step_1_reference_meshes"]["case_5"]["file_sha256"],
                     "body_sha256": suite_receipt["step_1_reference_meshes"]["case_5"]["body_sha256"]
                 },
-                "reference_solve": {
-                    "job_name": "F1859_REF_C5",
-                    "pbs_job_id": sub_map.get("F1859_REF_C5", "1424423.mmaster02"),
-                    "status": "QUEUED_PENDING_SOLVER_COMPLETION",
-                    "peak_load_kn": "MISSING (SOLVER IN QUEUE)",
-                    "disp_at_peak_mm": "MISSING (SOLVER IN QUEUE)",
-                    "solver_walltime_s": "MISSING (SOLVER IN QUEUE)"
-                }
+                "reference_solve": get_solve_metrics("F1859_REF_C5", "1424423.mmaster02")
             }
         },
         "submitted_jobs_receipt": sub_receipt,
@@ -280,6 +271,22 @@ def main():
     j2_c2_id = sub_map.get("F1859_J2_C2", "1424425.mmaster02")
     j2_c3_id = sub_map.get("F1859_J2_C3", "1424426.mmaster02")
     j2_c5_id = sub_map.get("F1859_J2_C5", "1424427.mmaster02")
+
+    # Format solver status for table
+    def fmt_status(job_m):
+        if job_m.get("status") == "COMPLETED":
+            return f"Completed (Exit 0): F_max={job_m.get('peak_load_kn')} kN, u_peak={job_m.get('disp_at_peak_mm')} mm"
+        else:
+            return "QUEUED / RUNNING"
+
+    m_ref_c1 = summary["benchmarks"]["case_1"]["reference_solve"]
+    m_j2_c1 = summary["benchmarks"]["case_1"]["adaptive_job2"]
+    m_ref_c2 = summary["benchmarks"]["case_2"]["reference_solve"]
+    m_j2_c2 = summary["benchmarks"]["case_2"]["adaptive_job2"]
+    m_ref_c3 = summary["benchmarks"]["case_3"]["reference_solve"]
+    m_j2_c3 = summary["benchmarks"]["case_3"]["adaptive_job2"]
+    m_ref_c5 = summary["benchmarks"]["case_5"]["reference_solve"]
+    m_j2_c5 = summary["benchmarks"]["case_5"]["adaptive_job2"]
 
     report_content = f"""# F1859: Four-Benchmark Reference Comparison Suite for Supervisor Meeting
 
@@ -305,7 +312,7 @@ Key structural findings established in this investigation:
    - **Case 5 Ref**: 15,708 elements (Historical F1779 reference study target: 15,330, diff +378 elements / +2.47%), 97.56% quads. *Provenance note*: F1779 target; the paper specifies no nominal proposed count for Section 4.6.
 2. **Step 0 Prior Evidence Check (F1828)**: A comprehensive audit of repository history and cluster scratch (`/scratch9/pr21vyci/runs/mode1_pk_f1824_job2_batch/`) established that Task F1828 was never executed beyond preflight datachecks for Case 1. No completed Job-2 ODBs or field snapshots existed. Consequently, all 4 adaptive benchmarks required authentic fresh Job-2 solver submissions.
 3. **Parallel Multicore HPC Submission**: All 8 production decks (4 Reference + 4 Adaptive Job-2) were verified for 100% card line wrapping compliance (0 lines exceeding 16 entries), equipped with the frozen isotropic UEL (`CE8D5EDC...`) and native stress interface (`E5C98B6F...`), and submitted in parallel via queue `entry_imfdfkmq` requesting 8 CPUs SMP and 48-hour walltime. Following deterministic preflight wrapper repair of `EXPECTED_INP_SHA` (normalizing to LF deck hashes), all 8 jobs were queued on the cluster (`{ref_c1_id}`–`{j2_c5_id}`).
-4. **Authentic Reporting Discipline**: As the 8 newly submitted solver runs are actively queued/running on the cluster (`{ref_c1_id}`–`{j2_c5_id}`), all solver output metrics (peak load, displacement at peak, walltime) are plainly recorded as `QUEUED / RUNNING / MISSING`, strictly adhering to the user directive: *"Missing Job-2 or reference results (if still running) must be stated plainly as MISSING / RUNNING, never estimated or presented as complete."*
+4. **Authentic Reporting Discipline**: As newly submitted solver runs process on the cluster (`{ref_c1_id}`–`{j2_c5_id}`), all completed solver metrics are directly reported from ODB/CSV extraction, while in-progress runs are plainly recorded as `QUEUED / RUNNING / MISSING`, strictly adhering to the user directive: *"Missing Job-2 or reference results (if still running) must be stated plainly as MISSING / RUNNING, never estimated or presented as complete."*
 
 ---
 
@@ -314,23 +321,23 @@ Key structural findings established in this investigation:
 The table below synthesizes the computational cost, element distribution, and discretization quality comparing the **Adaptive Framework** (Coarse Job-1 + F1852 Remesh + Job-2) against the **Highly Refined Reference Discretization**:
 
 | Benchmark Case | Model Component | Elements | Quad % | Min det(J) | Max AR | Sizing Driver / Mechanism | Remesh Cost (s) | PBS Job ID | Solver Status |
-| :--- | :--- | :---: | :---: | :---: | :---: | :--- | :---: | :---: | :---: |
+| :--- | :--- | :---: | :---: | :---: | :---: | :--- | :---: | :---: | :--- |
 | **Case 1**: Edge-Cracked Plate | Coarse Job-1 | 4,384 | 97.15% | 1.15e-06 | 2.26 | Uniform pre-analysis (4,384 total; 2,906 damage pop.) | 38.5s | Authentic | Completed (Exit 0) |
 | ($a=0.5$ mm, $l_0=0.0075$ mm) | **Adaptive Remesh (F1852)** | **20,193** | **97.30%** | **1.03e-06** | **2.47** | **Damage Envelope ($d_{{core}}=0.5$)** | **4.55s** | -- | Directly Verified |
-| | **Refined Reference** | **13,960** | **97.50%** | **1.12e-06** | **2.35** | Literature target (13,941 el) | -- | `{ref_c1_id}` | `QUEUED / RUNNING` |
-| | **Adaptive Job-2** | 20,193 | 97.30% | 1.03e-06 | 2.47 | Coupled Phase-Field Solve | -- | `{j2_c1_id}` | `QUEUED / RUNNING` |
+| | **Refined Reference** | **13,960** | **97.50%** | **1.12e-06** | **2.35** | Literature target (13,941 el) | -- | `{ref_c1_id}` | {fmt_status(m_ref_c1)} |
+| | **Adaptive Job-2** | 20,193 | 97.30% | 1.03e-06 | 2.47 | Coupled Phase-Field Solve | -- | `{j2_c1_id}` | {fmt_status(m_j2_c1)} |
 | **Case 2**: Off-Axis Hole Plate | Coarse Job-1 | 4,140 | 97.20% | 2.10e-06 | 2.41 | Uniform pre-analysis (4,140 total; 2,906 damage pop.) | 42.1s | Authentic | Completed (Exit 0) |
 | ($a=0.5$ mm, $r=0.1$ mm) | **Adaptive Remesh (F1852)** | **17,280** | **97.25%** | **4.94e-07** | **2.65** | **Damage Envelope ($d_{{core}}=0.5$)** | **4.09s** | -- | Directly Verified |
-| | **Refined Reference** | **23,965** | **97.23%** | **8.54e-07** | **2.48** | Sec 4.2 Mode-II target (23,618 el) | -- | `{ref_c2_id}` | `QUEUED / RUNNING` |
-| | **Adaptive Job-2** | 17,280 | 97.25% | 4.94e-07 | 2.65 | Coupled Phase-Field Solve | -- | `{j2_c2_id}` | `QUEUED / RUNNING` |
+| | **Refined Reference** | **23,965** | **97.23%** | **8.54e-07** | **2.48** | Sec 4.2 Mode-II target (23,618 el) | -- | `{ref_c2_id}` | {fmt_status(m_ref_c2)} |
+| | **Adaptive Job-2** | 17,280 | 97.25% | 4.94e-07 | 2.65 | Coupled Phase-Field Solve | -- | `{j2_c2_id}` | {fmt_status(m_j2_c2)} |
 | **Case 3**: Notched Plate w/ Pins | Coarse Job-1 | 6,835 | 96.85% | 0.0021 | 2.85 | Uniform pre-analysis (6,835 total; 3,923 damage pop.) | 58.4s | Authentic | Completed (Exit 0) |
 | ($a=10$ mm, $l_0=0.285$ mm) | **Adaptive Remesh (F1852)** | **45,009** | **97.29%** | **0.0011** | **2.92** | **Damage Envelope ($d_{{core}}=0.5$)** | **10.49s** | -- | Directly Verified |
-| | **Refined Reference** | **12,110** | **96.73%** | **0.0015** | **2.78** | Literature target (12,168 el) | -- | `{ref_c3_id}` | `QUEUED / RUNNING` |
-| | **Adaptive Job-2** | 45,009 | 97.29% | 0.0011 | 2.92 | Coupled Phase-Field Solve | -- | `{j2_c3_id}` | `QUEUED / RUNNING` |
+| | **Refined Reference** | **12,110** | **96.73%** | **0.0015** | **2.78** | Literature target (12,168 el) | -- | `{ref_c3_id}` | {fmt_status(m_ref_c3)} |
+| | **Adaptive Job-2** | 45,009 | 97.29% | 0.0011 | 2.92 | Coupled Phase-Field Solve | -- | `{j2_c3_id}` | {fmt_status(m_j2_c3)} |
 | **Case 5**: Seven-Hole Plate | Coarse Job-1 | 2,566 | 96.06% | 1.84e-06 | 2.32 | Uniform pre-analysis (2,566 elements) | 18.4s | Authentic | Completed (Exit 0) |
 | (7 voids, $l_0=0.008$ mm) | **Adaptive Remesh (F1852)** | **15,411** | **97.74%** | **3.63e-07** | **2.41** | **Native Abaqus Stress Error** | **4.42s** | -- | Directly Verified |
-| | **Refined Reference** | **15,708** | **97.56%** | **4.12e-07** | **2.38** | Historical F1779 target (15,330 el) | -- | `{ref_c5_id}` | `QUEUED / RUNNING` |
-| | **Adaptive Job-2** | 15,411 | 97.74% | 3.63e-07 | 2.41 | Coupled Phase-Field Solve | -- | `{j2_c5_id}` | `QUEUED / RUNNING` |
+| | **Refined Reference** | **15,708** | **97.56%** | **4.12e-07** | **2.38** | Historical F1779 target (15,330 el) | -- | `{ref_c5_id}` | {fmt_status(m_ref_c5)} |
+| | **Adaptive Job-2** | 15,411 | 97.74% | 3.63e-07 | 2.41 | Coupled Phase-Field Solve | -- | `{j2_c5_id}` | {fmt_status(m_j2_c5)} |
 
 ---
 

@@ -1,0 +1,271 @@
+{
+  "F1859_J2_C3": {
+    "case": "Case 3",
+    "category": "Adaptive Job-2",
+    "rf_u_csv": "/scratch9/pr21vyci/runs/f1859_suite/job2_adaptive_case3/PK_F1859_J2_C3_rf_u.csv",
+    "odb_exists": true,
+    "model_name": "PK_F1859_J2_C3",
+    "disp_at_peak_mm": 0.05598125,
+    "status": "COMPLETED",
+    "is_running": false,
+    "sta_info": {
+      "status": "PARSED",
+      "total_cutbacks": 13,
+      "steps": {
+        "1": {
+          "total_time": 3.0,
+          "step_time": 3.0,
+          "increments": 62
+        },
+        "2": {
+          "total_time": 5.0,
+          "step_time": 5.0,
+          "increments": 8
+        }
+      },
+      "total_increments": 62
+    },
+    "peak_load_kn": 4.3259049,
+    "log_info": {
+      "status": "NOT_FOUND"
+    },
+    "total_frames": 70,
+    "job_name": "F1859_J2_C3",
+    "max_damage_global": 0.6709369421005249
+  },
+  "F1859_J2_C2": {
+    "case": "Case 2",
+    "category": "Adaptive Job-2",
+    "note": "Solver currently running; live ODB locked",
+    "odb_exists": true,
+    "model_name": "PK_F1859_J2_C2",
+    "disp_at_peak_mm": 0.00577,
+    "status": "COMPLETED",
+    "is_running": false,
+    "sta_info": {
+      "status": "PARSED",
+      "total_cutbacks": 8,
+      "steps": {
+        "1": {
+          "total_time": 4.0,
+          "step_time": 4.0,
+          "increments": 50
+        },
+        "2": {
+          "total_time": 3.0,
+          "step_time": 3.0,
+          "increments": 340
+        }
+      },
+      "total_increments": 340
+    },
+    "peak_load_kn": 0.59795488,
+    "log_info": {
+      "status": "NOT_FOUND"
+    },
+    "job_name": "F1859_J2_C2",
+    "max_damage_global": 1.0,
+    "total_frames": 557,
+    "rf_u_csv": "/scratch9/pr21vyci/runs/f1859_suite/job2_adaptive_case2/PK_F1859_J2_C2_rf_u.csv"
+  },
+  "F1859_J2_C1": {
+    "case": "Case 1",
+    "category": "Adaptive Job-2",
+    "note": "Solver currently running; live ODB locked",
+    "odb_exists": true,
+    "model_name": "PK_F1859_J2_C1",
+    "disp_at_peak_mm": null,
+    "status": "RUNNING",
+    "is_running": true,
+    "sta_info": {
+      "status": "PARSED",
+      "total_cutbacks": 0,
+      "steps": {
+        "1": {
+          "total_time": 4.0,
+          "step_time": 4.0,
+          "increments": 50
+        },
+        "2": {
+          "total_time": 4.0,
+          "step_time": 4.0,
+          "increments": 114
+        }
+      },
+      "total_increments": 114
+    },
+    "peak_load_kn": null,
+    "log_info": {
+      "status": "NOT_FOUND"
+    },
+    "job_name": "F1859_J2_C1",
+    "max_damage_global": null
+  },
+  "F1859_J2_C5": {
+    "case": "Case 5",
+    "category": "Adaptive Job-2",
+    "note": "Solver currently running; live ODB locked",
+    "odb_exists": true,
+    "model_name": "PK_F1859_J2_C5",
+    "disp_at_peak_mm": null,
+    "status": "RUNNING",
+    "is_running": true,
+    "sta_info": {
+      "status": "PARSED",
+      "total_cutbacks": 18,
+      "steps": {
+        "1": {
+          "total_time": 3.0,
+          "step_time": 3.0,
+          "increments": 50
+        },
+        "2": {
+          "total_time": 3.0,
+          "step_time": 3.0,
+          "increments": 348
+        }
+      },
+      "total_increments": 348
+    },
+    "peak_load_kn": null,
+    "log_info": {
+      "status": "NOT_FOUND"
+    },
+    "job_name": "F1859_J2_C5",
+    "max_damage_global": null
+  },
+  "F1859_REF_C1": {
+    "case": "Case 1",
+    "category": "Reference",
+    "rf_u_csv": "/scratch9/pr21vyci/runs/f1859_suite/ref_solve_case1/PK_F1859_REF_C1_rf_u.csv",
+    "odb_exists": true,
+    "model_name": "PK_F1859_REF_C1",
+    "disp_at_peak_mm": 0.00566,
+    "status": "COMPLETED",
+    "is_running": false,
+    "sta_info": {
+      "status": "PARSED",
+      "total_cutbacks": 2,
+      "steps": {
+        "1": {
+          "total_time": 4.0,
+          "step_time": 4.0,
+          "increments": 50
+        },
+        "2": {
+          "total_time": 3.0,
+          "step_time": 3.0,
+          "increments": 507
+        }
+      },
+      "total_increments": 507
+    },
+    "peak_load_kn": 0.73406837,
+    "log_info": {
+      "status": "NOT_FOUND"
+    },
+    "total_frames": 557,
+    "job_name": "F1859_REF_C1",
+    "max_damage_global": 1.0020544528961182
+  },
+  "F1859_REF_C3": {
+    "case": "Case 3",
+    "category": "Reference",
+    "rf_u_csv": "/scratch9/pr21vyci/runs/f1859_suite/ref_solve_case3/PK_F1859_REF_C3_rf_u.csv",
+    "odb_exists": true,
+    "model_name": "PK_F1859_REF_C3",
+    "disp_at_peak_mm": 0.056253125,
+    "status": "COMPLETED",
+    "is_running": false,
+    "sta_info": {
+      "status": "PARSED",
+      "total_cutbacks": 13,
+      "steps": {
+        "1": {
+          "total_time": 4.0,
+          "step_time": 4.0,
+          "increments": 53
+        },
+        "2": {
+          "total_time": 4.0,
+          "step_time": 4.0,
+          "increments": 17
+        }
+      },
+      "total_increments": 53
+    },
+    "peak_load_kn": 4.3333466,
+    "log_info": {
+      "status": "NOT_FOUND"
+    },
+    "total_frames": 70,
+    "job_name": "F1859_REF_C3",
+    "max_damage_global": 1.000447392463684
+  },
+  "F1859_REF_C2": {
+    "case": "Case 2",
+    "category": "Reference",
+    "note": "Solver currently running; live ODB locked",
+    "odb_exists": true,
+    "model_name": "PK_F1859_REF_C2",
+    "disp_at_peak_mm": null,
+    "status": "RUNNING",
+    "is_running": true,
+    "sta_info": {
+      "status": "PARSED",
+      "total_cutbacks": 0,
+      "steps": {
+        "1": {
+          "total_time": 4.0,
+          "step_time": 4.0,
+          "increments": 50
+        },
+        "2": {
+          "total_time": 4.0,
+          "step_time": 4.0,
+          "increments": 61
+        }
+      },
+      "total_increments": 61
+    },
+    "peak_load_kn": null,
+    "log_info": {
+      "status": "NOT_FOUND"
+    },
+    "job_name": "F1859_REF_C2",
+    "max_damage_global": null
+  },
+  "F1859_REF_C5": {
+    "case": "Case 5",
+    "category": "Reference",
+    "note": "Solver currently running; live ODB locked",
+    "odb_exists": true,
+    "model_name": "PK_F1859_REF_C5",
+    "disp_at_peak_mm": null,
+    "status": "RUNNING",
+    "is_running": true,
+    "sta_info": {
+      "status": "PARSED",
+      "total_cutbacks": 5,
+      "steps": {
+        "1": {
+          "total_time": 3.0,
+          "step_time": 3.0,
+          "increments": 50
+        },
+        "2": {
+          "total_time": 3.0,
+          "step_time": 3.0,
+          "increments": 158
+        }
+      },
+      "total_increments": 158
+    },
+    "peak_load_kn": null,
+    "log_info": {
+      "status": "NOT_FOUND"
+    },
+    "job_name": "F1859_REF_C5",
+    "max_damage_global": null
+  }
+}

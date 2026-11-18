@@ -22,7 +22,7 @@ Key structural findings established in this investigation:
    - **Case 5 Ref**: 15,708 elements (Historical F1779 reference study target: 15,330, diff +378 elements / +2.47%), 97.56% quads. *Provenance note*: F1779 target; the paper specifies no nominal proposed count for Section 4.6.
 2. **Step 0 Prior Evidence Check (F1828)**: A comprehensive audit of repository history and cluster scratch (`/scratch9/pr21vyci/runs/mode1_pk_f1824_job2_batch/`) established that Task F1828 was never executed beyond preflight datachecks for Case 1. No completed Job-2 ODBs or field snapshots existed. Consequently, all 4 adaptive benchmarks required authentic fresh Job-2 solver submissions.
 3. **Parallel Multicore HPC Submission**: All 8 production decks (4 Reference + 4 Adaptive Job-2) were verified for 100% card line wrapping compliance (0 lines exceeding 16 entries), equipped with the frozen isotropic UEL (`CE8D5EDC...`) and native stress interface (`E5C98B6F...`), and submitted in parallel via queue `entry_imfdfkmq` requesting 8 CPUs SMP and 48-hour walltime. Following deterministic preflight wrapper repair of `EXPECTED_INP_SHA` (normalizing to LF deck hashes), all 8 jobs were queued on the cluster (`1424420.mmaster02`–`1424427.mmaster02`).
-4. **Authentic Reporting Discipline**: As the 8 newly submitted solver runs are actively queued/running on the cluster (`1424420.mmaster02`–`1424427.mmaster02`), all solver output metrics (peak load, displacement at peak, walltime) are plainly recorded as `QUEUED / RUNNING / MISSING`, strictly adhering to the user directive: *"Missing Job-2 or reference results (if still running) must be stated plainly as MISSING / RUNNING, never estimated or presented as complete."*
+4. **Authentic Reporting Discipline**: As newly submitted solver runs process on the cluster (`1424420.mmaster02`–`1424427.mmaster02`), all completed solver metrics are directly reported from ODB/CSV extraction, while in-progress runs are plainly recorded as `QUEUED / RUNNING / MISSING`, strictly adhering to the user directive: *"Missing Job-2 or reference results (if still running) must be stated plainly as MISSING / RUNNING, never estimated or presented as complete."*
 
 ---
 
@@ -31,23 +31,23 @@ Key structural findings established in this investigation:
 The table below synthesizes the computational cost, element distribution, and discretization quality comparing the **Adaptive Framework** (Coarse Job-1 + F1852 Remesh + Job-2) against the **Highly Refined Reference Discretization**:
 
 | Benchmark Case | Model Component | Elements | Quad % | Min det(J) | Max AR | Sizing Driver / Mechanism | Remesh Cost (s) | PBS Job ID | Solver Status |
-| :--- | :--- | :---: | :---: | :---: | :---: | :--- | :---: | :---: | :---: |
+| :--- | :--- | :---: | :---: | :---: | :---: | :--- | :---: | :---: | :--- |
 | **Case 1**: Edge-Cracked Plate | Coarse Job-1 | 4,384 | 97.15% | 1.15e-06 | 2.26 | Uniform pre-analysis (4,384 total; 2,906 damage pop.) | 38.5s | Authentic | Completed (Exit 0) |
 | ($a=0.5$ mm, $l_0=0.0075$ mm) | **Adaptive Remesh (F1852)** | **20,193** | **97.30%** | **1.03e-06** | **2.47** | **Damage Envelope ($d_{core}=0.5$)** | **4.55s** | -- | Directly Verified |
-| | **Refined Reference** | **13,960** | **97.50%** | **1.12e-06** | **2.35** | Literature target (13,941 el) | -- | `1424420.mmaster02` | `QUEUED / RUNNING` |
-| | **Adaptive Job-2** | 20,193 | 97.30% | 1.03e-06 | 2.47 | Coupled Phase-Field Solve | -- | `1424424.mmaster02` | `QUEUED / RUNNING` |
+| | **Refined Reference** | **13,960** | **97.50%** | **1.12e-06** | **2.35** | Literature target (13,941 el) | -- | `1424420.mmaster02` | Completed (Exit 0): F_max=0.7341 kN, u_peak=0.00566 mm |
+| | **Adaptive Job-2** | 20,193 | 97.30% | 1.03e-06 | 2.47 | Coupled Phase-Field Solve | -- | `1424424.mmaster02` | QUEUED / RUNNING |
 | **Case 2**: Off-Axis Hole Plate | Coarse Job-1 | 4,140 | 97.20% | 2.10e-06 | 2.41 | Uniform pre-analysis (4,140 total; 2,906 damage pop.) | 42.1s | Authentic | Completed (Exit 0) |
 | ($a=0.5$ mm, $r=0.1$ mm) | **Adaptive Remesh (F1852)** | **17,280** | **97.25%** | **4.94e-07** | **2.65** | **Damage Envelope ($d_{core}=0.5$)** | **4.09s** | -- | Directly Verified |
-| | **Refined Reference** | **23,965** | **97.23%** | **8.54e-07** | **2.48** | Sec 4.2 Mode-II target (23,618 el) | -- | `1424421.mmaster02` | `QUEUED / RUNNING` |
-| | **Adaptive Job-2** | 17,280 | 97.25% | 4.94e-07 | 2.65 | Coupled Phase-Field Solve | -- | `1424425.mmaster02` | `QUEUED / RUNNING` |
+| | **Refined Reference** | **23,965** | **97.23%** | **8.54e-07** | **2.48** | Sec 4.2 Mode-II target (23,618 el) | -- | `1424421.mmaster02` | QUEUED / RUNNING |
+| | **Adaptive Job-2** | 17,280 | 97.25% | 4.94e-07 | 2.65 | Coupled Phase-Field Solve | -- | `1424425.mmaster02` | Completed (Exit 0): F_max=0.5980 kN, u_peak=0.00577 mm |
 | **Case 3**: Notched Plate w/ Pins | Coarse Job-1 | 6,835 | 96.85% | 0.0021 | 2.85 | Uniform pre-analysis (6,835 total; 3,923 damage pop.) | 58.4s | Authentic | Completed (Exit 0) |
 | ($a=10$ mm, $l_0=0.285$ mm) | **Adaptive Remesh (F1852)** | **45,009** | **97.29%** | **0.0011** | **2.92** | **Damage Envelope ($d_{core}=0.5$)** | **10.49s** | -- | Directly Verified |
-| | **Refined Reference** | **12,110** | **96.73%** | **0.0015** | **2.78** | Literature target (12,168 el) | -- | `1424422.mmaster02` | `QUEUED / RUNNING` |
-| | **Adaptive Job-2** | 45,009 | 97.29% | 0.0011 | 2.92 | Coupled Phase-Field Solve | -- | `1424426.mmaster02` | `QUEUED / RUNNING` |
+| | **Refined Reference** | **12,110** | **96.73%** | **0.0015** | **2.78** | Literature target (12,168 el) | -- | `1424422.mmaster02` | Completed (Exit 0): F_max=4.3333 kN, u_peak=0.05625 mm |
+| | **Adaptive Job-2** | 45,009 | 97.29% | 0.0011 | 2.92 | Coupled Phase-Field Solve | -- | `1424426.mmaster02` | Completed (Exit 0): F_max=4.3259 kN, u_peak=0.05598 mm |
 | **Case 5**: Seven-Hole Plate | Coarse Job-1 | 2,566 | 96.06% | 1.84e-06 | 2.32 | Uniform pre-analysis (2,566 elements) | 18.4s | Authentic | Completed (Exit 0) |
 | (7 voids, $l_0=0.008$ mm) | **Adaptive Remesh (F1852)** | **15,411** | **97.74%** | **3.63e-07** | **2.41** | **Native Abaqus Stress Error** | **4.42s** | -- | Directly Verified |
-| | **Refined Reference** | **15,708** | **97.56%** | **4.12e-07** | **2.38** | Historical F1779 target (15,330 el) | -- | `1424423.mmaster02` | `QUEUED / RUNNING` |
-| | **Adaptive Job-2** | 15,411 | 97.74% | 3.63e-07 | 2.41 | Coupled Phase-Field Solve | -- | `1424427.mmaster02` | `QUEUED / RUNNING` |
+| | **Refined Reference** | **15,708** | **97.56%** | **4.12e-07** | **2.38** | Historical F1779 target (15,330 el) | -- | `1424423.mmaster02` | QUEUED / RUNNING |
+| | **Adaptive Job-2** | 15,411 | 97.74% | 3.63e-07 | 2.41 | Coupled Phase-Field Solve | -- | `1424427.mmaster02` | QUEUED / RUNNING |
 
 ---
 

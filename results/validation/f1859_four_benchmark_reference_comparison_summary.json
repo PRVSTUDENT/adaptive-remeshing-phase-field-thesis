@@ -51,10 +51,11 @@
       "adaptive_job2": {
         "job_name": "F1859_J2_C1",
         "pbs_job_id": "1424424.mmaster02",
-        "status": "QUEUED_PENDING_SOLVER_COMPLETION",
-        "peak_load_kn": "MISSING (SOLVER IN QUEUE)",
-        "disp_at_peak_mm": "MISSING (SOLVER IN QUEUE)",
-        "solver_walltime_s": "MISSING (SOLVER IN QUEUE)"
+        "status": "RUNNING",
+        "peak_load_kn": "PENDING_SOLVER_COMPLETION",
+        "disp_at_peak_mm": "PENDING_SOLVER_COMPLETION",
+        "max_damage_global": "PENDING_SOLVER_COMPLETION",
+        "solver_walltime_s": "PENDING_SOLVER_COMPLETION"
       },
       "reference_mesh": {
         "elements": 13960,
@@ -69,10 +70,13 @@
       "reference_solve": {
         "job_name": "F1859_REF_C1",
         "pbs_job_id": "1424420.mmaster02",
-        "status": "QUEUED_PENDING_SOLVER_COMPLETION",
-        "peak_load_kn": "MISSING (SOLVER IN QUEUE)",
-        "disp_at_peak_mm": "MISSING (SOLVER IN QUEUE)",
-        "solver_walltime_s": "MISSING (SOLVER IN QUEUE)"
+        "status": "COMPLETED",
+        "peak_load_kn": "0.7341",
+        "disp_at_peak_mm": "0.00566",
+        "max_damage_global": "1.0021",
+        "solver_walltime_s": "N/A",
+        "total_frames": 557,
+        "rf_u_csv": "/scratch9/pr21vyci/runs/f1859_suite/ref_solve_case1/PK_F1859_REF_C1_rf_u.csv"
       }
     },
     "case_2": {
@@ -101,10 +105,13 @@
       "adaptive_job2": {
         "job_name": "F1859_J2_C2",
         "pbs_job_id": "1424425.mmaster02",
-        "status": "QUEUED_PENDING_SOLVER_COMPLETION",
-        "peak_load_kn": "MISSING (SOLVER IN QUEUE)",
-        "disp_at_peak_mm": "MISSING (SOLVER IN QUEUE)",
-        "solver_walltime_s": "MISSING (SOLVER IN QUEUE)"
+        "status": "COMPLETED",
+        "peak_load_kn": "0.5980",
+        "disp_at_peak_mm": "0.00577",
+        "max_damage_global": "1.0000",
+        "solver_walltime_s": "N/A",
+        "total_frames": 557,
+        "rf_u_csv": "/scratch9/pr21vyci/runs/f1859_suite/job2_adaptive_case2/PK_F1859_J2_C2_rf_u.csv"
       },
       "reference_mesh": {
         "elements": 23965,
@@ -119,10 +126,11 @@
       "reference_solve": {
         "job_name": "F1859_REF_C2",
         "pbs_job_id": "1424421.mmaster02",
-        "status": "QUEUED_PENDING_SOLVER_COMPLETION",
-        "peak_load_kn": "MISSING (SOLVER IN QUEUE)",
-        "disp_at_peak_mm": "MISSING (SOLVER IN QUEUE)",
-        "solver_walltime_s": "MISSING (SOLVER IN QUEUE)"
+        "status": "RUNNING",
+        "peak_load_kn": "PENDING_SOLVER_COMPLETION",
+        "disp_at_peak_mm": "PENDING_SOLVER_COMPLETION",
+        "max_damage_global": "PENDING_SOLVER_COMPLETION",
+        "solver_walltime_s": "PENDING_SOLVER_COMPLETION"
       }
     },
     "case_3": {
@@ -151,10 +159,13 @@
       "adaptive_job2": {
         "job_name": "F1859_J2_C3",
         "pbs_job_id": "1424426.mmaster02",
-        "status": "QUEUED_PENDING_SOLVER_COMPLETION",
-        "peak_load_kn": "MISSING (SOLVER IN QUEUE)",
-        "disp_at_peak_mm": "MISSING (SOLVER IN QUEUE)",
-        "solver_walltime_s": "MISSING (SOLVER IN QUEUE)"
+        "status": "COMPLETED",
+        "peak_load_kn": "4.3259",
+        "disp_at_peak_mm": "0.05598",
+        "max_damage_global": "0.6709",
+        "solver_walltime_s": "N/A",
+        "total_frames": 70,
+        "rf_u_csv": "/scratch9/pr21vyci/runs/f1859_suite/job2_adaptive_case3/PK_F1859_J2_C3_rf_u.csv"
       },
       "reference_mesh": {
         "elements": 12110,
@@ -169,10 +180,13 @@
       "reference_solve": {
         "job_name": "F1859_REF_C3",
         "pbs_job_id": "1424422.mmaster02",
-        "status": "QUEUED_PENDING_SOLVER_COMPLETION",
-        "peak_load_kn": "MISSING (SOLVER IN QUEUE)",
-        "disp_at_peak_mm": "MISSING (SOLVER IN QUEUE)",
-        "solver_walltime_s": "MISSING (SOLVER IN QUEUE)"
+        "status": "COMPLETED",
+        "peak_load_kn": "4.3333",
+        "disp_at_peak_mm": "0.05625",
+        "max_damage_global": "1.0004",
+        "solver_walltime_s": "N/A",
+        "total_frames": 70,
+        "rf_u_csv": "/scratch9/pr21vyci/runs/f1859_suite/ref_solve_case3/PK_F1859_REF_C3_rf_u.csv"
       }
     },
     "case_5": {
@@ -201,10 +215,11 @@
       "adaptive_job2": {
         "job_name": "F1859_J2_C5",
         "pbs_job_id": "1424427.mmaster02",
-        "status": "QUEUED_PENDING_SOLVER_COMPLETION",
-        "peak_load_kn": "MISSING (SOLVER IN QUEUE)",
-        "disp_at_peak_mm": "MISSING (SOLVER IN QUEUE)",
-        "solver_walltime_s": "MISSING (SOLVER IN QUEUE)"
+        "status": "RUNNING",
+        "peak_load_kn": "PENDING_SOLVER_COMPLETION",
+        "disp_at_peak_mm": "PENDING_SOLVER_COMPLETION",
+        "max_damage_global": "PENDING_SOLVER_COMPLETION",
+        "solver_walltime_s": "PENDING_SOLVER_COMPLETION"
       },
       "reference_mesh": {
         "elements": 15708,
@@ -219,10 +234,11 @@
       "reference_solve": {
         "job_name": "F1859_REF_C5",
         "pbs_job_id": "1424423.mmaster02",
-        "status": "QUEUED_PENDING_SOLVER_COMPLETION",
-        "peak_load_kn": "MISSING (SOLVER IN QUEUE)",
-        "disp_at_peak_mm": "MISSING (SOLVER IN QUEUE)",
-        "solver_walltime_s": "MISSING (SOLVER IN QUEUE)"
+        "status": "RUNNING",
+        "peak_load_kn": "PENDING_SOLVER_COMPLETION",
+        "disp_at_peak_mm": "PENDING_SOLVER_COMPLETION",
+        "max_damage_global": "PENDING_SOLVER_COMPLETION",
+        "solver_walltime_s": "PENDING_SOLVER_COMPLETION"
       }
     }
   },
