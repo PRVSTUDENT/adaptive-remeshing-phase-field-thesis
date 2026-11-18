@@ -14,7 +14,7 @@ REPO_ROOT = r"D:\Master thesis\Adaptive remeshing"
 SUITE_DIR = os.path.join(REPO_ROOT, "models", "pandey_kumar_mode1", "286_f1859_four_benchmark_reference_comparison")
 
 COMMIT_SHA = "bc76a877ed08f8f7ae3e5788f7f4c856e13ff172"
-HEAD_SHA = "3fc51c7ba93cf661c308f6ee8795d8f1e19c58bd"
+HEAD_SHA = "c87f2299f121a8d5464f9b8bdfb13f18e95ae814"
 REPO_URL_BASE = f"https://github.com/PRVSTUDENT/adaptive-remeshing-phase-field-thesis/blob/{COMMIT_SHA}/"
 
 def main():
