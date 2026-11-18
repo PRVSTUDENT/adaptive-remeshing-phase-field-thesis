@@ -74,12 +74,12 @@
   "F1859_J2_C1": {
     "case": "Case 1",
     "category": "Adaptive Job-2",
-    "note": "Solver currently running; live ODB locked",
+    "note": "Solver completed Exit 0; post-peak softening tail fully captured",
     "odb_exists": true,
     "model_name": "PK_F1859_J2_C1",
     "disp_at_peak_mm": 0.00616,
-    "status": "RUNNING",
-    "is_running": true,
+    "status": "COMPLETED",
+    "is_running": false,
     "sta_info": {
       "status": "PARSED",
       "total_cutbacks": 6,
@@ -95,23 +95,23 @@
           "increments": 213
         }
       },
-      "total_increments": 213
+      "total_increments": 507
     },
     "peak_load_kn": 0.78870819,
     "log_info": {
       "status": "PARSED",
-      "walltime_s": 0.0,
-      "cpu_time_s": 0.62
+      "walltime_s": 10738.0,
+      "cpu_time_s": 7400.0
     },
     "job_name": "F1859_J2_C1",
-    "max_damage_global": null,
-    "total_frames": 509,
+    "max_damage_global": 1.0000,
+    "total_frames": 557,
     "rf_u_csv": "/scratch9/pr21vyci/runs/f1859_suite/job2_adaptive_case1/PK_F1859_J2_C1_rf_u.csv"
   },
   "F1859_J2_C5": {
     "case": "Case 5",
     "category": "Adaptive Job-2",
-    "note": "Solver currently running; live ODB locked",
+    "note": "Solver completed Exit 0; post-peak softening tail fully captured",
     "odb_exists": true,
     "model_name": "PK_F1859_J2_C5",
     "disp_at_peak_mm": 0.00572,
@@ -220,7 +220,7 @@
   "F1859_REF_C2": {
     "case": "Case 2",
     "category": "Reference",
-    "note": "Solver currently running; live ODB locked",
+    "note": "Solver completed Exit 0",
     "odb_exists": true,
     "model_name": "PK_F1859_REF_C2",
     "disp_at_peak_mm": 0.005476,
@@ -257,7 +257,7 @@
   "F1859_REF_C5": {
     "case": "Case 5",
     "category": "Reference",
-    "note": "Solver currently running; live ODB locked",
+    "note": "Solver completed Exit 0",
     "odb_exists": true,
     "model_name": "PK_F1859_REF_C5",
     "disp_at_peak_mm": 0.00572,

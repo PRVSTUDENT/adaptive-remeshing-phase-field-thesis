@@ -9,7 +9,7 @@
     "classification": "COUPLED_FRACTURE_VALIDATION",
     "assigned_agent": "gemini-antigravity",
     "active_pbs_job_id": "1424420.mmaster02,1424421.mmaster02,1424422.mmaster02,1424423.mmaster02,1424424.mmaster02,1424425.mmaster02,1424426.mmaster02,1424427.mmaster02",
-    "last_successful_pbs_job_id": "1424426.mmaster02",
+    "last_successful_pbs_job_id": "1424427.mmaster02",
     "checkpoint_artifact": "docs/validation/F1859_FOUR_BENCHMARK_REFERENCE_COMPARISON_REPORT.md",
     "review_directive": "Four-benchmark comparison of highly refined reference meshes vs framework (coarse Job-1 + adaptive remesh + Job-2). User authorized 8 parallel PBS jobs, multicore, long walltime. Deliverable: side-by-side cost and accuracy comparison table for supervisor meeting.",
     "predecessor_task": {
@@ -30,7 +30,7 @@
     "max_new_pbs_submissions": 8,
     "submissions_consumed": 8,
     "cumulative_pbs_submissions": 45,
-    "notes": "F1859 four-benchmark reference comparison suite complete with side-by-side cost and accuracy comparison table: 7 of 8 models completed Exit 0 with full frame histories and solver walltimes recorded from Abaqus .msg files; Case 5 J2 captured peak F_max=0.7251 kN (<0.01% error vs Ref) and completed post-peak softening tail (>99.8% load drop); Case 2 achieved 30.1% walltime reduction (1.2h saved) with 27.9% element reduction and 4.6% load delta; Case 3 achieved 0.17% load error and 0.48% displacement error; Case 5 achieved <0.01% load error at identical displacement; all reviewer gaps resolved; 7/7 unit tests PASS.",
+    "notes": "F1859 four-benchmark reference comparison suite finalized with side-by-side cost and accuracy comparison table: all 8 models completed Exit 0 with full frame histories and solver walltimes recorded from Abaqus .msg files; Case 5 J2 captured peak F_max=0.7251 kN (<0.01% error vs Ref) and completed post-peak softening tail (>99.8% load drop, walltime 22095s); Case 1 J2 captured peak F_max=0.7887 kN (walltime 10738s); Case 2 achieved 30.1% walltime reduction (1.2h saved, 10107s vs 14455s) with 27.9% element reduction and 4.6% load delta; Case 3 achieved 0.17% load error and 0.48% displacement error; Case 5 achieved <0.01% load error at identical displacement; all reviewer gaps resolved; 7/7 unit tests PASS.",
     "historical_pbs_job_ids": [
         "1424198.mmaster02",
         "1424382.mmaster02",
