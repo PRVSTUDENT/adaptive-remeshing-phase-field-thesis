@@ -1,0 +1,103 @@
+#!/bin/bash
+# ==============================================================================
+# PBS Batch Submission Script: Task F1861 - F1861_REF_C1
+# Model: PK_F1861_REF_C1
+# Resources: 16 SMP Threads, 48gb RAM, 72:00:00 Walltime
+# ==============================================================================
+#PBS -N F1861_REF_C1
+#PBS -l select=1:ncpus=16:mpiprocs=1:ompthreads=16:mem=48gb
+#PBS -l walltime=72:00:00
+#PBS -q entry_imfdfkmq
+#PBS -j oe
+#PBS -o /scratch9/pr21vyci/runs/f1861_uniform_reference/case1/pbs_execution.log
+#PBS -m abe
+#PBS -M pr21vyci@mailserver.tu-freiberg.de
+
+set -euo pipefail
+
+RUN_DIR="/scratch9/pr21vyci/runs/f1861_uniform_reference/case1"
+JOB_NAME="F1861_REF_C1"
+MODEL_NAME="PK_F1861_REF_C1"
+USER_SUB="${RUN_DIR}/f42_native_miseseri_interface_v1.for"
+INPUT_DECK="${RUN_DIR}/${MODEL_NAME}.inp"
+
+EXPECTED_UEL_SHA="c593dcb5c8e0d617af7f3640c816aac20c66fae3225fe3911dd03fe9247a5042"
+EXPECTED_INP_SHA="d7fc7851192fea2742cff68a4c768d814c14d9f6fbb244d7471e5ed127006971"
+
+mkdir -p "${RUN_DIR}"
+cd "${RUN_DIR}"
+
+# Collision Guard
+LOCK_DIR="${RUN_DIR}/${JOB_NAME}.lock"
+if ! mkdir "${LOCK_DIR}" 2>/dev/null; then
+    echo "ERROR: Collision detected - lock directory already exists at ${LOCK_DIR}"
+    exit 1
+fi
+trap 'rmdir "${LOCK_DIR}" 2>/dev/null || true' EXIT
+
+echo "=== Staging Verification for ${JOB_NAME} ==="
+echo "Host: $(hostname)"
+echo "Date: $(date -u +'%Y-%m-%dT%H:%M:%SZ')"
+echo "Directory: ${RUN_DIR}"
+
+# Hash Verifications
+if [ ! -f "${USER_SUB}" ]; then
+    echo "ERROR: User subroutine not found at ${USER_SUB}!"
+    exit 1
+fi
+ACTUAL_UEL_SHA=$(sha256sum "${USER_SUB}" | awk '{print $1}')
+if [ "${ACTUAL_UEL_SHA,,}" != "${EXPECTED_UEL_SHA,,}" ]; then
+    echo "ERROR: User subroutine SHA-256 mismatch!"
+    echo "  Expected: ${EXPECTED_UEL_SHA}"
+    echo "  Actual:   ${ACTUAL_UEL_SHA}"
+    exit 1
+fi
+echo "User subroutine hash verified: ${ACTUAL_UEL_SHA}"
+
+if [ ! -f "${INPUT_DECK}" ]; then
+    echo "ERROR: Input deck not found at ${INPUT_DECK}!"
+    exit 1
+fi
+ACTUAL_INP_SHA=$(sha256sum "${INPUT_DECK}" | awk '{print $1}')
+if [ "${ACTUAL_INP_SHA,,}" != "${EXPECTED_INP_SHA,,}" ]; then
+    echo "ERROR: Input deck SHA-256 mismatch!"
+    echo "  Expected: ${EXPECTED_INP_SHA}"
+    echo "  Actual:   ${ACTUAL_INP_SHA}"
+    exit 1
+fi
+echo "Input deck hash verified: ${ACTUAL_INP_SHA}"
+
+# Dual-Channel Notifications
+export NOTIFICATION_CONFIG="${NOTIFICATION_CONFIG:-${HOME}/.config/adaptive-remeshing/notifications.env}"
+if [ -f "${RUN_DIR}/job_notifications.sh" ]; then
+    source "${RUN_DIR}/job_notifications.sh"
+    notification_load_config || echo "Notice: notification_load_config returned non-zero (non-fatal)"
+    notification_install_terminal_trap || echo "Notice: notification_install_terminal_trap returned non-zero (non-fatal)"
+    notify_start || echo "Notice: notify_start returned non-zero (non-fatal)"
+fi
+
+# Environment Modules
+if ! type module >/dev/null 2>&1; then source /etc/profile.d/lmod.sh; fi
+module purge
+module load gcc/11.4.0 intel/2024.2.0 abaqus/2023
+command -v ifort
+command -v abaqus
+
+echo "=== Starting Abaqus 2023 Multi-Core Solve: ${MODEL_NAME} (16 SMP Threads, 48gb RAM) ==="
+date -u +"%Y-%m-%dT%H:%M:%SZ"
+
+/cluster/application/abaqus/2023/Commands/abaqus job="${MODEL_NAME}" user="${USER_SUB}" cpus=16 mp_mode=threads memory="48gb" double=both interactive
+SOLVER_EXIT_CODE=$?
+
+echo "=== Abaqus Solve Finished with Exit Code: ${SOLVER_EXIT_CODE} ==="
+date -u +"%Y-%m-%dT%H:%M:%SZ"
+
+if [ ${SOLVER_EXIT_CODE} -ne 0 ]; then
+    echo "ERROR: Abaqus solver execution exited with code ${SOLVER_EXIT_CODE}"
+    exit ${SOLVER_EXIT_CODE}
+fi
+
+if [ -f "${RUN_DIR}/job_notifications.sh" ]; then
+    notify_completed || echo "Notice: notify_completed returned non-zero (non-fatal)"
+fi
+echo "Job ${JOB_NAME} completed successfully."
