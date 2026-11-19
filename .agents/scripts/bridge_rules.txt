@@ -6,13 +6,42 @@ RESEARCH_GOAL_ID: METHOD_C_INCREMENTAL_ADAPTIVE_REMESHING_V1
 - Primary work: Method C incremental adaptive remeshing and state transfer on the Mode-I
   demonstration benchmark (1x1 mm plate with edge notch and hole ahead of crack line).
 - One shared remeshing engine (F1852 driver: damage envelope when max damage >= 0.5,
-  else native MISESERI). No manually seeded future crack corridors.
+  else native MISESERI only if its audit gate passes). Keep damage and native
+  stress-error provenance distinct. No manually seeded future crack corridors.
 - Fixed-load state transfer re-equilibration (clearing the C5->C6 blocker) and forward crack
   propagation under advancing load.
-- Thesis writing and final presentations remain out of scope until supervisor authorization.
+- Method A F1852 on Cases 1/2/3/5 is sufficient per the user's supervisor report;
+  reuse it unchanged. Do not reopen four-case optimization, the L-panel, new
+  benchmarks, validation beyond this demo or the parked uniform 5% error target.
+- Prioritize the unresolved Package 171 C5->C6 fixed-load re-equilibration; test
+  Gauss-point history smoothing as a hypothesis, not an established cause.
+  Then demonstrate crack growth after transfer and multiple incremental remeshes.
+- Loop: solve -> extract SDV1 damage and MISESERI -> evaluate remeshing -> remesh
+  if indicated -> transfer displacement/damage/history -> re-equilibrate at the
+  same load -> advance load. Never skip transfer merely to meet a deadline.
+- Proposed geometry (requires confirmation): 1x1 mm plate, 0.5 mm notch at y=0.5,
+  hole centre (0.75,0.5) mm, r=0.1 mm. Proposed EDGE_PULL loading: u2=0.005 mm,
+  then 4-6 increments to 0.01 mm. Generated artifacts alone do not confirm a proposal.
+- Meeting outputs are authorized: mesh/damage animations, load-displacement,
+  crack-length/load, element-count/load plots and a short write-up/slides for
+  2 Dec 2026 at 13:00 Europe/Berlin. Research freeze 13 Dec 2026; thesis writing
+  follows the freeze, submission 13 Jan 2027. Dates do not waive scientific gates.
 - Inspect authentic artifacts before claims; label DIRECTLY_VERIFIED, REPORTED_ONLY,
   INFERRED or MISSING. No fabricated hashes, receipts, or links.
-- Every handoff supplies commit-pinned evidence and verifiable numerical audits.
+- Every handoff supplies commit-pinned evidence and verifiable numerical audits:
+  load/increment, donor step/frame/time cutoff and hash, transferred fields,
+  source/input/mesh hashes, force and energy continuity, no-healing checks,
+  mesh quality, element count, walltime and CPU cost. Later fields are held out.
+- The reported C4->C5 job 1419269 result (-1.33% force, +0.16% energy, no healing)
+  is a comparison requiring source verification, not a new acceptance threshold
+  or proof that C5->C6 works. Preserve distinct donor/checkpoint identities.
+- Publish state-specific mesh/damage images and numerical audits before review,
+  with repository paths, verified commit-pinned URLs and artifact/source hashes.
+  Reviewers inspect images and corroborate numerical results. Routine unchanged
+  F1852 reuse requires no new Cases 1/2/3/5 meshes. Missing evidence stays MISSING.
+- Fixed-load equilibration, solver Exit0, generated meshes and passing software
+  tests alone do not prove forward propagation or a completed Method C loop.
+  If blocked, report a partial demonstration and its exact unresolved failure.
 
 ## Required request/reply contract
 - Canonical machine scope: .agents/scripts/bridge_research_policy.json.
@@ -38,7 +67,11 @@ RESEARCH_GOAL_ID: METHOD_C_INCREMENTAL_ADAPTIVE_REMESHING_V1
 - Existing AGY -> PAD -> ChatGPT -> AGY cycle continues while master goal OPEN:
   send, await matching completed response, validate, apply next operation, repeat.
   Finished/commit/subtask closeout never means GOAL_COMPLETE. Completion requires
-  independently reviewed master criteria.
+  independently reviewed master criteria on the single demo: fixed-load transfer
+  continuity/no healing under preserved thresholds; forward crack growth after
+  transfer; multiple load increments with multiple remesh/transfer cycles; and
+  authentic mesh/damage/path, response and measured cost evidence. Four historical
+  Method A meshes do not establish Method C completion.
 - Exactly one PAD flow consumer; reuse the visible runtime. Never replay pending
   requests, responses, locks or ambiguous receipts. Real paste into live composer
   must arm Tampermonkey; file existence is not proof of send. No extra Enter.
@@ -50,4 +83,12 @@ RESEARCH_GOAL_ID: METHOD_C_INCREMENTAL_ADAPTIVE_REMESHING_V1
   jobs, blanket batch authorization or administrative human-permit/enrollment loops.
 - Live task/session/history remains in project_coordination/. Technical schema
   checks never establish numerical acceptance or bypass authenticated controller gates.
+## Rules revision and pending transactions
+- A rules update governs future publications. Preserve every already-published
+  request, embedded rules/hash, packet context, response and lock unchanged.
+  Validate its reply against its original packet context; never silently rehash,
+  rewrite, replay or invent a replacement approval. A stale-policy gate requires
+  explicit reconciliation by the transaction owner, with evidence preserved.
+- This plan does not allocate an unspecified PBS budget. Keep exact named scope,
+  resources, submission cap and consumed count visible before qualified execution.
 Canonical source: .agents/scripts/bridge_rules.txt; deployed copy must match.
