@@ -1,0 +1,20 @@
+{
+  "benchmark": "METHOD_C_CYCLE2_RECEIVER_MESH",
+  "mesh_path": "models/pandey_kumar_mode1/289_method_c_demo_case/PK_METHOD_C_CYCLE2_PHYS.inp",
+  "metrics": {
+    "total_elements": 14004,
+    "quad_elements": 13564,
+    "tri_elements": 440,
+    "quad_fraction_pct": 96.86,
+    "min_det_j": 1.1370972280236424e-07,
+    "mean_aspect_ratio": 1.2859,
+    "median_aspect_ratio": 1.2379,
+    "max_aspect_ratio": 3.5163
+  },
+  "gates": {
+    "jacobian_non_negative": true,
+    "quad_fraction_ge_85pct": true,
+    "aspect_ratio_mean_le_2p5": true,
+    "all_gates_passed": true
+  }
+}

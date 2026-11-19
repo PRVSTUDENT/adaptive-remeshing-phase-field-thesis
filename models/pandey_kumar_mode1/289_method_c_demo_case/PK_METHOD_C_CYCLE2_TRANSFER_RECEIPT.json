@@ -1,0 +1,45 @@
+{
+  "benchmark": "METHOD_C_CYCLE2_PLATE_ON_AXIS_HOLE_REEQUILIBRATION",
+  "donor_case": {
+    "source_odb": "/scratch9/pr21vyci/runs/mode1_289_method_c_demo_job3/PK_METHOD_C_DEMO_PROPAGATION_JOB3.odb",
+    "step_name": "Step-2-Propagate",
+    "frame_idx": 125,
+    "step_time": 0.7511104941368103,
+    "max_damage": 0.9998622238636017,
+    "max_history_MPa": 4629.68896484375,
+    "num_nodes": 10298,
+    "num_elements": 10299
+  },
+  "receiver_mesh": {
+    "physical_inp": "models/pandey_kumar_mode1/289_method_c_demo_case/PK_METHOD_C_CYCLE2_PHYS.inp",
+    "physical_inp_sha256": "3B011D47869A31D4CEC4C941342248C915A2C31181A8DC20C022EC4D8F7022FC",
+    "num_nodes": 14011,
+    "num_elements": 14004,
+    "num_quads": 13564,
+    "num_tris": 440,
+    "num_layered_elements": 42012,
+    "refinement_zone": "x in [0.42, 1.00] mm, y in [0.42, 0.58] mm",
+    "h_ref_mm": 0.0035,
+    "h_bg_mm": 0.02
+  },
+  "transfer_metrics": {
+    "limiter_mode": "convex_clamp",
+    "clamped_count": 14448,
+    "negative_prevented_count": 20,
+    "max_extrapolation_distance": 0.42264632167749383,
+    "receiver_max_damage": 0.9997752089389482,
+    "receiver_mean_damage": 0.1093835267233501,
+    "receiver_max_history_MPa": 4629.68896484375,
+    "receiver_min_history_MPa": 1.1960669121791057e-09,
+    "damage_preserved_no_healing": true,
+    "thermodynamic_nonnegativity_verified": true,
+    "history_extreme_preserved": true
+  },
+  "assembled_deck": {
+    "deck_path": "models/pandey_kumar_mode1/289_method_c_demo_case/PK_METHOD_C_CYCLE2_REFINED_JOB4.inp",
+    "deck_sha256": "E2F64262D3379297A41A448832F63169AA680E1C0B1E12A08FC8CF9912DAD6FE",
+    "step1_target_displacement_u2_mm": 0.008756,
+    "step2_propagation_displacement_u2_mm": 0.012,
+    "execution_status": "STAGED_READY_FOR_SUPERVISORY_REVIEW"
+  }
+}
