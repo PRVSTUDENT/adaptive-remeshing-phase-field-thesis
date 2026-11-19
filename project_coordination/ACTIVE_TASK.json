@@ -1,17 +1,17 @@
 ﻿{
   "task_id": "METHOD-C-PHASE1-DEMO-AND-LOOP-SKELETON",
-  "title": "Method C Phase 2: Awaiting Panasas Scratch Outage Resolution & Job-1 Execution",
-  "task_status": "IN_PROGRESS",
+  "title": "Method C Phase 2: Job-1 Baseline Solve Verified & Step-1 Observables Extracted",
+  "task_status": "COMPLETED_READY_FOR_INDEPENDENT_REVIEW",
   "master_goal_status": "OPEN",
-  "status": "WAIT_HPC_OUTAGE_RESOLUTION",
-  "review_verdict": "APPROVE",
+  "status": "IN_PROGRESS",
+  "review_verdict": "PENDING_REVIEW",
   "review_correlation_id": "HND-METHOD-C-PHASE2-JOB1-002",
   "classification": "METHOD_C_INCREMENTAL_ADAPTIVE_REMESHING",
   "assigned_agent": "gemini-antigravity",
   "active_pbs_job_id": "1424517.mmaster02",
-  "last_successful_pbs_job_id": "1424424.mmaster02",
-  "checkpoint_artifact": "docs/validation/METHOD_C_BRIDGE_POLICY_RECONCILIATION_REPORT.md",
-  "review_directive": "Continue WAIT for the HPC Panasas Scratch outage to resolve. Do NOT submit any new PBS job: max_new_pbs=0 for this instruction, cumulative 58 preserved. Monitor (non-polling) for PBS scheduling to resume and for any of the 5 queued jobs (1424456, 1424465, 1424466, 1424467, 1424517) to transition from Q to R or to complete/fail. When a job state changes, re-issue a handoff with the new state, the verified exit code if applicable, and the next step. Do not proceed with Job-1 observable extraction or the re-equilibration test until Job-1 has actually run and completed. The canonical bridge policy is now version 3 (SHA C5959401...); use it for all future handoffs.",
+  "last_successful_pbs_job_id": "1424517.mmaster02",
+  "checkpoint_artifact": "docs/validation/METHOD_C_PHASE2_JOB1_BASELINE_OBSERVABLES_REPORT.md",
+  "review_directive": "Verify PBS Job 1424517 completion receipt, solver zero-error status, and Step-1 baseline observables extracted at Increment 50 (u2=0.0050 mm): RF2=0.556024 kN, peak damage d=0.169178 localized at notch tip (bulk intact mean d=0.0086), peak history H=0.249872 MPa, and MISESERI=0.0 (inactive under UMAT). Confirm readiness for subsequent mesh adaptation and state/history transfer re-equilibration under fixed load u2=0.0050 mm.",
   "predecessor_task": {
     "task_id": "METHOD-C-PHASE1-DEMO-AND-LOOP-SKELETON",
     "checkpoint_artifact": "docs/validation/METHOD_C_BRIDGE_POLICY_RECONCILIATION_REPORT.md",
@@ -21,8 +21,8 @@
   },
   "correlation_id": "HND-METHOD-C-PHASE2-JOB1-003",
   "re_review_correlation_id": null,
-  "scientific_operation": "method_c_phase2_job1_monitor",
-  "scientific_operation_id": "method_c_phase2_job1_monitor_002",
+  "scientific_operation": "method_c_phase2_job1_extract",
+  "scientific_operation_id": "method_c_phase2_job1_extract_001",
   "scientific_checkpoint_required": true,
   "frozen_uel_sha256": "CE8D5EDCD2911DCB018BB15275271F874E7EA62B8FB48CF4A8297469A83ACDD6",
   "native_interface_sha256": "E5C98B6F601B1CD586571F8E24F357D15ABBD1C5D5487B52903BA249734279B2",
@@ -30,5 +30,5 @@
   "max_new_pbs_submissions": 0,
   "submissions_consumed": 1,
   "cumulative_pbs_submissions": 58,
-  "notes": "Handoff HND-METHOD-C-PHASE2-JOB1-002 approved. Canonical bridge research policy confirmed at version 3 (SHA C5959401...). Awaiting HPC resolution of Panasas scratch outage. 0 new PBS jobs (cumulative 58 preserved). MASTER_GOAL_STATUS = OPEN."
+  "notes": "Job 1424517 completed Exit 0 with zero errors (Walltime 1,511s, CPU 909s). Step-1 observables extracted at u2=0.0050 mm: RF2=0.556024 kN, peak d=0.169178 (notch tip), mean d=0.0086 (bulk intact), peak H=0.249872 MPa, MISESERI=0.0. Cumulative PBS: 58 (max_new_pbs = 0). MASTER_GOAL_STATUS = OPEN."
 }
