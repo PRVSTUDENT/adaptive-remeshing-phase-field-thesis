@@ -1,50 +1,54 @@
-# Session Report: 19 November 2026 ~12:20 CET
+# Session Report: Method C Phase 2 Job-1 Baseline Submission
 
-**Agent**: Gemini Antigravity  
-**Task ID**: `METHOD-C-PHASE1-DEMO-AND-LOOP-SKELETON`  
-**Correlation ID**: `HND-METHOD-C-PHASE1-KICKOFF-001`  
-**Master Continuation Goal**: `METHOD_C_INCREMENTAL_ADAPTIVE_REMESHING_V1` (`MASTER_GOAL_STATUS = OPEN`)  
-**Starting Commit**: `42cf049d2c224b1af4640a31d3a348d56590be5f`  
-
----
-
-## 1. Executive Summary & Research Priority Realignment
-
-Following the supervisor meeting on 19 November 2026 (Prof. Kiefer & Dr. Roth), master research execution has officially transitioned from the Method A one-shot adaptive framework to **Method C — incremental adaptive remeshing across load steps with state and history transfer**:
-
-- **Method A Framework (F1852) Status:** Fully accepted by supervisors as meeting sufficient quality across Cases 1, 2, 3, and 5 under full load (*"all the other things are already done at a very good and sufficient quality; do not revisit unless requested"*).
-- **Active Mandate for 2 Dec 2026 Meeting:** End-to-end demonstration of Method C on a single representative Mode-I demonstration benchmark (plate with an initial crack and an on-axis hole). Show progressive mesh adaptation following the evolving damage field toward the void across advancing load steps.
-- **Immediate Milestone & Deadlines:**
-  - Supervisor meeting: Wednesday, 2 December 2026, 13:00.
-  - Research freeze: 13 December 2026.
-  - Thesis submission: 13 January 2027.
+- **Session ID:** `2026-11-19_gemini_method_c_phase1_bootstrap`
+- **Agent:** `gemini-antigravity`
+- **Date:** 19 November 2026
+- **Task ID:** `METHOD-C-PHASE1-DEMO-AND-LOOP-SKELETON` / `METHOD-C-PHASE2-JOB1-BASELINE-SOLVE`
+- **Starting Commit:** `42cf049d2c224b1af4640a31d3a348d56590be5f`
+- **Current Commit:** `b0dabfd6ebfe4f05b9da3721d603a152fb6a0d4c`
+- **Master Continuation Goal:** `METHOD_C_INCREMENTAL_ADAPTIVE_REMESHING_V1` (Status: `OPEN`)
 
 ---
 
-## 2. Technical Scope of Task Phase 1
+## 1. Key Accomplishments
 
-1. **Demo Geometry Proposal:**
-   - 2D Planar plate: $[0, 1] \times [0, 1]\,\text{mm}$.
-   - Seam notch: $y = 0.5\,\text{mm}$ from $x = 0$ to $x = 0.5\,\text{mm}$ ($a_0 = 0.5\,\text{mm}$).
-   - Void ahead of crack tip: circular hole centered at $(0.75, 0.50)\,\text{mm}$ with radius $r = 0.10\,\text{mm}$.
-   - Inter-feature ligament width: $0.15\,\text{mm}$ ($x \in [0.50, 0.65]$). Rear ligament: $0.15\,\text{mm}$ ($x \in [0.85, 1.00]$).
-2. **Incremental Load Schedule:**
-   - Step 1: linear elastic ramp to $u_2 = 0.005\,\text{mm}$.
-   - Step 2: divided into 4–6 discrete load increments up to $u_2 = 0.010\,\text{mm}$.
-3. **Bridge Infrastructure Preparation:**
-   - Re-aligned canonical bridge policy (`bridge_research_policy.json`) and rules (`bridge_rules.txt`) to `METHOD_C_INCREMENTAL_ADAPTIVE_REMESHING_V1`.
-   - Updated `Bridge-ResearchContract.ps1` to validate Method C contracts and flexible indicator types (`F1852_MEASURED_DRIVER`, `METHOD_C_DRIVER`).
-   - Reconciled and archived leftover response from 18 Nov F1859 review.
-   - Authored kickoff report `docs/validation/METHOD_C_PHASE1_KICKOFF_REPORT.md` and dispatch script `.agents/scripts/dispatch_method_c_phase1_kickoff_001.ps1`. Dry-run passed 100%.
+1. **Job-1 Baseline Preflight & Datacheck Execution**:
+   - Staged all 5 required candidate files to `/scratch9/pr21vyci/runs/mode1_289_method_c_demo_case/`:
+     - `PK_METHOD_C_DEMO_COARSE_JOB1.inp` (SHA: `69abff7acd1efd767046e686847f30d06f808bbec738c2fbb9bdff478a66ec9c`)
+     - `PK_METHOD_C_DEMO_COARSE_PHYS.inp` (SHA: `bbf9b529f5e04eee6eb379600d6fc7c6bfa5551c8595341430326e660a8a4ce7`)
+     - `f42_mixed_uel.for` (Frozen SHA: `ce8d5edcd2911dcb018bb15275271f874e7ea62b8fb48cf4a8297469a83acdd6`)
+     - `submit_demo_coarse_job1.pbs` (SHA: `dbb2ad8dd400c7dee5b2556941e0c5f209892755b0e5178dbb58fe346c002785`)
+     - `job_notifications.sh` (SHA: `96756a681d2d36c11b36b89288f631f8ecc9537543c2c745a4bae1b425984b47`)
+   - Executed Abaqus/Standard 2023 Datacheck on cluster login node with Intel Fortran `ifort` 2021.13.0.
+   - Result: `ANALYSIS DATACHECK COMPLETE`, 0 errors, 0 syntax violations (`PK_METHOD_C_DEMO_COARSE_JOB1_DC.dat`).
+
+2. **Guarded Pipeline Submission via `Invoke-Mode1Execution.ps1`**:
+   - Qualified execution route with `Submit-Mode1Batch.ps1` and `mode1_execution_gate.py` supporting Method C demo case.
+   - Passed technical preflight check: `active_job_count = 0`, datachecks `PASS_BOTH`, login notifications verified.
+   - Submitted to queue `entry_imfdfkmq` (routed to `normal_imfdfkmq`).
+   - Received official PBS Job ID: **`1424517.mmaster02`** (Job Name `M1_MC_DEMO_JOB1`).
+   - Dual-channel email and Telegram submission notifications dispatched and delivered.
+
+3. **Accounting & Ledgers Synchronized**:
+   - `HPC_JOB_LEDGER.csv`: Appended `1424517.mmaster02` line.
+   - `MODE1_BATCH_SUBMISSIONS.json`: Stored receipt under manifest SHA-256 digest.
+   - `ACTIVE_TASK.json`: Updated `active_pbs_job_id = "1424517.mmaster02"`, `submissions_consumed = 1`, `cumulative_pbs_submissions = 58`.
+   - `TASK_LEDGER.csv`: Appended row `METHOD-C-PHASE2-JOB1-BASELINE-SOLVE`.
+   - `CURRENT_STATE.md`: Prepended status entry for Job-1 submission.
+
+4. **Extraction Tool Built**:
+   - Authored `models/pandey_kumar_mode1/289_method_c_demo_case/extract_job1_observables.py` to extract Step-1 observables (`U`, `RF2`, `SDV1`, `SDV2`, `MISESERI`, `MISESAVG`) as soon as the solve finishes.
+   - Staged to cluster run directory.
+
+5. **Unit Tests Passing**:
+   - `tests/unit/test_method_c_phase1_kickoff.py`: 10/10 PASS (100%).
+
+6. **Remote Git Synchronization**:
+   - Committed and pushed forward-only to `origin/main` at `b0dabfd6ebfe4f05b9da3721d603a152fb6a0d4c`.
 
 ---
 
-## 3. Governance and Budget Compliance
+## 2. Active Cluster State
 
-- **Submissions Consumed**: Exactly 0 new PBS submissions consumed (kickoff is offline planning/coordination).
-- **Cumulative Submissions**: Preserved at **57**.
-- **Bitwise Assets**:
-  - Frozen UEL `f42_mixed_uel.for`: `CE8D5EDCD2911DCB018BB15275271F874E7EA62B8FB48CF4A8297469A83ACDD6`
-  - Native Stress Output Interface `f42_native_miseseri_interface_v1.for`: `E5C98B6F601B1CD586571F8E24F357D15ABBD1C5D5487B52903BA249734279B2`
-  - Production Framework: `scripts/remeshing/generalized_2d_adaptive_framework_driver_selection_f1852.py` (`42217DAB0B8C3B7EFF9C8BF46FD75B7E99F06E436D9841846DF36C46E618A30A`)
-- **Master Continuation Goal**: Strictly **`OPEN`** (`<!-- GOAL_COMPLETE -->` not emitted).
+- Job **`1424517.mmaster02`** (`M1_MC_DEMO_JOB1`) is currently queued in `normal_imfdfkmq` requesting 16 CPUs SMP, 48 GB RAM, 72:00:00 walltime.
+- Cumulative PBS jobs: **58** (57 -> 58). Exactly 1 submission consumed out of 1 authorized.
