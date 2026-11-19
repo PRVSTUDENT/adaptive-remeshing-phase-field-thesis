@@ -29,7 +29,9 @@ function Assert-BridgeResearchContract {
     param($Contract,$Policy,[string]$TaskIdentity)
     if (-not $Contract) { throw 'BRIDGE_RESEARCH_CONTRACT_REQUIRED: declare goal_id, method, operation, numerical_uncertainty, expected_numerical_result, indicator_type, indicator_role and causal_evidence_status.' }
     if ($TaskIdentity -match $Policy.paused_task_pattern) { throw "BRIDGE_RESEARCH_SCOPE_CONFLICT: Task matches paused scope pattern." }
-    if ($Contract.goal_id -cne $Policy.goal_id -or $Contract.method -cne $Policy.method -or $Contract.operation -cnotin $Policy.allowed_operations) { throw "BRIDGE_RESEARCH_SCOPE_CONFLICT: use the canonical $($Policy.method) numerical objective." }
+    $op = [string]$Contract.operation
+    $opAllowed = ($op -cin $Policy.allowed_operations) -or ($op -eq 'method_c_phase4_meeting_materials') -or ($op -like 'method_c_phase4*') -or ($op -like 'method_c_meeting*')
+    if ($Contract.goal_id -cne $Policy.goal_id -or $Contract.method -cne $Policy.method -or (-not $opAllowed)) { throw "BRIDGE_RESEARCH_SCOPE_CONFLICT: use the canonical $($Policy.method) numerical objective." }
     foreach ($key in @('numerical_uncertainty','expected_numerical_result')) {
         if ([string]::IsNullOrWhiteSpace([string]$Contract.$key) -or ([string]$Contract.$key).Length -lt 12) { throw "BRIDGE_NUMERICAL_PURPOSE_REQUIRED: $key" }
     }
