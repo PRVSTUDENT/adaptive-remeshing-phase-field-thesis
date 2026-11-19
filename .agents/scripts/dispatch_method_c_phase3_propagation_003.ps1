@@ -67,7 +67,7 @@ INDEPENDENT_STRUCTURED_REVIEW_V1
     "expected_numerical_result": "PBS Job 1424609 solved 149 increments (24 Step 1, 125 Step 2); macroscopic crack d >= 0.95 propagated from notch tip (0.50, 0.50) across 150 um ligament, penetrated circular void perimeter at x = 0.65 mm (hole_reached = True), severed ligament into void, and extended to x_tip = 0.8957 mm; structural load reached peak F_max = 0.6487 kN at u2 = 0.006117 mm followed by post-peak softening to 0.2622 kN (-59.57% drop); physical cutback termination at u2 = 0.008756 mm (Exit 1, dt < 1e-8); 1 PBS job consumed (cumulative 60); MASTER_GOAL_STATUS = OPEN.",
     "indicator_type": "F1852_MEASURED_DRIVER",
     "indicator_role": "METHOD_C_DRIVER",
-    "causal_evidence_status": "AUTHENTIC"
+    "causal_evidence_status": "PLANNED"
   },
   "evidence_manifest": {
     "execution_report": {
