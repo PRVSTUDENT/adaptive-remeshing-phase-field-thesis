@@ -1,0 +1,31 @@
+{
+  "batch_name": "MODE1_METHOD_C_DEMO_JOB1",
+  "max_submissions": 1,
+  "hours_valid": 72,
+  "automatic_retry": false,
+  "files": {
+    "PK_METHOD_C_DEMO_COARSE_JOB1.inp": "69abff7acd1efd767046e686847f30d06f808bbec738c2fbb9bdff478a66ec9c",
+    "PK_METHOD_C_DEMO_COARSE_PHYS.inp": "bbf9b529f5e04eee6eb379600d6fc7c6bfa5551c8595341430326e660a8a4ce7",
+    "f42_mixed_uel.for": "ce8d5edcd2911dcb018bb15275271f874e7ea62b8fb48cf4a8297469a83acdd6",
+    "submit_demo_coarse_job1.pbs": "11ea4137f75e61d7d983a1497b9fe646994162f1e823e48e42043f0f49614b10",
+    "job_notifications.sh": "96756a681d2d36c11b36b89288f631f8ecc9537543c2c745a4bae1b425984b47"
+  },
+  "jobs": [
+    {
+      "id": "demo_coarse_job1",
+      "pbs": "submit_demo_coarse_job1.pbs",
+      "command": "powershell -NoProfile -ExecutionPolicy Bypass -File .\\.agents\\scripts\\Invoke-GuardedSsh.ps1 -RemoteCommand \"qsub -q normal_imfdfkmq /scratch9/pr21vyci/runs/mode1_289_method_c_demo_case/submit_demo_coarse_job1.pbs\"",
+      "command_sha256": "33b2835e8820abc767dc1cf44ca1c920fad35e962807580eaffe05fa018dcfd6",
+      "max_submissions": 1,
+      "depends_on": [],
+      "purpose": "Method C Demo Case Step-1 baseline solve on coarse mesh (8,760 layered elements, u2=0.0050 mm, *RESTART WRITE)",
+      "cpus": 16,
+      "memory_gb": 48,
+      "walltime_hours": 72,
+      "queue": "normal_imfdfkmq",
+      "execution": "16-cpu shared-memory SMP",
+      "input": "PK_METHOD_C_DEMO_COARSE_JOB1.inp",
+      "datacheck": "PK_METHOD_C_DEMO_COARSE_JOB1_DC.dat"
+    }
+  ]
+}

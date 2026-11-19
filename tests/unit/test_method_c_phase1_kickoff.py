@@ -141,6 +141,44 @@ def test_phase1_delivery_report_integrity():
     assert "712528B1ED8C5C088ACE8E44C5261AF854CA45FA3B0C1DBB38523CD916AF6D93" in c
     assert "cumulative PBS preserved at **57**" in c
 
+def test_phase2_transfer_blocker_diagnosis():
+    diag_report = os.path.join(REPO_ROOT, 'docs', 'validation', 'METHOD_C_PHASE2_TRANSFER_BLOCKER_DIAGNOSIS.md')
+    assert os.path.isfile(diag_report)
+    with open(diag_report, 'r', encoding='utf-8') as f:
+        c = f.read()
+    assert "Package 171" in c
+    assert "1420261" in c
+    assert "NONCONVERGED" in c
+    assert "isoparametric_gp_transfer.py" in c
+    assert "convex_clamp" in c
+    assert "14.0474" in c
+    assert "cumulative PBS preserved at **57**" in c
+
+def test_job1_baseline_submission_package():
+    pkg_dir = os.path.join(REPO_ROOT, 'models', 'pandey_kumar_mode1', '289_method_c_demo_case')
+    manifest_path = os.path.join(pkg_dir, 'PACKAGE_MANIFEST.json')
+    auth_path = os.path.join(pkg_dir, 'METHOD_C_DEMO_JOB1_AUTHORIZATION.json')
+    pbs_path = os.path.join(pkg_dir, 'submit_demo_coarse_job1.pbs')
+    uel_path = os.path.join(pkg_dir, 'f42_mixed_uel.for')
+
+    assert os.path.isfile(manifest_path)
+    assert os.path.isfile(auth_path)
+    assert os.path.isfile(pbs_path)
+    assert os.path.isfile(uel_path)
+
+    with open(auth_path, 'r', encoding='utf-8') as f:
+        auth = json.load(f)
+    assert auth['batch_name'] == 'MODE1_METHOD_C_DEMO_JOB1'
+    assert auth['max_submissions'] == 1
+    assert auth['jobs'][0]['cpus'] == 16
+    assert auth['jobs'][0]['memory_gb'] == 48
+    assert auth['jobs'][0]['walltime_hours'] == 72
+    assert auth['jobs'][0]['queue'] == 'normal_imfdfkmq'
+
+    # Verify UEL hash
+    assert auth['files']['f42_mixed_uel.for'] == 'ce8d5edcd2911dcb018bb15275271f874e7ea62b8fb48cf4a8297469a83acdd6'
+
+
 
 
 

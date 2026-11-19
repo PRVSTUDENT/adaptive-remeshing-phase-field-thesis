@@ -1,18 +1,15 @@
-﻿{
-  "version": 2,
+{
+  "version": 3,
   "goal_id": "METHOD_C_INCREMENTAL_ADAPTIVE_REMESHING_V1",
   "method": "METHOD_C",
   "regression_cases": [
-    "demo_plate_hole_notch",
-    1,
-    2,
-    3,
-    5
+    "demo_plate_hole_notch"
   ],
   "allowed_operations": [
     "method_c_phase1_demo_and_skeleton",
     "method_c_phase1_kickoff_correction",
     "method_c_phase2_transfer_reequilibration",
+    "method_c_phase2_transfer_blocker",
     "method_c_phase3_forward_propagation",
     "method_c_phase4_demo_outputs",
     "demo_geometry_confirmation",
@@ -23,13 +20,33 @@
     "independent_review",
     "coupled_fracture_validation",
     "state_transfer_investigation",
-    "wait"
+    "wait",
+    "method_c_incremental_loop",
+    "method_c_demo_validation",
+    "method_c_meeting_outputs"
   ],
   "native_indicator": "NATIVE_ABAQUS_STRESS_RECOVERY_ERROR",
-  "paused_task_pattern": "(?i)\\bTHESIS\\b|\\bPRESENTATION\\b",
+  "paused_task_pattern": "(?i)\\bTHESIS(?:[\\s_-]+WRITING)?\\b|\\bFINAL[\\s_-]+PRESENTATION\\b|\\bLPANEL\\b|\\bL[\\s_-]+PANEL\\b",
   "prohibited_successors": [
-    "THESIS_WRITING",
-    "PRESENTATION"
+    "THESIS_WRITING_BEFORE_RESEARCH_FREEZE",
+    "FINAL_PRESENTATION",
+    "METHOD_A_OPTIMIZATION",
+    "LPANEL",
+    "NEW_BENCHMARK",
+    "COUPLED_VALIDATION_BEYOND_DEMO",
+    "UNIFORM_5_PERCENT_ERROR_TARGET"
   ],
-  "note": "Method C authorized per 19 Nov 2026 supervisor meeting."
+  "note": "19 Nov 2026 user Method C plan supersedes Method A priority. Existing generic validation/transfer operation aliases apply only to the single demonstration and its C5->C6 blocker. Meeting slides/plots/animations are in scope; thesis writing follows 13 Dec freeze. No unspecified PBS budget. Preserve pending packet context and hashes.",
+  "historical_method_a_cases": [
+    1,
+    2,
+    3,
+    5
+  ],
+  "master_success_criteria": [
+    "Fixed-load transfer re-equilibration meeting preserved force/energy and no-healing thresholds",
+    "Forward crack propagation after transfer toward the hole",
+    "Multiple load increments and multiple remesh/transfer cycles",
+    "Authentic state-specific images, response, crack progression, mesh quality and measured computational cost independently reviewed"
+  ]
 }

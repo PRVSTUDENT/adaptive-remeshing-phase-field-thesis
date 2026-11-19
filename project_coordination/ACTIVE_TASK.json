@@ -5,24 +5,24 @@
   "master_goal_status": "OPEN",
   "status": "IN_PROGRESS",
   "review_verdict": "PENDING",
-  "review_correlation_id": "HND-METHOD-C-PHASE1-DEMO-001",
+  "review_correlation_id": "HND-METHOD-C-PHASE2-BLOCKER-001",
   "classification": "METHOD_C_INCREMENTAL_ADAPTIVE_REMESHING",
   "assigned_agent": "gemini-antigravity",
   "active_pbs_job_id": null,
   "last_successful_pbs_job_id": "1424424.mmaster02",
-  "checkpoint_artifact": "docs/validation/METHOD_C_PHASE1_DELIVERY_REPORT.md",
-  "review_directive": "Review Method C Phase 1 delivery: Demo case coarse donor mesh (2,920 elements, 96.92% quads, all 3 quality gates PASS), 3-layer UEL production deck (8,760 elements, Job-1 ready), and orchestration loop skeleton (solve, observable extraction, F1852 decision, state transfer, re-equilibration, load stepping). All executed offline with 0 new PBS jobs (cumulative 57 preserved).",
+  "checkpoint_artifact": "docs/validation/METHOD_C_PHASE2_TRANSFER_BLOCKER_DIAGNOSIS.md",
+  "review_directive": "Review Method C Phase 2 transfer blocker diagnosis (confirming the Gauss-point history smoothing hypothesis in Package 171 via c5_to_c6_adaptive_integration.py and qualifying isoparametric_gp_transfer.py with convex_clamp limiter) and Job-1 baseline submission package preparation for the demo case (PK_METHOD_C_DEMO_COARSE_JOB1.inp, frozen UEL CE8D5EDC, 16 CPUs / 48 GB / 72 h). All offline with 0 new PBS jobs (cumulative 57 preserved).",
   "predecessor_task": {
     "task_id": "METHOD-C-PHASE1-DEMO-AND-LOOP-SKELETON",
-    "checkpoint_artifact": "docs/validation/METHOD_C_PHASE1_KICKOFF_REPORT.md",
+    "checkpoint_artifact": "docs/validation/METHOD_C_PHASE1_DELIVERY_REPORT.md",
     "classification": "METHOD_C_INCREMENTAL_ADAPTIVE_REMESHING",
     "review_verdict": "APPROVE",
-    "correlation_id": "HND-METHOD-C-PHASE1-KICKOFF-002"
+    "correlation_id": "HND-METHOD-C-PHASE1-DEMO-001"
   },
-  "correlation_id": "HND-METHOD-C-PHASE1-DEMO-001",
-
+  "correlation_id": "HND-METHOD-C-PHASE2-BLOCKER-001",
   "re_review_correlation_id": null,
-  "scientific_operation": "method_c_phase1_demo_and_skeleton",
+  "scientific_operation": "method_c_phase2_transfer_blocker",
+
   "scientific_operation_id": "method_c_phase1_kickoff_001",
   "scientific_checkpoint_required": true,
   "frozen_uel_sha256": "CE8D5EDCD2911DCB018BB15275271F874E7EA62B8FB48CF4A8297469A83ACDD6",
