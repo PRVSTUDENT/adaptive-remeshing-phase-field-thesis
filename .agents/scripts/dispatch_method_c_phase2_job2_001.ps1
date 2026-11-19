@@ -64,7 +64,7 @@ INDEPENDENT_STRUCTURED_REVIEW_V1
     "expected_numerical_result": "Job-2 solve completed Exit 0 with zero cutbacks and 66 equilibrium iterations (PBS Job 1424584.mmaster02, 41s walltime / 175s CPU on 16 CPUs); RF2 continuity delta RF2 = -1.3737% (0.548386 kN vs baseline 0.556024 kN); total energy continuity delta E_total = -0.7696% (1.412443e-3 kN*mm vs baseline 1.423398e-3 kN*mm); peak damage d_max = 0.408571 >= 0.169178 strictly confirming no healing (d in [1.74e-7, 0.4086]); minimum history H_min = 9.34e-10 MPa >= 0 strictly preserving thermodynamic non-negativity across 40,221 GPs; clarified NOTE-MC-RQ-01 (coarse GP average 0.136967 vs boundary node peak 0.169178); 21/21 unit tests PASS; 1 PBS job consumed against 1 authorized (cumulative count 59, max_new_pbs = 0); MASTER_GOAL_STATUS = OPEN.",
     "indicator_type": "F1852_MEASURED_DRIVER",
     "indicator_role": "METHOD_C_DRIVER",
-    "causal_evidence_status": "AUTHENTIC"
+    "causal_evidence_status": "VERIFIED"
   },
   "evidence_manifest": {
     "reequilibration_report": {
