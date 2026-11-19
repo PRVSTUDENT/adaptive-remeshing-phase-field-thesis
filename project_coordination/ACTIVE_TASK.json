@@ -5,13 +5,13 @@
   "master_goal_status": "OPEN",
   "status": "COMPLETED_READY_FOR_INDEPENDENT_REVIEW",
   "review_verdict": "PENDING_INDEPENDENT_REVIEW",
-  "review_correlation_id": "HND-METHOD-C-PHASE3-PROPAGATION-001",
+  "review_correlation_id": "HND-METHOD-C-PHASE3-PROPAGATION-002",
   "classification": "METHOD_C_INCREMENTAL_ADAPTIVE_REMESHING",
   "assigned_agent": "gemini-antigravity",
   "active_pbs_job_id": null,
   "last_successful_pbs_job_id": "1424584.mmaster02",
   "checkpoint_artifact": "docs/validation/METHOD_C_PHASE3_FORWARD_PROPAGATION_PACKAGE_REPORT.md",
-  "review_directive": "Prepare the Step-2 forward crack propagation package on the re-equilibrated refined mesh. Starting from the Job-2 re-equilibrated state (u2 = 0.0050 mm, RF2 0.548386 kN, peak damage 0.408571), build the Step-2 continuation deck advancing the load from u2 = 0.0050 mm to u2 = 0.0100 mm in 4-6 increments, using the same frozen UEL and the same refined mesh (10,299 physical / 30,897 layered elements) unless the remeshing decision indicates otherwise. The deck must carry forward the Job-2 state as its initial condition. Document the expected crack-growth direction (toward the hole at (0.75, 0.5)) and the observables to extract (crack length, peak damage, RF2, load-displacement). Do NOT submit any new PBS job for this instruction: max_new_pbs=0, cumulative 59 preserved. Commit the Step-2 deck and package, then re-issue with the new artifact_commit for review; the Job-3 solve authorisation comes after the package is reviewed. Also clarify the ledger hash for job 1424584 (530a0abb vs the deck SHA E75B82FC) in the next handoff.",
+  "review_directive": "Close the Job-2 deck provenance gap (GAP-MC-P3-01), then re-issue the Job-3 package for review. The executed Job-2 deck (SHA 530a0abb, without TYPE=DISPLACEMENT) is recorded in the ledger but is not in the repo: the file at models/pandey_kumar_mode1/289_method_c_demo_case/PK_METHOD_C_DEMO_REFINED_STEP1_JOB2.inp is still the E75B82FC draft containing TYPE=DISPLACEMENT. Commit the actually-executed Job-2 deck (SHA 530a0abb) to the repo at that path, so that the committed file hash matches the ledger hash 530a0abb and the Job-2 result is reproducible from the repo. Do NOT submit any new PBS job for this instruction: max_new_pbs=0, cumulative 59 preserved. After committing the executed deck, re-issue the Job-3 package handoff with the corrected Job-2 deck SHA; the Job-3 solve (1 PBS job, cumulative 59 -> 60) will be authorised after the provenance is re-verified. The Job-3 deck itself (FFE25C2A, 30,897 elements, two steps, TYPE=SOLUTION, no TYPE=DISPLACEMENT) is verified and does not need to change.",
   "predecessor_task": {
     "task_id": "METHOD-C-PHASE1-DEMO-AND-LOOP-SKELETON",
     "checkpoint_artifact": "docs/validation/METHOD_C_PHASE2_JOB2_REEQUILIBRATION_REPORT.md",
@@ -19,10 +19,10 @@
     "review_verdict": "APPROVE",
     "correlation_id": "HND-METHOD-C-PHASE2-JOB2-001"
   },
-  "correlation_id": "HND-METHOD-C-PHASE3-PROPAGATION-001",
+  "correlation_id": "HND-METHOD-C-PHASE3-PROPAGATION-002",
   "re_review_correlation_id": null,
   "scientific_operation": "method_c_phase3_forward_propagation",
-  "scientific_operation_id": "method_c_phase3_forward_propagation_001",
+  "scientific_operation_id": "method_c_phase3_forward_propagation_002",
   "scientific_checkpoint_required": true,
   "frozen_uel_sha256": "CE8D5EDCD2911DCB018BB15275271F874E7EA62B8FB48CF4A8297469A83ACDD6",
   "native_interface_sha256": "E5C98B6F601B1CD586571F8E24F357D15ABBD1C5D5487B52903BA249734279B2",
@@ -30,5 +30,5 @@
   "max_new_pbs_submissions": 0,
   "submissions_consumed": 0,
   "cumulative_pbs_submissions": 59,
-  "notes": "Step-2 forward crack propagation package staged. Assembled PK_METHOD_C_DEMO_PROPAGATION_JOB3.inp (30,897 layered elements, u2=0.0050 to 0.0100 mm). Clarified NOTE-MC-J2-01 (530a0abb executed deck vs E75B82FC preflight draft). Expected crack trajectory into hole at (0.75, 0.5) mm documented. 24/24 unit tests PASS. Zero new PBS jobs consumed (cumulative 59 preserved). Ready for Independent Structured Review under HND-METHOD-C-PHASE3-PROPAGATION-001."
+  "notes": "Committed executed Job-2 deck (530a0abb, without TYPE=DISPLACEMENT) and updated transfer receipt, closing GAP-MC-P3-01. Job-3 forward propagation package (PK_METHOD_C_DEMO_PROPAGATION_JOB3.inp SHA FFE25C2A, 30,897 layered elements, u2=0.0050 to 0.0100 mm) verified and accepted. 24/24 unit tests PASS. Zero new PBS jobs consumed (cumulative 59 preserved). Re-issued for review under HND-METHOD-C-PHASE3-PROPAGATION-002."
 }
