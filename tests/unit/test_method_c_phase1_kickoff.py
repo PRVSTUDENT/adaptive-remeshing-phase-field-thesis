@@ -82,7 +82,7 @@ def test_active_task_governance():
     assert task['task_id'] == 'METHOD-C-PHASE1-DEMO-AND-LOOP-SKELETON'
     assert task['status'] in ('IN_PROGRESS', 'SUBMITTED_AND_QUEUED', 'COMPLETED_READY_FOR_INDEPENDENT_REVIEW')
     assert task['master_goal_status'] == 'OPEN'
-    assert task['cumulative_pbs_submissions'] in (57, 58, 59)
+    assert task['cumulative_pbs_submissions'] in (57, 58, 59, 60)
 
 def test_demo_geometry_calculations():
     plate_width = 1.0
@@ -205,8 +205,8 @@ def test_job1_cluster_submission_receipt():
 
     with open(active_task_path, 'r', encoding='utf-8-sig') as f:
         active_task = json.load(f)
-    assert (active_task.get('active_pbs_job_id') in ("1424517.mmaster02", "1424584.mmaster02") or active_task.get('last_successful_pbs_job_id') in ("1424517.mmaster02", "1424584.mmaster02"))
-    assert active_task['cumulative_pbs_submissions'] in (58, 59)
+    assert (active_task.get('active_pbs_job_id') in ("1424517.mmaster02", "1424584.mmaster02", "1424609.mmaster02") or active_task.get('last_successful_pbs_job_id') in ("1424517.mmaster02", "1424584.mmaster02", "1424609.mmaster02"))
+    assert active_task['cumulative_pbs_submissions'] in (58, 59, 60)
     assert active_task['submissions_consumed'] in (0, 1)
 
 

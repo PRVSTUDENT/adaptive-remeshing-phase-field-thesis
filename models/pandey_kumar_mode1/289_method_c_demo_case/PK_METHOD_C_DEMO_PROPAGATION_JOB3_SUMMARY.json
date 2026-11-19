@@ -1,0 +1,2033 @@
+{
+  "physical_elements_count": 10299, 
+  "step2_increments": 125, 
+  "step1_increments": 24, 
+  "total_equilibrium_iterations": 713, 
+  "sta_completed_successfully": false, 
+  "cpu_time_s": 1780.0, 
+  "step2_end_u2_mm": 0.00875555258244276, 
+  "initial_notch_tip_x_mm": 0.5, 
+  "job_id": "1424609.mmaster02", 
+  "hole_center_x_mm": 0.75, 
+  "peak_damage_SDV1": 1.0055006742477417, 
+  "step1_end_RF2_kN": 0.5483862161636353, 
+  "step1_end_u2_mm": 0.004999999888241291, 
+  "post_peak_softening_demonstrated": true, 
+  "msg_zero_errors": false, 
+  "total_increments": 149, 
+  "peak_RF2_kN": 0.6486811637878418, 
+  "E_elastic_kNmm": 0.0011479689, 
+  "step2_equilibrium_iterations": 647, 
+  "step1_equilibrium_iterations": 66, 
+  "layered_elements_count": 30897, 
+  "sys_time_s": 465.0, 
+  "hole_reached": true, 
+  "job_name": "PK_METHOD_C_DEMO_PROPAGATION_JOB3", 
+  "u2_at_peak_RF2_mm": 0.006117187440395355, 
+  "final_crack_extension_mm": 0.39568597078323364, 
+  "step1_cutbacks": 0, 
+  "max_history_MPa": 4629.68896484375, 
+  "hole_radius_mm": 0.1, 
+  "final_crack_tip_x_mm": 0.8956859707832336, 
+  "exit_code": 1, 
+  "total_cutbacks": 38, 
+  "E_total_kNmm": 0.0027408222, 
+  "dat_rp_history": [
+    {
+      "rf2_kN": 0.0055167685, 
+      "u2_mm": 5e-05
+    }, 
+    {
+      "rf2_kN": 0.011033537, 
+      "u2_mm": 0.0001
+    }, 
+    {
+      "rf2_kN": 0.01930869, 
+      "u2_mm": 0.000175
+    }, 
+    {
+      "rf2_kN": 0.031721419, 
+      "u2_mm": 0.0002875
+    }, 
+    {
+      "rf2_kN": 0.050340513, 
+      "u2_mm": 0.00045625
+    }, 
+    {
+      "rf2_kN": 0.077924355, 
+      "u2_mm": 0.00070625
+    }, 
+    {
+      "rf2_kN": 0.1055082, 
+      "u2_mm": 0.00095625
+    }, 
+    {
+      "rf2_kN": 0.13309204, 
+      "u2_mm": 0.00120625
+    }, 
+    {
+      "rf2_kN": 0.16067588, 
+      "u2_mm": 0.00145625
+    }, 
+    {
+      "rf2_kN": 0.18825972, 
+      "u2_mm": 0.00170625
+    }, 
+    {
+      "rf2_kN": 0.21584355, 
+      "u2_mm": 0.00195625
+    }, 
+    {
+      "rf2_kN": 0.24342465, 
+      "u2_mm": 0.00220625
+    }, 
+    {
+      "rf2_kN": 0.27100174, 
+      "u2_mm": 0.00245625
+    }, 
+    {
+      "rf2_kN": 0.29855824, 
+      "u2_mm": 0.00270625
+    }, 
+    {
+      "rf2_kN": 0.32609179, 
+      "u2_mm": 0.00295625
+    }, 
+    {
+      "rf2_kN": 0.35360598, 
+      "u2_mm": 0.00320625
+    }, 
+    {
+      "rf2_kN": 0.3810963, 
+      "u2_mm": 0.00345625
+    }, 
+    {
+      "rf2_kN": 0.40855187, 
+      "u2_mm": 0.00370625
+    }, 
+    {
+      "rf2_kN": 0.43594884, 
+      "u2_mm": 0.00395625
+    }, 
+    {
+      "rf2_kN": 0.46327389, 
+      "u2_mm": 0.00420625
+    }, 
+    {
+      "rf2_kN": 0.49047929, 
+      "u2_mm": 0.00445625
+    }, 
+    {
+      "rf2_kN": 0.51748172, 
+      "u2_mm": 0.00470625
+    }, 
+    {
+      "rf2_kN": 0.54397433, 
+      "u2_mm": 0.00495625
+    }, 
+    {
+      "rf2_kN": 0.54838619, 
+      "u2_mm": 0.005
+    }, 
+    {
+      "rf2_kN": 0.6031668, 
+      "u2_mm": 0.0055
+    }, 
+    {
+      "rf2_kN": 0.64504006, 
+      "u2_mm": 0.006
+    }, 
+    {
+      "rf2_kN": 0.64763946, 
+      "u2_mm": 0.006046875
+    }, 
+    {
+      "rf2_kN": 0.64868117, 
+      "u2_mm": 0.0061171875
+    }, 
+    {
+      "rf2_kN": 0.64451669, 
+      "u2_mm": 0.0062226563
+    }, 
+    {
+      "rf2_kN": 0.6398467, 
+      "u2_mm": 0.0063808594
+    }, 
+    {
+      "rf2_kN": 0.63756896, 
+      "u2_mm": 0.0066181641
+    }, 
+    {
+      "rf2_kN": 0.63620398, 
+      "u2_mm": 0.0066404114
+    }, 
+    {
+      "rf2_kN": 0.62795521, 
+      "u2_mm": 0.0066737823
+    }, 
+    {
+      "rf2_kN": 0.60962041, 
+      "u2_mm": 0.0067238388
+    }, 
+    {
+      "rf2_kN": 0.58264575, 
+      "u2_mm": 0.0067989235
+    }, 
+    {
+      "rf2_kN": 0.54529316, 
+      "u2_mm": 0.0069115505
+    }, 
+    {
+      "rf2_kN": 0.53275394, 
+      "u2_mm": 0.0069221093
+    }, 
+    {
+      "rf2_kN": 0.48244014, 
+      "u2_mm": 0.0069379475
+    }, 
+    {
+      "rf2_kN": 0.44299315, 
+      "u2_mm": 0.0069394323
+    }, 
+    {
+      "rf2_kN": 0.38273494, 
+      "u2_mm": 0.0069395715
+    }, 
+    {
+      "rf2_kN": 0.31878126, 
+      "u2_mm": 0.0069395846
+    }, 
+    {
+      "rf2_kN": 0.29977898, 
+      "u2_mm": 0.0069396041
+    }, 
+    {
+      "rf2_kN": 0.29848759, 
+      "u2_mm": 0.0069396335
+    }, 
+    {
+      "rf2_kN": 0.29837264, 
+      "u2_mm": 0.0069396775
+    }, 
+    {
+      "rf2_kN": 0.29837432, 
+      "u2_mm": 0.0069397436
+    }, 
+    {
+      "rf2_kN": 0.29837836, 
+      "u2_mm": 0.0069398427
+    }, 
+    {
+      "rf2_kN": 0.29838475, 
+      "u2_mm": 0.0069399914
+    }, 
+    {
+      "rf2_kN": 0.29839433, 
+      "u2_mm": 0.0069402143
+    }, 
+    {
+      "rf2_kN": 0.29840871, 
+      "u2_mm": 0.0069405488
+    }, 
+    {
+      "rf2_kN": 0.29843028, 
+      "u2_mm": 0.0069410505
+    }, 
+    {
+      "rf2_kN": 0.29846264, 
+      "u2_mm": 0.006941803
+    }, 
+    {
+      "rf2_kN": 0.29851117, 
+      "u2_mm": 0.0069429319
+    }, 
+    {
+      "rf2_kN": 0.29858397, 
+      "u2_mm": 0.0069446251
+    }, 
+    {
+      "rf2_kN": 0.29869317, 
+      "u2_mm": 0.0069471649
+    }, 
+    {
+      "rf2_kN": 0.29885697, 
+      "u2_mm": 0.0069509747
+    }, 
+    {
+      "rf2_kN": 0.29910267, 
+      "u2_mm": 0.0069566893
+    }, 
+    {
+      "rf2_kN": 0.29947122, 
+      "u2_mm": 0.0069652612
+    }, 
+    {
+      "rf2_kN": 0.30002405, 
+      "u2_mm": 0.0069781191
+    }, 
+    {
+      "rf2_kN": 0.30085329, 
+      "u2_mm": 0.006997406
+    }, 
+    {
+      "rf2_kN": 0.30209363, 
+      "u2_mm": 0.0070263363
+    }, 
+    {
+      "rf2_kN": 0.30392671, 
+      "u2_mm": 0.0070697318
+    }, 
+    {
+      "rf2_kN": 0.30659043, 
+      "u2_mm": 0.0071348249
+    }, 
+    {
+      "rf2_kN": 0.3104126, 
+      "u2_mm": 0.0072324647
+    }, 
+    {
+      "rf2_kN": 0.31570182, 
+      "u2_mm": 0.0073789243
+    }, 
+    {
+      "rf2_kN": 0.31742236, 
+      "u2_mm": 0.0074338467
+    }, 
+    {
+      "rf2_kN": 0.31751256, 
+      "u2_mm": 0.0074389957
+    }, 
+    {
+      "rf2_kN": 0.31759866, 
+      "u2_mm": 0.0074467191
+    }, 
+    {
+      "rf2_kN": 0.31781945, 
+      "u2_mm": 0.0074583043
+    }, 
+    {
+      "rf2_kN": 0.31830582, 
+      "u2_mm": 0.0074756821
+    }, 
+    {
+      "rf2_kN": 0.31911068, 
+      "u2_mm": 0.0075017487
+    }, 
+    {
+      "rf2_kN": 0.32000511, 
+      "u2_mm": 0.0075278154
+    }, 
+    {
+      "rf2_kN": 0.32087105, 
+      "u2_mm": 0.0075538821
+    }, 
+    {
+      "rf2_kN": 0.32211198, 
+      "u2_mm": 0.0075929821
+    }, 
+    {
+      "rf2_kN": 0.32253873, 
+      "u2_mm": 0.0076076446
+    }, 
+    {
+      "rf2_kN": 0.32316411, 
+      "u2_mm": 0.0076296383
+    }, 
+    {
+      "rf2_kN": 0.32406831, 
+      "u2_mm": 0.007662629
+    }, 
+    {
+      "rf2_kN": 0.32501133, 
+      "u2_mm": 0.0076956196
+    }, 
+    {
+      "rf2_kN": 0.32596132, 
+      "u2_mm": 0.0077286102
+    }, 
+    {
+      "rf2_kN": 0.32690697, 
+      "u2_mm": 0.0077616009
+    }, 
+    {
+      "rf2_kN": 0.32783333, 
+      "u2_mm": 0.0077945915
+    }, 
+    {
+      "rf2_kN": 0.32874149, 
+      "u2_mm": 0.0078275821
+    }, 
+    {
+      "rf2_kN": 0.32962858, 
+      "u2_mm": 0.0078605727
+    }, 
+    {
+      "rf2_kN": 0.33050472, 
+      "u2_mm": 0.0078935634
+    }, 
+    {
+      "rf2_kN": 0.33136864, 
+      "u2_mm": 0.007926554
+    }, 
+    {
+      "rf2_kN": 0.33221121, 
+      "u2_mm": 0.0079595446
+    }, 
+    {
+      "rf2_kN": 0.33303573, 
+      "u2_mm": 0.0079925352
+    }, 
+    {
+      "rf2_kN": 0.33384193, 
+      "u2_mm": 0.0080255259
+    }, 
+    {
+      "rf2_kN": 0.33462854, 
+      "u2_mm": 0.0080585165
+    }, 
+    {
+      "rf2_kN": 0.33539326, 
+      "u2_mm": 0.0080915071
+    }, 
+    {
+      "rf2_kN": 0.33613358, 
+      "u2_mm": 0.0081244978
+    }, 
+    {
+      "rf2_kN": 0.33633204, 
+      "u2_mm": 0.0081327454
+    }, 
+    {
+      "rf2_kN": 0.33637463, 
+      "u2_mm": 0.0081348073
+    }, 
+    {
+      "rf2_kN": 0.33643658, 
+      "u2_mm": 0.0081379002
+    }, 
+    {
+      "rf2_kN": 0.33652894, 
+      "u2_mm": 0.0081425395
+    }, 
+    {
+      "rf2_kN": 0.336671, 
+      "u2_mm": 0.0081494985
+    }, 
+    {
+      "rf2_kN": 0.33688947, 
+      "u2_mm": 0.0081599369
+    }, 
+    {
+      "rf2_kN": 0.33719961, 
+      "u2_mm": 0.0081755946
+    }, 
+    {
+      "rf2_kN": 0.33754562, 
+      "u2_mm": 0.0081912522
+    }, 
+    {
+      "rf2_kN": 0.33785392, 
+      "u2_mm": 0.0082069099
+    }, 
+    {
+      "rf2_kN": 0.33818917, 
+      "u2_mm": 0.0082225676
+    }, 
+    {
+      "rf2_kN": 0.33825557, 
+      "u2_mm": 0.008226482
+    }, 
+    {
+      "rf2_kN": 0.33836877, 
+      "u2_mm": 0.0082323536
+    }, 
+    {
+      "rf2_kN": 0.33851838, 
+      "u2_mm": 0.008241161
+    }, 
+    {
+      "rf2_kN": 0.33868479, 
+      "u2_mm": 0.0082499685
+    }, 
+    {
+      "rf2_kN": 0.33884141, 
+      "u2_mm": 0.0082587759
+    }, 
+    {
+      "rf2_kN": 0.33905632, 
+      "u2_mm": 0.008271987
+    }, 
+    {
+      "rf2_kN": 0.33930256, 
+      "u2_mm": 0.0082851982
+    }, 
+    {
+      "rf2_kN": 0.33951259, 
+      "u2_mm": 0.0082984093
+    }, 
+    {
+      "rf2_kN": 0.33974737, 
+      "u2_mm": 0.0083116205
+    }, 
+    {
+      "rf2_kN": 0.33994239, 
+      "u2_mm": 0.0083248317
+    }, 
+    {
+      "rf2_kN": 0.34025561, 
+      "u2_mm": 0.0083446484
+    }, 
+    {
+      "rf2_kN": 0.34034181, 
+      "u2_mm": 0.0083520797
+    }, 
+    {
+      "rf2_kN": 0.34049214, 
+      "u2_mm": 0.0083632266
+    }, 
+    {
+      "rf2_kN": 0.34067582, 
+      "u2_mm": 0.0083799469
+    }, 
+    {
+      "rf2_kN": 0.3407526, 
+      "u2_mm": 0.0083862171
+    }, 
+    {
+      "rf2_kN": 0.34084272, 
+      "u2_mm": 0.0083956223
+    }, 
+    {
+      "rf2_kN": 0.34097018, 
+      "u2_mm": 0.0084097301
+    }, 
+    {
+      "rf2_kN": 0.34114899, 
+      "u2_mm": 0.0084308918
+    }, 
+    {
+      "rf2_kN": 0.34122373, 
+      "u2_mm": 0.0084388274
+    }, 
+    {
+      "rf2_kN": 0.34130252, 
+      "u2_mm": 0.0084507309
+    }, 
+    {
+      "rf2_kN": 0.34139418, 
+      "u2_mm": 0.0084685861
+    }, 
+    {
+      "rf2_kN": 0.34143165, 
+      "u2_mm": 0.0084752818
+    }, 
+    {
+      "rf2_kN": 0.34145154, 
+      "u2_mm": 0.0084853253
+    }, 
+    {
+      "rf2_kN": 0.34144745, 
+      "u2_mm": 0.0085003906
+    }, 
+    {
+      "rf2_kN": 0.34141295, 
+      "u2_mm": 0.0085229886
+    }, 
+    {
+      "rf2_kN": 0.34138735, 
+      "u2_mm": 0.0085314629
+    }, 
+    {
+      "rf2_kN": 0.34130845, 
+      "u2_mm": 0.0085441742
+    }, 
+    {
+      "rf2_kN": 0.34111492, 
+      "u2_mm": 0.0085632413
+    }, 
+    {
+      "rf2_kN": 0.34100993, 
+      "u2_mm": 0.0085703914
+    }, 
+    {
+      "rf2_kN": 0.34080581, 
+      "u2_mm": 0.0085811166
+    }, 
+    {
+      "rf2_kN": 0.34042786, 
+      "u2_mm": 0.0085972044
+    }, 
+    {
+      "rf2_kN": 0.34022256, 
+      "u2_mm": 0.0086032374
+    }, 
+    {
+      "rf2_kN": 0.33986453, 
+      "u2_mm": 0.0086122868
+    }, 
+    {
+      "rf2_kN": 0.33923051, 
+      "u2_mm": 0.0086258609
+    }, 
+    {
+      "rf2_kN": 0.33890353, 
+      "u2_mm": 0.0086309512
+    }, 
+    {
+      "rf2_kN": 0.3383162, 
+      "u2_mm": 0.0086385866
+    }, 
+    {
+      "rf2_kN": 0.3372611, 
+      "u2_mm": 0.0086500397
+    }, 
+    {
+      "rf2_kN": 0.33530554, 
+      "u2_mm": 0.0086672194
+    }, 
+    {
+      "rf2_kN": 0.3341355, 
+      "u2_mm": 0.0086736618
+    }, 
+    {
+      "rf2_kN": 0.33160816, 
+      "u2_mm": 0.0086833254
+    }, 
+    {
+      "rf2_kN": 0.32600913, 
+      "u2_mm": 0.0086978208
+    }, 
+    {
+      "rf2_kN": 0.31280245, 
+      "u2_mm": 0.0087195639
+    }, 
+    {
+      "rf2_kN": 0.28558811, 
+      "u2_mm": 0.0087521785
+    }, 
+    {
+      "rf2_kN": 0.28085761, 
+      "u2_mm": 0.0087552361
+    }, 
+    {
+      "rf2_kN": 0.27605048, 
+      "u2_mm": 0.0087555228
+    }, 
+    {
+      "rf2_kN": 0.27134601, 
+      "u2_mm": 0.0087555497
+    }, 
+    {
+      "rf2_kN": 0.26675279, 
+      "u2_mm": 0.0087555522
+    }, 
+    {
+      "rf2_kN": 0.26222648, 
+      "u2_mm": 0.0087555524
+    }, 
+    {
+      "rf2_kN": 0.26222648, 
+      "u2_mm": 0.0087555524
+    }
+  ], 
+  "walltime_s": 2938.0, 
+  "status": "CUTBACK_TERMINATION_AT_HOLE_CAPTURE", 
+  "termination_reason": "TIME_INCREMENT_LESS_THAN_MINIMUM", 
+  "step2_cutbacks": 38, 
+  "crack_extension_history": [
+    {
+      "crack_tip_x_mm": 0.5, 
+      "description": "Increment      0: Step Time =    0.000", 
+      "u2_mm": 0.004999999888241291, 
+      "RF2_kN": 0.5483862161636353, 
+      "frame": 0, 
+      "max_damage": 0.40857064723968506, 
+      "max_history_MPa": 1.9304765462875366, 
+      "crack_extension_Delta_a_mm": 0.0, 
+      "frame_time": 0.0
+    }, 
+    {
+      "crack_tip_x_mm": 0.5, 
+      "description": "Increment      1: Step Time =   0.1000", 
+      "u2_mm": 0.005499999970197678, 
+      "RF2_kN": 0.6031668186187744, 
+      "frame": 1, 
+      "max_damage": 0.4113217890262604, 
+      "max_history_MPa": 2.360445022583008, 
+      "crack_extension_Delta_a_mm": 0.0, 
+      "frame_time": 0.10000000149011612
+    }, 
+    {
+      "crack_tip_x_mm": 0.5, 
+      "description": "Increment      2: Step Time =   0.2000", 
+      "u2_mm": 0.006000000052154064, 
+      "RF2_kN": 0.6450400352478027, 
+      "frame": 2, 
+      "max_damage": 0.5000138282775879, 
+      "max_history_MPa": 3.980118751525879, 
+      "crack_extension_Delta_a_mm": 0.0, 
+      "frame_time": 0.20000000298023224
+    }, 
+    {
+      "crack_tip_x_mm": 0.5, 
+      "description": "Increment      3: Step Time =   0.2094", 
+      "u2_mm": 0.006046874914318323, 
+      "RF2_kN": 0.6476394534111023, 
+      "frame": 3, 
+      "max_damage": 0.5666276216506958, 
+      "max_history_MPa": 5.52449369430542, 
+      "crack_extension_Delta_a_mm": 0.0, 
+      "frame_time": 0.20937499403953552
+    }, 
+    {
+      "crack_tip_x_mm": 0.5, 
+      "description": "Increment      4: Step Time =   0.2234", 
+      "u2_mm": 0.006117187440395355, 
+      "RF2_kN": 0.6486811637878418, 
+      "frame": 4, 
+      "max_damage": 0.7300357818603516, 
+      "max_history_MPa": 14.717820167541504, 
+      "crack_extension_Delta_a_mm": 0.0, 
+      "frame_time": 0.22343750298023224
+    }, 
+    {
+      "crack_tip_x_mm": 0.5057746767997742, 
+      "description": "Increment      5: Step Time =   0.2445", 
+      "u2_mm": 0.006222656462341547, 
+      "RF2_kN": 0.6445167064666748, 
+      "frame": 5, 
+      "max_damage": 0.9685390591621399, 
+      "max_history_MPa": 113.08609771728516, 
+      "crack_extension_Delta_a_mm": 0.00577467679977417, 
+      "frame_time": 0.24453124403953552
+    }, 
+    {
+      "crack_tip_x_mm": 0.5138147473335266, 
+      "description": "Increment      6: Step Time =   0.2762", 
+      "u2_mm": 0.006380859296768904, 
+      "RF2_kN": 0.639846682548523, 
+      "frame": 6, 
+      "max_damage": 0.998566746711731, 
+      "max_history_MPa": 435.5394592285156, 
+      "crack_extension_Delta_a_mm": 0.013814747333526611, 
+      "frame_time": 0.27617186307907104
+    }, 
+    {
+      "crack_tip_x_mm": 0.5231756567955017, 
+      "description": "Increment      7: Step Time =   0.3236", 
+      "u2_mm": 0.006618164014071226, 
+      "RF2_kN": 0.6375689506530762, 
+      "frame": 7, 
+      "max_damage": 0.9989812970161438, 
+      "max_history_MPa": 472.35748291015625, 
+      "crack_extension_Delta_a_mm": 0.02317565679550171, 
+      "frame_time": 0.3236328065395355
+    }, 
+    {
+      "crack_tip_x_mm": 0.5231756567955017, 
+      "description": "Increment      8: Step Time =   0.3281", 
+      "u2_mm": 0.006640411447733641, 
+      "RF2_kN": 0.6362040042877197, 
+      "frame": 8, 
+      "max_damage": 0.9991157650947571, 
+      "max_history_MPa": 472.35748291015625, 
+      "crack_extension_Delta_a_mm": 0.02317565679550171, 
+      "frame_time": 0.32808226346969604
+    }, 
+    {
+      "crack_tip_x_mm": 0.5321881175041199, 
+      "description": "Increment      9: Step Time =   0.3348", 
+      "u2_mm": 0.006673782132565975, 
+      "RF2_kN": 0.6279551982879639, 
+      "frame": 9, 
+      "max_damage": 0.9992409944534302, 
+      "max_history_MPa": 472.35748291015625, 
+      "crack_extension_Delta_a_mm": 0.03218811750411987, 
+      "frame_time": 0.334756463766098
+    }, 
+    {
+      "crack_tip_x_mm": 0.540267288684845, 
+      "description": "Increment     10: Step Time =   0.3448", 
+      "u2_mm": 0.006723838858306408, 
+      "RF2_kN": 0.6096203923225403, 
+      "frame": 10, 
+      "max_damage": 0.999365508556366, 
+      "max_history_MPa": 503.6989440917969, 
+      "crack_extension_Delta_a_mm": 0.04026728868484497, 
+      "frame_time": 0.3447677493095398
+    }, 
+    {
+      "crack_tip_x_mm": 0.5536547303199768, 
+      "description": "Increment     11: Step Time =   0.3598", 
+      "u2_mm": 0.00679892348125577, 
+      "RF2_kN": 0.5826457738876343, 
+      "frame": 11, 
+      "max_damage": 0.999498188495636, 
+      "max_history_MPa": 659.4646606445312, 
+      "crack_extension_Delta_a_mm": 0.05365473031997681, 
+      "frame_time": 0.35978469252586365
+    }, 
+    {
+      "crack_tip_x_mm": 0.5693605542182922, 
+      "description": "Increment     12: Step Time =   0.3823", 
+      "u2_mm": 0.006911550648510456, 
+      "RF2_kN": 0.5452931523323059, 
+      "frame": 12, 
+      "max_damage": 0.9996647834777832, 
+      "max_history_MPa": 1168.852783203125, 
+      "crack_extension_Delta_a_mm": 0.06936055421829224, 
+      "frame_time": 0.38231009244918823
+    }, 
+    {
+      "crack_tip_x_mm": 0.571409285068512, 
+      "description": "Increment     13: Step Time =   0.3844", 
+      "u2_mm": 0.006922109518200159, 
+      "RF2_kN": 0.5327539443969727, 
+      "frame": 13, 
+      "max_damage": 0.9996644854545593, 
+      "max_history_MPa": 1168.852783203125, 
+      "crack_extension_Delta_a_mm": 0.07140928506851196, 
+      "frame_time": 0.38442185521125793
+    }, 
+    {
+      "crack_tip_x_mm": 0.5897706151008606, 
+      "description": "Increment     14: Step Time =   0.3876", 
+      "u2_mm": 0.00693794758990407, 
+      "RF2_kN": 0.48244014382362366, 
+      "frame": 14, 
+      "max_damage": 0.9996685981750488, 
+      "max_history_MPa": 1168.852783203125, 
+      "crack_extension_Delta_a_mm": 0.0897706151008606, 
+      "frame_time": 0.3875894844532013
+    }, 
+    {
+      "crack_tip_x_mm": 0.5984599590301514, 
+      "description": "Increment     15: Step Time =   0.3879", 
+      "u2_mm": 0.006939432118088007, 
+      "RF2_kN": 0.4429931640625, 
+      "frame": 15, 
+      "max_damage": 0.9996945858001709, 
+      "max_history_MPa": 1168.852783203125, 
+      "crack_extension_Delta_a_mm": 0.09845995903015137, 
+      "frame_time": 0.3878864645957947
+    }, 
+    {
+      "crack_tip_x_mm": 0.6099597215652466, 
+      "description": "Increment     16: Step Time =   0.3879", 
+      "u2_mm": 0.006939571350812912, 
+      "RF2_kN": 0.38273492455482483, 
+      "frame": 16, 
+      "max_damage": 0.9997298717498779, 
+      "max_history_MPa": 1275.280029296875, 
+      "crack_extension_Delta_a_mm": 0.10995972156524658, 
+      "frame_time": 0.3879142999649048
+    }, 
+    {
+      "crack_tip_x_mm": 0.6499999761581421, 
+      "description": "Increment     17: Step Time =   0.3879", 
+      "u2_mm": 0.006939584389328957, 
+      "RF2_kN": 0.3187812566757202, 
+      "frame": 17, 
+      "max_damage": 0.9997686743736267, 
+      "max_history_MPa": 1463.3233642578125, 
+      "crack_extension_Delta_a_mm": 0.1499999761581421, 
+      "frame_time": 0.3879169225692749
+    }, 
+    {
+      "crack_tip_x_mm": 0.650270938873291, 
+      "description": "Increment     18: Step Time =   0.3879", 
+      "u2_mm": 0.0069396039471030235, 
+      "RF2_kN": 0.2997789680957794, 
+      "frame": 18, 
+      "max_damage": 1.0055006742477417, 
+      "max_history_MPa": 4629.68896484375, 
+      "crack_extension_Delta_a_mm": 0.15027093887329102, 
+      "frame_time": 0.3879208266735077
+    }, 
+    {
+      "crack_tip_x_mm": 0.650270938873291, 
+      "description": "Increment     19: Step Time =   0.3879", 
+      "u2_mm": 0.006939633283764124, 
+      "RF2_kN": 0.2984875738620758, 
+      "frame": 19, 
+      "max_damage": 1.001103401184082, 
+      "max_history_MPa": 4629.68896484375, 
+      "crack_extension_Delta_a_mm": 0.15027093887329102, 
+      "frame_time": 0.38792669773101807
+    }, 
+    {
+      "crack_tip_x_mm": 0.650270938873291, 
+      "description": "Increment     20: Step Time =   0.3879", 
+      "u2_mm": 0.006939677521586418, 
+      "RF2_kN": 0.29837265610694885, 
+      "frame": 20, 
+      "max_damage": 1.001600980758667, 
+      "max_history_MPa": 4629.68896484375, 
+      "crack_extension_Delta_a_mm": 0.15027093887329102, 
+      "frame_time": 0.3879355192184448
+    }, 
+    {
+      "crack_tip_x_mm": 0.650270938873291, 
+      "description": "Increment     21: Step Time =   0.3879", 
+      "u2_mm": 0.006939743645489216, 
+      "RF2_kN": 0.29837432503700256, 
+      "frame": 21, 
+      "max_damage": 1.0019735097885132, 
+      "max_history_MPa": 4629.68896484375, 
+      "crack_extension_Delta_a_mm": 0.15027093887329102, 
+      "frame_time": 0.3879487216472626
+    }, 
+    {
+      "crack_tip_x_mm": 0.650270938873291, 
+      "description": "Increment     22: Step Time =   0.3880", 
+      "u2_mm": 0.006939842831343412, 
+      "RF2_kN": 0.2983783483505249, 
+      "frame": 22, 
+      "max_damage": 1.0019007921218872, 
+      "max_history_MPa": 4629.68896484375, 
+      "crack_extension_Delta_a_mm": 0.15027093887329102, 
+      "frame_time": 0.3879685401916504
+    }, 
+    {
+      "crack_tip_x_mm": 0.650270938873291, 
+      "description": "Increment     23: Step Time =   0.3880", 
+      "u2_mm": 0.006939991377294064, 
+      "RF2_kN": 0.29838475584983826, 
+      "frame": 23, 
+      "max_damage": 1.0019007921218872, 
+      "max_history_MPa": 4629.68896484375, 
+      "crack_extension_Delta_a_mm": 0.15027093887329102, 
+      "frame_time": 0.3879982829093933
+    }, 
+    {
+      "crack_tip_x_mm": 0.650270938873291, 
+      "description": "Increment     24: Step Time =   0.3880", 
+      "u2_mm": 0.006940214429050684, 
+      "RF2_kN": 0.2983943223953247, 
+      "frame": 24, 
+      "max_damage": 1.0019007921218872, 
+      "max_history_MPa": 4629.68896484375, 
+      "crack_extension_Delta_a_mm": 0.15027093887329102, 
+      "frame_time": 0.3880428671836853
+    }, 
+    {
+      "crack_tip_x_mm": 0.650270938873291, 
+      "description": "Increment     25: Step Time =   0.3881", 
+      "u2_mm": 0.006940548773854971, 
+      "RF2_kN": 0.29840871691703796, 
+      "frame": 25, 
+      "max_damage": 1.0019007921218872, 
+      "max_history_MPa": 4629.68896484375, 
+      "crack_extension_Delta_a_mm": 0.15027093887329102, 
+      "frame_time": 0.3881097733974457
+    }, 
+    {
+      "crack_tip_x_mm": 0.650270938873291, 
+      "description": "Increment     26: Step Time =   0.3882", 
+      "u2_mm": 0.006941050291061401, 
+      "RF2_kN": 0.29843029379844666, 
+      "frame": 26, 
+      "max_damage": 1.0019007921218872, 
+      "max_history_MPa": 4629.68896484375, 
+      "crack_extension_Delta_a_mm": 0.15027093887329102, 
+      "frame_time": 0.38821008801460266
+    }, 
+    {
+      "crack_tip_x_mm": 0.650270938873291, 
+      "description": "Increment     27: Step Time =   0.3884", 
+      "u2_mm": 0.006941803265362978, 
+      "RF2_kN": 0.2984626293182373, 
+      "frame": 27, 
+      "max_damage": 1.0019007921218872, 
+      "max_history_MPa": 4629.68896484375, 
+      "crack_extension_Delta_a_mm": 0.15027093887329102, 
+      "frame_time": 0.3883606195449829
+    }, 
+    {
+      "crack_tip_x_mm": 0.650270938873291, 
+      "description": "Increment     28: Step Time =   0.3886", 
+      "u2_mm": 0.006942932028323412, 
+      "RF2_kN": 0.29851117730140686, 
+      "frame": 28, 
+      "max_damage": 1.0019007921218872, 
+      "max_history_MPa": 4629.68896484375, 
+      "crack_extension_Delta_a_mm": 0.15027093887329102, 
+      "frame_time": 0.3885863721370697
+    }, 
+    {
+      "crack_tip_x_mm": 0.650270938873291, 
+      "description": "Increment     29: Step Time =   0.3889", 
+      "u2_mm": 0.006944625172764063, 
+      "RF2_kN": 0.298583984375, 
+      "frame": 29, 
+      "max_damage": 1.0019007921218872, 
+      "max_history_MPa": 4629.68896484375, 
+      "crack_extension_Delta_a_mm": 0.15027093887329102, 
+      "frame_time": 0.3889250159263611
+    }, 
+    {
+      "crack_tip_x_mm": 0.650270938873291, 
+      "description": "Increment     30: Step Time =   0.3894", 
+      "u2_mm": 0.006947164889425039, 
+      "RF2_kN": 0.2986931800842285, 
+      "frame": 30, 
+      "max_damage": 1.0019007921218872, 
+      "max_history_MPa": 4629.68896484375, 
+      "crack_extension_Delta_a_mm": 0.15027093887329102, 
+      "frame_time": 0.38943299651145935
+    }, 
+    {
+      "crack_tip_x_mm": 0.650270938873291, 
+      "description": "Increment     31: Step Time =   0.3902", 
+      "u2_mm": 0.006950974464416504, 
+      "RF2_kN": 0.2988569736480713, 
+      "frame": 31, 
+      "max_damage": 1.0019007921218872, 
+      "max_history_MPa": 4629.68896484375, 
+      "crack_extension_Delta_a_mm": 0.15027093887329102, 
+      "frame_time": 0.39019492268562317
+    }, 
+    {
+      "crack_tip_x_mm": 0.650270938873291, 
+      "description": "Increment     32: Step Time =   0.3913", 
+      "u2_mm": 0.006956689525395632, 
+      "RF2_kN": 0.29910266399383545, 
+      "frame": 32, 
+      "max_damage": 1.0019007921218872, 
+      "max_history_MPa": 4629.68896484375, 
+      "crack_extension_Delta_a_mm": 0.15027093887329102, 
+      "frame_time": 0.39133787155151367
+    }, 
+    {
+      "crack_tip_x_mm": 0.650270938873291, 
+      "description": "Increment     33: Step Time =   0.3931", 
+      "u2_mm": 0.006965261418372393, 
+      "RF2_kN": 0.2994712293148041, 
+      "frame": 33, 
+      "max_damage": 1.0019007921218872, 
+      "max_history_MPa": 4629.68896484375, 
+      "crack_extension_Delta_a_mm": 0.15027093887329102, 
+      "frame_time": 0.39305225014686584
+    }, 
+    {
+      "crack_tip_x_mm": 0.650270938873291, 
+      "description": "Increment     34: Step Time =   0.3956", 
+      "u2_mm": 0.006978119257837534, 
+      "RF2_kN": 0.3000240623950958, 
+      "frame": 34, 
+      "max_damage": 1.0019007921218872, 
+      "max_history_MPa": 4629.68896484375, 
+      "crack_extension_Delta_a_mm": 0.15027093887329102, 
+      "frame_time": 0.3956238329410553
+    }, 
+    {
+      "crack_tip_x_mm": 0.650270938873291, 
+      "description": "Increment     35: Step Time =   0.3995", 
+      "u2_mm": 0.006997406017035246, 
+      "RF2_kN": 0.30085328221321106, 
+      "frame": 35, 
+      "max_damage": 1.0019007921218872, 
+      "max_history_MPa": 4629.68896484375, 
+      "crack_extension_Delta_a_mm": 0.15027093887329102, 
+      "frame_time": 0.3994812071323395
+    }, 
+    {
+      "crack_tip_x_mm": 0.650270938873291, 
+      "description": "Increment     36: Step Time =   0.4053", 
+      "u2_mm": 0.007026336155831814, 
+      "RF2_kN": 0.30209362506866455, 
+      "frame": 36, 
+      "max_damage": 1.0019007921218872, 
+      "max_history_MPa": 4629.68896484375, 
+      "crack_extension_Delta_a_mm": 0.15027093887329102, 
+      "frame_time": 0.40526726841926575
+    }, 
+    {
+      "crack_tip_x_mm": 0.650270938873291, 
+      "description": "Increment     37: Step Time =   0.4139", 
+      "u2_mm": 0.007069731596857309, 
+      "RF2_kN": 0.3039267063140869, 
+      "frame": 37, 
+      "max_damage": 1.0019007921218872, 
+      "max_history_MPa": 4629.68896484375, 
+      "crack_extension_Delta_a_mm": 0.15027093887329102, 
+      "frame_time": 0.41394636034965515
+    }, 
+    {
+      "crack_tip_x_mm": 0.650270938873291, 
+      "description": "Increment     38: Step Time =   0.4270", 
+      "u2_mm": 0.007134824991226196, 
+      "RF2_kN": 0.3065904378890991, 
+      "frame": 38, 
+      "max_damage": 1.0019007921218872, 
+      "max_history_MPa": 4629.68896484375, 
+      "crack_extension_Delta_a_mm": 0.15027093887329102, 
+      "frame_time": 0.42696499824523926
+    }, 
+    {
+      "crack_tip_x_mm": 0.650270938873291, 
+      "description": "Increment     39: Step Time =   0.4465", 
+      "u2_mm": 0.007232464849948883, 
+      "RF2_kN": 0.31041258573532104, 
+      "frame": 39, 
+      "max_damage": 1.0019007921218872, 
+      "max_history_MPa": 4629.68896484375, 
+      "crack_extension_Delta_a_mm": 0.15027093887329102, 
+      "frame_time": 0.4464929401874542
+    }, 
+    {
+      "crack_tip_x_mm": 0.650270938873291, 
+      "description": "Increment     40: Step Time =   0.4758", 
+      "u2_mm": 0.007378924172371626, 
+      "RF2_kN": 0.31570181250572205, 
+      "frame": 40, 
+      "max_damage": 1.0019007921218872, 
+      "max_history_MPa": 4629.68896484375, 
+      "crack_extension_Delta_a_mm": 0.15027093887329102, 
+      "frame_time": 0.47578486800193787
+    }, 
+    {
+      "crack_tip_x_mm": 0.650270938873291, 
+      "description": "Increment     41: Step Time =   0.4868", 
+      "u2_mm": 0.007433846592903137, 
+      "RF2_kN": 0.31742236018180847, 
+      "frame": 41, 
+      "max_damage": 1.0019007921218872, 
+      "max_history_MPa": 4629.68896484375, 
+      "crack_extension_Delta_a_mm": 0.15027093887329102, 
+      "frame_time": 0.48676934838294983
+    }, 
+    {
+      "crack_tip_x_mm": 0.650270938873291, 
+      "description": "Increment     42: Step Time =   0.4878", 
+      "u2_mm": 0.007438995875418186, 
+      "RF2_kN": 0.31751254200935364, 
+      "frame": 42, 
+      "max_damage": 1.0019007921218872, 
+      "max_history_MPa": 4629.68896484375, 
+      "crack_extension_Delta_a_mm": 0.15027093887329102, 
+      "frame_time": 0.48779913783073425
+    }, 
+    {
+      "crack_tip_x_mm": 0.650270938873291, 
+      "description": "Increment     43: Step Time =   0.4893", 
+      "u2_mm": 0.007446719333529472, 
+      "RF2_kN": 0.3175986707210541, 
+      "frame": 43, 
+      "max_damage": 1.0019007921218872, 
+      "max_history_MPa": 4629.68896484375, 
+      "crack_extension_Delta_a_mm": 0.15027093887329102, 
+      "frame_time": 0.4893438220024109
+    }, 
+    {
+      "crack_tip_x_mm": 0.650270938873291, 
+      "description": "Increment     44: Step Time =   0.4917", 
+      "u2_mm": 0.007458304520696402, 
+      "RF2_kN": 0.3178194463253021, 
+      "frame": 44, 
+      "max_damage": 1.0019007921218872, 
+      "max_history_MPa": 4629.68896484375, 
+      "crack_extension_Delta_a_mm": 0.15027093887329102, 
+      "frame_time": 0.49166086316108704
+    }, 
+    {
+      "crack_tip_x_mm": 0.650270938873291, 
+      "description": "Increment     45: Step Time =   0.4951", 
+      "u2_mm": 0.007475682068616152, 
+      "RF2_kN": 0.3183058202266693, 
+      "frame": 45, 
+      "max_damage": 1.0019007921218872, 
+      "max_history_MPa": 4629.68896484375, 
+      "crack_extension_Delta_a_mm": 0.15027093887329102, 
+      "frame_time": 0.49513640999794006
+    }, 
+    {
+      "crack_tip_x_mm": 0.650270938873291, 
+      "description": "Increment     46: Step Time =   0.5003", 
+      "u2_mm": 0.0075017488561570644, 
+      "RF2_kN": 0.3191106915473938, 
+      "frame": 46, 
+      "max_damage": 1.0019007921218872, 
+      "max_history_MPa": 4629.68896484375, 
+      "crack_extension_Delta_a_mm": 0.15027093887329102, 
+      "frame_time": 0.500349760055542
+    }, 
+    {
+      "crack_tip_x_mm": 0.650270938873291, 
+      "description": "Increment     47: Step Time =   0.5056", 
+      "u2_mm": 0.007527815643697977, 
+      "RF2_kN": 0.3200051188468933, 
+      "frame": 47, 
+      "max_damage": 1.0019007921218872, 
+      "max_history_MPa": 4629.68896484375, 
+      "crack_extension_Delta_a_mm": 0.15027093887329102, 
+      "frame_time": 0.5055630803108215
+    }, 
+    {
+      "crack_tip_x_mm": 0.650270938873291, 
+      "description": "Increment     48: Step Time =   0.5108", 
+      "u2_mm": 0.007553881965577602, 
+      "RF2_kN": 0.3208710551261902, 
+      "frame": 48, 
+      "max_damage": 1.0019007921218872, 
+      "max_history_MPa": 4629.68896484375, 
+      "crack_extension_Delta_a_mm": 0.15027093887329102, 
+      "frame_time": 0.5107764005661011
+    }, 
+    {
+      "crack_tip_x_mm": 0.650270938873291, 
+      "description": "Increment     49: Step Time =   0.5186", 
+      "u2_mm": 0.007592982146888971, 
+      "RF2_kN": 0.32211196422576904, 
+      "frame": 49, 
+      "max_damage": 1.0019007921218872, 
+      "max_history_MPa": 4629.68896484375, 
+      "crack_extension_Delta_a_mm": 0.15027093887329102, 
+      "frame_time": 0.5185964107513428
+    }, 
+    {
+      "crack_tip_x_mm": 0.650270938873291, 
+      "description": "Increment     50: Step Time =   0.5215", 
+      "u2_mm": 0.00760764442384243, 
+      "RF2_kN": 0.32253873348236084, 
+      "frame": 50, 
+      "max_damage": 1.0019007921218872, 
+      "max_history_MPa": 4629.68896484375, 
+      "crack_extension_Delta_a_mm": 0.15027093887329102, 
+      "frame_time": 0.5215288996696472
+    }, 
+    {
+      "crack_tip_x_mm": 0.650270938873291, 
+      "description": "Increment     51: Step Time =   0.5259", 
+      "u2_mm": 0.007629638537764549, 
+      "RF2_kN": 0.32316410541534424, 
+      "frame": 51, 
+      "max_damage": 1.0019007921218872, 
+      "max_history_MPa": 4629.68896484375, 
+      "crack_extension_Delta_a_mm": 0.15027093887329102, 
+      "frame_time": 0.5259276628494263
+    }, 
+    {
+      "crack_tip_x_mm": 0.650270938873291, 
+      "description": "Increment     52: Step Time =   0.5325", 
+      "u2_mm": 0.007662628777325153, 
+      "RF2_kN": 0.3240683078765869, 
+      "frame": 52, 
+      "max_damage": 1.0019007921218872, 
+      "max_history_MPa": 4629.68896484375, 
+      "crack_extension_Delta_a_mm": 0.15027093887329102, 
+      "frame_time": 0.5325257778167725
+    }, 
+    {
+      "crack_tip_x_mm": 0.650270938873291, 
+      "description": "Increment     53: Step Time =   0.5391", 
+      "u2_mm": 0.007695619482547045, 
+      "RF2_kN": 0.32501134276390076, 
+      "frame": 53, 
+      "max_damage": 1.0019007921218872, 
+      "max_history_MPa": 4629.68896484375, 
+      "crack_extension_Delta_a_mm": 0.15027093887329102, 
+      "frame_time": 0.5391238927841187
+    }, 
+    {
+      "crack_tip_x_mm": 0.650270938873291, 
+      "description": "Increment     54: Step Time =   0.5457", 
+      "u2_mm": 0.007728610187768936, 
+      "RF2_kN": 0.32596132159233093, 
+      "frame": 54, 
+      "max_damage": 1.0019007921218872, 
+      "max_history_MPa": 4629.68896484375, 
+      "crack_extension_Delta_a_mm": 0.15027093887329102, 
+      "frame_time": 0.5457220673561096
+    }, 
+    {
+      "crack_tip_x_mm": 0.650270938873291, 
+      "description": "Increment     55: Step Time =   0.5523", 
+      "u2_mm": 0.0077616008929908276, 
+      "RF2_kN": 0.3269069790840149, 
+      "frame": 55, 
+      "max_damage": 1.0019007921218872, 
+      "max_history_MPa": 4629.68896484375, 
+      "crack_extension_Delta_a_mm": 0.15027093887329102, 
+      "frame_time": 0.5523201823234558
+    }, 
+    {
+      "crack_tip_x_mm": 0.650270938873291, 
+      "description": "Increment     56: Step Time =   0.5589", 
+      "u2_mm": 0.007794591598212719, 
+      "RF2_kN": 0.3278333246707916, 
+      "frame": 56, 
+      "max_damage": 1.0019007921218872, 
+      "max_history_MPa": 4629.68896484375, 
+      "crack_extension_Delta_a_mm": 0.15027093887329102, 
+      "frame_time": 0.558918297290802
+    }, 
+    {
+      "crack_tip_x_mm": 0.650270938873291, 
+      "description": "Increment     57: Step Time =   0.5655", 
+      "u2_mm": 0.007827581837773323, 
+      "RF2_kN": 0.32874149084091187, 
+      "frame": 57, 
+      "max_damage": 1.0019007921218872, 
+      "max_history_MPa": 4629.68896484375, 
+      "crack_extension_Delta_a_mm": 0.15027093887329102, 
+      "frame_time": 0.5655164122581482
+    }, 
+    {
+      "crack_tip_x_mm": 0.650270938873291, 
+      "description": "Increment     58: Step Time =   0.5721", 
+      "u2_mm": 0.007860573008656502, 
+      "RF2_kN": 0.329628586769104, 
+      "frame": 58, 
+      "max_damage": 1.0019007921218872, 
+      "max_history_MPa": 4629.68896484375, 
+      "crack_extension_Delta_a_mm": 0.15027093887329102, 
+      "frame_time": 0.5721145272254944
+    }, 
+    {
+      "crack_tip_x_mm": 0.650270938873291, 
+      "description": "Increment     59: Step Time =   0.5787", 
+      "u2_mm": 0.007893563248217106, 
+      "RF2_kN": 0.33050471544265747, 
+      "frame": 59, 
+      "max_damage": 1.0019007921218872, 
+      "max_history_MPa": 4629.68896484375, 
+      "crack_extension_Delta_a_mm": 0.15027093887329102, 
+      "frame_time": 0.5787127017974854
+    }, 
+    {
+      "crack_tip_x_mm": 0.650270938873291, 
+      "description": "Increment     60: Step Time =   0.5853", 
+      "u2_mm": 0.007926554419100285, 
+      "RF2_kN": 0.331368625164032, 
+      "frame": 60, 
+      "max_damage": 1.0019007921218872, 
+      "max_history_MPa": 4629.68896484375, 
+      "crack_extension_Delta_a_mm": 0.15027093887329102, 
+      "frame_time": 0.5853108167648315
+    }, 
+    {
+      "crack_tip_x_mm": 0.650270938873291, 
+      "description": "Increment     61: Step Time =   0.5919", 
+      "u2_mm": 0.007959544658660889, 
+      "RF2_kN": 0.3322112262248993, 
+      "frame": 61, 
+      "max_damage": 1.0019007921218872, 
+      "max_history_MPa": 4629.68896484375, 
+      "crack_extension_Delta_a_mm": 0.15027093887329102, 
+      "frame_time": 0.5919089317321777
+    }, 
+    {
+      "crack_tip_x_mm": 0.650270938873291, 
+      "description": "Increment     62: Step Time =   0.5985", 
+      "u2_mm": 0.007992534898221493, 
+      "RF2_kN": 0.33303573727607727, 
+      "frame": 62, 
+      "max_damage": 1.0019007921218872, 
+      "max_history_MPa": 4629.68896484375, 
+      "crack_extension_Delta_a_mm": 0.15027093887329102, 
+      "frame_time": 0.5985070466995239
+    }, 
+    {
+      "crack_tip_x_mm": 0.650270938873291, 
+      "description": "Increment     63: Step Time =   0.6051", 
+      "u2_mm": 0.008025526069104671, 
+      "RF2_kN": 0.3338419198989868, 
+      "frame": 63, 
+      "max_damage": 1.0019007921218872, 
+      "max_history_MPa": 4629.68896484375, 
+      "crack_extension_Delta_a_mm": 0.15027093887329102, 
+      "frame_time": 0.6051051616668701
+    }, 
+    {
+      "crack_tip_x_mm": 0.650270938873291, 
+      "description": "Increment     64: Step Time =   0.6117", 
+      "u2_mm": 0.008058516308665276, 
+      "RF2_kN": 0.33462852239608765, 
+      "frame": 64, 
+      "max_damage": 1.0019009113311768, 
+      "max_history_MPa": 4629.68896484375, 
+      "crack_extension_Delta_a_mm": 0.15027093887329102, 
+      "frame_time": 0.6117032766342163
+    }, 
+    {
+      "crack_tip_x_mm": 0.650270938873291, 
+      "description": "Increment     65: Step Time =   0.6183", 
+      "u2_mm": 0.008091507479548454, 
+      "RF2_kN": 0.3353932499885559, 
+      "frame": 65, 
+      "max_damage": 1.0019009113311768, 
+      "max_history_MPa": 4629.68896484375, 
+      "crack_extension_Delta_a_mm": 0.15027093887329102, 
+      "frame_time": 0.6183014512062073
+    }, 
+    {
+      "crack_tip_x_mm": 0.650270938873291, 
+      "description": "Increment     66: Step Time =   0.6249", 
+      "u2_mm": 0.008124497719109058, 
+      "RF2_kN": 0.33613356947898865, 
+      "frame": 66, 
+      "max_damage": 1.0019009113311768, 
+      "max_history_MPa": 4629.68896484375, 
+      "crack_extension_Delta_a_mm": 0.15027093887329102, 
+      "frame_time": 0.6248995661735535
+    }, 
+    {
+      "crack_tip_x_mm": 0.650270938873291, 
+      "description": "Increment     67: Step Time =   0.6265", 
+      "u2_mm": 0.008132745511829853, 
+      "RF2_kN": 0.3363320529460907, 
+      "frame": 67, 
+      "max_damage": 1.0019009113311768, 
+      "max_history_MPa": 4629.68896484375, 
+      "crack_extension_Delta_a_mm": 0.15027093887329102, 
+      "frame_time": 0.6265490651130676
+    }, 
+    {
+      "crack_tip_x_mm": 0.650270938873291, 
+      "description": "Increment     68: Step Time =   0.6270", 
+      "u2_mm": 0.008134807460010052, 
+      "RF2_kN": 0.3363746404647827, 
+      "frame": 68, 
+      "max_damage": 1.0019009113311768, 
+      "max_history_MPa": 4629.68896484375, 
+      "crack_extension_Delta_a_mm": 0.15027093887329102, 
+      "frame_time": 0.6269614696502686
+    }, 
+    {
+      "crack_tip_x_mm": 0.650270938873291, 
+      "description": "Increment     69: Step Time =   0.6276", 
+      "u2_mm": 0.00813790038228035, 
+      "RF2_kN": 0.33643656969070435, 
+      "frame": 69, 
+      "max_damage": 1.0019009113311768, 
+      "max_history_MPa": 4629.68896484375, 
+      "crack_extension_Delta_a_mm": 0.15027093887329102, 
+      "frame_time": 0.6275800466537476
+    }, 
+    {
+      "crack_tip_x_mm": 0.650270938873291, 
+      "description": "Increment     70: Step Time =   0.6285", 
+      "u2_mm": 0.00814253930002451, 
+      "RF2_kN": 0.3365289270877838, 
+      "frame": 70, 
+      "max_damage": 1.0019009113311768, 
+      "max_history_MPa": 4629.68896484375, 
+      "crack_extension_Delta_a_mm": 0.15027093887329102, 
+      "frame_time": 0.6285079121589661
+    }, 
+    {
+      "crack_tip_x_mm": 0.650270938873291, 
+      "description": "Increment     71: Step Time =   0.6299", 
+      "u2_mm": 0.008149498142302036, 
+      "RF2_kN": 0.33667099475860596, 
+      "frame": 71, 
+      "max_damage": 1.0019009113311768, 
+      "max_history_MPa": 4629.68896484375, 
+      "crack_extension_Delta_a_mm": 0.15027093887329102, 
+      "frame_time": 0.6298996806144714
+    }, 
+    {
+      "crack_tip_x_mm": 0.650270938873291, 
+      "description": "Increment     72: Step Time =   0.6320", 
+      "u2_mm": 0.008159937337040901, 
+      "RF2_kN": 0.33688947558403015, 
+      "frame": 72, 
+      "max_damage": 1.0019009113311768, 
+      "max_history_MPa": 4629.68896484375, 
+      "crack_extension_Delta_a_mm": 0.15027093887329102, 
+      "frame_time": 0.6319873929023743
+    }, 
+    {
+      "crack_tip_x_mm": 0.650270938873291, 
+      "description": "Increment     73: Step Time =   0.6351", 
+      "u2_mm": 0.008175594732165337, 
+      "RF2_kN": 0.3371995985507965, 
+      "frame": 73, 
+      "max_damage": 1.0019009113311768, 
+      "max_history_MPa": 4629.68896484375, 
+      "crack_extension_Delta_a_mm": 0.15027093887329102, 
+      "frame_time": 0.6351189017295837
+    }, 
+    {
+      "crack_tip_x_mm": 0.650270938873291, 
+      "description": "Increment     74: Step Time =   0.6383", 
+      "u2_mm": 0.008191252127289772, 
+      "RF2_kN": 0.33754563331604004, 
+      "frame": 74, 
+      "max_damage": 1.0019009113311768, 
+      "max_history_MPa": 4629.68896484375, 
+      "crack_extension_Delta_a_mm": 0.15027093887329102, 
+      "frame_time": 0.638250470161438
+    }, 
+    {
+      "crack_tip_x_mm": 0.650270938873291, 
+      "description": "Increment     75: Step Time =   0.6414", 
+      "u2_mm": 0.008206909522414207, 
+      "RF2_kN": 0.33785393834114075, 
+      "frame": 75, 
+      "max_damage": 1.0019010305404663, 
+      "max_history_MPa": 4629.68896484375, 
+      "crack_extension_Delta_a_mm": 0.15027093887329102, 
+      "frame_time": 0.6413819789886475
+    }, 
+    {
+      "crack_tip_x_mm": 0.650270938873291, 
+      "description": "Increment     76: Step Time =   0.6445", 
+      "u2_mm": 0.008222567848861217, 
+      "RF2_kN": 0.33818918466567993, 
+      "frame": 76, 
+      "max_damage": 1.0019010305404663, 
+      "max_history_MPa": 4629.68896484375, 
+      "crack_extension_Delta_a_mm": 0.15027093887329102, 
+      "frame_time": 0.6445134878158569
+    }, 
+    {
+      "crack_tip_x_mm": 0.650270938873291, 
+      "description": "Increment     77: Step Time =   0.6453", 
+      "u2_mm": 0.008226482197642326, 
+      "RF2_kN": 0.33825555443763733, 
+      "frame": 77, 
+      "max_damage": 1.0019010305404663, 
+      "max_history_MPa": 4629.68896484375, 
+      "crack_extension_Delta_a_mm": 0.15027093887329102, 
+      "frame_time": 0.6452963948249817
+    }, 
+    {
+      "crack_tip_x_mm": 0.650270938873291, 
+      "description": "Increment     78: Step Time =   0.6465", 
+      "u2_mm": 0.008232353255152702, 
+      "RF2_kN": 0.3383687734603882, 
+      "frame": 78, 
+      "max_damage": 1.0019010305404663, 
+      "max_history_MPa": 4629.68896484375, 
+      "crack_extension_Delta_a_mm": 0.15027093887329102, 
+      "frame_time": 0.6464707255363464
+    }, 
+    {
+      "crack_tip_x_mm": 0.650270938873291, 
+      "description": "Increment     79: Step Time =   0.6482", 
+      "u2_mm": 0.008241160772740841, 
+      "RF2_kN": 0.3385183811187744, 
+      "frame": 79, 
+      "max_damage": 1.0019010305404663, 
+      "max_history_MPa": 4629.68896484375, 
+      "crack_extension_Delta_a_mm": 0.15027093887329102, 
+      "frame_time": 0.6482322216033936
+    }, 
+    {
+      "crack_tip_x_mm": 0.650270938873291, 
+      "description": "Increment     80: Step Time =   0.6500", 
+      "u2_mm": 0.00824996829032898, 
+      "RF2_kN": 0.3386847972869873, 
+      "frame": 80, 
+      "max_damage": 1.0019010305404663, 
+      "max_history_MPa": 4629.68896484375, 
+      "crack_extension_Delta_a_mm": 0.15027093887329102, 
+      "frame_time": 0.6499937176704407
+    }, 
+    {
+      "crack_tip_x_mm": 0.650270938873291, 
+      "description": "Increment     81: Step Time =   0.6518", 
+      "u2_mm": 0.008258775807917118, 
+      "RF2_kN": 0.33884140849113464, 
+      "frame": 81, 
+      "max_damage": 1.0019010305404663, 
+      "max_history_MPa": 4629.68896484375, 
+      "crack_extension_Delta_a_mm": 0.15027093887329102, 
+      "frame_time": 0.651755154132843
+    }, 
+    {
+      "crack_tip_x_mm": 0.650270938873291, 
+      "description": "Increment     82: Step Time =   0.6544", 
+      "u2_mm": 0.008271986618638039, 
+      "RF2_kN": 0.3390563130378723, 
+      "frame": 82, 
+      "max_damage": 1.0019010305404663, 
+      "max_history_MPa": 4629.68896484375, 
+      "crack_extension_Delta_a_mm": 0.15027093887329102, 
+      "frame_time": 0.6543974280357361
+    }, 
+    {
+      "crack_tip_x_mm": 0.650270938873291, 
+      "description": "Increment     83: Step Time =   0.6570", 
+      "u2_mm": 0.008285198360681534, 
+      "RF2_kN": 0.33930256962776184, 
+      "frame": 83, 
+      "max_damage": 1.0019010305404663, 
+      "max_history_MPa": 4629.68896484375, 
+      "crack_extension_Delta_a_mm": 0.15027093887329102, 
+      "frame_time": 0.6570396423339844
+    }, 
+    {
+      "crack_tip_x_mm": 0.650270938873291, 
+      "description": "Increment     84: Step Time =   0.6597", 
+      "u2_mm": 0.008298409171402454, 
+      "RF2_kN": 0.33951258659362793, 
+      "frame": 84, 
+      "max_damage": 1.0019011497497559, 
+      "max_history_MPa": 4629.68896484375, 
+      "crack_extension_Delta_a_mm": 0.15027093887329102, 
+      "frame_time": 0.6596818566322327
+    }, 
+    {
+      "crack_tip_x_mm": 0.650270938873291, 
+      "description": "Increment     85: Step Time =   0.6623", 
+      "u2_mm": 0.00831162091344595, 
+      "RF2_kN": 0.3397473692893982, 
+      "frame": 85, 
+      "max_damage": 1.0019011497497559, 
+      "max_history_MPa": 4629.68896484375, 
+      "crack_extension_Delta_a_mm": 0.15027093887329102, 
+      "frame_time": 0.662324070930481
+    }, 
+    {
+      "crack_tip_x_mm": 0.650270938873291, 
+      "description": "Increment     86: Step Time =   0.6650", 
+      "u2_mm": 0.00832483172416687, 
+      "RF2_kN": 0.33994239568710327, 
+      "frame": 86, 
+      "max_damage": 1.0019011497497559, 
+      "max_history_MPa": 4629.68896484375, 
+      "crack_extension_Delta_a_mm": 0.15027093887329102, 
+      "frame_time": 0.664966344833374
+    }, 
+    {
+      "crack_tip_x_mm": 0.650270938873291, 
+      "description": "Increment     87: Step Time =   0.6689", 
+      "u2_mm": 0.008344648405909538, 
+      "RF2_kN": 0.34025561809539795, 
+      "frame": 87, 
+      "max_damage": 1.0019011497497559, 
+      "max_history_MPa": 4629.68896484375, 
+      "crack_extension_Delta_a_mm": 0.15027093887329102, 
+      "frame_time": 0.6689296960830688
+    }, 
+    {
+      "crack_tip_x_mm": 0.650270938873291, 
+      "description": "Increment     88: Step Time =   0.6704", 
+      "u2_mm": 0.008352079428732395, 
+      "RF2_kN": 0.34034180641174316, 
+      "frame": 88, 
+      "max_damage": 1.0019011497497559, 
+      "max_history_MPa": 4629.68896484375, 
+      "crack_extension_Delta_a_mm": 0.15027093887329102, 
+      "frame_time": 0.6704159379005432
+    }, 
+    {
+      "crack_tip_x_mm": 0.650270938873291, 
+      "description": "Increment     89: Step Time =   0.6726", 
+      "u2_mm": 0.008363226428627968, 
+      "RF2_kN": 0.3404921293258667, 
+      "frame": 89, 
+      "max_damage": 1.0019011497497559, 
+      "max_history_MPa": 4629.68896484375, 
+      "crack_extension_Delta_a_mm": 0.15027093887329102, 
+      "frame_time": 0.6726453304290771
+    }, 
+    {
+      "crack_tip_x_mm": 0.650270938873291, 
+      "description": "Increment     90: Step Time =   0.6760", 
+      "u2_mm": 0.00837994646281004, 
+      "RF2_kN": 0.34067583084106445, 
+      "frame": 90, 
+      "max_damage": 1.0019012689590454, 
+      "max_history_MPa": 4629.68896484375, 
+      "crack_extension_Delta_a_mm": 0.15027093887329102, 
+      "frame_time": 0.6759893894195557
+    }, 
+    {
+      "crack_tip_x_mm": 0.650270938873291, 
+      "description": "Increment     91: Step Time =   0.6772", 
+      "u2_mm": 0.008386217057704926, 
+      "RF2_kN": 0.34075260162353516, 
+      "frame": 91, 
+      "max_damage": 1.0019012689590454, 
+      "max_history_MPa": 4629.68896484375, 
+      "crack_extension_Delta_a_mm": 0.15027093887329102, 
+      "frame_time": 0.6772434115409851
+    }, 
+    {
+      "crack_tip_x_mm": 0.650270938873291, 
+      "description": "Increment     92: Step Time =   0.6791", 
+      "u2_mm": 0.008395622484385967, 
+      "RF2_kN": 0.34084272384643555, 
+      "frame": 92, 
+      "max_damage": 1.0019012689590454, 
+      "max_history_MPa": 4629.68896484375, 
+      "crack_extension_Delta_a_mm": 0.15027093887329102, 
+      "frame_time": 0.6791244745254517
+    }, 
+    {
+      "crack_tip_x_mm": 0.650270938873291, 
+      "description": "Increment     93: Step Time =   0.6819", 
+      "u2_mm": 0.008409730158746243, 
+      "RF2_kN": 0.3409701883792877, 
+      "frame": 93, 
+      "max_damage": 1.0019012689590454, 
+      "max_history_MPa": 4629.68896484375, 
+      "crack_extension_Delta_a_mm": 0.15027093887329102, 
+      "frame_time": 0.6819460391998291
+    }, 
+    {
+      "crack_tip_x_mm": 0.650270938873291, 
+      "description": "Increment     94: Step Time =   0.6862", 
+      "u2_mm": 0.008430891670286655, 
+      "RF2_kN": 0.3411489725112915, 
+      "frame": 94, 
+      "max_damage": 1.0019012689590454, 
+      "max_history_MPa": 4629.68896484375, 
+      "crack_extension_Delta_a_mm": 0.15027093887329102, 
+      "frame_time": 0.6861783862113953
+    }, 
+    {
+      "crack_tip_x_mm": 0.650270938873291, 
+      "description": "Increment     95: Step Time =   0.6878", 
+      "u2_mm": 0.008438827469944954, 
+      "RF2_kN": 0.34122371673583984, 
+      "frame": 95, 
+      "max_damage": 1.001901388168335, 
+      "max_history_MPa": 4629.68896484375, 
+      "crack_extension_Delta_a_mm": 0.15027093887329102, 
+      "frame_time": 0.6877654790878296
+    }, 
+    {
+      "crack_tip_x_mm": 0.650270938873291, 
+      "description": "Increment     96: Step Time =   0.6901", 
+      "u2_mm": 0.008450730703771114, 
+      "RF2_kN": 0.3413025140762329, 
+      "frame": 96, 
+      "max_damage": 1.001901388168335, 
+      "max_history_MPa": 4629.68896484375, 
+      "crack_extension_Delta_a_mm": 0.15027093887329102, 
+      "frame_time": 0.6901461482048035
+    }, 
+    {
+      "crack_tip_x_mm": 0.650270938873291, 
+      "description": "Increment     97: Step Time =   0.6937", 
+      "u2_mm": 0.008468586020171642, 
+      "RF2_kN": 0.34139418601989746, 
+      "frame": 97, 
+      "max_damage": 1.001901388168335, 
+      "max_history_MPa": 4629.68896484375, 
+      "crack_extension_Delta_a_mm": 0.15027093887329102, 
+      "frame_time": 0.6937172412872314
+    }, 
+    {
+      "crack_tip_x_mm": 0.650270938873291, 
+      "description": "Increment     98: Step Time =   0.6951", 
+      "u2_mm": 0.008475282229483128, 
+      "RF2_kN": 0.3414316475391388, 
+      "frame": 98, 
+      "max_damage": 1.001901388168335, 
+      "max_history_MPa": 4629.68896484375, 
+      "crack_extension_Delta_a_mm": 0.15027093887329102, 
+      "frame_time": 0.6950563788414001
+    }, 
+    {
+      "crack_tip_x_mm": 0.650270938873291, 
+      "description": "Increment     99: Step Time =   0.6971", 
+      "u2_mm": 0.008485325612127781, 
+      "RF2_kN": 0.3414515554904938, 
+      "frame": 99, 
+      "max_damage": 1.001901388168335, 
+      "max_history_MPa": 4629.68896484375, 
+      "crack_extension_Delta_a_mm": 0.15027093887329102, 
+      "frame_time": 0.6970650553703308
+    }, 
+    {
+      "crack_tip_x_mm": 0.650270938873291, 
+      "description": "Increment    100: Step Time =   0.7001", 
+      "u2_mm": 0.008500390686094761, 
+      "RF2_kN": 0.3414474427700043, 
+      "frame": 100, 
+      "max_damage": 1.001901388168335, 
+      "max_history_MPa": 4629.68896484375, 
+      "crack_extension_Delta_a_mm": 0.15027093887329102, 
+      "frame_time": 0.7000781297683716
+    }, 
+    {
+      "crack_tip_x_mm": 0.650270938873291, 
+      "description": "Increment    101: Step Time =   0.7046", 
+      "u2_mm": 0.00852298829704523, 
+      "RF2_kN": 0.3414129614830017, 
+      "frame": 101, 
+      "max_damage": 1.0019015073776245, 
+      "max_history_MPa": 4629.68896484375, 
+      "crack_extension_Delta_a_mm": 0.15027093887329102, 
+      "frame_time": 0.7045977115631104
+    }, 
+    {
+      "crack_tip_x_mm": 0.650270938873291, 
+      "description": "Increment    102: Step Time =   0.7063", 
+      "u2_mm": 0.008531462401151657, 
+      "RF2_kN": 0.3413873612880707, 
+      "frame": 102, 
+      "max_damage": 1.0019015073776245, 
+      "max_history_MPa": 4629.68896484375, 
+      "crack_extension_Delta_a_mm": 0.15027093887329102, 
+      "frame_time": 0.7062925696372986
+    }, 
+    {
+      "crack_tip_x_mm": 0.650270938873291, 
+      "description": "Increment    103: Step Time =   0.7088", 
+      "u2_mm": 0.008544174022972584, 
+      "RF2_kN": 0.34130844473838806, 
+      "frame": 103, 
+      "max_damage": 1.0019015073776245, 
+      "max_history_MPa": 4629.68896484375, 
+      "crack_extension_Delta_a_mm": 0.15027093887329102, 
+      "frame_time": 0.7088348269462585
+    }, 
+    {
+      "crack_tip_x_mm": 0.650270938873291, 
+      "description": "Increment    104: Step Time =   0.7126", 
+      "u2_mm": 0.008563240990042686, 
+      "RF2_kN": 0.34111490845680237, 
+      "frame": 104, 
+      "max_damage": 1.0019015073776245, 
+      "max_history_MPa": 4629.68896484375, 
+      "crack_extension_Delta_a_mm": 0.15027093887329102, 
+      "frame_time": 0.7126482725143433
+    }, 
+    {
+      "crack_tip_x_mm": 0.650270938873291, 
+      "description": "Increment    105: Step Time =   0.7141", 
+      "u2_mm": 0.008570391684770584, 
+      "RF2_kN": 0.3410099446773529, 
+      "frame": 105, 
+      "max_damage": 1.0019015073776245, 
+      "max_history_MPa": 4629.68896484375, 
+      "crack_extension_Delta_a_mm": 0.15027093887329102, 
+      "frame_time": 0.7140783071517944
+    }, 
+    {
+      "crack_tip_x_mm": 0.650270938873291, 
+      "description": "Increment    106: Step Time =   0.7162", 
+      "u2_mm": 0.008581116795539856, 
+      "RF2_kN": 0.3408057987689972, 
+      "frame": 106, 
+      "max_damage": 1.001901626586914, 
+      "max_history_MPa": 4629.68896484375, 
+      "crack_extension_Delta_a_mm": 0.15027093887329102, 
+      "frame_time": 0.7162232995033264
+    }, 
+    {
+      "crack_tip_x_mm": 0.650270938873291, 
+      "description": "Increment    107: Step Time =   0.7194", 
+      "u2_mm": 0.008597204461693764, 
+      "RF2_kN": 0.34042787551879883, 
+      "frame": 107, 
+      "max_damage": 1.001901626586914, 
+      "max_history_MPa": 4629.68896484375, 
+      "crack_extension_Delta_a_mm": 0.15027093887329102, 
+      "frame_time": 0.7194408774375916
+    }, 
+    {
+      "crack_tip_x_mm": 0.650270938873291, 
+      "description": "Increment    108: Step Time =   0.7206", 
+      "u2_mm": 0.008603237569332123, 
+      "RF2_kN": 0.34022256731987, 
+      "frame": 108, 
+      "max_damage": 1.001901626586914, 
+      "max_history_MPa": 4629.68896484375, 
+      "crack_extension_Delta_a_mm": 0.15027093887329102, 
+      "frame_time": 0.7206474542617798
+    }, 
+    {
+      "crack_tip_x_mm": 0.650270938873291, 
+      "description": "Increment    109: Step Time =   0.7225", 
+      "u2_mm": 0.008612287230789661, 
+      "RF2_kN": 0.3398645222187042, 
+      "frame": 109, 
+      "max_damage": 1.001901626586914, 
+      "max_history_MPa": 4629.68896484375, 
+      "crack_extension_Delta_a_mm": 0.15027093887329102, 
+      "frame_time": 0.7224573493003845
+    }, 
+    {
+      "crack_tip_x_mm": 0.650270938873291, 
+      "description": "Increment    110: Step Time =   0.7252", 
+      "u2_mm": 0.008625861257314682, 
+      "RF2_kN": 0.3392305076122284, 
+      "frame": 110, 
+      "max_damage": 1.001901626586914, 
+      "max_history_MPa": 4629.68896484375, 
+      "crack_extension_Delta_a_mm": 0.15027093887329102, 
+      "frame_time": 0.7251721620559692
+    }, 
+    {
+      "crack_tip_x_mm": 0.650270938873291, 
+      "description": "Increment    111: Step Time =   0.7262", 
+      "u2_mm": 0.008630950935184956, 
+      "RF2_kN": 0.3389035165309906, 
+      "frame": 111, 
+      "max_damage": 1.001901626586914, 
+      "max_history_MPa": 4629.68896484375, 
+      "crack_extension_Delta_a_mm": 0.15027093887329102, 
+      "frame_time": 0.7261902093887329
+    }, 
+    {
+      "crack_tip_x_mm": 0.650270938873291, 
+      "description": "Increment    112: Step Time =   0.7277", 
+      "u2_mm": 0.008638586848974228, 
+      "RF2_kN": 0.3383162021636963, 
+      "frame": 112, 
+      "max_damage": 1.0019017457962036, 
+      "max_history_MPa": 4629.68896484375, 
+      "crack_extension_Delta_a_mm": 0.15027093887329102, 
+      "frame_time": 0.7277173399925232
+    }, 
+    {
+      "crack_tip_x_mm": 0.650270938873291, 
+      "description": "Increment    113: Step Time =   0.7300", 
+      "u2_mm": 0.008650039322674274, 
+      "RF2_kN": 0.3372611105442047, 
+      "frame": 113, 
+      "max_damage": 1.0019017457962036, 
+      "max_history_MPa": 4629.68896484375, 
+      "crack_extension_Delta_a_mm": 0.15027093887329102, 
+      "frame_time": 0.7300079464912415
+    }, 
+    {
+      "crack_tip_x_mm": 0.650270938873291, 
+      "description": "Increment    114: Step Time =   0.7334", 
+      "u2_mm": 0.008667219430208206, 
+      "RF2_kN": 0.3353055417537689, 
+      "frame": 114, 
+      "max_damage": 1.0019017457962036, 
+      "max_history_MPa": 4629.68896484375, 
+      "crack_extension_Delta_a_mm": 0.15027093887329102, 
+      "frame_time": 0.7334439158439636
+    }, 
+    {
+      "crack_tip_x_mm": 0.650270938873291, 
+      "description": "Increment    115: Step Time =   0.7347", 
+      "u2_mm": 0.008673661388456821, 
+      "RF2_kN": 0.334135502576828, 
+      "frame": 115, 
+      "max_damage": 1.0019017457962036, 
+      "max_history_MPa": 4629.68896484375, 
+      "crack_extension_Delta_a_mm": 0.15027093887329102, 
+      "frame_time": 0.7347323894500732
+    }, 
+    {
+      "crack_tip_x_mm": 0.650270938873291, 
+      "description": "Increment    116: Step Time =   0.7367", 
+      "u2_mm": 0.008683325722813606, 
+      "RF2_kN": 0.3316081464290619, 
+      "frame": 116, 
+      "max_damage": 1.0019017457962036, 
+      "max_history_MPa": 4629.68896484375, 
+      "crack_extension_Delta_a_mm": 0.15027093887329102, 
+      "frame_time": 0.7366650700569153
+    }, 
+    {
+      "crack_tip_x_mm": 0.650270938873291, 
+      "description": "Increment    117: Step Time =   0.7396", 
+      "u2_mm": 0.008697820827364922, 
+      "RF2_kN": 0.3260091245174408, 
+      "frame": 117, 
+      "max_damage": 1.0019018650054932, 
+      "max_history_MPa": 4629.68896484375, 
+      "crack_extension_Delta_a_mm": 0.15027093887329102, 
+      "frame_time": 0.7395641803741455
+    }, 
+    {
+      "crack_tip_x_mm": 0.650270938873291, 
+      "description": "Increment    118: Step Time =   0.7439", 
+      "u2_mm": 0.008719563484191895, 
+      "RF2_kN": 0.3128024637699127, 
+      "frame": 118, 
+      "max_damage": 1.0019019842147827, 
+      "max_history_MPa": 4629.68896484375, 
+      "crack_extension_Delta_a_mm": 0.15027093887329102, 
+      "frame_time": 0.7439127564430237
+    }, 
+    {
+      "crack_tip_x_mm": 0.8500000238418579, 
+      "description": "Increment    119: Step Time =   0.7504", 
+      "u2_mm": 0.008752178400754929, 
+      "RF2_kN": 0.2855881154537201, 
+      "frame": 119, 
+      "max_damage": 1.0019021034240723, 
+      "max_history_MPa": 4629.68896484375, 
+      "crack_extension_Delta_a_mm": 0.3500000238418579, 
+      "frame_time": 0.7504357099533081
+    }, 
+    {
+      "crack_tip_x_mm": 0.8500000238418579, 
+      "description": "Increment    120: Step Time =   0.7510", 
+      "u2_mm": 0.008755235932767391, 
+      "RF2_kN": 0.2808576226234436, 
+      "frame": 120, 
+      "max_damage": 1.0019021034240723, 
+      "max_history_MPa": 4629.68896484375, 
+      "crack_extension_Delta_a_mm": 0.3500000238418579, 
+      "frame_time": 0.7510472536087036
+    }, 
+    {
+      "crack_tip_x_mm": 0.8500000238418579, 
+      "description": "Increment    121: Step Time =   0.7511", 
+      "u2_mm": 0.008755522780120373, 
+      "RF2_kN": 0.27605047821998596, 
+      "frame": 121, 
+      "max_damage": 1.0019022226333618, 
+      "max_history_MPa": 4629.68896484375, 
+      "crack_extension_Delta_a_mm": 0.3500000238418579, 
+      "frame_time": 0.7511045336723328
+    }, 
+    {
+      "crack_tip_x_mm": 0.8500000238418579, 
+      "description": "Increment    122: Step Time =   0.7511", 
+      "u2_mm": 0.008755549788475037, 
+      "RF2_kN": 0.27134600281715393, 
+      "frame": 122, 
+      "max_damage": 1.0019022226333618, 
+      "max_history_MPa": 4629.68896484375, 
+      "crack_extension_Delta_a_mm": 0.3500000238418579, 
+      "frame_time": 0.7511099576950073
+    }, 
+    {
+      "crack_tip_x_mm": 0.8500000238418579, 
+      "description": "Increment    123: Step Time =   0.7511", 
+      "u2_mm": 0.00875555258244276, 
+      "RF2_kN": 0.26675277948379517, 
+      "frame": 123, 
+      "max_damage": 1.0019023418426514, 
+      "max_history_MPa": 4629.68896484375, 
+      "crack_extension_Delta_a_mm": 0.3500000238418579, 
+      "frame_time": 0.7511104345321655
+    }, 
+    {
+      "crack_tip_x_mm": 0.8956859707832336, 
+      "description": "Increment    124: Step Time =   0.7511", 
+      "u2_mm": 0.00875555258244276, 
+      "RF2_kN": 0.26222649216651917, 
+      "frame": 124, 
+      "max_damage": 1.0019025802612305, 
+      "max_history_MPa": 4629.68896484375, 
+      "crack_extension_Delta_a_mm": 0.39568597078323364, 
+      "frame_time": 0.7511104941368103
+    }, 
+    {
+      "crack_tip_x_mm": 0.8956859707832336, 
+      "description": "Increment    125: Step Time =   0.7511", 
+      "u2_mm": 0.00875555258244276, 
+      "RF2_kN": 0.26222649216651917, 
+      "frame": 125, 
+      "max_damage": 1.0019025802612305, 
+      "max_history_MPa": 4629.68896484375, 
+      "crack_extension_Delta_a_mm": 0.39568597078323364, 
+      "frame_time": 0.7511104941368103
+    }
+  ], 
+  "nodes_count": 10299, 
+  "elements_count": 30897, 
+  "user_time_s": 1310.0, 
+  "max_damage": 1.0055006742477417, 
+  "hole_perimeter_x_mm": 0.65, 
+  "run_dir": "/scratch9/pr21vyci/runs/mode1_289_method_c_demo_job3", 
+  "E_fracture_kNmm": 0.0015928534, 
+  "step2_end_RF2_kN": 0.26222649216651917
+}
