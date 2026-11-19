@@ -1,0 +1,31 @@
+{
+  "task_id": "DAMAGE-CONTOURS-FOUR-CASES",
+  "status": "BLOCKED",
+  "date": "2026-11-19",
+  "new_pbs": 0,
+  "source_revision": "951ca407a550321d7eb34f8e55879e098ba70a88",
+  "existing_odb_paths": [
+    "/scratch9/pr21vyci/runs/f1859_suite/job2_adaptive_case1/PK_F1859_J2_C1.odb",
+    "/scratch9/pr21vyci/runs/f1859_suite/job2_adaptive_case2/PK_F1859_J2_C2.odb",
+    "/scratch9/pr21vyci/runs/f1859_suite/job2_adaptive_case3/PK_F1859_J2_C3.odb",
+    "/scratch9/pr21vyci/runs/f1859_suite/job2_adaptive_case5/PK_F1859_J2_C5.odb"
+  ],
+  "verified_odb_sizes": [
+    "4.9 GB",
+    "4.1 GB",
+    "1.4 GB",
+    "5.7 GB"
+  ],
+  "blocker": "Panasas filesystem I/O: D state, pan_fs_client_sam_alt_wait on Case 2 ODB, later pan_kernel_fs_client_file_fops on script reads/writes in same scratch directory. No final raw export returned.",
+  "partial_evidence": "Case 1 successfully read 20193 elements; later process reached Case 3 ODB. In-memory reads were not committed as complete exports.",
+  "images_created": 0,
+  "resume_condition": "Cluster scratch reads/writes respond normally. Re-upload checkpointing extractor via guarded wrapper; verify exact file hash and launch one bounded extraction; fetch per-case exports before plotting.",
+  "process_cleanup": "Sent KILL only to exact Codex-owned extraction/transfer helper PIDs; no scheduler operations, solver interruption, or AGY CLI interaction. Pending D-state processes may remain until filesystem returns.",
+  "repairs": [
+    "Abaqus Repository lacks get: replaced with membership/index access",
+    "Avoided all-frame field reads: selection from recorded CSV peak and deck ramp; actual U/RF checked at selected states",
+    "Added per-case export checkpoints after 120s and 600s extraction timeouts",
+    "Guarded SFTP upload timed out; bounded fallback scratch write also blocked; stopped pending helpers"
+  ],
+  "uncertainty": "Case 3 existing solve terminated early; complete paper-like crack development is not available from that result."
+}
