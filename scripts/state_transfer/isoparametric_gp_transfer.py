@@ -100,6 +100,29 @@ def quad_gp_shape_functions(xi: float, eta: float) -> List[float]:
     return funcs
 
 
+def point_in_triangle(
+    vertices: List[Tuple[float, float]],
+    x: float,
+    y: float
+) -> Tuple[float, float, float, float]:
+    """
+    Computes barycentric coordinates (L1, L2, L3) and containment distance
+    for physical point (x, y) inside a 3-node triangle with vertices [(x1,y1), (x2,y2), (x3,y3)].
+    Returns (L1, L2, L3, containment_dist) where containment_dist is 0.0 if strictly inside.
+    """
+    x1, y1 = vertices[0]
+    x2, y2 = vertices[1]
+    x3, y3 = vertices[2]
+    det = (x2 - x1) * (y3 - y1) - (x3 - x1) * (y2 - y1)
+    if abs(det) < 1e-15:
+        return 0.0, 0.0, 0.0, float('inf')
+    l2 = ((x - x1) * (y3 - y1) - (x3 - x1) * (y - y1)) / det
+    l3 = ((x2 - x1) * (y - y1) - (x - x1) * (y2 - y1)) / det
+    l1 = 1.0 - l2 - l3
+    c_dist = max(0.0, -l1, -l2, -l3)
+    return l1, l2, l3, c_dist
+
+
 def inverse_isoparametric_quad(
     vertices: List[Tuple[float, float]],
     x: float,
@@ -253,33 +276,45 @@ def transfer_isoparametric_gp_history(
       - 'exceptional_mappings': list of points requiring boundary tolerance or fallback
     """
     d_nodes = donor_mesh["nodes"]
-    d_quads = donor_mesh.get("quads", donor_mesh.get("elements", {}))
+    d_quads = donor_mesh.get("quads", {})
+    d_tris = donor_mesh.get("tris", {})
+    if not d_quads and not d_tris:
+        # Fallback to general elements dict
+        elems = donor_mesh.get("elements", {})
+        d_quads = {e: c for e, c in elems.items() if len(c) == 4}
+        d_tris = {e: c for e, c in elems.items() if len(c) == 3}
+    d_all_donor = {**d_quads, **d_tris}
     r_nodes = receiver_mesh["nodes"]
-    r_quads = receiver_mesh.get("elements", receiver_mesh.get("quads", {}))
+    r_quads = receiver_mesh.get("quads", {})
+    r_tris = receiver_mesh.get("tris", {})
+    if not r_quads and not r_tris:
+        r_elems = receiver_mesh.get("elements", {})
+        r_quads = {e: c for e, c in r_elems.items() if len(c) == 4}
+        r_tris = {e: c for e, c in r_elems.items() if len(c) == 3}
 
     # Pre-validate donor history integrity (fail-closed guard)
     for (deid, g), h_val in donor_history_dict.items():
         if not math.isfinite(h_val) or h_val < 0.0:
             raise ValueError(f"Fail-closed: Donor history value at element {deid}, GP {g} is invalid: {h_val}")
 
-    # Pre-organize donor quads by upper and lower slit flanks
-    upper_quads = {}
-    lower_quads = {}
-    for eid, conn in d_quads.items():
-        cy = sum(d_nodes[n][1] for n in conn) / 4.0
+    # Pre-organize donor elements by upper and lower slit flanks
+    upper_elems = {}
+    lower_elems = {}
+    for eid, conn in d_all_donor.items():
+        cy = sum(d_nodes[n][1] for n in conn) / float(len(conn))
         if cy >= slit_y - 1e-7:
-            upper_quads[eid] = conn
+            upper_elems[eid] = conn
         else:
-            lower_quads[eid] = conn
+            lower_elems[eid] = conn
 
     # Build 2D spatial bins for donor elements
-    def build_bins(quad_dict):
+    def build_bins(elem_dict):
         bboxes = []
-        for eid, conn in quad_dict.items():
+        for eid, conn in elem_dict.items():
             xs = [d_nodes[n][0] for n in conn]
             ys = [d_nodes[n][1] for n in conn]
-            cx = sum(xs) / 4.0
-            cy = sum(ys) / 4.0
+            cx = sum(xs) / float(len(conn))
+            cy = sum(ys) / float(len(conn))
             bboxes.append((eid, min(xs), max(xs), min(ys), max(ys), cx, cy, conn))
 
         bins = defaultdict(list)
@@ -294,8 +329,8 @@ def transfer_isoparametric_gp_history(
                     bins[(bx, by)].append(item)
         return bins, bboxes
 
-    bins_upper, bboxes_upper = build_bins(upper_quads)
-    bins_lower, bboxes_lower = build_bins(lower_quads)
+    bins_upper, bboxes_upper = build_bins(upper_elems)
+    bins_lower, bboxes_lower = build_bins(lower_elems)
 
     # Slit-flank identification
     r_slit_pairs = receiver_mesh.get("coincident_slit_pairs", [])
@@ -347,15 +382,26 @@ def transfer_isoparametric_gp_history(
             bx = max(0, int(gx / bin_size))
             by = max(0, int(gy / bin_size))
 
+            # Slit flank guard: only isolate flanks behind the crack tip (gx <= slit_a0)
+            is_in_slit = (gx <= slit_a0 + 1e-5)
+            if is_in_slit:
+                is_upper = (gy >= slit_y - 1e-7) or any(n in upper_slit_nids for n in r_conn)
+                target_bins_list = [bins_upper if is_upper else bins_lower]
+                target_fallback_list = [bboxes_upper if is_upper else bboxes_lower]
+            else:
+                target_bins_list = [bins_upper, bins_lower]
+                target_fallback_list = [bboxes_upper, bboxes_lower]
+
             # Gather candidates from bin and adjacent bins
             candidate_items = []
             seen_eids = set()
-            for dbx in (-1, 0, 1):
-                for dby in (-1, 0, 1):
-                    for item in target_bins.get((bx + dbx, by + dby), []):
-                        if item[0] not in seen_eids:
-                            seen_eids.add(item[0])
-                            candidate_items.append(item)
+            for t_bins in target_bins_list:
+                for dbx in (-1, 0, 1):
+                    for dby in (-1, 0, 1):
+                        for item in t_bins.get((bx + dbx, by + dby), []):
+                            if item[0] not in seen_eids:
+                                seen_eids.add(item[0])
+                                candidate_items.append(item)
 
             best_eid = None
             best_conn = None
@@ -371,12 +417,15 @@ def transfer_isoparametric_gp_history(
                     continue
 
                 d_vertices = [d_nodes[n] for n in conn]
-                xi_c, eta_c, conv = inverse_isoparametric_quad(d_vertices, gx, gy)
-                if not conv:
-                    continue
-
-                # Containment distance: 0.0 if strictly inside [-1, 1]^2
-                c_dist = max(0.0, abs(xi_c) - 1.0, abs(eta_c) - 1.0)
+                if len(conn) == 4:
+                    xi_c, eta_c, conv = inverse_isoparametric_quad(d_vertices, gx, gy)
+                    if not conv:
+                        continue
+                    # Containment distance: 0.0 if strictly inside [-1, 1]^2
+                    c_dist = max(0.0, abs(xi_c) - 1.0, abs(eta_c) - 1.0)
+                else:
+                    l1, l2, l3, c_dist = point_in_triangle(d_vertices, gx, gy)
+                    xi_c, eta_c = 0.0, 0.0
                 center_dist = (gx - cx)**2 + (gy - cy)**2
 
                 # If strictly contained within tolerance, evaluate deterministic criteria
@@ -393,21 +442,26 @@ def transfer_isoparametric_gp_history(
 
             # Fallback if point is near outer domain boundary or small discretization mismatch
             if best_eid is None:
-                # Search all fallback bboxes for closest isoparametric element
-                for deid, xmin, xmax, ymin, ymax, cx, cy, conn in fallback_bboxes:
-                    d_vertices = [d_nodes[n] for n in conn]
-                    xi_c, eta_c, conv = inverse_isoparametric_quad(d_vertices, gx, gy)
-                    if not conv:
-                        continue
-                    c_dist = max(0.0, abs(xi_c) - 1.0, abs(eta_c) - 1.0)
-                    center_dist = (gx - cx)**2 + (gy - cy)**2
-                    if c_dist < best_containment_dist:
-                        best_containment_dist = c_dist
-                        best_center_dist = center_dist
-                        best_eid = deid
-                        best_conn = conn
-                        best_xi = xi_c
-                        best_eta = eta_c
+                # Search fallback bboxes for closest isoparametric element
+                for f_bboxes in target_fallback_list:
+                    for deid, xmin, xmax, ymin, ymax, cx, cy, conn in f_bboxes:
+                        d_vertices = [d_nodes[n] for n in conn]
+                        if len(conn) == 4:
+                            xi_c, eta_c, conv = inverse_isoparametric_quad(d_vertices, gx, gy)
+                            if not conv:
+                                continue
+                            c_dist = max(0.0, abs(xi_c) - 1.0, abs(eta_c) - 1.0)
+                        else:
+                            l1, l2, l3, c_dist = point_in_triangle(d_vertices, gx, gy)
+                            xi_c, eta_c = 0.0, 0.0
+                        center_dist = (gx - cx)**2 + (gy - cy)**2
+                        if c_dist < best_containment_dist:
+                            best_containment_dist = c_dist
+                            best_center_dist = center_dist
+                            best_eid = deid
+                            best_conn = conn
+                            best_xi = xi_c
+                            best_eta = eta_c
 
                 if best_eid is not None and best_containment_dist <= 0.05:
                     exceptional_mappings.append({
@@ -424,6 +478,20 @@ def transfer_isoparametric_gp_history(
                         f"Fail-closed: Unresolved host element for receiver GP ({r_eid}, {gp_idx}) "
                         f"at ({gx:.6f}, {gy:.6f}). Min containment distance = {best_containment_dist:.6e}"
                     )
+
+            if len(best_conn) == 3:
+                # Triangular host element: history is uniform across the element
+                tri_key = (best_eid, 1)
+                if tri_key not in donor_history_dict and (best_eid, 0) in donor_history_dict:
+                    tri_key = (best_eid, 0)
+                if tri_key not in donor_history_dict:
+                    raise KeyError(f"Fail-closed: Missing donor history value for tri element {best_eid}")
+                h_val = float(donor_history_dict[tri_key])
+                if not math.isfinite(h_val) or h_val < 0.0:
+                    raise ValueError(f"Fail-closed: Invalid donor history {h_val} at tri ({best_eid})")
+                elem_h.append(h_val)
+                result_history_dict[(r_eid, gp_idx)] = h_val
+                continue
 
             # Clamp coordinates to [-1, 1] if slightly outside due to floating point
             d_xi = max(-1.0, min(1.0, best_xi))
@@ -466,6 +534,96 @@ def transfer_isoparametric_gp_history(
             result_history_dict[(r_eid, gp_idx)] = h_lim
 
         result_history[r_eid] = elem_h
+
+    # 6. Transfer history to receiver triangles (1 GP per triangle)
+    for r_eid, r_conn in r_tris.items():
+        r_coords = [r_nodes[n] for n in r_conn]
+        gx = sum(c[0] for c in r_coords) / 3.0
+        gy = sum(c[1] for c in r_coords) / 3.0
+        bx = max(0, int(gx / bin_size))
+        by = max(0, int(gy / bin_size))
+        is_in_slit = (gx <= slit_a0 + 1e-5)
+        if is_in_slit:
+            is_upper = (gy >= slit_y - 1e-7) or any(n in upper_slit_nids for n in r_conn)
+            target_bins_list = [bins_upper if is_upper else bins_lower]
+            target_fallback_list = [bboxes_upper if is_upper else bboxes_lower]
+        else:
+            target_bins_list = [bins_upper, bins_lower]
+            target_fallback_list = [bboxes_upper, bboxes_lower]
+
+        candidate_items = []
+        seen_eids = set()
+        for t_bins in target_bins_list:
+            for dbx in (-1, 0, 1):
+                for dby in (-1, 0, 1):
+                    for item in t_bins.get((bx + dbx, by + dby), []):
+                        if item[0] not in seen_eids:
+                            seen_eids.add(item[0])
+                            candidate_items.append(item)
+
+        best_eid = None
+        best_conn = None
+        best_xi, best_eta = 0.0, 0.0
+        best_c_dist = float("inf")
+        best_center_dist = float("inf")
+
+        for deid, xmin, xmax, ymin, ymax, cx, cy, conn in candidate_items:
+            if not ((xmin - 1e-5 <= gx <= xmax + 1e-5) and (ymin - 1e-5 <= gy <= ymax + 1e-5)):
+                continue
+            d_vertices = [d_nodes[n] for n in conn]
+            if len(conn) == 4:
+                xi_c, eta_c, conv = inverse_isoparametric_quad(d_vertices, gx, gy)
+                if not conv:
+                    continue
+                c_dist = max(0.0, abs(xi_c) - 1.0, abs(eta_c) - 1.0)
+            else:
+                l1, l2, l3, c_dist = point_in_triangle(d_vertices, gx, gy)
+                xi_c, eta_c = 0.0, 0.0
+            center_dist = (gx - cx)**2 + (gy - cy)**2
+            if c_dist <= containment_tol:
+                if (c_dist < best_c_dist - 1e-12) or (abs(c_dist - best_c_dist) <= 1e-12 and center_dist < best_center_dist):
+                    best_c_dist = c_dist
+                    best_center_dist = center_dist
+                    best_eid = deid
+                    best_conn = conn
+                    best_xi = xi_c
+                    best_eta = eta_c
+
+        if best_eid is None:
+            for f_bboxes in target_fallback_list:
+                for deid, xmin, xmax, ymin, ymax, cx, cy, conn in f_bboxes:
+                    d_vertices = [d_nodes[n] for n in conn]
+                    if len(conn) == 4:
+                        xi_c, eta_c, conv = inverse_isoparametric_quad(d_vertices, gx, gy)
+                        if not conv:
+                            continue
+                        c_dist = max(0.0, abs(xi_c) - 1.0, abs(eta_c) - 1.0)
+                    else:
+                        l1, l2, l3, c_dist = point_in_triangle(d_vertices, gx, gy)
+                        xi_c, eta_c = 0.0, 0.0
+                    center_dist = (gx - cx)**2 + (gy - cy)**2
+                    if c_dist < best_c_dist:
+                        best_c_dist = c_dist
+                        best_center_dist = center_dist
+                        best_eid = deid
+                        best_conn = conn
+                        best_xi = xi_c
+                        best_eta = eta_c
+
+        if best_eid is not None:
+            if len(best_conn) == 4:
+                d_xi = max(-1.0, min(1.0, best_xi))
+                d_eta = max(-1.0, min(1.0, best_eta))
+                donor_vals = [float(donor_history_dict[(best_eid, g)]) for g in range(1, 5)]
+                h_lim = reconstruct_gp_history(donor_vals, d_xi, d_eta, limiter_mode=limiter_mode)
+            else:
+                tri_key = (best_eid, 1) if (best_eid, 1) in donor_history_dict else (best_eid, 0)
+                h_lim = float(donor_history_dict.get(tri_key, 0.0))
+        else:
+            h_lim = 0.0
+
+        result_history[r_eid] = [h_lim]
+        result_history_dict[(r_eid, 1)] = h_lim
 
     return {
         "status": "TRANSFER_COMPLETE",

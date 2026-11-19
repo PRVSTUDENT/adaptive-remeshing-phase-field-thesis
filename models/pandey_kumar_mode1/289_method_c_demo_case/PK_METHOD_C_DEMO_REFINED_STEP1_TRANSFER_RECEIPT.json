@@ -1,0 +1,37 @@
+{
+  "benchmark": "METHOD_C_DEMO_PLATE_ON_AXIS_HOLE_REEQUILIBRATION",
+  "donor_case": {
+    "source_odb": "/scratch9/pr21vyci/runs/mode1_289_method_c_demo_case/PK_METHOD_C_DEMO_COARSE_JOB1.odb",
+    "step_name": "Step-1",
+    "step_time": 1.0,
+    "max_damage": 0.1369674950838089,
+    "max_history_MPa": 0.2498721033334732,
+    "num_nodes": 3017,
+    "num_elements": 2920
+  },
+  "receiver_mesh": {
+    "physical_inp": "models/pandey_kumar_mode1/289_method_c_demo_case/PK_METHOD_C_DEMO_REFINED_STEP1_PHYS.inp",
+    "num_nodes": 10298,
+    "num_elements": 10299,
+    "num_quads": 9974,
+    "num_tris": 325,
+    "num_layered_elements": 30897
+  },
+  "transfer_metrics": {
+    "limiter_mode": "convex_clamp",
+    "clamped_count": 10123,
+    "negative_prevented_count": 63,
+    "max_extrapolation_distance": 0.42264540683657614,
+    "receiver_max_damage": 0.1691775918006897,
+    "receiver_mean_damage": 0.020593775271423094,
+    "receiver_max_history_MPa": 0.2498721033334732,
+    "damage_preserved_no_healing": true,
+    "thermodynamic_nonnegativity_verified": true
+  },
+  "assembled_deck": {
+    "deck_path": "models/pandey_kumar_mode1/289_method_c_demo_case/PK_METHOD_C_DEMO_REFINED_STEP1_JOB2.inp",
+    "deck_sha256": "E75B82FC55084473A88202FABA40BE5C95E299947B08D4011CE75613A4B659E3",
+    "target_displacement_u2_mm": 0.005,
+    "execution_status": "STAGED_READY_FOR_SUPERVISORY_REVIEW"
+  }
+}

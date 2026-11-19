@@ -1,16 +1,16 @@
 ﻿{
   "task_id": "METHOD-C-PHASE1-DEMO-AND-LOOP-SKELETON",
   "title": "Method C Phase 2: Resolving Remeshing Driver Path & Transfer Re-equilibration Package",
-  "task_status": "IN_PROGRESS",
+  "task_status": "COMPLETED_READY_FOR_INDEPENDENT_REVIEW",
   "master_goal_status": "OPEN",
-  "status": "IN_PROGRESS",
+  "status": "COMPLETED_READY_FOR_INDEPENDENT_REVIEW",
   "review_verdict": "APPROVE",
   "review_correlation_id": "HND-METHOD-C-PHASE2-JOB1-003",
   "classification": "METHOD_C_INCREMENTAL_ADAPTIVE_REMESHING",
   "assigned_agent": "gemini-antigravity",
-  "active_pbs_job_id": "1424517.mmaster02",
+  "active_pbs_job_id": null,
   "last_successful_pbs_job_id": "1424517.mmaster02",
-  "checkpoint_artifact": "docs/validation/METHOD_C_PHASE2_JOB1_BASELINE_OBSERVABLES_REPORT.md",
+  "checkpoint_artifact": "docs/validation/METHOD_C_PHASE2_TRANSFER_REEQUILIBRATION_PACKAGE_REPORT.md",
   "review_directive": "Resolve the remeshing-decision driver-signal gap for the demo Step-1 state, then prepare the re-equilibration test package. Because d_max = 0.169 is below the 0.5 damage-envelope threshold and native MISESERI is 0.0 (UMAT companion), explicitly determine and document the remeshing-decision path for this state (constructed damage envelope at the current damage level, a lower threshold, or a different indicator). Then build the refined receiver mesh for the Step-1 state and prepare the transfer package using the qualified isoparametric_gp_transfer.py with convex_clamp, preserving the incipient tip damage (no healing). Max new PBS: 0 (cumulative 58 preserved). Commit decision record, refined mesh, and transfer package, then re-issue for review.",
   "predecessor_task": {
     "task_id": "METHOD-C-PHASE1-DEMO-AND-LOOP-SKELETON",
@@ -28,7 +28,7 @@
   "native_interface_sha256": "E5C98B6F601B1CD586571F8E24F357D15ABBD1C5D5487B52903BA249734279B2",
   "framework_sha256": "42217DAB0B8C3B7EFF9C8BF46FD75B7E99F06E436D9841846DF36C46E618A30A",
   "max_new_pbs_submissions": 0,
-  "submissions_consumed": 1,
+  "submissions_consumed": 0,
   "cumulative_pbs_submissions": 58,
-  "notes": "Handoff HND-METHOD-C-PHASE2-JOB1-003 officially approved. Job-1 baseline verified Exit 0 (walltime 1511s, CPU 909s); observables extracted. Next: resolve remeshing decision path for Step-1 donor, generate refined receiver mesh, prepare transfer package, max_new_pbs = 0, cumulative 58 preserved. MASTER_GOAL_STATUS = OPEN."
+  "notes": "Transfer re-equilibration package complete: remeshing decision record authored (resolving NOTE-MC-J1B-01), refined physical mesh generated (10299 el, 96.84% quads, h=0.0035 mm < l0/2), state transfer executed with convex_clamp preserving tip damage d_max=0.169178 without healing (NOTE-MC-J1B-02), 3-layer production re-equilibration deck assembled (PK_METHOD_C_DEMO_REFINED_STEP1_JOB2.inp, 30897 layered elements, fixed load u2=0.0050 mm). 18/18 Method C tests PASS. Max new PBS = 0, cumulative 58 preserved. Staged and ready for review under HND-METHOD-C-PHASE2-REEQUIL-001. MASTER_GOAL_STATUS = OPEN."
 }
