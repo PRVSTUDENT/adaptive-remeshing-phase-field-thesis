@@ -14142,6 +14142,57 @@
         "lifecycle_tests": "PASS"
       },
       "qualified_at": "2026-11-12T09:39:22.138745+00:00"
+    },
+    "1c72a7f22ad1fdee7c71cc8fb4d3cbf19e5610b458561f3edde6d71b0af461c0": {
+      "manifest_path": "D:\\Master thesis\\Adaptive remeshing\\models\\pandey_kumar_mode1\\289_method_c_demo_case\\METHOD_C_DEMO_JOB1_AUTHORIZATION.json",
+      "attempts": {
+        "demo_coarse_job1": 1
+      },
+      "audit": [
+        {
+          "job": "demo_coarse_job1",
+          "event": "SUBMISSION_RESERVED",
+          "at": "2026-11-19T12:51:18.208131+00:00",
+          "command_sha256": "7edf9c5898389098acf5fd762526d64921ae03c484ca86b5aedb656926b6df52"
+        }
+      ],
+      "preflight": {
+        "active_job_count": 0,
+        "adapter_contract": "mode1-qualified-batch-v2",
+        "datachecks": {
+          "demo_coarse_job1": {
+            "status": "PASS",
+            "input_sha256": "69abff7acd1efd767046e686847f30d06f808bbec738c2fbb9bdff478a66ec9c",
+            "dat_sha256": "561cbbea151e132d031bbeb0b2e0ca93224c6c82e5c37876f1c27cd2df49a727"
+          }
+        },
+        "batch_spec_sha256": "a92ba1dea32219cdb31cac0bd290d8cb94c15f73301c9523b4155296e1955d86",
+        "passed": true,
+        "pbs_email_verified": true,
+        "telegram_verified": true,
+        "submission_queue": "entry_imfdfkmq",
+        "queue_access_preflight": "PASS",
+        "compiler_environment": "PASS_LOGIN_NODE",
+        "datacheck_verified": "PASS_BOTH",
+        "candidate_manifest_sha256": "1c72a7f22ad1fdee7c71cc8fb4d3cbf19e5610b458561f3edde6d71b0af461c0",
+        "authorized_command_sha256": "7edf9c5898389098acf5fd762526d64921ae03c484ca86b5aedb656926b6df52",
+        "checked_at": "2026-11-19T12:51:03.161310+00:00",
+        "config_path": "/home/pr21vyci/.config/adaptive-remeshing/notifications.env",
+        "config_mode": "600",
+        "file_hashes": {
+          "PK_METHOD_C_DEMO_COARSE_JOB1.inp": "69abff7acd1efd767046e686847f30d06f808bbec738c2fbb9bdff478a66ec9c",
+          "PK_METHOD_C_DEMO_COARSE_PHYS.inp": "bbf9b529f5e04eee6eb379600d6fc7c6bfa5551c8595341430326e660a8a4ce7",
+          "f42_mixed_uel.for": "ce8d5edcd2911dcb018bb15275271f874e7ea62b8fb48cf4a8297469a83acdd6",
+          "submit_demo_coarse_job1.pbs": "dbb2ad8dd400c7dee5b2556941e0c5f209892755b0e5178dbb58fe346c002785",
+          "job_notifications.sh": "96756a681d2d36c11b36b89288f631f8ecc9537543c2c745a4bae1b425984b47"
+        },
+        "helper_sha256": "96756a681d2d36c11b36b89288f631f8ecc9537543c2c745a4bae1b425984b47",
+        "email_evidence": "sendmail accepted test message; PBS abe directives verified",
+        "telegram_notification_contract": "PASS_LOGIN_NODE",
+        "compute_node_delivery": "UNRESOLVED",
+        "lifecycle_tests": "PASS"
+      },
+      "qualified_at": "2026-11-19T12:51:03.514603+00:00"
     }
   }
 }

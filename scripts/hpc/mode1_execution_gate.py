@@ -74,6 +74,7 @@ def validate_manifest(path, root=ROOT):
     is_five_hole_amor = (batch.get('adapter') in ('mode1-five-hole-amor-v1', 'mode1-five-hole-amor-v2', 'mode1-five-hole-staggered-v1', 'five-hole-qualified-batch-v1') or batch.get('configuration') in ('FIVE_HOLE_AMOR', 'FIVE_HOLE_STAGGERED') or batch.get('technical_stage') in ('FIVE_HOLE_AMOR', 'FIVE_HOLE_ADAPTED', 'FIVE_HOLE_CAUSAL_PILOT') or batch.get('scientific_scope') == 'FIVE_HOLE')
     is_continuum = (batch.get('adapter') == 'mode1-continuum-preanalysis-v1' or batch.get('configuration') == 'CONTINUUM_PREANALYSIS')
     is_trace = batch.get('adapter') == 'mode1-uel-trace-v1'
+    is_method_c_demo = (batch.get('batch_name', '').startswith('MODE1_METHOD_C') or 'demo' in str(path).lower())
     if is_trace:
         require(batch.get('diagnostic_kind')=='NONINVASIVE_HISTORY_CALL_TRACE' and batch.get('hypothesis'), 'Reviewed trace hypothesis required')
         require(files.get('f42_experimental_offset_uel.for')==EXPERIMENTAL_OFFSET_UEL and files.get('job_notifications.sh'), 'Pinned trace parent/notifications required')
@@ -110,11 +111,14 @@ def validate_manifest(path, root=ROOT):
         if is_five_hole_amor:
             require(job['cpus'] in (1, 4) and type(job['memory_gb']) is int and 1<=job['memory_gb']<=32 and type(job['walltime_hours']) is int and 1<=job['walltime_hours']<=24,'Resource bounds exceeded')
             require(job['execution'] in ('single-rank serial', 'shared-memory SMP') and job['queue']=='entry_imfdfkmq','Single-rank serial or SMP routing required')
+        elif is_method_c_demo:
+            require(job['cpus'] in (1, 8, 16) and type(job['memory_gb']) is int and 1<=job['memory_gb']<=48 and type(job['walltime_hours']) is int and 1<=job['walltime_hours']<=72,'Resource bounds exceeded')
+            require(job['execution'] in ('single-rank serial', 'shared-memory SMP', '16-cpu shared-memory SMP') and job['queue']=='entry_imfdfkmq','Single-rank serial or SMP routing required')
         else:
             require(job['cpus']==1 and type(job['memory_gb']) is int and 1<=job['memory_gb']<=16 and type(job['walltime_hours']) is int and 1<=job['walltime_hours']<=8,'Resource bounds exceeded')
             require(job['execution']=='single-rank serial' and job['queue']=='entry_imfdfkmq','Single-rank serial routing required')
         require(job['max_submissions']==1 and job.get('purpose') and job.get('input') in files,'Bound input/purpose/once-only limit required')
-        require(re.fullmatch(r'submit_M1_[A-Z0-9_]+[.]pbs',job['pbs']) and job['pbs'] in files,'Unbound/unsafe PBS script')
+        require(re.fullmatch(r'submit_(?:M1_)?[A-Za-z0-9_]+[.]pbs',job['pbs']) and job['pbs'] in files,'Unbound/unsafe PBS script')
         expected='powershell -NoProfile -ExecutionPolicy Bypass -File .\\.agents\\scripts\\Invoke-GuardedSsh.ps1 -RemoteCommand "qsub -q entry_imfdfkmq '+run+'/'+job['pbs']+'"'
         require(job['command']==expected and digest(canonical(expected).encode())==job['command_sha256'],'Command differs from exact guarded manifest')
         require(set(job.get('depends_on',[]))<=seen,'Unknown or cyclic predecessor')

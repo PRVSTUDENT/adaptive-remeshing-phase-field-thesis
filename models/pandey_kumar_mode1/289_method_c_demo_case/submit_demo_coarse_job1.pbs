@@ -1,8 +1,8 @@
 #!/bin/bash
 #PBS -N M1_MC_DEMO_JOB1
-#PBS -l select=1:ncpus=16:mem=48gb
+#PBS -l select=1:ncpus=16:mpiprocs=1:ompthreads=16:mem=48gb
 #PBS -l walltime=72:00:00
-#PBS -q normal_imfdfkmq
+#PBS -q entry_imfdfkmq
 #PBS -j oe
 #PBS -r n
 #PBS -o /scratch9/pr21vyci/runs/mode1_289_method_c_demo_case/pbs_execution.log

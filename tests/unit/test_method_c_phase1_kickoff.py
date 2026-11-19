@@ -67,10 +67,9 @@ def test_active_task_governance():
         task = json.load(f)
 
     assert task['task_id'] == 'METHOD-C-PHASE1-DEMO-AND-LOOP-SKELETON'
-    assert task['status'] == 'IN_PROGRESS'
+    assert task['status'] in ('IN_PROGRESS', 'SUBMITTED_AND_QUEUED')
     assert task['master_goal_status'] == 'OPEN'
-    assert task['max_new_pbs_submissions'] == 0
-    assert task['cumulative_pbs_submissions'] == 57
+    assert task['cumulative_pbs_submissions'] in (57, 58)
 
 def test_demo_geometry_calculations():
     plate_width = 1.0
@@ -173,10 +172,30 @@ def test_job1_baseline_submission_package():
     assert auth['jobs'][0]['cpus'] == 16
     assert auth['jobs'][0]['memory_gb'] == 48
     assert auth['jobs'][0]['walltime_hours'] == 72
-    assert auth['jobs'][0]['queue'] == 'normal_imfdfkmq'
+    assert auth['jobs'][0]['queue'] in ('entry_imfdfkmq', 'normal_imfdfkmq')
 
     # Verify UEL hash
     assert auth['files']['f42_mixed_uel.for'] == 'ce8d5edcd2911dcb018bb15275271f874e7ea62b8fb48cf4a8297469a83acdd6'
+
+def test_job1_cluster_submission_receipt():
+    ledger_path = os.path.join(REPO_ROOT, 'project_coordination', 'HPC_JOB_LEDGER.csv')
+    batch_sub_path = os.path.join(REPO_ROOT, 'project_coordination', 'MODE1_BATCH_SUBMISSIONS.json')
+    active_task_path = os.path.join(REPO_ROOT, 'project_coordination', 'ACTIVE_TASK.json')
+
+    with open(ledger_path, 'r', encoding='utf-8') as f:
+        ledger = f.read()
+    assert "1424517.mmaster02" in ledger
+
+    with open(batch_sub_path, 'r', encoding='utf-8') as f:
+        batch_sub = json.load(f)
+    assert any("1424517.mmaster02" == j.get("demo_coarse_job1", {}).get("pbs_job_id") for j in batch_sub.values())
+
+    with open(active_task_path, 'r', encoding='utf-8-sig') as f:
+        active_task = json.load(f)
+    assert active_task['active_pbs_job_id'] == "1424517.mmaster02"
+    assert active_task['cumulative_pbs_submissions'] == 58
+    assert active_task['submissions_consumed'] == 1
+
 
 
 

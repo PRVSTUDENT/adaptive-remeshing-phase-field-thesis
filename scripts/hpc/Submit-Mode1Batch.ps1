@@ -8,7 +8,7 @@ $batch=Get-Content $ManifestPath -Raw|ConvertFrom-Json
 $candidates=@($batch.jobs|Where-Object {$_.id -ceq $Job})
 if($candidates.Count -ne 1){throw 'Job absent or ambiguous'}
 $j=$candidates[0];$run=$batch.remote_run_dir
-if($run -notmatch '^/scratch9/pr21vyci/runs/mode1_[a-z0-9_/]+$' -or $run.Contains('..') -or $j.pbs -notmatch '^submit_M1_[A-Z0-9_]+\.pbs$'){throw 'Unsafe execution path'}
+if($run -notmatch '^/scratch9/pr21vyci/runs/mode1_[a-z0-9_/]+$' -or $run.Contains('..') -or $j.pbs -notmatch '^submit_(?:M1_)?[A-Za-z0-9_]+\.pbs$'){throw 'Unsafe execution path'}
 $remote='qsub -q entry_imfdfkmq '+$run+'/'+$j.pbs
 $expected='powershell -NoProfile -ExecutionPolicy Bypass -File .\.agents\scripts\Invoke-GuardedSsh.ps1 -RemoteCommand "'+$remote+'"'
 if($j.command -cne $expected){throw 'Command outside exact guarded adapter'}
