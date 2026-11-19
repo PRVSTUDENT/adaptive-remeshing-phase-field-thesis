@@ -1,11 +1,11 @@
 {
   "active": false,
   "agent": "codex",
-  "session_id": "2026-11-18_2005_gemini-antigravity_f1861_uniform_reference",
-  "task_id": "DAMAGE-CONTOURS-FOUR-CASES",
+  "session_id": "2026-11-19_codex_damage_growth_frames",
+  "task_id": "DAMAGE-GROWTH-FRAME-SELECTION",
   "started_at": "2026-11-18T20:05:00+01:00",
   "ended_at": "2026-11-18T20:31:00+01:00",
-  "starting_commit": "951ca407a550321d7eb34f8e55879e098ba70a88",
+  "starting_commit": "adfa44dec20ab5548acf4aca110e4413bc84236e",
   "allowed_write_scope": [
     "scripts/postprocessing/extract_adaptive_damage_contours.py",
     "scripts/postprocessing/run_adaptive_damage_extraction.sh",
@@ -15,7 +15,8 @@
     "project_coordination/ACTIVE_SESSION.json",
     "project_coordination/ARTIFACT_REGISTRY.csv",
     "project_coordination/TASK_LEDGER.csv",
-    "project_coordination/sessions/*damage_contours*"
+    "project_coordination/sessions/*damage_contours*",
+    "scripts/postprocessing/extract_damage_growth_states.py"
   ],
-  "notes": "Cases 1/2/3 authentic damage panels completed and verified; Case 5 existing ODB read remains blocked in Panasas storage, PID3877974. No new PBS. Resume matching pending extractor/checkpoint, do not duplicate."
+  "notes": "Completed growth-based visualization correction and recovered Case 5: all four panels plus 16 individual images verified. No PBS, solver, mesh or framework changes; master research goal OPEN."
 }

@@ -1,139 +1,875 @@
 {
   "source": "Existing F1859 adaptive Job-2 ODBs; no solve or remesh",
-  "raw_export_sha256": "7d56600e448cd8ae6882b54485621944b06ff43c5ad7ed47c143519fd36605d8",
+  "raw_export_sha256": "f4a02985065c9b5b1fd1c3ab206c6a844cce7c53823d8c828963852be2bbca87",
   "states": [
     {
       "case": 1,
-      "selection": "90% peak displacement pre-peak; peak load; halfway in recorded frames from peak to last; last converged frame",
+      "selection_audit": {
+        "distinct_progression": true,
+        "caveat": "Damage-content progression is a visualization measure, not a fracture error estimator or crack-length measurement.",
+        "final_metric": 0.004818387856380105,
+        "metric": "sum(element area * max(mean SDV1 - 0.5, 0))",
+        "target_fractions": [
+          0.1,
+          0.35,
+          0.65,
+          0.95
+        ],
+        "evaluated_frames": [
+          {
+            "global_index": 143,
+            "score": 0.0,
+            "max_damage": 0.4788651466369629
+          },
+          {
+            "global_index": 179,
+            "score": 0.00039763796994101683,
+            "max_damage": 0.9991158843040466
+          },
+          {
+            "global_index": 180,
+            "score": 0.00044894445370167595,
+            "max_damage": 0.9990487694740295
+          },
+          {
+            "global_index": 181,
+            "score": 0.000501900344846369,
+            "max_damage": 0.9991132616996765
+          },
+          {
+            "global_index": 182,
+            "score": 0.0005555621663390436,
+            "max_damage": 0.9991664290428162
+          },
+          {
+            "global_index": 183,
+            "score": 0.0006119311206378271,
+            "max_damage": 0.9992269277572632
+          },
+          {
+            "global_index": 184,
+            "score": 0.0006693870700531858,
+            "max_damage": 0.999285101890564
+          },
+          {
+            "global_index": 188,
+            "score": 0.0008640803120626728,
+            "max_damage": 0.9998008012771606
+          },
+          {
+            "global_index": 197,
+            "score": 0.0013337841376475886,
+            "max_damage": 1.0003507137298584
+          },
+          {
+            "global_index": 202,
+            "score": 0.0015942911597737316,
+            "max_damage": 1.0004777908325195
+          },
+          {
+            "global_index": 203,
+            "score": 0.0016474953786254464,
+            "max_damage": 1.0004948377609253
+          },
+          {
+            "global_index": 204,
+            "score": 0.001699859082131715,
+            "max_damage": 1.0005122423171997
+          },
+          {
+            "global_index": 205,
+            "score": 0.0017535391666199474,
+            "max_damage": 1.0005269050598145
+          },
+          {
+            "global_index": 206,
+            "score": 0.0018080670772069366,
+            "max_damage": 1.0005403757095337
+          },
+          {
+            "global_index": 215,
+            "score": 0.002330967061944771,
+            "max_damage": 1.0006190538406372
+          },
+          {
+            "global_index": 224,
+            "score": 0.0028857872592846934,
+            "max_damage": 1.000654935836792
+          },
+          {
+            "global_index": 226,
+            "score": 0.003013244898226479,
+            "max_damage": 1.0006598234176636
+          },
+          {
+            "global_index": 227,
+            "score": 0.0030890744060780174,
+            "max_damage": 1.0006623268127441
+          },
+          {
+            "global_index": 228,
+            "score": 0.0031511264838332796,
+            "max_damage": 1.0006639957427979
+          },
+          {
+            "global_index": 229,
+            "score": 0.003220715807483503,
+            "max_damage": 1.0006656646728516
+          },
+          {
+            "global_index": 230,
+            "score": 0.0032910134007779245,
+            "max_damage": 1.000667691230774
+          },
+          {
+            "global_index": 233,
+            "score": 0.0035171676649628845,
+            "max_damage": 1.0006723403930664
+          },
+          {
+            "global_index": 242,
+            "score": 0.004291592964086995,
+            "max_damage": 1.0006800889968872
+          },
+          {
+            "global_index": 243,
+            "score": 0.004332635427266686,
+            "max_damage": 1.0006800889968872
+          },
+          {
+            "global_index": 244,
+            "score": 0.004385497215095283,
+            "max_damage": 1.0006800889968872
+          },
+          {
+            "global_index": 245,
+            "score": 0.004657367242438716,
+            "max_damage": 1.0006802082061768
+          },
+          {
+            "global_index": 246,
+            "score": 0.0048127010524024886,
+            "max_damage": 1.0006802082061768
+          },
+          {
+            "global_index": 247,
+            "score": 0.004812761199560788,
+            "max_damage": 1.0006802082061768
+          },
+          {
+            "global_index": 251,
+            "score": 0.004812788040111016,
+            "max_damage": 1.0006802082061768
+          },
+          {
+            "global_index": 286,
+            "score": 0.004813157867711957,
+            "max_damage": 1.000695824623108
+          },
+          {
+            "global_index": 572,
+            "score": 0.004818387856380105,
+            "max_damage": 1.0005807876586914
+          }
+        ],
+        "achieved_fractions": [
+          0.10416354179163777,
+          0.35278585551823194,
+          0.6539794175474732,
+          0.9665820563348425
+        ],
+        "selected_global_indices": [
+          181,
+          204,
+          228,
+          245
+        ]
+      },
+      "selection": "Four distinct recorded frames nearest 10/35/65/95% of final integral area*max(SDV1-0.5,0), using bracketed search and neighbouring-frame audit. No interpolation of fields or time.",
       "odb_bytes": 5190589408,
       "aggregation": "Arithmetic mean of SDV1 integration-point values per companion element; no spatial smoothing",
       "odb": "/scratch9/pr21vyci/runs/f1859_suite/job2_adaptive_case1/PK_F1859_J2_C1.odb",
       "states": [
         {
-          "frame_id": 54,
+          "frame_id": 130,
           "step": "Step-2",
-          "frame_index": 54,
-          "time": 0.1080000028014183,
-          "rf2_kn": 0.7260356545448303,
-          "u2_mm": 0.005539999809116125,
-          "max_damage": 0.36486974358558655
+          "progress_fraction": 0.10416354179163777,
+          "frame_index": 130,
+          "time": 0.25999999046325684,
+          "rf2_kn": 0.7069941759109497,
+          "u2_mm": 0.006300000008195639,
+          "max_damage": 0.9991132616996765,
+          "selection_global_index": 181
         },
         {
-          "frame_id": 116,
+          "frame_id": 153,
           "step": "Step-2",
-          "frame_index": 116,
-          "time": 0.23199999332427979,
-          "rf2_kn": 0.7887082099914551,
-          "u2_mm": 0.0061599998734891415,
-          "max_damage": 0.6990024447441101
+          "progress_fraction": 0.35278585551823194,
+          "frame_index": 153,
+          "time": 0.3059999942779541,
+          "rf2_kn": 0.516236424446106,
+          "u2_mm": 0.0065299998968839645,
+          "max_damage": 1.0005122423171997,
+          "selection_global_index": 204
         },
         {
-          "frame_id": 318,
+          "frame_id": 177,
           "step": "Step-2",
-          "frame_index": 318,
-          "time": 0.5952026844024658,
-          "rf2_kn": 0.0011865790002048016,
-          "u2_mm": 0.007976013235747814,
-          "max_damage": 1.0006864070892334
+          "progress_fraction": 0.6539794175474732,
+          "frame_index": 177,
+          "time": 0.3540000021457672,
+          "rf2_kn": 0.2846182584762573,
+          "u2_mm": 0.006769999861717224,
+          "max_damage": 1.0006639957427979,
+          "selection_global_index": 228
         },
         {
-          "frame_id": 521,
+          "frame_id": 194,
           "step": "Step-2",
-          "frame_index": 521,
-          "time": 1.0,
-          "rf2_kn": 0.0008043945417739451,
-          "u2_mm": 0.009999999776482582,
-          "max_damage": 1.0005807876586914
+          "progress_fraction": 0.9665820563348425,
+          "frame_index": 194,
+          "time": 0.3783341944217682,
+          "rf2_kn": 0.0016437734011560678,
+          "u2_mm": 0.006891671102494001,
+          "max_damage": 1.0006802082061768,
+          "selection_global_index": 245
         }
       ]
     },
     {
       "case": 2,
-      "selection": "90% peak displacement pre-peak; peak load; halfway in recorded frames from peak to last; last converged frame",
+      "selection_audit": {
+        "distinct_progression": true,
+        "caveat": "Damage-content progression is a visualization measure, not a fracture error estimator or crack-length measurement.",
+        "final_metric": 0.004446324447906153,
+        "metric": "sum(element area * max(mean SDV1 - 0.5, 0))",
+        "target_fractions": [
+          0.1,
+          0.35,
+          0.65,
+          0.95
+        ],
+        "evaluated_frames": [
+          {
+            "global_index": 69,
+            "score": 0.0,
+            "max_damage": 0.3805929124355316
+          },
+          {
+            "global_index": 104,
+            "score": 4.3968863423161694e-06,
+            "max_damage": 0.6279096603393555
+          },
+          {
+            "global_index": 113,
+            "score": 0.0001749624255963135,
+            "max_damage": 0.9959341287612915
+          },
+          {
+            "global_index": 117,
+            "score": 0.0003605609031376924,
+            "max_damage": 0.9996665120124817
+          },
+          {
+            "global_index": 118,
+            "score": 0.0004059817661602325,
+            "max_damage": 0.999692976474762
+          },
+          {
+            "global_index": 119,
+            "score": 0.00045175482759677785,
+            "max_damage": 0.9997504353523254
+          },
+          {
+            "global_index": 120,
+            "score": 0.0005005659201307478,
+            "max_damage": 0.9998120069503784
+          },
+          {
+            "global_index": 121,
+            "score": 0.0005429242005651822,
+            "max_damage": 0.999861478805542
+          },
+          {
+            "global_index": 122,
+            "score": 0.0005945263682576334,
+            "max_damage": 0.9999065399169922
+          },
+          {
+            "global_index": 139,
+            "score": 0.0010936643230978216,
+            "max_damage": 1.0001540184020996
+          },
+          {
+            "global_index": 209,
+            "score": 0.0010944295875794216,
+            "max_damage": 1.0003684759140015
+          },
+          {
+            "global_index": 227,
+            "score": 0.001094685167527099,
+            "max_damage": 1.0004113912582397
+          },
+          {
+            "global_index": 236,
+            "score": 0.0012436389419860122,
+            "max_damage": 1.0004363059997559
+          },
+          {
+            "global_index": 237,
+            "score": 0.001369850823080958,
+            "max_damage": 1.000444769859314
+          },
+          {
+            "global_index": 238,
+            "score": 0.0015234541517111903,
+            "max_damage": 1.000451922416687
+          },
+          {
+            "global_index": 239,
+            "score": 0.001669154315455595,
+            "max_damage": 1.0004574060440063
+          },
+          {
+            "global_index": 240,
+            "score": 0.0018086401108939117,
+            "max_damage": 1.000462532043457
+          },
+          {
+            "global_index": 241,
+            "score": 0.0019485149542471832,
+            "max_damage": 1.00046706199646
+          },
+          {
+            "global_index": 244,
+            "score": 0.002349559271698939,
+            "max_damage": 1.000478744506836
+          },
+          {
+            "global_index": 247,
+            "score": 0.0027370283400192197,
+            "max_damage": 1.0004878044128418
+          },
+          {
+            "global_index": 248,
+            "score": 0.0028663591291759162,
+            "max_damage": 1.0004907846450806
+          },
+          {
+            "global_index": 249,
+            "score": 0.0029971957264495353,
+            "max_damage": 1.0004929304122925
+          },
+          {
+            "global_index": 250,
+            "score": 0.003132252063800518,
+            "max_damage": 1.0004953145980835
+          },
+          {
+            "global_index": 251,
+            "score": 0.003271772197313156,
+            "max_damage": 1.0004974603652954
+          },
+          {
+            "global_index": 253,
+            "score": 0.0035642434676986315,
+            "max_damage": 1.0005006790161133
+          },
+          {
+            "global_index": 258,
+            "score": 0.0039166965037916454,
+            "max_damage": 1.0005009174346924
+          },
+          {
+            "global_index": 259,
+            "score": 0.004009257257296198,
+            "max_damage": 1.0005009174346924
+          },
+          {
+            "global_index": 260,
+            "score": 0.004310104097444167,
+            "max_damage": 1.0005009174346924
+          },
+          {
+            "global_index": 261,
+            "score": 0.004443502824983772,
+            "max_damage": 1.0004998445510864
+          },
+          {
+            "global_index": 262,
+            "score": 0.00444398340727103,
+            "max_damage": 1.0004998445510864
+          },
+          {
+            "global_index": 279,
+            "score": 0.004444002479548949,
+            "max_damage": 1.0004998445510864
+          },
+          {
+            "global_index": 558,
+            "score": 0.004446324447906153,
+            "max_damage": 1.0004563331604004
+          }
+        ],
+        "achieved_fractions": [
+          0.10160185854397481,
+          0.3426322504262166,
+          0.6446581131805916,
+          0.9693633804599809
+        ],
+        "selected_global_indices": [
+          119,
+          238,
+          248,
+          260
+        ]
+      },
+      "selection": "Four distinct recorded frames nearest 10/35/65/95% of final integral area*max(SDV1-0.5,0), using bracketed search and neighbouring-frame audit. No interpolation of fields or time.",
       "odb_bytes": 4334420040,
       "aggregation": "Arithmetic mean of SDV1 integration-point values per companion element; no spatial smoothing",
       "odb": "/scratch9/pr21vyci/runs/f1859_suite/job2_adaptive_case2/PK_F1859_J2_C2.odb",
       "states": [
         {
-          "frame_id": 14,
+          "frame_id": 68,
           "step": "Step-2",
-          "frame_index": 14,
-          "time": 0.02800000086426735,
-          "rf2_kn": 0.5531127452850342,
-          "u2_mm": 0.00519599998369813,
-          "max_damage": 0.36670351028442383
+          "progress_fraction": 0.10160185854397481,
+          "frame_index": 68,
+          "time": 0.13600000739097595,
+          "rf2_kn": 0.5146037936210632,
+          "u2_mm": 0.00595200015231967,
+          "max_damage": 0.9997504353523254,
+          "selection_global_index": 119
         },
         {
-          "frame_id": 55,
+          "frame_id": 187,
           "step": "Step-2",
-          "frame_index": 55,
-          "time": 0.10999999940395355,
-          "rf2_kn": 0.5979548692703247,
-          "u2_mm": 0.005770000163465738,
-          "max_damage": 0.6886164546012878
+          "progress_fraction": 0.3426322504262166,
+          "frame_index": 187,
+          "time": 0.37400001287460327,
+          "rf2_kn": 0.4277743995189667,
+          "u2_mm": 0.00761799979954958,
+          "max_damage": 1.000451922416687,
+          "selection_global_index": 238
         },
         {
-          "frame_id": 281,
+          "frame_id": 197,
           "step": "Step-2",
-          "frame_index": 281,
-          "time": 0.5075607299804688,
-          "rf2_kn": 0.000557039282284677,
-          "u2_mm": 0.00855292472988367,
-          "max_damage": 1.0005240440368652
+          "progress_fraction": 0.6446581131805916,
+          "frame_index": 197,
+          "time": 0.39399999380111694,
+          "rf2_kn": 0.25869065523147583,
+          "u2_mm": 0.007757999934256077,
+          "max_damage": 1.0004907846450806,
+          "selection_global_index": 248
         },
         {
-          "frame_id": 507,
+          "frame_id": 209,
           "step": "Step-2",
-          "frame_index": 507,
-          "time": 0.9575607180595398,
-          "rf2_kn": 0.0003160445485264063,
-          "u2_mm": 0.011702924966812134,
-          "max_damage": 1.0004563331604004
+          "progress_fraction": 0.9693633804599809,
+          "frame_index": 209,
+          "time": 0.40435948967933655,
+          "rf2_kn": 0.0007894020527601242,
+          "u2_mm": 0.007830516435205936,
+          "max_damage": 1.0005009174346924,
+          "selection_global_index": 260
         }
       ]
     },
     {
       "case": 3,
-      "selection": "90% peak displacement pre-peak; peak load; halfway in recorded frames from peak to last; last converged frame",
+      "selection_audit": {
+        "distinct_progression": true,
+        "caveat": "Damage-content progression is a visualization measure, not a fracture error estimator or crack-length measurement.",
+        "final_metric": 0.013818294853775531,
+        "metric": "sum(element area * max(mean SDV1 - 0.5, 0))",
+        "target_fractions": [
+          0.1,
+          0.35,
+          0.65,
+          0.95
+        ],
+        "evaluated_frames": [
+          {
+            "global_index": 35,
+            "score": 0.0,
+            "max_damage": 0.1527436226606369
+          },
+          {
+            "global_index": 53,
+            "score": 0.0,
+            "max_damage": 0.359341025352478
+          },
+          {
+            "global_index": 62,
+            "score": 0.0,
+            "max_damage": 0.42622312903404236
+          },
+          {
+            "global_index": 65,
+            "score": 0.0,
+            "max_damage": 0.48611900210380554
+          },
+          {
+            "global_index": 66,
+            "score": 0.001344233985011481,
+            "max_damage": 0.5327791571617126
+          },
+          {
+            "global_index": 67,
+            "score": 0.0038052533528076223,
+            "max_damage": 0.5737018585205078
+          },
+          {
+            "global_index": 68,
+            "score": 0.006599004581452357,
+            "max_damage": 0.6095501184463501
+          },
+          {
+            "global_index": 69,
+            "score": 0.0102848361763399,
+            "max_damage": 0.6416420340538025
+          },
+          {
+            "global_index": 70,
+            "score": 0.013818294853775531,
+            "max_damage": 0.6709369421005249
+          },
+          {
+            "global_index": 71,
+            "score": 0.013818294853775531,
+            "max_damage": 0.6709369421005249
+          }
+        ],
+        "achieved_fractions": [
+          0.09727929525575292,
+          0.27537792419937573,
+          0.7442912664097484,
+          1.0
+        ],
+        "selected_global_indices": [
+          66,
+          67,
+          69,
+          70
+        ]
+      },
+      "selection": "Four distinct recorded frames nearest 10/35/65/95% of final integral area*max(SDV1-0.5,0), using bracketed search and neighbouring-frame audit. No interpolation of fields or time.",
       "odb_bytes": 1455254136,
       "aggregation": "Arithmetic mean of SDV1 integration-point values per companion element; no spatial smoothing",
       "odb": "/scratch9/pr21vyci/runs/f1859_suite/job2_adaptive_case3/PK_F1859_J2_C3.odb",
       "states": [
         {
-          "frame_id": 62,
-          "step": "Step-1",
-          "frame_index": 62,
-          "time": 1.0,
-          "rf2_kn": 3.8985097408294678,
-          "u2_mm": 0.05000000074505806,
-          "max_damage": 0.42622312903404236
-        },
-        {
           "frame_id": 3,
           "step": "Step-2",
+          "progress_fraction": 0.09727929525575292,
           "frame_index": 3,
           "time": 0.004124999977648258,
           "rf2_kn": 4.325904846191406,
           "u2_mm": 0.05598124861717224,
-          "max_damage": 0.5327791571617126
+          "max_damage": 0.5327791571617126,
+          "selection_global_index": 66
         },
         {
-          "frame_id": 5,
+          "frame_id": 4,
           "step": "Step-2",
-          "frame_index": 5,
-          "time": 0.004137817304581404,
-          "rf2_kn": 4.318562030792236,
-          "u2_mm": 0.05599983409047127,
-          "max_damage": 0.6095501184463501
+          "progress_fraction": 0.27537792419937573,
+          "frame_index": 4,
+          "time": 0.004136718809604645,
+          "rf2_kn": 4.3223347663879395,
+          "u2_mm": 0.055998243391513824,
+          "max_damage": 0.5737018585205078,
+          "selection_global_index": 67
         },
         {
-          "frame_id": 8,
+          "frame_id": 6,
           "step": "Step-2",
-          "frame_index": 8,
+          "progress_fraction": 0.7442912664097484,
+          "frame_index": 6,
+          "time": 0.004137920215725899,
+          "rf2_kn": 4.314939975738525,
+          "u2_mm": 0.055999983102083206,
+          "max_damage": 0.6416420340538025,
+          "selection_global_index": 69
+        },
+        {
+          "frame_id": 7,
+          "step": "Step-2",
+          "progress_fraction": 1.0,
+          "frame_index": 7,
           "time": 0.0041379304602742195,
           "rf2_kn": 4.31143045425415,
           "u2_mm": 0.0559999980032444,
-          "max_damage": 0.6709369421005249
+          "max_damage": 0.6709369421005249,
+          "selection_global_index": 70
+        }
+      ]
+    },
+    {
+      "case": 5,
+      "selection_audit": {
+        "distinct_progression": true,
+        "caveat": "Damage-content progression is a visualization measure, not a fracture error estimator or crack-length measurement.",
+        "final_metric": 0.004536921054255666,
+        "metric": "sum(element area * max(mean SDV1 - 0.5, 0))",
+        "target_fractions": [
+          0.1,
+          0.35,
+          0.65,
+          0.95
+        ],
+        "evaluated_frames": [
+          {
+            "global_index": 109,
+            "score": 0.0,
+            "max_damage": 0.40808653831481934
+          },
+          {
+            "global_index": 123,
+            "score": 1.1454463051133061e-06,
+            "max_damage": 0.5564649105072021
+          },
+          {
+            "global_index": 130,
+            "score": 0.00032971667407325053,
+            "max_damage": 0.9997630715370178
+          },
+          {
+            "global_index": 131,
+            "score": 0.0004484979227466926,
+            "max_damage": 0.9997455477714539
+          },
+          {
+            "global_index": 132,
+            "score": 0.0004927979844864651,
+            "max_damage": 0.9997455477714539
+          },
+          {
+            "global_index": 133,
+            "score": 0.0007160600878820143,
+            "max_damage": 0.9997457265853882
+          },
+          {
+            "global_index": 134,
+            "score": 0.0010697573521380112,
+            "max_damage": 1.0000770092010498
+          },
+          {
+            "global_index": 137,
+            "score": 0.001236445519737935,
+            "max_damage": 0.9999484419822693
+          },
+          {
+            "global_index": 139,
+            "score": 0.0013208778786453611,
+            "max_damage": 0.9999484419822693
+          },
+          {
+            "global_index": 140,
+            "score": 0.001494159528104899,
+            "max_damage": 1.0002961158752441
+          },
+          {
+            "global_index": 141,
+            "score": 0.0018785137332354566,
+            "max_damage": 0.9999484419822693
+          },
+          {
+            "global_index": 142,
+            "score": 0.002097892949823183,
+            "max_damage": 0.9999484419822693
+          },
+          {
+            "global_index": 143,
+            "score": 0.0021334228516809986,
+            "max_damage": 0.9999484419822693
+          },
+          {
+            "global_index": 144,
+            "score": 0.0021334481155751337,
+            "max_damage": 0.9999484419822693
+          },
+          {
+            "global_index": 151,
+            "score": 0.0021334481264433367,
+            "max_damage": 0.9999484419822693
+          },
+          {
+            "global_index": 164,
+            "score": 0.002133451190871903,
+            "max_damage": 0.9999484419822693
+          },
+          {
+            "global_index": 218,
+            "score": 0.0026934432260025385,
+            "max_damage": 1.000254511833191
+          },
+          {
+            "global_index": 246,
+            "score": 0.002699396630409944,
+            "max_damage": 1.000254511833191
+          },
+          {
+            "global_index": 252,
+            "score": 0.0029065401846452,
+            "max_damage": 1.0004433393478394
+          },
+          {
+            "global_index": 253,
+            "score": 0.0029297749688281037,
+            "max_damage": 1.000254511833191
+          },
+          {
+            "global_index": 254,
+            "score": 0.0030141886834289472,
+            "max_damage": 1.000254511833191
+          },
+          {
+            "global_index": 255,
+            "score": 0.0032556705192097004,
+            "max_damage": 1.000254511833191
+          },
+          {
+            "global_index": 256,
+            "score": 0.0033734593405418613,
+            "max_damage": 1.000254511833191
+          },
+          {
+            "global_index": 257,
+            "score": 0.003373502764151288,
+            "max_damage": 1.000254511833191
+          },
+          {
+            "global_index": 260,
+            "score": 0.0033735086986718442,
+            "max_damage": 1.000254511833191
+          },
+          {
+            "global_index": 273,
+            "score": 0.0033737468507797777,
+            "max_damage": 1.000254511833191
+          },
+          {
+            "global_index": 328,
+            "score": 0.004083861878899547,
+            "max_damage": 1.000254511833191
+          },
+          {
+            "global_index": 356,
+            "score": 0.004115908266293181,
+            "max_damage": 1.000254511833191
+          },
+          {
+            "global_index": 362,
+            "score": 0.004278005036938558,
+            "max_damage": 1.000254511833191
+          },
+          {
+            "global_index": 363,
+            "score": 0.004295835977346662,
+            "max_damage": 1.000254511833191
+          },
+          {
+            "global_index": 364,
+            "score": 0.004321861170457259,
+            "max_damage": 1.000254511833191
+          },
+          {
+            "global_index": 365,
+            "score": 0.004360702775067741,
+            "max_damage": 1.000254511833191
+          },
+          {
+            "global_index": 366,
+            "score": 0.004469521147325194,
+            "max_damage": 1.0013904571533203
+          },
+          {
+            "global_index": 367,
+            "score": 0.0045356115632403235,
+            "max_damage": 1.0013623237609863
+          },
+          {
+            "global_index": 370,
+            "score": 0.004536696100181526,
+            "max_damage": 1.0013623237609863
+          },
+          {
+            "global_index": 383,
+            "score": 0.004536696101801913,
+            "max_damage": 1.0013623237609863
+          },
+          {
+            "global_index": 437,
+            "score": 0.004536703536852453,
+            "max_damage": 1.0013623237609863
+          },
+          {
+            "global_index": 875,
+            "score": 0.004536921054255666,
+            "max_damage": 1.0013623237609863
+          }
+        ],
+        "achieved_fractions": [
+          0.09885513046915334,
+          0.32933337614578195,
+          0.645762827651575,
+          0.9525978342522229
+        ],
+        "selected_global_indices": [
+          131,
+          140,
+          253,
+          364
+        ]
+      },
+      "selection": "Four distinct recorded frames nearest 10/35/65/95% of final integral area*max(SDV1-0.5,0), using bracketed search and neighbouring-frame audit. No interpolation of fields or time.",
+      "odb_bytes": 6083775532,
+      "aggregation": "Arithmetic mean of SDV1 integration-point values per companion element; no spatial smoothing",
+      "odb": "/scratch9/pr21vyci/runs/f1859_suite/job2_adaptive_case5/PK_F1859_J2_C5.odb",
+      "states": [
+        {
+          "frame_id": 80,
+          "step": "Step-2",
+          "progress_fraction": 0.09885513046915334,
+          "frame_index": 80,
+          "time": 0.1599999964237213,
+          "rf2_kn": 0.6274452209472656,
+          "u2_mm": 0.005799999926239252,
+          "max_damage": 0.9997455477714539,
+          "selection_global_index": 131
+        },
+        {
+          "frame_id": 89,
+          "step": "Step-2",
+          "progress_fraction": 0.32933337614578195,
+          "frame_index": 89,
+          "time": 0.1645839810371399,
+          "rf2_kn": 0.4356454014778137,
+          "u2_mm": 0.005822919774800539,
+          "max_damage": 1.0002961158752441,
+          "selection_global_index": 140
+        },
+        {
+          "frame_id": 202,
+          "step": "Step-2",
+          "progress_fraction": 0.645762827651575,
+          "frame_index": 202,
+          "time": 0.36554771661758423,
+          "rf2_kn": 0.22555236518383026,
+          "u2_mm": 0.006827738601714373,
+          "max_damage": 1.000254511833191,
+          "selection_global_index": 253
+        },
+        {
+          "frame_id": 313,
+          "step": "Step-2",
+          "progress_fraction": 0.9525978342522229,
+          "frame_index": 313,
+          "time": 0.5687059164047241,
+          "rf2_kn": 0.030238879844546318,
+          "u2_mm": 0.007843529805541039,
+          "max_damage": 1.000254511833191,
+          "selection_global_index": 364
         }
       ]
     }
@@ -142,32 +878,42 @@
     {
       "case": 1,
       "path": "results/figures/adaptive_damage_contours/case_1_damage_evolution.png",
-      "sha256": "ec5ae99405c3a087c27afdde99ba936061636dc8d53679e0a334d5dd6f889f2f"
+      "sha256": "288b488ab3ebb896e523a154932af9d5f49618311d0ffca7fab78f8403c30915"
     },
     {
       "case": 1,
       "path": "results/figures/adaptive_damage_contours/case_1_damage_evolution.pdf",
-      "sha256": "a8b099f5cfebf5a601df84ba4cb1ef7f740dc21a59a88905de976ac144c44a59"
+      "sha256": "e6af88b78d36dd255126561c245c18bb7be5a350e48ab513dbae1d0f66827d83"
     },
     {
       "case": 2,
       "path": "results/figures/adaptive_damage_contours/case_2_damage_evolution.png",
-      "sha256": "1e9181b8eaada8f318772650a8c699694c1424d9979b9a3b31880ce8a325319d"
+      "sha256": "0a76861bd904827edf970b86b95a0b7ae001da5b4a55986fb8d8ab78a6c88910"
     },
     {
       "case": 2,
       "path": "results/figures/adaptive_damage_contours/case_2_damage_evolution.pdf",
-      "sha256": "80fa8a3122874c4da956a32f4aa1e4173d2a922b94f64ce0d2028fe253791bdd"
+      "sha256": "45cbf1d40c09fe26a7a12e214e9b711be3bf6b94ba6c8b0afc7ae52fc378bf01"
     },
     {
       "case": 3,
       "path": "results/figures/adaptive_damage_contours/case_3_damage_evolution.png",
-      "sha256": "000010ba1924097382c9777a9d49ecb2a633316fdfb117a13f2a48a576587f6b"
+      "sha256": "1fccac6cc8714ce4f960754a8214613f3dc670d44464c53ecb7f052e0b90f157"
     },
     {
       "case": 3,
       "path": "results/figures/adaptive_damage_contours/case_3_damage_evolution.pdf",
-      "sha256": "48c73717ec3e2932dc015ab51398426b4c91198ef1252300bddbc3d9327f3652"
+      "sha256": "0881535c79043a46a3bf9da4ab6858e2d264958242ed9cd3b6b845e74e76356d"
+    },
+    {
+      "case": 5,
+      "path": "results/figures/adaptive_damage_contours/case_5_damage_evolution.png",
+      "sha256": "377ba256b65265157a64d249e30ad3fc63668e810c9ea2abc90d3f779947f686"
+    },
+    {
+      "case": 5,
+      "path": "results/figures/adaptive_damage_contours/case_5_damage_evolution.pdf",
+      "sha256": "36d7feb0b828d08b5c96ecf6bee1caa99b80fd67092899a72c8711ad0657a92d"
     }
   ],
   "display_range": [

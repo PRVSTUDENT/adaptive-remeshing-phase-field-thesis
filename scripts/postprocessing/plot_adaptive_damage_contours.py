@@ -37,7 +37,8 @@ for case in data:
     fig.subplots_adjust(left=.025,right=.985,top=.78,bottom=.24,wspace=.06)
     cb=fig.colorbar(plt.cm.ScalarMappable(norm=norm,cmap=cmap),ax=list(axs),orientation='horizontal',fraction=.035,pad=.065,shrink=.5,aspect=50)
     cb.set_label(r'Damage $\phi$ = SDV1 (element integration-point mean)',fontsize=10)
-    footer='Recorded states: pre-peak | peak load | post-peak | last available. '
+    growth='selection_audit' in case
+    footer=('Recorded frames selected by increasing damage content (targets 10%, 35%, 65%, 95%). ' if growth else 'Recorded states: pre-peak | peak load | post-peak | last available. ')
     footer+=('Solver completed (Exit 0).' if cid==1 else 'Solver terminated (Exit 1); contours show available converged frames.')
     fig.text(.5,.025,footer,ha='center',fontsize=9)
     stem=out/('case_%d_damage_evolution'%cid)
