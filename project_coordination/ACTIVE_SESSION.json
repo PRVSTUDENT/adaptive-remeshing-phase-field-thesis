@@ -1,11 +1,11 @@
 {
   "active": false,
   "agent": "gemini-antigravity",
-  "session_id": "2026-11-19_gemini_method_c_policy_reconciliation_dispatch",
+  "session_id": "2026-11-19_gemini_method_c_job1_verification_and_extraction",
   "task_id": "METHOD-C-PHASE1-DEMO-AND-LOOP-SKELETON",
-  "started_at": "2026-11-19T14:52:00+01:00",
-  "ended_at": "2026-11-19T14:55:00+01:00",
-  "starting_commit": "3e2c1491321481a57ca309fae9dbad5f73d8a562",
+  "started_at": "2026-11-19T15:45:00+01:00",
+  "ended_at": "2026-11-19T16:05:00+01:00",
+  "starting_commit": "b6da03292da813af66bc81c11d159bcc04f0bb79",
   "allowed_write_scope": [
     "project_coordination/ACTIVE_SESSION.json",
     "project_coordination/ACTIVE_TASK.json",
@@ -14,12 +14,12 @@
     "project_coordination/ARTIFACT_REGISTRY.csv",
     "project_coordination/CURRENT_STATE.md",
     "project_coordination/sessions/**",
-    ".agents/scripts/bridge_rules.txt",
-    ".agents/scripts/bridge_research_policy.json",
-    ".agents/scripts/dispatch_*.ps1",
-    "C:/Users/pruth/OpenClawPAD/ChatGPTBridge/**",
+    "models/pandey_kumar_mode1/289_method_c_demo_case/**",
+    "results/validation/**",
     "docs/validation/**",
-    "tests/**"
+    "tests/**",
+    ".agents/scripts/**",
+    "C:/Users/pruth/OpenClawPAD/ChatGPTBridge/**"
   ],
-  "notes": "Session closed following supervisory approval of HND-METHOD-C-PHASE2-JOB1-002 (bridge research policy reconciliation approved). Awaiting HPC restoration of Panasas scratch storage and resumption of PBS scheduling. Cumulative PBS: 58 (max_new_pbs = 0). MASTER_GOAL_STATUS = OPEN."
+  "notes": "Job 1424517 verified Exit 0 with zero errors; Step-1 baseline observables extracted at u2=0.0050 mm (RF2=0.556024 kN, peak d=0.169178, mean d=0.0086, peak H=0.249872 MPa, MISESERI=0.0); receipt and summary committed at 069b7b2ce; session released; dispatching HND-METHOD-C-PHASE2-JOB1-003 across OpenClaw PAD bridge; MASTER_GOAL_STATUS = OPEN."
 }
