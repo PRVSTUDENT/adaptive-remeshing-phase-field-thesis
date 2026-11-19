@@ -5,9 +5,13 @@ active task state, and kickoff report integrity.
 import os
 import json
 import hashlib
+import sys
 import pytest
 
 REPO_ROOT = os.path.abspath(os.path.join(os.path.dirname(__file__), '..', '..'))
+if REPO_ROOT not in sys.path:
+    sys.path.insert(0, REPO_ROOT)
+
 
 def compute_sha256(path):
     h = hashlib.sha256()
@@ -84,3 +88,59 @@ def test_demo_geometry_calculations():
     assert abs(inter_ligament - 0.15) < 1e-9
     assert abs(rear_ligament - 0.15) < 1e-9
     assert notch_y == hole_yc
+
+def test_demo_mesh_and_audit():
+    from scripts.remeshing.audit_method_c_demo_mesh import audit, AUDIT_JSON
+    audit()
+    assert os.path.isfile(AUDIT_JSON)
+    with open(AUDIT_JSON, 'r', encoding='utf-8') as f:
+        res = json.load(f)
+    assert res['metrics']['total_elements'] > 2500
+    assert res['metrics']['quad_fraction_pct'] >= 85.0
+    assert res['gates']['gate_01_min_det_j_positive'] == 'PASS'
+    assert res['gates']['gate_02_quad_fraction_ge_85'] == 'PASS'
+    assert res['gates']['gate_03_aspect_ratio_quality'] == 'PASS'
+    assert res['metrics']['mean_aspect_ratio'] <= 2.0
+    assert res['metrics']['median_aspect_ratio'] <= 1.5
+
+def test_incremental_loop_skeleton():
+    from scripts.remeshing.method_c_incremental_loop import MethodCIncrementalLoop
+    loop = MethodCIncrementalLoop(dry_run=True)
+    summary = loop.run_orchestration_loop(max_increments=3)
+
+    assert summary['benchmark'] == 'METHOD_C_DEMO_PLATE_ON_AXIS_HOLE'
+    assert summary['total_cycles_executed'] == 3
+    assert summary['governance']['max_new_pbs_submissions'] == 0
+    assert summary['governance']['cumulative_pbs_submissions'] == 57
+
+    # Verify decision policy across increments
+    cycles = summary['cycles']
+    assert cycles[0]['decision']['strategy'] == 'NATIVE_STRESS_ERROR'
+    assert cycles[1]['decision']['strategy'] == 'NATIVE_STRESS_ERROR'
+    assert cycles[2]['decision']['strategy'] == 'DAMAGE_INFORMED_SIZING_ENVELOPE'
+
+    # Verify re-equilibration criteria
+    for c in cycles:
+        if c['remesh_performed']:
+            re_eq = c['re_equilibration']
+            assert abs(re_eq['force_discrepancy_pct']) <= 2.0
+            assert abs(re_eq['energy_continuity_pct']) <= 1.0
+            assert re_eq['max_damage_healing'] <= 1e-6
+            assert re_eq['verdict'] == 'PASS'
+
+def test_phase1_delivery_report_integrity():
+    delivery_report = os.path.join(REPO_ROOT, 'docs', 'validation', 'METHOD_C_PHASE1_DELIVERY_REPORT.md')
+    assert os.path.isfile(delivery_report)
+    with open(delivery_report, 'r', encoding='utf-8') as f:
+        c = f.read()
+    assert "METHOD-C-PHASE1-DEMO-AND-LOOP-SKELETON" in c
+    assert "2,920" in c
+    assert "96.92%" in c
+    assert "8,760" in c
+    assert "69ABFF7ACD1EFD767046E686847F30D06F808BBEC738C2FBB9BDFF478A66EC9C" in c
+    assert "712528B1ED8C5C088ACE8E44C5261AF854CA45FA3B0C1DBB38523CD916AF6D93" in c
+    assert "cumulative PBS preserved at **57**" in c
+
+
+
+

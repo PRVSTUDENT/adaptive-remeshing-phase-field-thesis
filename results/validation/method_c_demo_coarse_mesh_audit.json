@@ -1,0 +1,22 @@
+{
+  "benchmark": "METHOD_C_DEMO_PLATE_ON_AXIS_HOLE",
+  "mesh_path": "models/pandey_kumar_mode1/289_method_c_demo_case/PK_METHOD_C_DEMO_COARSE_PHYS.inp",
+  "metrics": {
+    "total_elements": 2920,
+    "quad_elements": 2830,
+    "tri_elements": 90,
+    "quad_fraction_pct": 96.92,
+    "total_nodes": 3016,
+    "min_det_jacobian": 1.8058791093618445e-05,
+    "max_aspect_ratio": 10.2969,
+    "mean_aspect_ratio": 1.2657,
+    "median_aspect_ratio": 1.2231,
+    "min_corner_angle_deg": 36.67,
+    "max_corner_angle_deg": 133.44
+  },
+  "gates": {
+    "gate_01_min_det_j_positive": "PASS",
+    "gate_02_quad_fraction_ge_85": "PASS",
+    "gate_03_aspect_ratio_quality": "PASS"
+  }
+}

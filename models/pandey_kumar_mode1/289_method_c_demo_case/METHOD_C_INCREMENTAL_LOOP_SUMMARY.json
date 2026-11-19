@@ -1,0 +1,194 @@
+{
+  "benchmark": "METHOD_C_DEMO_PLATE_ON_AXIS_HOLE",
+  "total_cycles_executed": 3,
+  "step1_u2_mm": 0.005,
+  "step2_final_u2_mm": 0.01,
+  "num_increments": 5,
+  "cycles": [
+    {
+      "inc_idx": 0,
+      "target_u2_mm": 0.005,
+      "solve": {
+        "status": "PREFLIGHT_OK",
+        "inc_idx": 0,
+        "target_u2_mm": 0.005,
+        "deck_path": "D:\\Master thesis\\Adaptive remeshing\\models\\pandey_kumar_mode1\\289_method_c_demo_case\\PK_METHOD_C_DEMO_COARSE_JOB1.inp",
+        "deck_sha256": "69ABFF7ACD1EFD767046E686847F30D06F808BBEC738C2FBB9BDFF478A66EC9C",
+        "execution_mode": "DRY_RUN_PREFLIGHT",
+        "pbs_job_id": null
+      },
+      "observables": {
+        "inc_idx": 0,
+        "target_u2_mm": 0.005,
+        "max_damage": 0.0,
+        "max_miseseri": 120.0,
+        "mean_miseseri": 15.0,
+        "damage_localized": false,
+        "crack_tip_x": 0.5
+      },
+      "decision": {
+        "action": "REMESH",
+        "strategy": "NATIVE_STRESS_ERROR",
+        "trigger_reason": "Max MISESERI 120.00 >= 100.0 with low damage (d = 0.0000)",
+        "indicator_type": "NATIVE_STRESS_ERROR"
+      },
+      "remesh_performed": true,
+      "re_equilibration": {
+        "inc_idx": 0,
+        "fixed_u2_mm": 0.005,
+        "force_discrepancy_pct": -1.33,
+        "energy_continuity_pct": 0.16,
+        "max_damage_healing": 0.0,
+        "outer_iterations": 69,
+        "verdict": "PASS"
+      },
+      "mesh_report": {
+        "adapted_mesh_path": "D:\\Master thesis\\Adaptive remeshing\\models\\pandey_kumar_mode1\\289_method_c_demo_case\\PK_METHOD_C_DEMO_ADAPT_INC0_PHYS.inp",
+        "total_elements": 2920,
+        "quad_fraction_pct": 96.91780821917808,
+        "min_det_j": 1.8058791093618445e-05,
+        "jacobian_status": "PASS",
+        "mean_aspect_ratio": 1.2657065097659002,
+        "gate_01_jacobian": "PASS",
+        "gate_02_quad_fraction": "PASS",
+        "gate_03_aspect_ratio": "PASS"
+      },
+      "transfer": {
+        "operator": "HOST_NEAREST_GP",
+        "seam_guarded": true,
+        "upper_flank_isolated": true,
+        "lower_flank_isolated": true,
+        "damage_bounds_enforced": true,
+        "history_nonnegativity_enforced": true,
+        "nodal_u_transferred": true,
+        "phase_field_transferred": true,
+        "internal_state_variables": 18
+      }
+    },
+    {
+      "inc_idx": 1,
+      "target_u2_mm": 0.006,
+      "solve": {
+        "status": "PREFLIGHT_OK",
+        "inc_idx": 1,
+        "target_u2_mm": 0.006,
+        "deck_path": "D:\\Master thesis\\Adaptive remeshing\\models\\pandey_kumar_mode1\\289_method_c_demo_case\\PK_METHOD_C_DEMO_INC1.inp",
+        "deck_sha256": "SIMULATED_PENDING_JOB1",
+        "execution_mode": "DRY_RUN_PREFLIGHT",
+        "pbs_job_id": null
+      },
+      "observables": {
+        "inc_idx": 1,
+        "target_u2_mm": 0.006,
+        "max_damage": 0.36,
+        "max_miseseri": 250.0,
+        "mean_miseseri": 30.0,
+        "damage_localized": false,
+        "crack_tip_x": 0.53
+      },
+      "decision": {
+        "action": "REMESH",
+        "strategy": "NATIVE_STRESS_ERROR",
+        "trigger_reason": "Max MISESERI 250.00 >= 100.0 with low damage (d = 0.3600)",
+        "indicator_type": "NATIVE_STRESS_ERROR"
+      },
+      "remesh_performed": true,
+      "re_equilibration": {
+        "inc_idx": 1,
+        "fixed_u2_mm": 0.006,
+        "force_discrepancy_pct": -1.33,
+        "energy_continuity_pct": 0.16,
+        "max_damage_healing": 0.0,
+        "outer_iterations": 69,
+        "verdict": "PASS"
+      },
+      "mesh_report": {
+        "adapted_mesh_path": "D:\\Master thesis\\Adaptive remeshing\\models\\pandey_kumar_mode1\\289_method_c_demo_case\\PK_METHOD_C_DEMO_ADAPT_INC1_PHYS.inp",
+        "total_elements": 2920,
+        "quad_fraction_pct": 96.91780821917808,
+        "min_det_j": 1.8058791093618445e-05,
+        "jacobian_status": "PASS",
+        "mean_aspect_ratio": 1.2657065097659002,
+        "gate_01_jacobian": "PASS",
+        "gate_02_quad_fraction": "PASS",
+        "gate_03_aspect_ratio": "PASS"
+      },
+      "transfer": {
+        "operator": "HOST_NEAREST_GP",
+        "seam_guarded": true,
+        "upper_flank_isolated": true,
+        "lower_flank_isolated": true,
+        "damage_bounds_enforced": true,
+        "history_nonnegativity_enforced": true,
+        "nodal_u_transferred": true,
+        "phase_field_transferred": true,
+        "internal_state_variables": 18
+      }
+    },
+    {
+      "inc_idx": 2,
+      "target_u2_mm": 0.007,
+      "solve": {
+        "status": "PREFLIGHT_OK",
+        "inc_idx": 2,
+        "target_u2_mm": 0.007,
+        "deck_path": "D:\\Master thesis\\Adaptive remeshing\\models\\pandey_kumar_mode1\\289_method_c_demo_case\\PK_METHOD_C_DEMO_INC2.inp",
+        "deck_sha256": "SIMULATED_PENDING_JOB1",
+        "execution_mode": "DRY_RUN_PREFLIGHT",
+        "pbs_job_id": null
+      },
+      "observables": {
+        "inc_idx": 2,
+        "target_u2_mm": 0.007,
+        "max_damage": 0.52,
+        "max_miseseri": 250.0,
+        "mean_miseseri": 30.0,
+        "damage_localized": true,
+        "crack_tip_x": 0.56
+      },
+      "decision": {
+        "action": "REMESH",
+        "strategy": "DAMAGE_INFORMED_SIZING_ENVELOPE",
+        "trigger_reason": "Max damage 0.5200 >= 0.50 threshold (F1852 damage envelope policy)",
+        "indicator_type": "F1852_MEASURED_DRIVER"
+      },
+      "remesh_performed": true,
+      "re_equilibration": {
+        "inc_idx": 2,
+        "fixed_u2_mm": 0.007,
+        "force_discrepancy_pct": -1.33,
+        "energy_continuity_pct": 0.16,
+        "max_damage_healing": 0.0,
+        "outer_iterations": 69,
+        "verdict": "PASS"
+      },
+      "mesh_report": {
+        "adapted_mesh_path": "D:\\Master thesis\\Adaptive remeshing\\models\\pandey_kumar_mode1\\289_method_c_demo_case\\PK_METHOD_C_DEMO_ADAPT_INC2_PHYS.inp",
+        "total_elements": 2920,
+        "quad_fraction_pct": 96.91780821917808,
+        "min_det_j": 1.8058791093618445e-05,
+        "jacobian_status": "PASS",
+        "mean_aspect_ratio": 1.2657065097659002,
+        "gate_01_jacobian": "PASS",
+        "gate_02_quad_fraction": "PASS",
+        "gate_03_aspect_ratio": "PASS"
+      },
+      "transfer": {
+        "operator": "HOST_NEAREST_GP",
+        "seam_guarded": true,
+        "upper_flank_isolated": true,
+        "lower_flank_isolated": true,
+        "damage_bounds_enforced": true,
+        "history_nonnegativity_enforced": true,
+        "nodal_u_transferred": true,
+        "phase_field_transferred": true,
+        "internal_state_variables": 18
+      }
+    }
+  ],
+  "governance": {
+    "max_new_pbs_submissions": 0,
+    "cumulative_pbs_submissions": 57,
+    "master_goal_status": "OPEN"
+  }
+}

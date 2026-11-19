@@ -1,0 +1,44 @@
+{
+  "benchmark": "METHOD_C_DEMO_PLATE_ON_AXIS_HOLE",
+  "geometry": {
+    "plate_width_mm": 1.0,
+    "plate_height_mm": 1.0,
+    "notch_length_mm": 0.5,
+    "notch_y_mm": 0.5,
+    "hole_center_mm": [
+      0.75,
+      0.5
+    ],
+    "hole_radius_mm": 0.1,
+    "inter_ligament_mm": 0.15,
+    "rear_ligament_mm": 0.15
+  },
+  "mesh_statistics": {
+    "physical_elements": 2920,
+    "quad_elements": 2830,
+    "tri_elements": 90,
+    "quad_fraction_pct": 96.92,
+    "physical_nodes": 3016,
+    "layered_elements": 8760,
+    "total_nodes_with_rp": 3017
+  },
+  "material": {
+    "E_GPa": 210.0,
+    "nu": 0.3,
+    "Gc_kN_per_mm": 0.0027,
+    "l0_mm": 0.0075,
+    "k_residual": 1e-07
+  },
+  "loading": {
+    "step1_u2_mm": 0.005,
+    "step2_u2_mm": 0.01,
+    "step2_increments": 5
+  },
+  "artifacts": {
+    "physical_inp": "models/pandey_kumar_mode1/289_method_c_demo_case/PK_METHOD_C_DEMO_COARSE_PHYS.inp",
+    "physical_inp_sha256": "BBF9B529F5E04EEE6EB379600D6FC7C6BFA5551C8595341430326E660A8A4CE7",
+    "coupled_inp": "models/pandey_kumar_mode1/289_method_c_demo_case/PK_METHOD_C_DEMO_COARSE_JOB1.inp",
+    "coupled_inp_sha256": "69ABFF7ACD1EFD767046E686847F30D06F808BBEC738C2FBB9BDFF478A66EC9C",
+    "coupled_inp_body_sha256": "784B1B7481FCE75FC8A7BC044B3AC3CC0ED39C365819288436CA6ED3BD35DBD2"
+  }
+}
