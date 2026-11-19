@@ -56,7 +56,7 @@ INDEPENDENT_STRUCTURED_REVIEW_V1
     "expected_numerical_result": "PBS Job 1424517 completed Exit 0 with zero errors (Walltime 1,511s, CPU 909s); Step-1 observables extracted: u2=0.0050 mm, RF2=0.556024 kN, peak damage d=0.169178 (notch tip), mean damage d=0.0086 (bulk intact), peak history H=0.249872 MPa, MISESERI=0.0 (inactive under UMAT); 0 new PBS jobs (cumulative 58 preserved); MASTER_GOAL_STATUS = OPEN.",
     "indicator_type": "F1852_MEASURED_DRIVER",
     "indicator_role": "METHOD_C_DRIVER",
-    "causal_evidence_status": "OBSERVED"
+    "causal_evidence_status": "PLANNED"
   },
   "evidence_manifest": {
     "validation_report": {
