@@ -1,11 +1,11 @@
 {
   "active": false,
   "agent": "gemini-antigravity",
-  "session_id": "2026-11-19_gemini_method_c_phase2_job1_monitor",
+  "session_id": "2026-11-19_gemini_method_c_policy_reconciliation_dispatch",
   "task_id": "METHOD-C-PHASE1-DEMO-AND-LOOP-SKELETON",
-  "started_at": "2026-11-19T14:07:00+01:00",
-  "ended_at": "2026-11-19T14:50:00+01:00",
-  "starting_commit": "0591548cc6411516e84999c08643534ad174d1aa",
+  "started_at": "2026-11-19T14:52:00+01:00",
+  "ended_at": "2026-11-19T14:55:00+01:00",
+  "starting_commit": "3e2c1491321481a57ca309fae9dbad5f73d8a562",
   "allowed_write_scope": [
     "project_coordination/ACTIVE_SESSION.json",
     "project_coordination/ACTIVE_TASK.json",
@@ -16,14 +16,10 @@
     "project_coordination/sessions/**",
     ".agents/scripts/bridge_rules.txt",
     ".agents/scripts/bridge_research_policy.json",
-    "C:/Users/pruth/OpenClawPAD/ChatGPTBridge/bridge_rules.txt",
-    "C:/Users/pruth/OpenClawPAD/ChatGPTBridge/bridge_research_policy.json",
-    "models/pandey_kumar_mode1/**",
-    "scripts/state_transfer/**",
-    "scripts/remeshing/**",
+    ".agents/scripts/dispatch_*.ps1",
+    "C:/Users/pruth/OpenClawPAD/ChatGPTBridge/**",
     "docs/validation/**",
-    "results/**",
     "tests/**"
   ],
-  "notes": "Completed bounded offline reconciliation of BRIDGE_POLICY_SHA256 (proved 0F336675 was uncommitted disk state at 13:29 CET; canonical policy committed at 95d58ef90 with SHA C5959401...). Awaiting HPC resolution of Panasas scratch outage. Cumulative PBS: 58. MASTER_GOAL_STATUS = OPEN."
+  "notes": "Session closed following supervisory approval of HND-METHOD-C-PHASE2-JOB1-002 (bridge research policy reconciliation approved). Awaiting HPC restoration of Panasas scratch storage and resumption of PBS scheduling. Cumulative PBS: 58 (max_new_pbs = 0). MASTER_GOAL_STATUS = OPEN."
 }
