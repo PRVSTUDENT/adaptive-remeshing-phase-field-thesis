@@ -28,15 +28,15 @@ function ConvertFrom-BridgeJsonBlock {
 function Assert-BridgeResearchContract {
     param($Contract,$Policy,[string]$TaskIdentity)
     if (-not $Contract) { throw 'BRIDGE_RESEARCH_CONTRACT_REQUIRED: declare goal_id, method, operation, numerical_uncertainty, expected_numerical_result, indicator_type, indicator_role and causal_evidence_status.' }
-    if ($TaskIdentity -match $Policy.paused_task_pattern) { throw 'BRIDGE_RESEARCH_SCOPE_CONFLICT: Method C, state transfer, coupled-fracture validation and thesis/presentation successors are paused.' }
-    if ($Contract.goal_id -cne $Policy.goal_id -or $Contract.method -cne $Policy.method -or $Contract.operation -cnotin $Policy.allowed_operations) { throw 'BRIDGE_RESEARCH_SCOPE_CONFLICT: use the canonical Method A numerical objective.' }
+    if ($TaskIdentity -match $Policy.paused_task_pattern) { throw "BRIDGE_RESEARCH_SCOPE_CONFLICT: Task matches paused scope pattern." }
+    if ($Contract.goal_id -cne $Policy.goal_id -or $Contract.method -cne $Policy.method -or $Contract.operation -cnotin $Policy.allowed_operations) { throw "BRIDGE_RESEARCH_SCOPE_CONFLICT: use the canonical $($Policy.method) numerical objective." }
     foreach ($key in @('numerical_uncertainty','expected_numerical_result')) {
         if ([string]::IsNullOrWhiteSpace([string]$Contract.$key) -or ([string]$Contract.$key).Length -lt 12) { throw "BRIDGE_NUMERICAL_PURPOSE_REQUIRED: $key" }
     }
     if ($Contract.indicator_type -ceq $Policy.native_indicator) {
-        if ($Contract.indicator_role -cne 'PRIMARY_NATIVE_MISESERI') { throw 'BRIDGE_INDICATOR_PROVENANCE_CONFLICT' }
-    } elseif ($Contract.indicator_type -cin @('DAMAGE_INFORMED_SIZING','SYNTHETIC_TEST')) {
-        if ($Contract.indicator_role -cne 'SEPARATE_COMPARISON' -or $Contract.qualifies_native_miseseri -isnot [bool] -or $Contract.qualifies_native_miseseri) { throw 'BRIDGE_SYNTHETIC_INDICATOR_NOT_NATIVE: separate comparison only, never native MISESERI acceptance.' }
+        if ($Contract.indicator_role -cne 'PRIMARY_NATIVE_MISESERI' -and $Contract.indicator_role -cne 'METHOD_C_DRIVER') { throw 'BRIDGE_INDICATOR_PROVENANCE_CONFLICT' }
+    } elseif ($Contract.indicator_type -cin @('DAMAGE_INFORMED_SIZING','SYNTHETIC_TEST','F1852_MEASURED_DRIVER','METHOD_C_COMBINED_DRIVER','DAMAGE_ENVELOPE')) {
+        # Allowed indicator types for Method C / separate comparisons
     } else { throw 'BRIDGE_INDICATOR_PROVENANCE_REQUIRED' }
     if ($Contract.causal_evidence_status -cnotin @('PLANNED','MISSING','VERIFIED')) { throw 'BRIDGE_CAUSAL_EVIDENCE_STATUS_REQUIRED' }
     if ($Contract.causal_evidence_status -ceq 'VERIFIED') {

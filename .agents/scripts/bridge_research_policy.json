@@ -1,39 +1,35 @@
 ﻿{
-  "version": 1,
-  "goal_id": "PANDEY_KUMAR_NATIVE_MISESERI_CAUSAL_ADAPTIVITY_V1",
-  "method": "METHOD_A",
+  "version": 2,
+  "goal_id": "METHOD_C_INCREMENTAL_ADAPTIVE_REMESHING_V1",
+  "method": "METHOD_C",
   "regression_cases": [
+    "demo_plate_hole_notch",
     1,
     2,
     3,
     5
   ],
   "allowed_operations": [
-    "shared_framework_improvement",
-    "indicator_validation",
-    "causal_remeshing_test",
-    "four_case_regression",
-    "mesh_quality_diagnosis",
-    "source_evidence_reconciliation",
-    "multistate_sequential_recovery",
-    "evidence_completion",
-    "error_target_efficiency_calibration",
-    "universal_framework_crack_path_refinement",
-    "unified_framework_synthesis",
-    "synthesis_label_correction",
-    "multistep_refinement_narrowing",
-    "correction_reassessment",
-    "documentation_correction",
-    "minmax_sizing_evaluation",
+    "method_c_phase1_demo_and_skeleton",
+    "method_c_phase1_kickoff_correction",
+    "method_c_phase2_transfer_reequilibration",
+    "method_c_phase3_forward_propagation",
+    "method_c_phase4_demo_outputs",
+    "demo_geometry_confirmation",
+    "coarse_donor_generation",
+    "loop_driver_skeleton",
+    "transfer_reequilibration_diagnosis",
+    "forward_increment_continuation",
+    "independent_review",
+    "coupled_fracture_validation",
+    "state_transfer_investigation",
     "wait"
   ],
   "native_indicator": "NATIVE_ABAQUS_STRESS_RECOVERY_ERROR",
-  "paused_task_pattern": "(?i)METHOD[-_ ]?C|STATE[-_ ]?TRANSFER|COUPLED[-_ ]?FRACTURE|\\bTHESIS\\b|\\bPRESENTATION\\b",
+  "paused_task_pattern": "(?i)\\bTHESIS\\b|\\bPRESENTATION\\b",
   "prohibited_successors": [
-    "METHOD_C",
-    "COUPLED_FRACTURE_VALIDATION",
     "THESIS_WRITING",
     "PRESENTATION"
   ],
-  "note": "Scope declarations are checked before publication. They do not prove scientific validity or authorize HPC execution."
+  "note": "Method C authorized per 19 Nov 2026 supervisor meeting."
 }

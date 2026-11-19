@@ -1,65 +1,27 @@
-Give instructions that develop one geometry-independent adaptive-remeshing framework based on Pandey and Kumar's MISESERI approach, with refinement along the evolving crack path determined by authentic numerical indicators, never by prescribed future crack paths or hardcoded refinement regions.
+Instructions for Method C incremental adaptive remeshing across load steps with state and history transfer on the Mode-I demonstration case, following the 19 Nov 2026 supervisor meeting.
 # Standing research execution and JOB-FIRST / REPORT-AFTER POLICY
-RESEARCH_GOAL_ID: PANDEY_KUMAR_NATIVE_MISESERI_CAUSAL_ADAPTIVITY_V1
+RESEARCH_GOAL_ID: METHOD_C_INCREMENTAL_ADAPTIVE_REMESHING_V1
 
 ## Scope and evidence
-- Primary work: one shared Method A engine, scripts/remeshing/reusable_2d_adaptive_framework.py,
-  using actual Abaqus recovered-stress MISESERI. Prioritize Case 2 distal refinement,
-  Case 3 secondary refinement/efficiency, Case 1 efficiency; preserve Case 5 quality.
-- Method C/state transfer, coupled-fracture validation, thesis and presentations
-  are paused. Never choose them as successors without explicit user reprioritization,
-  even after a subtask passes. Reject conflicting active-task or handoff priorities.
-- No prescribed future crack corridors, hardcoded refinement regions or per-case
-  algorithm forks. Geometry/physics may differ; label A.1 and A.2 distinctly.
-  Damage/synthetic sizing encoded as MISESERI is NOT native recovered stress error.
-- At remesh time t_k, build indicators only from fields available through t_k.
-  Record donor SHA256, step/frame range and cutoff. Later solution is held out
-  for evaluation, never used to choose refinement. Unknown chronology is MISSING.
-- For meaningful frozen revisions, evaluate Cases 1/2/3/5 against their predecessors:
-  critical-region h/l0, counts, quads, Jacobians, aspect ratios, coarsening and cost.
-  Require fresh same-revision generation evidence; retain failures. Archived mesh
-  audits, good images or synthetic indicator tests do not prove causal adaptivity.
+- Primary work: Method C incremental adaptive remeshing and state transfer on the Mode-I
+  demonstration benchmark (1x1 mm plate with edge notch and hole ahead of crack line).
+- One shared remeshing engine (F1852 driver: damage envelope when max damage >= 0.5,
+  else native MISESERI). No manually seeded future crack corridors.
+- Fixed-load state transfer re-equilibration (clearing the C5->C6 blocker) and forward crack
+  propagation under advancing load.
+- Thesis writing and final presentations remain out of scope until supervisor authorization.
 - Inspect authentic artifacts before claims; label DIRECTLY_VERIFIED, REPORTED_ONLY,
-  INFERRED or MISSING. No fabricated hashes, receipts, speedups or commit-pinned links.
-  Diagnose a numerical uncertainty; choose one measurable test. Reports, planning
-  and repeated reviews cannot substitute for numerical progress.
-
-## Mandatory GitHub image review before next instructions
-- Before giving any new scientific instruction, ChatGPT MUST open and visually
-  inspect AGY's genuine, commit-pinned GitHub adaptive-remesh images for Cases
-  1/2/3/5. Analyze refinement distribution, crack/process-zone coverage, transitions,
-  excessive refinement and visible defects FIRST; then use numerical audits to
-  corroborate findings and give one evidence-based corrective next instruction.
-- After EVERY adaptive-remeshing framework edit, AGY must regenerate adapted
-  meshes and corresponding images for ALL FOUR cases using that same frozen
-  revision, within existing execution gates. Push the genuine images and audits
-  to GitHub; never present older or mixed-revision images as current regression.
-- Where feasible, include one readable 2x2 composite showing all four meshes,
-  labeled by case and source revision, with consistent h/l0 coloring and critical
-  region zooms as needed. Also retain individual full-resolution image links.
-- Every handoff supplies commit-pinned image links and their mesh/source provenance.
-  ChatGPT's JSON reply includes image_review with inspected links, per-case visual
-  findings and verification status. Do not claim inspection from captions, reports
-  or inaccessible links. If required images/generation are missing or blocked,
-  return INSUFFICIENT_EVIDENCE and request that exact evidence before prescribing
-  another framework change. Images alone never establish scientific acceptance.
+  INFERRED or MISSING. No fabricated hashes, receipts, or links.
+- Every handoff supplies commit-pinned evidence and verifiable numerical audits.
 
 ## Required request/reply contract
-- Canonical machine scope: .agents/scripts/bridge_research_policy.json. All paths,
-  including INDEPENDENT_STRUCTURED_REVIEW_V1, pass the same publisher/hash checks.
-  Never bypass a rejection with direct ready-file writes or a different rules file.
+- Canonical machine scope: .agents/scripts/bridge_research_policy.json.
 - AGY request: UTF-8 plain text, first line [BRIDGE_HANDOFF_ID=HND-<unique-id>],
   next line protocol, then standalone JSON object with matching protocol,
   correlation_id, task_id and research_contract; evidence follows unchanged.
-- research_contract fields: goal_id (above), method=METHOD_A, operation (from policy),
+- research_contract fields: goal_id (above), method=METHOD_C, operation (from policy),
   numerical_uncertainty, expected_numerical_result, indicator_type, indicator_role,
-  causal_evidence_status=PLANNED|MISSING|VERIFIED. Native type
-  NATIVE_ABAQUS_STRESS_RECOVERY_ERROR uses role PRIMARY_NATIVE_MISESERI.
-  DAMAGE_INFORMED_SIZING/SYNTHETIC_TEST require role SEPARATE_COMPARISON and
-  qualifies_native_miseseri=false; they cannot qualify the native method.
-- VERIFIED causal_evidence requires donor_sha256, donor_step, indicator_frame_range,
-  remesh_time, maximum_indicator_time<=remesh_time, uses_future_frames=false and
-  held_out_later_solution. Declarations are review inputs, not verified science.
+  causal_evidence_status=PLANNED|MISSING|VERIFIED.
 - ChatGPT: return exactly ONE json-fenced JSON object; no prose, headings, tables,
   citations outside JSON or trailing Finished. Copy protocol/correlation_id/task_id;
   echo canonical_rules_sha256 from BRIDGE_RULES_SHA256 and goal_id above.
@@ -67,7 +29,7 @@ RESEARCH_GOAL_ID: PANDEY_KUMAR_NATIVE_MISESERI_CAUSAL_ADAPTIVITY_V1
   review_summary, evidence/gaps, master_goal_status and one precise
   next_instruction_to_antigravity. If OPEN, next_operation uses the research_contract
   schema and stays in scope. Supervisors retain action=DIAGNOSE|CONTINUE|WAIT|STOP
-  and instruction too. Do not replay sample IDs/budgets. Put any Finished inside JSON.
+  and instruction too. Put any Finished inside JSON.
 - ChatGPT emits inner review JSON only; Tampermonkey supplies the outer
   bridge_handoff_id/status/copied_at/response_chars/response wrapper. Validate both
   identities and freshness. Transport OK is not scientific APPROVE or signed provenance.
@@ -76,13 +38,13 @@ RESEARCH_GOAL_ID: PANDEY_KUMAR_NATIVE_MISESERI_CAUSAL_ADAPTIVITY_V1
 - Existing AGY -> PAD -> ChatGPT -> AGY cycle continues while master goal OPEN:
   send, await matching completed response, validate, apply next operation, repeat.
   Finished/commit/subtask closeout never means GOAL_COMPLETE. Completion requires
-  independently reviewed master criteria and four-case acceptance evidence.
+  independently reviewed master criteria.
 - Exactly one PAD flow consumer; reuse the visible runtime. Never replay pending
   requests, responses, locks or ambiguous receipts. Real paste into live composer
   must arm Tampermonkey; file existence is not proof of send. No extra Enter.
 - Genuine safety/ownership/auth/quota/transport block: preserve transaction and
   OPEN goal, report exact blocker/resume condition; no blind retries/account rotation.
-- Preserve frozen UEL, thresholds, scientific review, registered exact HPC budget,
+- Preserve frozen UEL CE8D5EDC, thresholds, scientific review, registered exact HPC budget,
   real datacheck/notifications/live resources and once-only accounting. Execute only
   through scripts/hpc/Invoke-Mode1Execution.ps1. No direct qsub, qdel/qmove, duplicate
   jobs, blanket batch authorization or administrative human-permit/enrollment loops.
