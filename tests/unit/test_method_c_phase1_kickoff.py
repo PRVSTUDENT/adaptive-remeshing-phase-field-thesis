@@ -58,6 +58,19 @@ def test_bridge_policy_and_rules_consistency():
     assert policy['method'] == 'METHOD_C'
     assert policy['goal_id'] in rules
     assert "method_c_phase1_demo_and_skeleton" in policy['allowed_operations']
+    assert "method_c_phase2_job1_submit" in policy['allowed_operations']
+    assert "method_c_phase2_job1_monitor" in policy['allowed_operations']
+    assert "method_c_phase2_job1_extract" in policy['allowed_operations']
+
+    with open(policy_path, 'rb') as f:
+        policy_sha = hashlib.sha256(f.read()).hexdigest().upper()
+    assert policy_sha == "C595940130CA051A0947EC5F9382A59EF74066C1B7973EA5FA1B95B829A62EB6"
+
+    pad_policy = os.path.join(r"C:\Users\pruth\OpenClawPAD\ChatGPTBridge", "bridge_research_policy.json")
+    if os.path.isfile(pad_policy):
+        with open(pad_policy, 'rb') as f:
+            pad_sha = hashlib.sha256(f.read()).hexdigest().upper()
+        assert pad_sha == policy_sha
 
 def test_active_task_governance():
     task_path = os.path.join(REPO_ROOT, 'project_coordination', 'ACTIVE_TASK.json')
