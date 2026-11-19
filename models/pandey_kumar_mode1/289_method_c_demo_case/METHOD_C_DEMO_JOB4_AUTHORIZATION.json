@@ -1,0 +1,64 @@
+{
+  "task_id": "METHOD-C-CYCLE2-JOB4-SOLVE",
+  "batch_name": "MODE1_METHOD_C_DEMO_JOB4",
+  "max_new_pbs_submissions": 1,
+  "submissions_authorized": 1,
+  "submissions_consumed": 0,
+  "cumulative_pbs_submissions": 60,
+  "max_submissions": 1,
+  "hours_valid": 72,
+  "automatic_retry": false,
+  "frozen_uel_sha256": "CE8D5EDCD2911DCB018BB15275271F874E7EA62B8FB48CF4A8297469A83ACDD6",
+  "resource_limits": {
+    "ncpus": 16,
+    "mem_gb": 48,
+    "walltime_hours": 72,
+    "queue": "entry_imfdfkmq",
+    "execution_mode": "16-cpu shared-memory SMP"
+  },
+  "files": {
+    "PK_METHOD_C_CYCLE2_REFINED_JOB4.inp": "e2f64262d3379297a41a448832f63169aa680e1c0b1e12a08fc8cf9912dad6fe",
+    "PK_METHOD_C_CYCLE2_PHYS.inp": "3b011d47869a31d4cec4c941342248c915a2c31181a8dc20c022ec4d8f7022fc",
+    "f42_mixed_uel.for": "ce8d5edcd2911dcb018bb15275271f874e7ea62b8fb48cf4a8297469a83acdd6",
+    "submit_demo_cycle2_job4.pbs": "83638bfb55599912b81283cee5c9cf60b4a067189c1be23078f5ce3397c59c27",
+    "job_notifications.sh": "96756a681d2d36c11b36b89288f631f8ecc9537543c2c745a4bae1b425984b47"
+  },
+  "jobs": [
+    {
+      "id": "demo_cycle2_job4",
+      "pbs": "submit_demo_cycle2_job4.pbs",
+      "command": "powershell -NoProfile -ExecutionPolicy Bypass -File .\\.agents\\scripts\\Invoke-GuardedSsh.ps1 -RemoteCommand \"qsub -q entry_imfdfkmq /scratch9/pr21vyci/runs/mode1_289_method_c_demo_job4/submit_demo_cycle2_job4.pbs\"",
+      "command_sha256": "0d39365ad8599b7f89f4d5b090a9fd5f5cee4f4ab23c8977cf4ea411b9324c57",
+      "max_submissions": 1,
+      "depends_on": [],
+      "purpose": "Method C Cycle 2 Job-4 re-equilibration at u2=0.008756 mm and forward crack propagation to u2=0.012000 mm on adapted receiver mesh (42,012 layered elements, frozen UEL CE8D5EDC)",
+      "cpus": 16,
+      "memory_gb": 48,
+      "walltime_hours": 72,
+      "queue": "entry_imfdfkmq",
+      "execution": "16-cpu shared-memory SMP",
+      "input": "PK_METHOD_C_CYCLE2_REFINED_JOB4.inp",
+      "datacheck": "PK_METHOD_C_CYCLE2_REFINED_JOB4_DC.dat"
+    }
+  ],
+  "candidate_jobs": [
+    {
+      "id": "demo_cycle2_job4",
+      "input": "PK_METHOD_C_CYCLE2_REFINED_JOB4.inp",
+      "purpose": "Method C Cycle 2 Job-4 re-equilibration at u2=0.008756 mm and forward crack propagation to u2=0.012000 mm on adapted receiver mesh (42,012 layered elements, frozen UEL CE8D5EDC)",
+      "cpus": 16,
+      "memory_gb": 48,
+      "walltime_hours": 72,
+      "queue": "entry_imfdfkmq",
+      "execution": "16-cpu shared-memory SMP",
+      "submission_authorized": true
+    }
+  ],
+  "adapter": "mode1-qualified-batch-v2",
+  "scientific_scope": "MODE1",
+  "technical_stage": "C1-2",
+  "remote_run_dir": "/scratch9/pr21vyci/runs/mode1_289_method_c_demo_job4",
+  "acceptance": {
+    "demo_cycle2_job4": "Method C Cycle 2 Job-4 re-equilibration at u2=0.008756 mm and forward crack propagation to u2=0.012000 mm completes with Exit 0; force and energy continuity in Step 1 (<5% delta vs Job-3); forward crack propagation across remaining ligament in Step 2; peak damage preserved (zero healing) and thermodynamic non-negativity maintained."
+  }
+}
