@@ -38,14 +38,14 @@ def test_figure_artifacts_exist_and_non_empty():
 
 def test_figure_sha256_hashes():
     expected_hashes = {
-        'fig_method_c_crack_extension.pdf': '0a16622b1e9b1a5c7c992a8978091d4d828112e8234223ce113bc1c7a349678f',
-        'fig_method_c_crack_extension.png': 'bdb9bad6126f51476093f86b4269274473c3f1560d5d4fdb4163afc78b61fe92',
+        'fig_method_c_crack_extension.pdf': '7bb0c7d3203db319a29d899b72366244dca21a26e13e9686685bb8206c12bb46',
+        'fig_method_c_crack_extension.png': '4ffa94694c4b0050fea3afc66866086a12abfdc05ea6161842a340b403c999b6',
         'fig_method_c_damage_evolution.gif': '70dacbcd94aa48d8ebb69f9c83e1544bbdf7a84dff71055ab1982540861dcaf8',
-        'fig_method_c_damage_evolution_sequence.pdf': '68f992dfd4b6f296f1440a510a603d819d73d3bfa846caf24a432983237542fa',
+        'fig_method_c_damage_evolution_sequence.pdf': '0060b0befd69b985c17fefe4fc70636d4b0759a696abc38aa98d4d1966d67602',
         'fig_method_c_damage_evolution_sequence.png': 'f2e0e1abf9678e98d33f69e7d88f61adc06b80da05119a2c9b7e574e18865205',
-        'fig_method_c_load_displacement.pdf': '3c690e4d79206404ee827c539fbbef5ed9e9edfc59820249526116c364b0207c',
-        'fig_method_c_load_displacement.png': '293e8d2080e2797731ea9e5a1d577f4040ec2cfe087b3c8f667bb61d2c9ca577',
-        'fig_method_c_loop_synthesis.pdf': 'fedf6a986f51bdf64c29ce6751ffe33eec3ad32441dcca82cf4d24fa812a6dc7',
+        'fig_method_c_load_displacement.pdf': '81514ed1c50ec0e56afa7d6943b50a48f7a8ac6ec72bc690eb4f30c5a05f7059',
+        'fig_method_c_load_displacement.png': 'e1586bd2cf4b0e0c6d5b7a267649e18d5960b19d35b4fe7254ce405191fa6c4e',
+        'fig_method_c_loop_synthesis.pdf': 'a3ca7a3b019eb520f72dcc0e4d249be9daf023d210ab289799dc40e89b9a450b',
         'fig_method_c_loop_synthesis.png': '6300dea166b4bd62efbfdbbc1b712c8900999f12991e3d5d4b8dbd93e0b5b00c',
     }
 

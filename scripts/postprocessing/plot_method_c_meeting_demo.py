@@ -127,7 +127,7 @@ def plot_load_displacement(job1, job2, job3):
 
     # Annotations
     ax.annotate(f'Peak Load\nF = {rf2_peak:.3f} kN\n(u2 = {job3["u2_at_peak_RF2_mm"]*1000:.1f} µm)',
-                xy=(u2_peak, rf2_peak), xytext=(u2_peak - 2.2, rf2_peak + 0.035),
+                xy=(u2_peak, rf2_peak), xytext=(u2_peak + 0.8, 0.67),
                 arrowprops=dict(facecolor='black', arrowstyle='->', lw=1.2),
                 fontsize=9.5, fontweight='bold', bbox=dict(boxstyle='round,pad=0.3', facecolor='#fee8c8', alpha=0.9), zorder=10)
 
@@ -209,12 +209,12 @@ def plot_crack_extension(job3):
                 fontsize=9, fontweight='bold', bbox=dict(boxstyle='round,pad=0.3', facecolor='#ffffe5', alpha=0.9))
 
     ax.annotate('Void Penetration / Hole Capture\n($x = 0.650$ mm at Inc 116, $u_2 = 8.683$ µm)',
-                xy=(8.683, 0.650), xytext=(6.2, 0.70),
+                xy=(8.683, 0.650), xytext=(5.1, 0.70),
                 arrowprops=dict(facecolor='black', arrowstyle='->', lw=1.2),
                 fontsize=9, fontweight='bold', bbox=dict(boxstyle='round,pad=0.3', facecolor='#fee8c8', alpha=0.9))
 
     ax.annotate(f'Far-Side Re-initiation & Severance\n($x_{{\\mathrm{{tip}}}} = 0.8957$ mm, $\\Delta a = 0.3957$ mm)',
-                xy=(8.756, 0.8957), xytext=(6.0, 0.88),
+                xy=(8.756, 0.8957), xytext=(5.0, 0.88),
                 arrowprops=dict(facecolor='black', arrowstyle='->', lw=1.2),
                 fontsize=9, fontweight='bold', bbox=dict(boxstyle='round,pad=0.3', facecolor='#e5f5e0', alpha=0.9))
 
@@ -222,7 +222,7 @@ def plot_crack_extension(job3):
     ax.set_ylabel('Crack Tip Position $x_{\\mathrm{tip}}$ [mm]', fontsize=12, fontweight='bold')
     ax.set_title('Crack Trajectory Evolution: Propagation across 150 µm Ligament into Void',
                  fontsize=12, fontweight='bold', pad=12)
-    ax.set_xlim(0, 9.5)
+    ax.set_xlim(0, 9.8)
     ax.set_ylim(0.40, 0.95)
     ax.grid(True, linestyle='--', alpha=0.6)
     ax.legend(loc='upper left', fontsize=8.5, framealpha=0.95)

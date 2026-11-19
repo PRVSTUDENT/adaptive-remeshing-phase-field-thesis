@@ -121,16 +121,16 @@ Per the standing research directives and governance principles, the following ph
 
 | Artifact Name | Relative Path | Type | SHA-256 Hash |
 | :--- | :--- | :--- | :--- |
-| Load-Displacement Plot (PNG) | `results/figures/method_c_demo/fig_method_c_load_displacement.png` | PNG | `293e8d2080e2797731ea9e5a1d577f4040ec2cfe087b3c8f667bb61d2c9ca577` |
-| Load-Displacement Plot (PDF) | `results/figures/method_c_demo/fig_method_c_load_displacement.pdf` | PDF | `3c690e4d79206404ee827c539fbbef5ed9e9edfc59820249526116c364b0207c` |
-| Crack Extension Plot (PNG) | `results/figures/method_c_demo/fig_method_c_crack_extension.png` | PNG | `bdb9bad6126f51476093f86b4269274473c3f1560d5d4fdb4163afc78b61fe92` |
-| Crack Extension Plot (PDF) | `results/figures/method_c_demo/fig_method_c_crack_extension.pdf` | PDF | `0a16622b1e9b1a5c7c992a8978091d4d828112e8234223ce113bc1c7a349678f` |
+| Load-Displacement Plot (PNG) | `results/figures/method_c_demo/fig_method_c_load_displacement.png` | PNG | `e1586bd2cf4b0e0c6d5b7a267649e18d5960b19d35b4fe7254ce405191fa6c4e` |
+| Load-Displacement Plot (PDF) | `results/figures/method_c_demo/fig_method_c_load_displacement.pdf` | PDF | `81514ed1c50ec0e56afa7d6943b50a48f7a8ac6ec72bc690eb4f30c5a05f7059` |
+| Crack Extension Plot (PNG) | `results/figures/method_c_demo/fig_method_c_crack_extension.png` | PNG | `4ffa94694c4b0050fea3afc66866086a12abfdc05ea6161842a340b403c999b6` |
+| Crack Extension Plot (PDF) | `results/figures/method_c_demo/fig_method_c_crack_extension.pdf` | PDF | `7bb0c7d3203db319a29d899b72366244dca21a26e13e9686685bb8206c12bb46` |
 | Damage Evolution Sequence (PNG) | `results/figures/method_c_demo/fig_method_c_damage_evolution_sequence.png` | PNG | `f2e0e1abf9678e98d33f69e7d88f61adc06b80da05119a2c9b7e574e18865205` |
-| Damage Evolution Sequence (PDF) | `results/figures/method_c_demo/fig_method_c_damage_evolution_sequence.pdf` | PDF | `68f992dfd4b6f296f1440a510a603d819d73d3bfa846caf24a432983237542fa` |
+| Damage Evolution Sequence (PDF) | `results/figures/method_c_demo/fig_method_c_damage_evolution_sequence.pdf` | PDF | `0060b0befd69b985c17fefe4fc70636d4b0759a696abc38aa98d4d1966d67602` |
 | Method C Loop Synthesis (PNG) | `results/figures/method_c_demo/fig_method_c_loop_synthesis.png` | PNG | `6300dea166b4bd62efbfdbbc1b712c8900999f12991e3d5d4b8dbd93e0b5b00c` |
-| Method C Loop Synthesis (PDF) | `results/figures/method_c_demo/fig_method_c_loop_synthesis.pdf` | PDF | `fedf6a986f51bdf64c29ce6751ffe33eec3ad32441dcca82cf4d24fa812a6dc7` |
+| Method C Loop Synthesis (PDF) | `results/figures/method_c_demo/fig_method_c_loop_synthesis.pdf` | PDF | `a3ca7a3b019eb520f72dcc0e4d249be9daf023d210ab289799dc40e89b9a450b` |
 | Damage Evolution Animation (GIF) | `results/figures/method_c_demo/fig_method_c_damage_evolution.gif` | GIF | `70dacbcd94aa48d8ebb69f9c83e1544bbdf7a84dff71055ab1982540861dcaf8` |
-| Plot Generation Script | `scripts/postprocessing/plot_method_c_meeting_demo.py` | Python | `dcfd6935a218049ef11041e78f03b6cd8bc400de03df5a8310bff2678c98796b` |
+| Plot Generation Script | `scripts/postprocessing/plot_method_c_meeting_demo.py` | Python | `526d8b4071bf6a0b7c4857d866a488b29deb56409e9a76cd56e499ddbbd5de14` |
 | Supervisor Meeting Slides | `docs/presentations/2026-12-02_Method_C_Supervisor_Meeting_Slides.md` | Markdown | `b9f65f0cf7e4488a2208a94ae0b8bb2b122ade2b3cb0eb517ebbce77d76828f6` |
 | Meeting Materials Unit Tests | `tests/unit/test_method_c_phase4_meeting_materials.py` | Python | Verified |
 | Meeting Materials Report | `docs/validation/METHOD_C_PHASE4_MEETING_MATERIALS_REPORT.md` | Markdown | Current Document |
@@ -139,7 +139,7 @@ Per the standing research directives and governance principles, the following ph
 
 ## 6. Resolution of Independent Review Feedback
 
-In response to Independent Structured Review `HND-METHOD-C-PHASE4-MATERIALS-001` (Verdict: `INSUFFICIENT_EVIDENCE`), the following corrections were executed:
+### 6.1 Resolution of Initial Review Feedback (HND-METHOD-C-PHASE4-MATERIALS-001)
 
 1. **GAP-MC-P4-01 (Panel (f) Crack Tip Value):** Corrected panel (f) title in `fig_method_c_damage_evolution_sequence` to state $x_{\mathrm{tip}} = 0.896\,\text{mm}$ ($0.8957\,\text{mm}$), matching the authentic Job-3 receipt final crack tip ($0.895686\,\text{mm}$) and the crack extension curve, replacing the erroneous $0.850\,\text{mm}$ (which represents the far hole perimeter / re-initiation boundary). The terminal frame of the animated GIF was also verified and updated.
 2. **GAP-MC-P4-02 (Loop Synthesis Layout & Hole Occlusion):** Re-architected Figure 4 `fig_method_c_loop_synthesis`: increased suptitle clearance to $y = 0.98$ with `top = 0.88` to eliminate main title / subtitle overlap; extended vertical axes bounds to $y \in [0.20, 0.65]$ and placed text boxes at the lower margin ($y \in [0.20, 0.35]$) with $z$-order 20, guaranteeing complete separation from the circular void at $(0.75, 0.50)$ and 100% legibility.
@@ -151,5 +151,16 @@ In response to Independent Structured Review `HND-METHOD-C-PHASE4-MATERIALS-001`
    - Phase 3 Job 3 Propagation: 6 tests (`test_method_c_phase3_forward_propagation.py`)
    - Phase 4 Meeting Materials: 5 tests (`test_method_c_phase4_meeting_materials.py`)
    - **Total Demonstration Test Suite:** Exactly **32 tests** ($10 + 3 + 3 + 5 + 6 + 5 = 32$), with all **32/32 PASS (100%)** verified.
-4. **NOTE-MC-P4-04 (Annotation / Legend Clearances):** Relocated Figure 1 legend to upper-left and callout arrows to eliminate callout/legend crowding; relocated Figure 2 legend to upper-left away from the crack trajectory and void annotations.
+4. **NOTE-MC-P4-04 (Annotation / Legend Clearances):** Relocated Figure 1 legend to upper-left and callout arrows; relocated Figure 2 legend to upper-left away from the crack trajectory and void annotations.
+
+### 6.2 Resolution of Re-Issue Review Feedback (HND-METHOD-C-PHASE4-MATERIALS-002)
+
+1. **GAP-MC-P4-04R (Load-Displacement Peak Load Annotation Repositioned):**
+   - In `fig_method_c_load_displacement.png` and `.pdf`, repositioned the 'Peak Load' callout box from `xytext=(u2_peak - 2.2, rf2_peak + 0.035)` to the clear upper-right region above the softening curve at `xytext=(u2_peak + 0.8, 0.67)` ($u_2 = 6.917\,\mu\text{m}$, $F = 0.67\,\text{kN}$).
+   - This completely isolates the annotation from the upper-left legend box (which ends at $u_2 \approx 5.0\,\mu\text{m}$), fully revealing rows 2 and 3 ('Re-equilibrated State' and 'Job-1 Coarse Baseline'), eliminates all text box overlap, and maintains a clean downward pointing arrow to the peak point $(6.117\,\mu\text{m}, 0.6487\,\text{kN})$.
+2. **NOTE-MC-P4-06R (Crack-Extension Annotation Clearance Verified):**
+   - In `fig_method_c_crack_extension.png` and `.pdf`, shifted the 'Void Penetration / Hole Capture' annotation box leftward from `xytext=(6.2, 0.70)` to `(5.1, 0.70)` and the 'Far-Side Re-initiation' box to `(5.0, 0.88)` inside the open void region, and extended the displacement x-axis limit from $9.5\,\mu\text{m}$ to $9.8\,\mu\text{m}$.
+   - This provides wide margins from the right figure edge, ensuring the callout boxes are fully inside the axes and completely readable.
+3. **NOTE-MC-P4-07R (GIF Terminal Frame Label Verified):**
+   - Re-verified that the terminal frame of `fig_method_c_damage_evolution.gif` displays `x_tip = 0.896 mm [FAR-SIDE PROPAGATION]`, matching panel (f) of the damage evolution sequence.
 
