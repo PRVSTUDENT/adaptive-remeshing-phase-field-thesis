@@ -44,6 +44,9 @@ In review `HND-METHOD-C-PHASE2-JOB2-001`, the supervisor noted:
 4. **Conclusion:**
    - The ledger entry `530a0abb...` recorded the **exact, authentic SHA-256 of the deck actually submitted and solved by PBS Job 1424584**, which passed datacheck with Exit 0 and completed with Exit 0 in 41 seconds.
    - The `E75B82FC...` digest was the rejected preflight version and was never submitted to the solver queue.
+5. **Resolution of GAP-MC-P3-01 (Deck Committed to Repository):**
+   - Following review `HND-METHOD-C-PHASE3-PROPAGATION-001` (which noted that git HEAD at `aa9d1e05e` still had `E75B82FC...` because the regenerated deck was unstaged on disk), the executed deck `530A0ABBDEDCD298504CD28F80B6E19ACBCF5A7945EA9E46981A9EE4B8FF72CB` and updated transfer receipt (`85D6212B...`) were formally staged and committed in commit `ccb7c1bb0`.
+   - The committed Job-2 deck in the repository now matches `HPC_JOB_LEDGER.csv` with 100% cryptographic precision, closing `GAP-MC-P3-01` and ensuring full reproducibility.
 
 ---
 
