@@ -1,28 +1,28 @@
 ﻿{
   "task_id": "METHOD-C-PHASE1-DEMO-AND-LOOP-SKELETON",
-  "title": "Method C Phase 4: Meeting Materials & Demo Synthesis for 2 December 2026 Supervisor Meeting",
+  "title": "Method C Phase 4: Meeting Materials & Demo Synthesis Re-Issue for 2 December 2026 Supervisor Meeting",
   "task_status": "COMPLETED_READY_FOR_INDEPENDENT_REVIEW",
   "master_goal_status": "OPEN",
   "status": "COMPLETED_READY_FOR_INDEPENDENT_REVIEW",
-  "review_verdict": "APPROVE",
-  "review_correlation_id": "HND-METHOD-C-PHASE3-PROPAGATION-003",
+  "review_verdict": "INSUFFICIENT_EVIDENCE",
+  "review_correlation_id": "HND-METHOD-C-PHASE4-MATERIALS-001",
   "classification": "METHOD_C_INCREMENTAL_ADAPTIVE_REMESHING",
   "assigned_agent": "gemini-antigravity",
   "active_pbs_job_id": null,
   "last_successful_pbs_job_id": "1424609.mmaster02",
   "checkpoint_artifact": "docs/validation/METHOD_C_PHASE4_MEETING_MATERIALS_REPORT.md",
-  "review_directive": "Phase 4 meeting materials for the 2 December 2026 supervisor meeting (13:00). Build the demo outputs from the verified Job-3 results (PBS 1424609, deck FFE25C2A): (1) a damage-evolution animation / sequence of mesh+damage frames showing the crack growing from the notch tip across the ligament, penetrating the hole at x=0.65 mm (increment 116, u2=0.008683 mm) and re-initiating to x=0.8957 mm; (2) a load-displacement plot (RF2 vs u2) showing the peak 0.648681 kN at u2=0.006117 mm and the post-peak softening to 0.262226 kN (-59.58%); (3) a crack-extension plot (x_tip vs u2) showing the 0.395686 mm extension; (4) a short write-up / slides summarising the Method C loop (Job-1 coarse solve, transfer, Job-2 re-equilibration RF2 -1.37% / energy -0.77%, Job-3 forward propagation and hole capture) for the 2 Dec meeting. Use only the verified Job-3 observables (receipt 00DB6FF5, summary BE77F884) and the committed artifacts; do not fabricate frames or values. Commit the figures and write-up, then re-issue for review. 0 new PBS jobs (offline work only), cumulative 60 preserved.",
+  "review_directive": "Re-issue Phase 4 meeting materials for 2 December 2026 supervisor meeting resolving GAP-MC-P4-01 (correct panel (f) title and GIF terminal frame caption to state x_tip = 0.896 mm / 0.8957 mm), GAP-MC-P4-02 (re-architect loop synthesis layout to eliminate title and void text collisions), GAP-MC-P4-03 (clarify exact 32/32 unit test breakdown and verify all pass), and NOTE-MC-P4-04 (reposition legends to upper-left to eliminate curve/annotation crowding). 0 new PBS jobs (offline work only), cumulative 60 preserved.",
   "predecessor_task": {
     "task_id": "METHOD-C-PHASE1-DEMO-AND-LOOP-SKELETON",
-    "checkpoint_artifact": "docs/validation/METHOD_C_PHASE3_FORWARD_PROPAGATION_EXECUTION_REPORT.md",
+    "checkpoint_artifact": "docs/validation/METHOD_C_PHASE4_MEETING_MATERIALS_REPORT.md",
     "classification": "METHOD_C_INCREMENTAL_ADAPTIVE_REMESHING",
-    "review_verdict": "APPROVE",
-    "correlation_id": "HND-METHOD-C-PHASE3-PROPAGATION-003"
+    "review_verdict": "INSUFFICIENT_EVIDENCE",
+    "correlation_id": "HND-METHOD-C-PHASE4-MATERIALS-001"
   },
-  "correlation_id": "HND-METHOD-C-PHASE4-MATERIALS-001",
-  "re_review_correlation_id": null,
+  "correlation_id": "HND-METHOD-C-PHASE4-MATERIALS-002",
+  "re_review_correlation_id": "HND-METHOD-C-PHASE4-MATERIALS-001",
   "scientific_operation": "method_c_phase4_meeting_materials",
-  "scientific_operation_id": "method_c_phase4_meeting_materials_001",
+  "scientific_operation_id": "method_c_phase4_meeting_materials_002",
   "scientific_checkpoint_required": true,
   "frozen_uel_sha256": "CE8D5EDCD2911DCB018BB15275271F874E7EA62B8FB48CF4A8297469A83ACDD6",
   "native_interface_sha256": "E5C98B6F601B1CD586571F8E24F357D15ABBD1C5D5487B52903BA249734279B2",
@@ -30,5 +30,5 @@
   "max_new_pbs_submissions": 0,
   "submissions_consumed": 0,
   "cumulative_pbs_submissions": 60,
-  "notes": "Completed Phase 4 meeting materials for 2 Dec 2026 supervisor meeting: 9 publication figures (load-displacement RF2 vs u2, crack extension x_tip vs u2, 6-panel damage evolution sequence, 4-panel loop synthesis, animated GIF), comprehensive report docs/validation/METHOD_C_PHASE4_MEETING_MATERIALS_REPORT.md, and supervisor slide deck docs/presentations/2026-12-02_Method_C_Supervisor_Meeting_Slides.md. 27/27 Method C unit tests PASS. Cumulative PBS submissions 60 preserved."
+  "notes": "Re-issued Phase 4 meeting materials for 2 Dec 2026 supervisor meeting resolving GAP-MC-P4-01 (x_tip = 0.896 mm), GAP-MC-P4-02 (loop synthesis layout), GAP-MC-P4-03 (32/32 unit tests PASS breakdown), and NOTE-MC-P4-04 (legend and callout clearances). All 9 publication figures regenerated with exact hashes. 0 new PBS jobs consumed, cumulative 60 preserved."
 }

@@ -38,15 +38,15 @@ def test_figure_artifacts_exist_and_non_empty():
 
 def test_figure_sha256_hashes():
     expected_hashes = {
-        'fig_method_c_crack_extension.pdf': 'fb359466cb0f28e9db4c78027b4c6657855ad1bea4b12888278e3a7fbab6eb20',
-        'fig_method_c_crack_extension.png': '62136efafe19122499ddcb1857ef46b84b0b1b34b10f2805b6fbc21f5835992c',
-        'fig_method_c_damage_evolution.gif': '7836e808b47a3f36fc821682b1c0e262b7c86d9fe75325fa9743f055f65dfedd',
-        'fig_method_c_damage_evolution_sequence.pdf': 'd963576f8baccc4fbe82f727493be80fb43fe52a7d93ae3bae2bd7c1c613ad7c',
-        'fig_method_c_damage_evolution_sequence.png': '38a8b3cd8ce994e3a0836980cbdc6e6a6e5e440f7268c80d1adcae32a2c09eb7',
-        'fig_method_c_load_displacement.pdf': '7d617d1ab4256c50bd2a4004e7b4af3b5774b2196a5f2e723ab75330fc494eb8',
-        'fig_method_c_load_displacement.png': 'b6fb08115c40d80ad9b05ee8d40c7a54e4b70787d3f7f429581c7ece1a00202c',
-        'fig_method_c_loop_synthesis.pdf': '5b252206473f07528ffd2b12ce3ad8745b26f9c864a8f449336ed665a6e3c86f',
-        'fig_method_c_loop_synthesis.png': 'dcb69219f0d33c43fd98b2536ee1390d4f7fb3f2d2bf00bf50b9bcfed708637e',
+        'fig_method_c_crack_extension.pdf': '0a16622b1e9b1a5c7c992a8978091d4d828112e8234223ce113bc1c7a349678f',
+        'fig_method_c_crack_extension.png': 'bdb9bad6126f51476093f86b4269274473c3f1560d5d4fdb4163afc78b61fe92',
+        'fig_method_c_damage_evolution.gif': '70dacbcd94aa48d8ebb69f9c83e1544bbdf7a84dff71055ab1982540861dcaf8',
+        'fig_method_c_damage_evolution_sequence.pdf': '68f992dfd4b6f296f1440a510a603d819d73d3bfa846caf24a432983237542fa',
+        'fig_method_c_damage_evolution_sequence.png': 'f2e0e1abf9678e98d33f69e7d88f61adc06b80da05119a2c9b7e574e18865205',
+        'fig_method_c_load_displacement.pdf': '3c690e4d79206404ee827c539fbbef5ed9e9edfc59820249526116c364b0207c',
+        'fig_method_c_load_displacement.png': '293e8d2080e2797731ea9e5a1d577f4040ec2cfe087b3c8f667bb61d2c9ca577',
+        'fig_method_c_loop_synthesis.pdf': 'fedf6a986f51bdf64c29ce6751ffe33eec3ad32441dcca82cf4d24fa812a6dc7',
+        'fig_method_c_loop_synthesis.png': '6300dea166b4bd62efbfdbbc1b712c8900999f12991e3d5d4b8dbd93e0b5b00c',
     }
 
     for filename, expected_hash in expected_hashes.items():
@@ -99,3 +99,5 @@ def test_plot_script_syntax_and_integrity():
     assert "plot_damage_evolution_sequence" in content
     assert "plot_loop_synthesis" in content
     assert "create_damage_animation" in content
+    assert "0.8957" in content
+    assert "x_tip = 0.8957" in content

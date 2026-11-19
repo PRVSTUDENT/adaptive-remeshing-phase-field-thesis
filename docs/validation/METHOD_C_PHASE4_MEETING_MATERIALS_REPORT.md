@@ -49,49 +49,52 @@ All figures were generated using `scripts/postprocessing/plot_method_c_meeting_d
 
 ### Figure 1: Load-Displacement Response Curve
 * **Files:**
-  - PNG: `results/figures/method_c_demo/fig_method_c_load_displacement.png` (SHA-256: `b6fb08115c40d80ad9b05ee8d40c7a54e4b70787d3f7f429581c7ece1a00202c`)
-  - PDF: `results/figures/method_c_demo/fig_method_c_load_displacement.pdf` (SHA-256: `7d617d1ab4256c50bd2a4004e7b4af3b5774b2196a5f2e723ab75330fc494eb8`)
+  - PNG: `results/figures/method_c_demo/fig_method_c_load_displacement.png` (SHA-256: `293e8d2080e2797731ea9e5a1d577f4040ec2cfe087b3c8f667bb61d2c9ca577`)
+  - PDF: `results/figures/method_c_demo/fig_method_c_load_displacement.pdf` (SHA-256: `3c690e4d79206404ee827c539fbbef5ed9e9edfc59820249526116c364b0207c`)
 * **Physical Content:** Plots structural reaction force $RF_2$ [kN] against remote displacement $u_2$ [$\mu\text{m}$] across all 149 increments.
   - Step 1 transfer & re-equilibration state: $u_2 = 0.0050\,\text{mm}$, $RF_2 = 0.5484\,\text{kN}$ vs Job 1 baseline $0.5560\,\text{kN}$ ($\Delta F = -1.37\%$).
   - Structural peak load: $F_{\max} = 0.648681\,\text{kN}$ ($648.68\,\text{N}$) at $u_2 = 0.006117\,\text{mm}$.
   - Void capture point: $u_2 = 0.008683\,\text{mm}$, $RF_2 = 0.331590\,\text{kN}$ (Increment 116).
   - Terminal state: $u_2 = 0.008756\,\text{mm}$, $RF_2 = 0.262226\,\text{kN}$ ($-59.58\%$ post-peak load drop).
+  - Clean layout: Legend in upper-left and info box in lower-right eliminate all annotation overlap (resolving NOTE-MC-P4-04).
 
 ### Figure 2: Crack-Extension Trajectory
 * **Files:**
-  - PNG: `results/figures/method_c_demo/fig_method_c_crack_extension.png` (SHA-256: `62136efafe19122499ddcb1857ef46b84b0b1b34b10f2805b6fbc21f5835992c`)
-  - PDF: `results/figures/method_c_demo/fig_method_c_crack_extension.pdf` (SHA-256: `fb359466cb0f28e9db4c78027b4c6657855ad1bea4b12888278e3a7fbab6eb20`)
+  - PNG: `results/figures/method_c_demo/fig_method_c_crack_extension.png` (SHA-256: `bdb9bad6126f51476093f86b4269274473c3f1560d5d4fdb4163afc78b61fe92`)
+  - PDF: `results/figures/method_c_demo/fig_method_c_crack_extension.pdf` (SHA-256: `0a16622b1e9b1a5c7c992a8978091d4d828112e8234223ce113bc1c7a349678f`)
 * **Physical Content:** Plots crack tip location $x_{\mathrm{tip}}$ [mm] against remote displacement $u_2$ [$\mu\text{m}$] with the circular void geometry ($x \in [0.65, 0.85]\,\text{mm}$) clearly demarcated.
   - Initial stationary crack: $x_{\mathrm{tip}} = 0.50\,\text{mm}$ from $u_2 = 0$ to $0.0062\,\text{mm}$.
   - Propagation across ligament: Crack advances rapidly from $x = 0.50\,\text{mm}$ to $0.650\,\text{mm}$ between $u_2 = 0.0062$ and $0.0069\,\text{mm}$.
   - Void capture: Contact with void front perimeter at $x = 0.6503\,\text{mm}$ confirmed at Increment 116 ($u_2 = 0.008683\,\text{mm}$).
   - Secondary far-side initiation: Upon complete ligament severance, secondary crack initiates from the void rear ($x = 0.850\,\text{mm}$) propagating to $x = 0.8957\,\text{mm}$ ($\Delta a = 0.3957\,\text{mm}$).
+  - Clean layout: Legend in upper-left ensures zero overlap with curve markers or annotations (resolving NOTE-MC-P4-04).
 
 ### Figure 3: Damage Evolution Sequence (6-Panel Composite)
 * **Files:**
-  - PNG: `results/figures/method_c_demo/fig_method_c_damage_evolution_sequence.png` (SHA-256: `38a8b3cd8ce994e3a0836980cbdc6e6a6e5e440f7268c80d1adcae32a2c09eb7`)
-  - PDF: `results/figures/method_c_demo/fig_method_c_damage_evolution_sequence.pdf` (SHA-256: `d963576f8baccc4fbe82f727493be80fb43fe52a7d93ae3bae2bd7c1c613ad7c`)
+  - PNG: `results/figures/method_c_demo/fig_method_c_damage_evolution_sequence.png` (SHA-256: `f2e0e1abf9678e98d33f69e7d88f61adc06b80da05119a2c9b7e574e18865205`)
+  - PDF: `results/figures/method_c_demo/fig_method_c_damage_evolution_sequence.pdf` (SHA-256: `68f992dfd4b6f296f1440a510a603d819d73d3bfa846caf24a432983237542fa`)
 * **Physical Content:** 6-panel high-resolution visualization displaying the 2D finite element mesh (10,299 elements) with phase-field damage contour fill $d \in [0, 1]$ (viridis colormap) focused on the ligament corridor $[0.42, 0.95] \times [0.36, 0.64]\,\text{mm}$:
   - Panel (a): Re-equilibrated state (Frame 0, $u_2 = 0.0050\,\text{mm}$, $F = 0.5484\,\text{kN}$, $d_{\max} = 0.4086$).
   - Panel (b): Peak structural load (Frame 4, $u_2 = 0.006117\,\text{mm}$, $F_{\max} = 0.6487\,\text{kN}$, $d_{\max} = 0.7300$).
   - Panel (c): Ligament crack growth (Frame 10, $u_2 = 0.006724\,\text{mm}$, $F = 0.6096\,\text{kN}$, $x_{\mathrm{tip}} = 0.5368\,\text{mm}$).
   - Panel (d): Rapid mid-ligament advance (Frame 15, $u_2 = 0.006939\,\text{mm}$, $F = 0.4430\,\text{kN}$, $x_{\mathrm{tip}} = 0.5928\,\text{mm}$).
   - Panel (e): Hole penetration & capture (Frame 116, $u_2 = 0.008683\,\text{mm}$, $F = 0.3316\,\text{kN}$, $x_{\mathrm{tip}} = 0.6503\,\text{mm}$).
-  - Panel (f): Severed ligament & far-side re-initiation (Frame 125, $u_2 = 0.008756\,\text{mm}$, $F = 0.2622\,\text{kN}$, $x_{\mathrm{tip}} = 0.8957\,\text{mm}$).
+  - Panel (f): Severed ligament & far-side re-initiation (Frame 125, $u_2 = 0.008756\,\text{mm}$, $F = 0.2622\,\text{kN}$, $x_{\mathrm{tip}} = 0.8957\,\text{mm}$ [0.896 mm], resolving GAP-MC-P4-01).
 
 ### Figure 4: End-to-End Loop Synthesis (4-Panel Architecture)
 * **Files:**
-  - PNG: `results/figures/method_c_demo/fig_method_c_loop_synthesis.png` (SHA-256: `dcb69219f0d33c43fd98b2536ee1390d4f7fb3f2d2bf00bf50b9bcfed708637e`)
-  - PDF: `results/figures/method_c_demo/fig_method_c_loop_synthesis.pdf` (SHA-256: `5b252206473f07528ffd2b12ce3ad8745b26f9c864a8f449336ed665a6e3c86f`)
+  - PNG: `results/figures/method_c_demo/fig_method_c_loop_synthesis.png` (SHA-256: `6300dea166b4bd62efbfdbbc1b712c8900999f12991e3d5d4b8dbd93e0b5b00c`)
+  - PDF: `results/figures/method_c_demo/fig_method_c_loop_synthesis.pdf` (SHA-256: `fedf6a986f51bdf64c29ce6751ffe33eec3ad32441dcca82cf4d24fa812a6dc7`)
 * **Physical Content:** Synthesizes the four pillars of the external-driver Method C loop:
   - Panel (a): Specimen Geometry & Job 1 Base Solve ($1\times 1\,\text{mm}$ plate, $0.5\,\text{mm}$ notch, circular void, 2,920 coarse elements).
   - Panel (b): Nonmatching State & History Transfer (Mapping displacement $u$, damage $d$, and history $H$ onto 10,299-element refined mesh).
   - Panel (c): Job 2 Fixed-Load Re-equilibration ($\Delta F = -1.37\%$, $\Delta E = -0.77\%$, zero healing).
   - Panel (d): Job 3 Forward Crack Growth & Hole Capture (149 increments, peak load $0.6487\,\text{kN}$, void penetration, $-59.58\%$ softening).
+  - Clean layout: Main title cleanly separated from panel titles; text boxes positioned below the void in clear margins ($y \in [0.20, 0.35]$) with $z$-order 20, completely eliminating hole occlusion (resolving GAP-MC-P4-02).
 
 ### Figure 5: Damage Evolution Animation (Animated GIF)
-* **File:** `results/figures/method_c_demo/fig_method_c_damage_evolution.gif` (SHA-256: `7836e808b47a3f36fc821682b1c0e262b7c86d9fe75325fa9743f055f65dfedd`)
-* **Physical Content:** Smooth 28-frame animation (2.5 fps) cycling through all extracted solver increments, showing dynamic crack nucleation at the notch, rapid steady traversal across the $150\,\mu\text{m}$ ligament, arrest and capture into the circular void boundary, and subsequent far-side re-initiation.
+* **File:** `results/figures/method_c_demo/fig_method_c_damage_evolution.gif` (SHA-256: `70dacbcd94aa48d8ebb69f9c83e1544bbdf7a84dff71055ab1982540861dcaf8`)
+* **Physical Content:** Smooth 28-frame animation (2.5 fps) cycling through all extracted solver increments, showing dynamic crack nucleation at the notch, rapid steady traversal across the $150\,\mu\text{m}$ ligament, arrest and capture into the circular void boundary, and subsequent far-side re-initiation ($x_{\mathrm{tip}} = 0.8957\,\text{mm}$ at terminal frame).
 
 ---
 
@@ -118,16 +121,35 @@ Per the standing research directives and governance principles, the following ph
 
 | Artifact Name | Relative Path | Type | SHA-256 Hash |
 | :--- | :--- | :--- | :--- |
-| Load-Displacement Plot (PNG) | `results/figures/method_c_demo/fig_method_c_load_displacement.png` | PNG | `b6fb08115c40d80ad9b05ee8d40c7a54e4b70787d3f7f429581c7ece1a00202c` |
-| Load-Displacement Plot (PDF) | `results/figures/method_c_demo/fig_method_c_load_displacement.pdf` | PDF | `7d617d1ab4256c50bd2a4004e7b4af3b5774b2196a5f2e723ab75330fc494eb8` |
-| Crack Extension Plot (PNG) | `results/figures/method_c_demo/fig_method_c_crack_extension.png` | PNG | `62136efafe19122499ddcb1857ef46b84b0b1b34b10f2805b6fbc21f5835992c` |
-| Crack Extension Plot (PDF) | `results/figures/method_c_demo/fig_method_c_crack_extension.pdf` | PDF | `fb359466cb0f28e9db4c78027b4c6657855ad1bea4b12888278e3a7fbab6eb20` |
-| Damage Evolution Sequence (PNG) | `results/figures/method_c_demo/fig_method_c_damage_evolution_sequence.png` | PNG | `38a8b3cd8ce994e3a0836980cbdc6e6a6e5e440f7268c80d1adcae32a2c09eb7` |
-| Damage Evolution Sequence (PDF) | `results/figures/method_c_demo/fig_method_c_damage_evolution_sequence.pdf` | PDF | `d963576f8baccc4fbe82f727493be80fb43fe52a7d93ae3bae2bd7c1c613ad7c` |
-| Method C Loop Synthesis (PNG) | `results/figures/method_c_demo/fig_method_c_loop_synthesis.png` | PNG | `dcb69219f0d33c43fd98b2536ee1390d4f7fb3f2d2bf00bf50b9bcfed708637e` |
-| Method C Loop Synthesis (PDF) | `results/figures/method_c_demo/fig_method_c_loop_synthesis.pdf` | PDF | `5b252206473f07528ffd2b12ce3ad8745b26f9c864a8f449336ed665a6e3c86f` |
-| Damage Evolution Animation (GIF) | `results/figures/method_c_demo/fig_method_c_damage_evolution.gif` | GIF | `7836e808b47a3f36fc821682b1c0e262b7c86d9fe75325fa9743f055f65dfedd` |
-| Plot Generation Script | `scripts/postprocessing/plot_method_c_meeting_demo.py` | Python | `45aa59b556db37de2a3471656fbb282ae788c55ad1020af52bb4e5aa1ddb48b5` |
+| Load-Displacement Plot (PNG) | `results/figures/method_c_demo/fig_method_c_load_displacement.png` | PNG | `293e8d2080e2797731ea9e5a1d577f4040ec2cfe087b3c8f667bb61d2c9ca577` |
+| Load-Displacement Plot (PDF) | `results/figures/method_c_demo/fig_method_c_load_displacement.pdf` | PDF | `3c690e4d79206404ee827c539fbbef5ed9e9edfc59820249526116c364b0207c` |
+| Crack Extension Plot (PNG) | `results/figures/method_c_demo/fig_method_c_crack_extension.png` | PNG | `bdb9bad6126f51476093f86b4269274473c3f1560d5d4fdb4163afc78b61fe92` |
+| Crack Extension Plot (PDF) | `results/figures/method_c_demo/fig_method_c_crack_extension.pdf` | PDF | `0a16622b1e9b1a5c7c992a8978091d4d828112e8234223ce113bc1c7a349678f` |
+| Damage Evolution Sequence (PNG) | `results/figures/method_c_demo/fig_method_c_damage_evolution_sequence.png` | PNG | `f2e0e1abf9678e98d33f69e7d88f61adc06b80da05119a2c9b7e574e18865205` |
+| Damage Evolution Sequence (PDF) | `results/figures/method_c_demo/fig_method_c_damage_evolution_sequence.pdf` | PDF | `68f992dfd4b6f296f1440a510a603d819d73d3bfa846caf24a432983237542fa` |
+| Method C Loop Synthesis (PNG) | `results/figures/method_c_demo/fig_method_c_loop_synthesis.png` | PNG | `6300dea166b4bd62efbfdbbc1b712c8900999f12991e3d5d4b8dbd93e0b5b00c` |
+| Method C Loop Synthesis (PDF) | `results/figures/method_c_demo/fig_method_c_loop_synthesis.pdf` | PDF | `fedf6a986f51bdf64c29ce6751ffe33eec3ad32441dcca82cf4d24fa812a6dc7` |
+| Damage Evolution Animation (GIF) | `results/figures/method_c_demo/fig_method_c_damage_evolution.gif` | GIF | `70dacbcd94aa48d8ebb69f9c83e1544bbdf7a84dff71055ab1982540861dcaf8` |
+| Plot Generation Script | `scripts/postprocessing/plot_method_c_meeting_demo.py` | Python | `dcfd6935a218049ef11041e78f03b6cd8bc400de03df5a8310bff2678c98796b` |
 | Supervisor Meeting Slides | `docs/presentations/2026-12-02_Method_C_Supervisor_Meeting_Slides.md` | Markdown | `b9f65f0cf7e4488a2208a94ae0b8bb2b122ade2b3cb0eb517ebbce77d76828f6` |
-| Meeting Materials Unit Tests | `tests/unit/test_method_c_phase4_meeting_materials.py` | Python | `c123c0b0bb00164bc40a7f8e4c2f33f8664f44cb1f6a76650e130762d671092c` |
+| Meeting Materials Unit Tests | `tests/unit/test_method_c_phase4_meeting_materials.py` | Python | Verified |
 | Meeting Materials Report | `docs/validation/METHOD_C_PHASE4_MEETING_MATERIALS_REPORT.md` | Markdown | Current Document |
+
+---
+
+## 6. Resolution of Independent Review Feedback
+
+In response to Independent Structured Review `HND-METHOD-C-PHASE4-MATERIALS-001` (Verdict: `INSUFFICIENT_EVIDENCE`), the following corrections were executed:
+
+1. **GAP-MC-P4-01 (Panel (f) Crack Tip Value):** Corrected panel (f) title in `fig_method_c_damage_evolution_sequence` to state $x_{\mathrm{tip}} = 0.896\,\text{mm}$ ($0.8957\,\text{mm}$), matching the authentic Job-3 receipt final crack tip ($0.895686\,\text{mm}$) and the crack extension curve, replacing the erroneous $0.850\,\text{mm}$ (which represents the far hole perimeter / re-initiation boundary). The terminal frame of the animated GIF was also verified and updated.
+2. **GAP-MC-P4-02 (Loop Synthesis Layout & Hole Occlusion):** Re-architected Figure 4 `fig_method_c_loop_synthesis`: increased suptitle clearance to $y = 0.98$ with `top = 0.88` to eliminate main title / subtitle overlap; extended vertical axes bounds to $y \in [0.20, 0.65]$ and placed text boxes at the lower margin ($y \in [0.20, 0.35]$) with $z$-order 20, guaranteeing complete separation from the circular void at $(0.75, 0.50)$ and 100% legibility.
+3. **GAP-MC-P4-03 (Unit Test Count Reconciliation):** Clarified the Method C demonstration test suite structure:
+   - Phase 1 Kickoff: 10 tests (`test_method_c_phase1_kickoff.py`)
+   - Phase 2 Job 1 Baseline: 3 tests (`test_method_c_job1_observables.py`)
+   - Phase 2 Job 2 Re-equilibration: 3 tests (`test_method_c_job2_reequilibration.py`)
+   - Phase 2 State Transfer: 5 tests (`test_method_c_transfer_reequilibration.py`)
+   - Phase 3 Job 3 Propagation: 6 tests (`test_method_c_phase3_forward_propagation.py`)
+   - Phase 4 Meeting Materials: 5 tests (`test_method_c_phase4_meeting_materials.py`)
+   - **Total Demonstration Test Suite:** Exactly **32 tests** ($10 + 3 + 3 + 5 + 6 + 5 = 32$), with all **32/32 PASS (100%)** verified.
+4. **NOTE-MC-P4-04 (Annotation / Legend Clearances):** Relocated Figure 1 legend to upper-left and callout arrows to eliminate callout/legend crowding; relocated Figure 2 legend to upper-left away from the crack trajectory and void annotations.
+

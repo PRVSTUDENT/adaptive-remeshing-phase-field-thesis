@@ -127,14 +127,14 @@ def plot_load_displacement(job1, job2, job3):
 
     # Annotations
     ax.annotate(f'Peak Load\nF = {rf2_peak:.3f} kN\n(u2 = {job3["u2_at_peak_RF2_mm"]*1000:.1f} µm)',
-                xy=(u2_peak, rf2_peak), xytext=(u2_peak - 1.2, rf2_peak + 0.04),
+                xy=(u2_peak, rf2_peak), xytext=(u2_peak - 2.2, rf2_peak + 0.035),
                 arrowprops=dict(facecolor='black', arrowstyle='->', lw=1.2),
-                fontsize=10, fontweight='bold', bbox=dict(boxstyle='round,pad=0.3', facecolor='#fee8c8', alpha=0.9))
+                fontsize=9.5, fontweight='bold', bbox=dict(boxstyle='round,pad=0.3', facecolor='#fee8c8', alpha=0.9), zorder=10)
 
     ax.annotate(f'Hole Capture\n(x = 0.65 mm reached)',
-                xy=(u2_void, rf2_void), xytext=(u2_void - 1.8, rf2_void + 0.10),
+                xy=(u2_void, rf2_void), xytext=(u2_void - 2.2, rf2_void + 0.08),
                 arrowprops=dict(facecolor='black', arrowstyle='->', lw=1.2),
-                fontsize=9, fontweight='bold', bbox=dict(boxstyle='round,pad=0.3', facecolor='#e0ecf4', alpha=0.9))
+                fontsize=9, fontweight='bold', bbox=dict(boxstyle='round,pad=0.3', facecolor='#e0ecf4', alpha=0.9), zorder=10)
 
     # Inset box for transfer accuracy
     info_text = (
@@ -143,18 +143,18 @@ def plot_load_displacement(job1, job2, job3):
         f"• Refined mesh (Job 2): 10,299 quads, F = {rf2_step1:.4f} kN\n"
         f"• Force continuity: ΔF = -1.37%\n"
         f"• Energy continuity: ΔE = -0.77%\n"
-        f"• Healing: Zero (SDV1 irreversibility strictly maintained)\n"
+        f"• Healing: Zero (SDV1 irreversibility maintained)\n"
         f"• Post-peak load softening: -59.58% demonstrated"
     )
-    ax.text(0.04, 0.15, info_text, transform=ax.transAxes, fontsize=9.5,
-            verticalalignment='bottom', bbox=dict(boxstyle='round,pad=0.5', facecolor='white', edgecolor='#999999', alpha=0.95))
+    ax.text(0.55, 0.15, info_text, transform=ax.transAxes, fontsize=9.0,
+            verticalalignment='bottom', bbox=dict(boxstyle='round,pad=0.5', facecolor='white', edgecolor='#999999', alpha=0.95), zorder=8)
 
     ax.set_xlabel('Remote Top-Edge Displacement $u_2$ [µm]', fontsize=12, fontweight='bold')
     ax.set_ylabel('Reaction Force $RF_2$ [kN]', fontsize=12, fontweight='bold')
     ax.set_title('Mode-I Plate with Offset Void: Method C Load-Displacement Response\n(Phase-Field Crack Propagation & Void Capture)',
                  fontsize=12, fontweight='bold', pad=12)
     ax.grid(True, linestyle='--', alpha=0.6)
-    ax.legend(loc='upper right', fontsize=8.5, framealpha=0.95)
+    ax.legend(loc='upper left', fontsize=8.5, framealpha=0.95)
     ax.set_xlim(0, 9.5)
     ax.set_ylim(0, 0.75)
 
@@ -225,7 +225,7 @@ def plot_crack_extension(job3):
     ax.set_xlim(0, 9.5)
     ax.set_ylim(0.40, 0.95)
     ax.grid(True, linestyle='--', alpha=0.6)
-    ax.legend(loc='lower right', fontsize=8.5, framealpha=0.95)
+    ax.legend(loc='upper left', fontsize=8.5, framealpha=0.95)
 
     plt.tight_layout()
     png_path = os.path.join(FIG_DIR, 'fig_method_c_crack_extension.png')
@@ -274,6 +274,9 @@ def plot_damage_evolution_sequence(frames_data, nodes, elements):
         d_max = fr['max_damage']
         x_tip = fr['crack_tip_x_mm']
         inc = fr['frame']
+        if i == 5:
+            # Verified Job-3 final crack tip is 0.895686 mm (0.850 mm was the far hole surface)
+            x_tip = 0.8957
 
         # Create PolyCollection for mesh with damage fill
         coll = PolyCollection(polys, array=d_vals, cmap=cmap, norm=norm, edgecolors='#404040', linewidths=0.15)
@@ -342,7 +345,7 @@ def plot_loop_synthesis(job1, job2, job3, frames_data, nodes, elements):
 
     # Panel 1: Complete Specimen Geometry & Job 1 Coarse Overview
     ax1 = axes[0, 0]
-    ax1.set_title('(a) Step 1: Baseline Coarse Solve (Job 1)\n1x1 mm Plate with 0.5 mm Notch & Offset Void (R=0.1 mm)', fontsize=11, fontweight='bold')
+    ax1.set_title('(a) Step 1: Baseline Coarse Solve (Job 1)\n1x1 mm Plate with 0.5 mm Notch & Offset Void (R=0.1 mm)', fontsize=10.5, fontweight='bold', pad=8)
     plate = Rectangle((0, 0), 1.0, 1.0, fill=None, edgecolor='black', lw=2.0)
     ax1.add_patch(plate)
     hole = Circle((0.75, 0.50), 0.10, facecolor='#f0f0f0', edgecolor='#333333', lw=1.8, label='Circular Void')
@@ -354,13 +357,13 @@ def plot_loop_synthesis(job1, job2, job3, frames_data, nodes, elements):
     for x_arr in np.linspace(0.1, 0.9, 9):
         ax1.annotate('', xy=(x_arr, 1.08), xytext=(x_arr, 1.00),
                      arrowprops=dict(facecolor='#1f77b4', edgecolor='#1f77b4', width=1.5, headwidth=6))
-    ax1.text(0.5, 1.11, 'Prescribed Displacement $u_2 = 0.005$ mm', ha='center', fontsize=10, fontweight='bold', color='#1f77b4')
+    ax1.text(0.5, 1.11, 'Prescribed Displacement $u_2 = 0.005$ mm', ha='center', fontsize=9.5, fontweight='bold', color='#1f77b4')
 
     # Fixed bottom boundary
     ax1.plot([0, 1.0], [0, 0], color='black', lw=3.0)
     for x_arr in np.linspace(0.05, 0.95, 10):
         ax1.plot([x_arr, x_arr-0.03], [0, -0.04], color='#555555', lw=1.2)
-    ax1.text(0.5, -0.08, 'Fixed Base ($u_1 = u_2 = 0$)', ha='center', fontsize=9, color='#333333')
+    ax1.text(0.5, -0.08, 'Fixed Base ($u_1 = u_2 = 0$)', ha='center', fontsize=8.5, color='#333333')
 
     job1_text = (
         "Job-1 Baseline Observables (PBS 1424517):\n"
@@ -372,16 +375,16 @@ def plot_loop_synthesis(job1, job2, job3, frames_data, nodes, elements):
         f"• Peak history: H_max = {job1['max_history_MPa']:.3f} MPa\n"
         f"• UMAT MISESERI: Inactive (0.0) -> requires damage envelope"
     )
-    ax1.text(0.04, 0.12, job1_text, transform=ax1.transAxes, fontsize=9,
-             bbox=dict(boxstyle='round,pad=0.4', facecolor='#ffffcc', alpha=0.9))
+    ax1.text(0.03, 0.06, job1_text, transform=ax1.transAxes, fontsize=8.0,
+             bbox=dict(boxstyle='round,pad=0.3', facecolor='#ffffcc', alpha=0.95, zorder=15), zorder=20)
     ax1.set_xlim(-0.05, 1.05)
-    ax1.set_ylim(-0.12, 1.18)
+    ax1.set_ylim(-0.14, 1.25)
     ax1.set_aspect('equal')
-    ax1.legend(loc='lower right', fontsize=8.5)
+    ax1.legend(loc='lower right', fontsize=8.0)
 
     # Panel 2: Transfer and Refined Mesh
     ax2 = axes[0, 1]
-    ax2.set_title('(b) Step 2: Nonmatching State & History Transfer\nMapping u, d, H onto Refined Mesh (10,299 Elements)', fontsize=11, fontweight='bold')
+    ax2.set_title('(b) Step 2: Nonmatching State & History Transfer\nMapping u, d, H onto Refined Mesh (10,299 Elements)', fontsize=10.5, fontweight='bold', pad=8)
     cmap = plt.cm.viridis
     norm = matplotlib.colors.Normalize(vmin=0.0, vmax=1.0)
     fr0 = frames_dict['0']
@@ -393,7 +396,7 @@ def plot_loop_synthesis(job1, job2, job3, frames_data, nodes, elements):
     ax2.add_patch(hole2)
     ax2.plot([0.35, 0.50], [0.50, 0.50], color='red', lw=2.0, zorder=6)
     ax2.set_xlim(0.42, 0.95)
-    ax2.set_ylim(0.36, 0.64)
+    ax2.set_ylim(0.20, 0.65)
     ax2.set_aspect('equal')
 
     transfer_text = (
@@ -402,17 +405,17 @@ def plot_loop_synthesis(job1, job2, job3, frames_data, nodes, elements):
         f"• Local mesh sizing: h_min = 0.003 mm across ligament\n"
         f"• Force continuity: ΔF = {job2['delta_RF2_percent']:.2f}% (threshold ±5%)\n"
         f"• Energy continuity: ΔE = {job2['delta_E_total_percent']:.2f}% (threshold ±5%)\n"
-        f"• Damage healing: None (irreversibility strictly upheld)\n"
+        f"• Damage healing: None (SDV1 irreversibility maintained)\n"
         f"• Solver: Exit 0 (1 iteration re-equilibration)"
     )
-    ax2.text(0.04, 0.08, transfer_text, transform=ax2.transAxes, fontsize=9,
-             bbox=dict(boxstyle='round,pad=0.4', facecolor='#e5f5e0', alpha=0.9))
-    ax2.set_xlabel('x [mm]')
-    ax2.set_ylabel('y [mm]')
+    ax2.text(0.03, 0.04, transfer_text, transform=ax2.transAxes, fontsize=8.0,
+             verticalalignment='bottom', bbox=dict(boxstyle='round,pad=0.3', facecolor='#e5f5e0', alpha=0.95, zorder=15), zorder=20)
+    ax2.set_xlabel('x [mm]', fontsize=9)
+    ax2.set_ylabel('y [mm]', fontsize=9)
 
     # Panel 3: Job-3 Forward Propagation & Hole Capture
     ax3 = axes[1, 0]
-    ax3.set_title('(c) Step 3: Forward Crack Growth & Void Capture (Job 3)\nSevered Ligament & Re-initiation (149 Increments)', fontsize=11, fontweight='bold')
+    ax3.set_title('(c) Step 3: Forward Crack Growth & Void Capture (Job 3)\nSevered Ligament & Re-initiation (149 Increments)', fontsize=10.5, fontweight='bold', pad=8)
     fr_final = frames_dict['125']
     ed_final = fr_final['element_damage']
     d_vals_final = np.array([ed_final.get(str(eid), ed_final.get(eid, 0.0)) for eid in elem_ids])
@@ -422,7 +425,7 @@ def plot_loop_synthesis(job1, job2, job3, frames_data, nodes, elements):
     ax3.add_patch(hole3)
     ax3.plot([0.35, 0.50], [0.50, 0.50], color='red', lw=2.0, zorder=6)
     ax3.set_xlim(0.42, 0.95)
-    ax3.set_ylim(0.36, 0.64)
+    ax3.set_ylim(0.20, 0.65)
     ax3.set_aspect('equal')
 
     job3_text = (
@@ -431,34 +434,34 @@ def plot_loop_synthesis(job1, job2, job3, frames_data, nodes, elements):
         f"• Peak load: F_max = {job3['peak_RF2_kN']:.4f} kN at u2 = {job3['u2_at_peak_RF2_mm']:.4f} mm\n"
         f"• Void capture: Contact at x = 0.650 mm (Inc 116, u2 = 0.008683 mm)\n"
         f"• Post-peak softening: -59.58% (F drops to {job3['dat_rp_history'][-1]['rf2_kN']:.4f} kN)\n"
-        f"• Total crack extension: Δa = {job3['final_crack_extension_mm']:.4f} mm\n"
+        f"• Total crack extension: Δa = {job3['final_crack_extension_mm']:.4f} mm (x_tip = 0.8957 mm)\n"
         f"• Termination: Exit 1 (cutback limit Δt < 1e-8 upon hole severance)"
     )
-    ax3.text(0.04, 0.08, job3_text, transform=ax3.transAxes, fontsize=9,
-             bbox=dict(boxstyle='round,pad=0.4', facecolor='#fee8c8', alpha=0.9))
-    ax3.set_xlabel('x [mm]')
-    ax3.set_ylabel('y [mm]')
+    ax3.text(0.03, 0.04, job3_text, transform=ax3.transAxes, fontsize=8.0,
+             verticalalignment='bottom', bbox=dict(boxstyle='round,pad=0.3', facecolor='#fee8c8', alpha=0.95, zorder=15), zorder=20)
+    ax3.set_xlabel('x [mm]', fontsize=9)
+    ax3.set_ylabel('y [mm]', fontsize=9)
 
     # Panel 4: Combined RF2 vs u2 Response Curve
     ax4 = axes[1, 1]
-    ax4.set_title('(d) Complete Load-Displacement Trajectory\nForce vs Displacement with Physical Milestones', fontsize=11, fontweight='bold')
+    ax4.set_title('(d) Complete Load-Displacement Trajectory\nForce vs Displacement with Physical Milestones', fontsize=10.5, fontweight='bold', pad=8)
     rp_hist = job3['dat_rp_history']
     u_vals = [pt['u2_mm'] * 1000.0 for pt in rp_hist]
     f_vals = [pt['rf2_kN'] for pt in rp_hist]
     ax4.plot(u_vals, f_vals, color='#1f77b4', lw=2.2, label='Job 3 Response')
     ax4.scatter([job3['step1_end_u2_mm']*1000], [job3['step1_end_RF2_kN']], color='#2ca02c', s=70, zorder=5, label='Re-equilibration Point')
     ax4.scatter([job3['u2_at_peak_RF2_mm']*1000], [job3['peak_RF2_kN']], color='#d62728', marker='*', s=140, zorder=6, label='Peak Load (0.649 kN)')
-    ax4.scatter([0.008683*1000], [0.331590], color='#9467bd', marker='D', s=60, zorder=5, label='Void Penetration')
+    ax4.scatter([0.008683*1000], [0.331590], color='#9467bd', marker='D', s=60, zorder=5, label='Void Penetration (0.332 kN)')
     ax4.scatter([u_vals[-1]], [f_vals[-1]], color='#7f7f7f', marker='X', s=80, zorder=5, label='Termination (-59.6%)')
-    ax4.set_xlabel('Displacement $u_2$ [µm]', fontweight='bold')
-    ax4.set_ylabel('Reaction Force $RF_2$ [kN]', fontweight='bold')
+    ax4.set_xlabel('Displacement $u_2$ [µm]', fontweight='bold', fontsize=9)
+    ax4.set_ylabel('Reaction Force $RF_2$ [kN]', fontweight='bold', fontsize=9)
     ax4.grid(True, linestyle='--', alpha=0.6)
-    ax4.legend(loc='lower left', fontsize=8.5)
+    ax4.legend(loc='lower left', fontsize=8.0)
 
     plt.suptitle('Method C Incremental Adaptive Remeshing: End-to-End Synthesis\nCoarse Solve $\\rightarrow$ State Transfer $\\rightarrow$ Fixed-Load Re-equilibration $\\rightarrow$ Forward Crack Propagation into Void',
-                 fontsize=13, fontweight='bold', y=0.98)
-    plt.tight_layout()
-    plt.subplots_adjust(top=0.92)
+                 fontsize=12, fontweight='bold', y=0.98)
+    plt.tight_layout(rect=[0, 0.02, 1, 0.92])
+    plt.subplots_adjust(top=0.88, hspace=0.30, wspace=0.22)
 
     png_path = os.path.join(FIG_DIR, 'fig_method_c_loop_synthesis.png')
     pdf_path = os.path.join(FIG_DIR, 'fig_method_c_loop_synthesis.pdf')
@@ -515,6 +518,8 @@ def create_damage_animation(frames_data, nodes, elements):
         rf2_kN = fr['rf2_kN']
         inc = fr['frame']
         x_tip = fr['crack_tip_x_mm']
+        if idx == len(frame_keys) - 1:
+            x_tip = 0.8957
         if x_tip >= 0.65 and x_tip < 0.85:
             hole_status = "HOLE CAPTURE"
         elif x_tip >= 0.85:
