@@ -1,10 +1,10 @@
 {
-  "active": true,
+  "active": false,
   "agent": "gemini-antigravity",
   "session_id": "2026-11-19_gemini_method_c_phase1_bootstrap",
   "task_id": "METHOD-C-PHASE1-DEMO-AND-LOOP-SKELETON",
   "started_at": "2026-11-19T12:10:00+01:00",
-  "ended_at": null,
+  "ended_at": "2026-11-19T13:59:00+01:00",
   "starting_commit": "42cf049d2c224b1af4640a31d3a348d56590be5f",
   "allowed_write_scope": [
     "project_coordination/ACTIVE_SESSION.json",
@@ -23,5 +23,5 @@
     "results/**",
     "tests/**"
   ],
-  "notes": "Claiming session for Phase 1 of Method C Plan (Incremental Adaptive Remeshing) following explicit user direction from 19 Nov 2026 supervisor meeting."
+  "notes": "Released session following successful preflight, datacheck, and submission of Method C Job-1 baseline solve (PBS 1424517.mmaster02) via Invoke-Mode1Execution.ps1. Cumulative PBS jobs: 58. MASTER_GOAL_STATUS = OPEN."
 }
