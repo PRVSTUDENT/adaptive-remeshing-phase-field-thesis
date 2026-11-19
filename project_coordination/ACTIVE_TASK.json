@@ -1,6 +1,6 @@
 ﻿{
   "task_id": "METHOD-C-PHASE1-DEMO-AND-LOOP-SKELETON",
-  "title": "Method C Phase 2: Job-1 Baseline Solve Execution and Step-1 Observable Extraction",
+  "title": "Method C Phase 2: Bridge Research Policy Reconciliation & HPC Outage Status",
   "task_status": "IN_PROGRESS",
   "master_goal_status": "OPEN",
   "status": "SUBMITTED_AND_QUEUED",
@@ -10,11 +10,11 @@
   "assigned_agent": "gemini-antigravity",
   "active_pbs_job_id": "1424517.mmaster02",
   "last_successful_pbs_job_id": "1424424.mmaster02",
-  "checkpoint_artifact": "docs/validation/METHOD_C_PHASE2_JOB1_EXECUTION_REPORT.md",
-  "review_directive": "Monitor PBS job 1424517.mmaster02 (M1_MC_DEMO_JOB1) for completion via non-polling status queries. Zero new PBS jobs (max_new_pbs=0, cumulative 58 preserved). When complete, verify true exit code from solver status file (.sta/.msg/.log), extract Step-1 baseline observables with extract_job1_observables.py (u, RF2, SDV1, SDV2, MISESERI, MISESAVG), commit completion receipt and baseline field summary, and re-issue for review.",
+  "checkpoint_artifact": "docs/validation/METHOD_C_BRIDGE_POLICY_RECONCILIATION_REPORT.md",
+  "review_directive": "Reconciled BRIDGE_POLICY_SHA256 record per NOTE-MC-J1-02. Proved 0F336675... was uncommitted disk state; canonical policy is C5959401... committed at 95d58ef90. Reporting HPC scheduling suspension due to Panasas scratch outage. Zero new PBS jobs (max_new_pbs=0, cumulative 58 preserved).",
   "predecessor_task": {
     "task_id": "METHOD-C-PHASE1-DEMO-AND-LOOP-SKELETON",
-    "checkpoint_artifact": "models/pandey_kumar_mode1/289_method_c_demo_case/METHOD_C_DEMO_JOB1_AUTHORIZATION.json",
+    "checkpoint_artifact": "docs/validation/METHOD_C_PHASE2_JOB1_EXECUTION_REPORT.md",
     "classification": "METHOD_C_INCREMENTAL_ADAPTIVE_REMESHING",
     "review_verdict": "APPROVE",
     "correlation_id": "HND-METHOD-C-PHASE2-JOB1-001"
@@ -30,5 +30,5 @@
   "max_new_pbs_submissions": 0,
   "submissions_consumed": 1,
   "cumulative_pbs_submissions": 58,
-  "notes": "Job-1 baseline solve submitted via Invoke-Mode1Execution.ps1 as PBS Job 1424517.mmaster02. Approved under HND-METHOD-C-PHASE2-JOB1-001. Active operation is method_c_phase2_job1_monitor. Cumulative PBS submissions: 58 (max_new_pbs=0)."
+  "notes": "Handoff HND-METHOD-C-PHASE2-JOB1-002 reconciles BRIDGE_POLICY_SHA256 (canonical C5959401...) and reports cluster Panasas scratch outage with suspended scheduling. 0 new PBS jobs (cumulative 58 preserved). MASTER_GOAL_STATUS = OPEN."
 }
