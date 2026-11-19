@@ -1,3 +1,6 @@
 # Four-case adaptive damage contours: BLOCKED
 
 User requested authentic damage evolution figures from existing F1859 adaptive Job-2 results. Prepared remote read-only SDV1 extractor and local plotter. Confirmed all four ODBs exist; Case 1 read matched 20,193 elements. No final export reached local storage. Cluster process diagnostics demonstrated Panasas uninterruptible filesystem waits, eventually including tiny scratch script reads/writes. Stopped exact own helpers; no PBS jobs, no solver or framework edits, no AGY CLI interaction. Preserve source revision 951ca407a550321d7eb34f8e55879e098ba70a88. Resume after scratch I/O recovers, with per-case checkpoint exports. Master research goal remains OPEN.
+
+## Recovery and partial delivery
+Scratch writes recovered; checkpointed extraction succeeded for Cases 1 (20,193), 2 (17,280), 3 (45,009). Exported four states each, generated three evolution PNG/PDF panels and twelve individual PNGs, and visually checked all panels. Raw compressed field data retained. Case 5 remains in Panasas ODB-open wait (read-only PID3877974); current logfile and per-case checkpoint location are in status JSON. Check that existing transaction before any repeat. Source ODBs untouched, zero new PBS jobs.

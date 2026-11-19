@@ -1,9 +1,6 @@
 # Adaptive Job-2 damage contours
 
-Status: BLOCKED by cluster Panasas filesystem I/O on 19 November 2026.
-No final contour images or raw exports have been delivered yet. The following
-describes the prepared extraction workflow for existing F1859 Job-2 simulations
-for Cases 1, 2, 3 and 5. No new simulation or adaptive remeshing is performed.
+Status: Cases 1, 2 and 3 exported and plotted; Case 5 extraction remains in cluster filesystem I/O wait. Existing F1859 Job-2 results only; no new simulation or adaptive remeshing.
 
 Each evolution panel includes the existing adaptive mesh followed by four
 recorded SDV1 states: approximately 90% of peak displacement on the ascending

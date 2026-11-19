@@ -1,0 +1,197 @@
+{
+  "source": "Existing F1859 adaptive Job-2 ODBs; no solve or remesh",
+  "raw_export_sha256": "7d56600e448cd8ae6882b54485621944b06ff43c5ad7ed47c143519fd36605d8",
+  "states": [
+    {
+      "case": 1,
+      "selection": "90% peak displacement pre-peak; peak load; halfway in recorded frames from peak to last; last converged frame",
+      "odb_bytes": 5190589408,
+      "aggregation": "Arithmetic mean of SDV1 integration-point values per companion element; no spatial smoothing",
+      "odb": "/scratch9/pr21vyci/runs/f1859_suite/job2_adaptive_case1/PK_F1859_J2_C1.odb",
+      "states": [
+        {
+          "frame_id": 54,
+          "step": "Step-2",
+          "frame_index": 54,
+          "time": 0.1080000028014183,
+          "rf2_kn": 0.7260356545448303,
+          "u2_mm": 0.005539999809116125,
+          "max_damage": 0.36486974358558655
+        },
+        {
+          "frame_id": 116,
+          "step": "Step-2",
+          "frame_index": 116,
+          "time": 0.23199999332427979,
+          "rf2_kn": 0.7887082099914551,
+          "u2_mm": 0.0061599998734891415,
+          "max_damage": 0.6990024447441101
+        },
+        {
+          "frame_id": 318,
+          "step": "Step-2",
+          "frame_index": 318,
+          "time": 0.5952026844024658,
+          "rf2_kn": 0.0011865790002048016,
+          "u2_mm": 0.007976013235747814,
+          "max_damage": 1.0006864070892334
+        },
+        {
+          "frame_id": 521,
+          "step": "Step-2",
+          "frame_index": 521,
+          "time": 1.0,
+          "rf2_kn": 0.0008043945417739451,
+          "u2_mm": 0.009999999776482582,
+          "max_damage": 1.0005807876586914
+        }
+      ]
+    },
+    {
+      "case": 2,
+      "selection": "90% peak displacement pre-peak; peak load; halfway in recorded frames from peak to last; last converged frame",
+      "odb_bytes": 4334420040,
+      "aggregation": "Arithmetic mean of SDV1 integration-point values per companion element; no spatial smoothing",
+      "odb": "/scratch9/pr21vyci/runs/f1859_suite/job2_adaptive_case2/PK_F1859_J2_C2.odb",
+      "states": [
+        {
+          "frame_id": 14,
+          "step": "Step-2",
+          "frame_index": 14,
+          "time": 0.02800000086426735,
+          "rf2_kn": 0.5531127452850342,
+          "u2_mm": 0.00519599998369813,
+          "max_damage": 0.36670351028442383
+        },
+        {
+          "frame_id": 55,
+          "step": "Step-2",
+          "frame_index": 55,
+          "time": 0.10999999940395355,
+          "rf2_kn": 0.5979548692703247,
+          "u2_mm": 0.005770000163465738,
+          "max_damage": 0.6886164546012878
+        },
+        {
+          "frame_id": 281,
+          "step": "Step-2",
+          "frame_index": 281,
+          "time": 0.5075607299804688,
+          "rf2_kn": 0.000557039282284677,
+          "u2_mm": 0.00855292472988367,
+          "max_damage": 1.0005240440368652
+        },
+        {
+          "frame_id": 507,
+          "step": "Step-2",
+          "frame_index": 507,
+          "time": 0.9575607180595398,
+          "rf2_kn": 0.0003160445485264063,
+          "u2_mm": 0.011702924966812134,
+          "max_damage": 1.0004563331604004
+        }
+      ]
+    },
+    {
+      "case": 3,
+      "selection": "90% peak displacement pre-peak; peak load; halfway in recorded frames from peak to last; last converged frame",
+      "odb_bytes": 1455254136,
+      "aggregation": "Arithmetic mean of SDV1 integration-point values per companion element; no spatial smoothing",
+      "odb": "/scratch9/pr21vyci/runs/f1859_suite/job2_adaptive_case3/PK_F1859_J2_C3.odb",
+      "states": [
+        {
+          "frame_id": 62,
+          "step": "Step-1",
+          "frame_index": 62,
+          "time": 1.0,
+          "rf2_kn": 3.8985097408294678,
+          "u2_mm": 0.05000000074505806,
+          "max_damage": 0.42622312903404236
+        },
+        {
+          "frame_id": 3,
+          "step": "Step-2",
+          "frame_index": 3,
+          "time": 0.004124999977648258,
+          "rf2_kn": 4.325904846191406,
+          "u2_mm": 0.05598124861717224,
+          "max_damage": 0.5327791571617126
+        },
+        {
+          "frame_id": 5,
+          "step": "Step-2",
+          "frame_index": 5,
+          "time": 0.004137817304581404,
+          "rf2_kn": 4.318562030792236,
+          "u2_mm": 0.05599983409047127,
+          "max_damage": 0.6095501184463501
+        },
+        {
+          "frame_id": 8,
+          "step": "Step-2",
+          "frame_index": 8,
+          "time": 0.0041379304602742195,
+          "rf2_kn": 4.31143045425415,
+          "u2_mm": 0.0559999980032444,
+          "max_damage": 0.6709369421005249
+        }
+      ]
+    }
+  ],
+  "images": [
+    {
+      "case": 1,
+      "path": "results/figures/adaptive_damage_contours/case_1_damage_evolution.png",
+      "sha256": "ec5ae99405c3a087c27afdde99ba936061636dc8d53679e0a334d5dd6f889f2f"
+    },
+    {
+      "case": 1,
+      "path": "results/figures/adaptive_damage_contours/case_1_damage_evolution.pdf",
+      "sha256": "a8b099f5cfebf5a601df84ba4cb1ef7f740dc21a59a88905de976ac144c44a59"
+    },
+    {
+      "case": 2,
+      "path": "results/figures/adaptive_damage_contours/case_2_damage_evolution.png",
+      "sha256": "1e9181b8eaada8f318772650a8c699694c1424d9979b9a3b31880ce8a325319d"
+    },
+    {
+      "case": 2,
+      "path": "results/figures/adaptive_damage_contours/case_2_damage_evolution.pdf",
+      "sha256": "80fa8a3122874c4da956a32f4aa1e4173d2a922b94f64ce0d2028fe253791bdd"
+    },
+    {
+      "case": 3,
+      "path": "results/figures/adaptive_damage_contours/case_3_damage_evolution.png",
+      "sha256": "000010ba1924097382c9777a9d49ecb2a633316fdfb117a13f2a48a576587f6b"
+    },
+    {
+      "case": 3,
+      "path": "results/figures/adaptive_damage_contours/case_3_damage_evolution.pdf",
+      "sha256": "48c73717ec3e2932dc015ab51398426b4c91198ef1252300bddbc3d9327f3652"
+    }
+  ],
+  "display_range": [
+    0,
+    1
+  ],
+  "display_note": "Color saturation outside [0,1] only; raw SDV1 preserved. No spatial smoothing. Undeformed coordinates.",
+  "source_revision": "951ca407a550321d7eb34f8e55879e098ba70a88",
+  "local_inputs": [
+    {
+      "path": "models/pandey_kumar_mode1/286_f1859_four_benchmark_reference_comparison/job2_adaptive_case1/PK_F1859_J2_C1.inp",
+      "sha256": "b2ca3ff2891d667b0e3fb5a77de54739878f7bcdf7409130e5b2f6796d7a7f18"
+    },
+    {
+      "path": "models/pandey_kumar_mode1/286_f1859_four_benchmark_reference_comparison/job2_adaptive_case2/PK_F1859_J2_C2.inp",
+      "sha256": "edec3da4aa359151eeccc87c927039aff7926b4466ad05c771e558b03bc39100"
+    },
+    {
+      "path": "models/pandey_kumar_mode1/286_f1859_four_benchmark_reference_comparison/job2_adaptive_case3/PK_F1859_J2_C3.inp",
+      "sha256": "dddc337f311f90ebd130882d2d1cd9ad4f3f1edf59c95f3dd25009727accc14a"
+    },
+    {
+      "path": "models/pandey_kumar_mode1/286_f1859_four_benchmark_reference_comparison/job2_adaptive_case5/PK_F1859_J2_C5.inp",
+      "sha256": "7ffa6e7ed7f80b30d77cb81f9081cfbd5eec29739dc491050d62d5e43204466c"
+    }
+  ]
+}

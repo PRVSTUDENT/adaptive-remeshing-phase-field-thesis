@@ -1,6 +1,6 @@
 {
   "task_id": "DAMAGE-CONTOURS-FOUR-CASES",
-  "status": "BLOCKED",
+  "status": "PARTIAL_CASE5_STORAGE_WAIT",
   "date": "2026-11-19",
   "new_pbs": 0,
   "source_revision": "951ca407a550321d7eb34f8e55879e098ba70a88",
@@ -18,7 +18,7 @@
   ],
   "blocker": "Panasas filesystem I/O: D state, pan_fs_client_sam_alt_wait on Case 2 ODB, later pan_kernel_fs_client_file_fops on script reads/writes in same scratch directory. No final raw export returned.",
   "partial_evidence": "Case 1 successfully read 20193 elements; later process reached Case 3 ODB. In-memory reads were not committed as complete exports.",
-  "images_created": 0,
+  "images_created": 18,
   "resume_condition": "Cluster scratch reads/writes respond normally. Re-upload checkpointing extractor via guarded wrapper; verify exact file hash and launch one bounded extraction; fetch per-case exports before plotting.",
   "process_cleanup": "Sent KILL only to exact Codex-owned extraction/transfer helper PIDs; no scheduler operations, solver interruption, or AGY CLI interaction. Pending D-state processes may remain until filesystem returns.",
   "repairs": [
@@ -27,5 +27,23 @@
     "Added per-case export checkpoints after 120s and 600s extraction timeouts",
     "Guarded SFTP upload timed out; bounded fallback scratch write also blocked; stopped pending helpers"
   ],
-  "uncertainty": "Case 3 existing solve terminated early; complete paper-like crack development is not available from that result."
+  "uncertainty": "Case 3 existing solve terminated early; complete paper-like crack development is not available from that result.",
+  "completed_cases": [
+    1,
+    2,
+    3
+  ],
+  "remaining_case": 5,
+  "recovery": "Scratch upload recovered; checkpointed extraction completed Cases 1,2,3 and raw exports were downloaded and plotted. Case 5 ODB open remains in Panasas storage wait.",
+  "pending_process": {
+    "pid": 3877974,
+    "role": "read-only ODB extraction; no solver",
+    "remote_log": "/scratch9/pr21vyci/runs/f1859_suite/adaptive_damage_extraction.log",
+    "resume": "Check existing process and adaptive_damage_case5.b64 before starting any new extractor. If ready, retrieve and merge into raw gzip; rerun plotter for all four."
+  },
+  "validation": "3 cases x 4 states: exact element counts, matching value lengths, finite SDV1, recorded maxima reproduced. PNGs visually inspected.",
+  "script_sha256": {
+    "scripts/postprocessing/extract_adaptive_damage_contours.py": "385a2cb8f37abfc40004b2953a4d8a04a54928ad633ce12e3afcc61ecc3da887",
+    "scripts/postprocessing/plot_adaptive_damage_contours.py": "43f859bd800c64f3a7a257801c6caa9bb68c4d84b1f22907db0a84013520c9f9"
+  }
 }
