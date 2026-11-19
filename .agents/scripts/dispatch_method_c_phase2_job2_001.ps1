@@ -126,20 +126,23 @@ INDEPENDENT_STRUCTURED_REVIEW_V1
     "frozen_uel_sha256": "CE8D5EDCD2911DCB018BB15275271F874E7EA62B8FB48CF4A8297469A83ACDD6",
     "native_interface_sha256": "E5C98B6F601B1CD586571F8E24F357D15ABBD1C5D5487B52903BA249734279B2",
     "framework_sha256": "42217DAB0B8C3B7EFF9C8BF46FD75B7E99F06E436D9841846DF36C46E618A30A",
+    "canonical_bridge_policy_sha256": "C595940130CA051A0947EC5F9382A59EF74066C1B7973EA5FA1B95B829A62EB6",
+    "unit_tests": "21/21 PASS (100%)",
     "master_goal_status": "OPEN",
     "next_recommended_milestone": "Authorize forward crack propagation increments (Step 2, u2 = 0.0050 to 0.0100 mm in 4-6 increments) to demonstrate forward propagation toward the central hole on the re-equilibrated refined mesh."
   }
 }
+
+---
+### Full Job-2 Re-Equilibration Verification Report Content:
+$reportContent
 "@
 
 if ($CheckOnly) {
-    Write-Host "CheckOnly specified. Prompt generated successfully. Length: $($prompt.Length)"
-    exit 0
+    Write-Output "=== DRY RUN / CHECK ONLY: Assembled Bridge Prompt ==="
+    Write-Output $prompt
+    return
 }
 
-Write-Host "Publishing bridge request via Invoke-ChatGPTBridge.ps1..."
-$result = Publish-BridgeHandoff -HandoffId $handoffId -RequestText $prompt
-
-Write-Host "Bridge request published successfully."
-Write-Host "Ready File: $($result.ReadyFile)"
-Write-Host "SHA256: $($result.SHA256)"
+Write-Output "=== DISPATCHING METHOD C PHASE 2 JOB-2 RE-EQUILIBRATION VERIFICATION HANDOFF ($handoffId) ==="
+Invoke-ChatGPTBridge -PromptText $prompt -HandoffId $handoffId -TimeoutMinutes 40
