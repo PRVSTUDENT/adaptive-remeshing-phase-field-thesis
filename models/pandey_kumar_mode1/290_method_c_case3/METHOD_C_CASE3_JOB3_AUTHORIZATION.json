@@ -1,0 +1,38 @@
+{
+  "batch_name": "MODE1_METHOD_C_CASE3_JOB3",
+  "max_submissions": 1,
+  "hours_valid": 72,
+  "automatic_retry": false,
+  "files": {
+    "PK_METHOD_C_CASE3_CYCLE2_REFINED_JOB3.inp": "1d72a98120aaff2eac657779c6f3477cdccf3b22c3528e6cf2bb0e233ee4bc9c",
+    "PK_METHOD_C_CASE3_CYCLE2_PHYS.inp": "58466f66e1d9e41e73c5e5233dd748b5237193e225407320db4288a8db38081f",
+    "f42_mixed_uel.for": "ce8d5edcd2911dcb018bb15275271f874e7ea62b8fb48cf4a8297469a83acdd6",
+    "submit_case3_cycle2_job3.pbs": "c01c3e9445c4276ee6cd27c1c1e9eee7b5c10c1265b1d532917b5efb7bd66ba7",
+    "job_notifications.sh": "96756a681d2d36c11b36b89288f631f8ecc9537543c2c745a4bae1b425984b47"
+  },
+  "jobs": [
+    {
+      "id": "case3_cycle2_job3",
+      "pbs": "submit_case3_cycle2_job3.pbs",
+      "command": "powershell -NoProfile -ExecutionPolicy Bypass -File .\\.agents\\scripts\\Invoke-GuardedSsh.ps1 -RemoteCommand \"qsub -q entry_imfdfkmq /scratch9/pr21vyci/runs/mode1_290_method_c_case3_c2_job3/submit_case3_cycle2_job3.pbs\"",
+      "command_sha256": "11d36fca3c1d2788b5a0ca96681d83b28718b6e902bdc3291be0af24313a103c",
+      "max_submissions": 1,
+      "depends_on": [],
+      "purpose": "Method C Case 3 Job-3 Cycle-2 refined solve (117,936 layered elements, Step 1 hold at u2=0.052451 mm, Step 2 forward propagation to u2=0.4125 mm)",
+      "cpus": 16,
+      "memory_gb": 48,
+      "walltime_hours": 72,
+      "queue": "entry_imfdfkmq",
+      "execution": "16-cpu shared-memory SMP",
+      "input": "PK_METHOD_C_CASE3_CYCLE2_REFINED_JOB3.inp",
+      "datacheck": "PK_METHOD_C_CASE3_CYCLE2_REFINED_JOB3_DC.dat"
+    }
+  ],
+  "adapter": "mode1-qualified-batch-v2",
+  "scientific_scope": "MODE1",
+  "technical_stage": "C1-0",
+  "remote_run_dir": "/scratch9/pr21vyci/runs/mode1_290_method_c_case3_c2_job3",
+  "acceptance": {
+    "case3_cycle2_job3": "Method C Case 3 Job-3 Cycle-2 refined solve completes with Exit 0; Step 1 re-equilibration force continuity (|RF2 - 4.0332960 kN| / 4.0332960 <= 5%) and energy continuity; Step 2 forward crack propagation advances toward u2=0.4125 mm passing Inc-11 failure point."
+  }
+}

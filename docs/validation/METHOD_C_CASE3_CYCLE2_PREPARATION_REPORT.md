@@ -106,7 +106,7 @@ Transfer Receipt: `models/pandey_kumar_mode1/290_method_c_case3/PK_METHOD_C_CASE
 
 ## 5. Job-3 Production Deck Assembly & Diagnosed Mitigations
 
-The assembled production deck is `PK_METHOD_C_CASE3_CYCLE2_REFINED_JOB3.inp` (17,373,879 B, SHA `8DDE4D8B762C3019C90D4876A9558AACCB7EF4150CB37E5002E9E0305D68A890`).
+The assembled production deck is `PK_METHOD_C_CASE3_CYCLE2_REFINED_JOB3.inp` (17,373,692 B, SHA `1D72A98120AAFF2EAC657779C6F3477CDCCF3B22C3528E6CF2BB0E233EE4BC9C`).
 
 ### 5.1 Layered Multi-Physics Discretization
 Following the frozen UEL architecture (`f42_mixed_uel.for` SHA `CE8D5EDCD2911DCB018BB15275271F874E7EA62B8FB48CF4A8297469A83ACDD6`):
@@ -166,8 +166,8 @@ The full package was verified via dedicated pytest suite `tests/unit/test_method
 | `models/pandey_kumar_mode1/290_method_c_case3/donor_case3_cycle1_state.json` | 7,971,298 | `08A87E41202A2EA40F4E87D4450EF55EDADA7EFBEDEA25A8AFD689B8D1176955` | Authentic Job-2 donor state |
 | `models/pandey_kumar_mode1/290_method_c_case3/PK_METHOD_C_CASE3_CYCLE2_PHYS.inp` | 3,090,607 | `58466F66E1D9E41E73C5E5233DD748B5237193E225407320DB4288A8DB38081F` | Cycle-2 adapted physical mesh |
 | `models/pandey_kumar_mode1/290_method_c_case3/method_c_case3_cycle2_mesh_audit.json` | 1,006 | `B7184CBF115A76D9B365F143EC0B1BE061A9B9CE98350F6041DBCE4549E7DBDC` | Mesh quality gate audit receipt |
-| `models/pandey_kumar_mode1/290_method_c_case3/PK_METHOD_C_CASE3_CYCLE2_REFINED_JOB3.inp` | 17,373,879 | `8DDE4D8B762C3019C90D4876A9558AACCB7EF4150CB37E5002E9E0305D68A890` | Assembled Job-3 production deck |
-| `models/pandey_kumar_mode1/290_method_c_case3/PK_METHOD_C_CASE3_CYCLE2_TRANSFER_RECEIPT.json` | 3,817 | `3CECE05852FBFA7B5CBDA525156553F4F938B0B651ACC3E964F070CBC045BCFE` | State & history transfer receipt |
+| `models/pandey_kumar_mode1/290_method_c_case3/PK_METHOD_C_CASE3_CYCLE2_REFINED_JOB3.inp` | 17,373,692 | `1D72A98120AAFF2EAC657779C6F3477CDCCF3B22C3528E6CF2BB0E233EE4BC9C` | Assembled Job-3 production deck |
+| `models/pandey_kumar_mode1/290_method_c_case3/PK_METHOD_C_CASE3_CYCLE2_TRANSFER_RECEIPT.json` | 3,817 | `0344215DCA78D4CE25F6A153EC54257EE3F02190F774050A346266781BD17956` | State & history transfer receipt |
 | `models/pandey_kumar_mode1/290_method_c_case3/submit_case3_cycle2_job3.pbs` | 1,268 | `C01C3E9445C4276EE6CD27C1C1E9EEE7B5C10C1265B1D532917B5EFB7BD66BA7` | PBS submission script (16 SMP, 48 GB) |
 | `models/pandey_kumar_mode1/290_method_c_case3/run_case3_cycle2_datacheck.sh` | 511 | `507450B4BF5E279556E89CAFFEC94CA20D62DEAB297F519B029F192EE0C8CDC5` | Datacheck preflight shell script |
 | `models/pandey_kumar_mode1/f42_mixed_uel.for` | 29,722 | `CE8D5EDCD2911DCB018BB15275271F874E7EA62B8FB48CF4A8297469A83ACDD6` | Frozen UEL Fortran source |
