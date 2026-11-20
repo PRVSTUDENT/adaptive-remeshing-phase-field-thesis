@@ -12,17 +12,17 @@
 ## Slide 1: Title & Executive Overview
 
 ### Incremental Adaptive Remeshing with Nonmatching State & History Transfer in Phase-Field Fracture
-#### Demonstration of Forward Crack Growth and Void Capture in Mode-I Fracture
+#### Demonstration of Forward Crack Growth and Void Capture in Mode-I Fracture across Two Adaptive Cycles
 
 * **Primary Research Milestone:**
   - Transition from fixed-mesh error-guided pre-refinement (Method A) to external-driver incremental adaptive remeshing (Method C).
-  - Successful execution of an end-to-end multi-stage simulation:
-    $$\text{Solve (Coarse)} \;\longrightarrow\; \text{Evaluate} \;\longrightarrow\; \text{Remesh} \;\longrightarrow\; \text{Transfer } (u, d, H) \;\longrightarrow\; \text{Re-equilibrate} \;\longrightarrow\; \text{Forward Propagation}$$
+  - Successful execution of two complete sequential adaptive cycles:
+    $$\text{Cycle 1: Coarse Solve} \;\longrightarrow\; \text{Transfer} \;\longrightarrow\; \text{Re-equilibrate} \;\longrightarrow\; \text{Forward Growth \& Void Capture}$$
+    $$\text{Cycle 2: Adapted Mesh} \;\longrightarrow\; \text{State/Extreme History Transfer} \;\longrightarrow\; \text{Fixed Hold Re-equilibration} \;\longrightarrow\; \text{Growth Across 2nd Ligament}$$
 * **Key Achievements Demonstrated:**
-  - **Force Continuity:** $\Delta F = -1.37\%$ across discretization change.
-  - **Energy Continuity:** $\Delta E = -0.77\%$ in elastic strain energy.
-  - **Zero Healing:** Phase-field damage irreversibility strictly upheld ($\dot{d} \geq 0$).
-  - **Forward Propagation:** Macroscopic crack initiates at notch tip ($x = 0.50\,\text{mm}$), traverses $150\,\mu\text{m}$ ligament, penetrates circular void at $x = 0.65\,\text{mm}$, and causes $-59.58\%$ structural load softening.
+  - **Cycle 1 Continuity & Void Capture:** Initial re-equilibration force continuity $\Delta F = -1.37\%$, energy continuity $\Delta E = -0.77\%$; crack traverses $150\,\mu\text{m}$ ligament, captures circular void at $x = 0.65\,\text{mm}$, with $-59.58\%$ structural softening.
+  - **Cycle 2 Continuity & Spontaneous Growth:** Fixed-load hold at $u_2 = 0.008756\,\text{mm}$ verified via `CONST_HOLD`; initial force continuity $\Delta F = -4.92\%$; spontaneous forward crack advance $+27.62\,\mu\text{m}$ ($x = 0.8957 \to 0.9233\,\text{mm}$) under constant hold with $-20.06\%$ load relaxation.
+  - **Damage Irreversibility & History Monotonicity:** Zero damage healing verified across both cycles ($d_{\max} \ge 1.0$); extreme rupture history ($H_{\max} = 4629.69\,\text{MPa}$) preserved bitwise.
 
 ---
 
@@ -203,15 +203,35 @@
 
 ---
 
-## Slide 11: Scientific Summary & Master Thesis Roadmap
+## Slide 11: Cycle 2: Second Remesh, State Transfer & Fixed-Load Hold (Job 4)
+
+### Demonstration of Multi-Cycle Adaptive Continuity & Forward Growth Across Second Ligament
+* **Cycle-2 Discretization & State Transfer:**
+  - Adapted receiver mesh: 14,004 physical quads ($h_{\min} = 0.0035\,\text{mm}$), 42,012 layered elements ($3\times$ reduction vs uniform reference).
+  - Process zone refinement corridor updated to span $x \in [0.42, 1.00]\,\text{mm}$ to resolve the severed first ligament, void, current crack tip ($x_{\mathrm{tip}} = 0.8957\,\text{mm}$), and the remaining $104.3\,\mu\text{m}$ ligament to the right boundary.
+  - History variable transfer: Extreme peak history ($H_{\max} = 4629.69\,\text{MPa}$) at the severed rupture zone preserved identically via convex-clamped isoparametric transfer ($H \geq 0$ everywhere).
+* **Kinematic Fixed-Load Hold & Force Continuity (PBS Job 1424702):**
+  - Boundary condition: `*AMPLITUDE, NAME=CONST_HOLD` (`0.0, 1.0, 1.0, 1.0`) enforces $u_2 = 0.008756\,\text{mm}$ strictly constant from Increment 1 through Increment 6.
+  - Re-equilibration force continuity:
+    $$\Delta RF_2 = \frac{0.249323 - 0.262226}{0.262226} = -4.92\% \quad (\text{Threshold: } \pm 5.0\% \implies \mathbf{PASS})$$
+  - Zero damage healing: Crack wake damage strictly preserved ($d_{\max} = 1.002061$).
+* **Spontaneous Forward Crack Propagation & Softening:**
+  - Under constant displacement hold ($u_2 = 0.008756\,\text{mm}$), the crack tip advanced autonomously:
+    $$x_{\mathrm{tip}} = 0.895686 \longrightarrow 0.923302\,\text{mm} \quad (\Delta x = +27.616\,\mu\text{m}, \text{ total } \Delta a = 0.423302\,\text{mm})$$
+  - Structural load relaxed monotonically: $0.249323 \longrightarrow 0.199318\,\text{kN}$ ($-20.06\%$ load relaxation).
+  - Physical cutback termination occurred at Increment 6 during localized snap-through across the remaining $76.7\,\mu\text{m}$ ligament.
+
+---
+
+## Slide 12: Scientific Summary & Master Thesis Roadmap
 
 ### Project Milestones & Submission Timeline
 
-* **Method C Standing Directive Successfully Fulfilled:**
-  - Solved, evaluated, remeshed, transferred, re-equilibrated, and propagated forward into a void.
-  - Re-equilibration continuity strictly within $\pm 5\%$ ($\Delta F = -1.37\%$, $\Delta E = -0.77\%$).
-  - Full ligament severance and void capture verified on authentic cluster outputs.
-  - HPC submission budget capped at 60 jobs; zero administrative overhead.
+* **Two-Cycle Method C Demonstration Successfully Fulfilled:**
+  - **Cycle 1 (Jobs 1–3):** Coarse solve $\to$ state/history transfer $\to$ fixed-load re-equilibration ($\Delta F = -1.37\%$, $\Delta E = -0.77\%$) $\to$ forward propagation across $150\,\mu\text{m}$ ligament and complete void capture at $x = 0.65\,\text{mm}$ ($-59.58\%$ load softening).
+  - **Cycle 2 (Job 4):** Second adaptation $\to$ transfer of extreme history ($4629.69\,\text{MPa}$) $\to$ fixed-load re-equilibration ($\Delta F = -4.92\%$) $\to$ spontaneous forward crack advance ($+27.62\,\mu\text{m}$) across the second ligament under constant hold.
+  - Damage irreversibility strictly upheld ($\dot{d} \geq 0$, zero healing across both cycles).
+  - HPC execution capped at 62 total jobs; zero administrative overhead.
 
 * **Governing Thesis Timeline:**
   - **2 December 2026 (13:00):** Supervisor Meeting & Presentation of Method C Demonstration.
