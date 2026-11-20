@@ -520,52 +520,52 @@ def run_case3_cycle1_transfer():
         out.write("%.1f, %.2f, %.1f\n" % (E_GPa, nu, num_phys_f))
         out.write("*DEPVAR\n20\n")
 
-        # Initial Conditions: TYPE=DISPLACEMENT
+        # Initial Conditions: TYPE=SOLUTION (SVARS 1..18 for Phase UEL Layer 1)
+        # Note: Abaqus/Standard *STATIC procedures fatally reject TYPE=DISPLACEMENT (Error 144).
+        # Mechanical displacement is reconstructed via static equilibrium under boundary conditions,
+        # while state memory (phase field d and history H0) is restored via TYPE=SOLUTION on Phase UEL.
         out.write("** ----------------------------------------------------------\n")
-        out.write("** INITIAL CONDITIONS: TYPE=DISPLACEMENT (Transferred u1, u2, d)\n")
-        out.write("** ----------------------------------------------------------\n")
-        out.write("*INITIAL CONDITIONS, TYPE=DISPLACEMENT\n")
-        for nid in sorted(r_nodes.keys()):
-            ux, uy = recip_u[nid]
-            d_val = recip_d[nid]
-            out.write("%d, 1, %.9e\n" % (nid, ux))
-            out.write("%d, 2, %.9e\n" % (nid, uy))
-            out.write("%d, 3, %.9e\n" % (nid, d_val))
-        out.write("%d, 2, %.9e\n" % (rp_nid, step1_u2))
-
-        # Initial Conditions: TYPE=SOLUTION (Transferred GP History H)
-        out.write("** ----------------------------------------------------------\n")
-        out.write("** INITIAL CONDITIONS: TYPE=SOLUTION (Transferred GP history)\n")
+        out.write("** INITIAL CONDITIONS: Transferred Gauss-point history (SVARS 9..12)\n")
         out.write("** ----------------------------------------------------------\n")
         out.write("*INITIAL CONDITIONS, TYPE=SOLUTION\n")
         deck_svar_d_list = []
-        for eid in sorted(receiver_mesh["elements"].keys()):
-            vis_eid = eid + offset_vis
-            is_quad = (eid in r_quads)
-            if is_quad:
-                # SVARS 1..4: d at GPs 1..4
-                # SVARS 5..8: max_d at GPs 1..4
-                # SVARS 9..12: H at GPs 1..4
-                # SVARS 13..20: 0.0
-                h_vals = [recip_h_gp.get((eid, gp), 0.0) for gp in range(1, 5)]
-                # Estimate GP damage from vertices
-                conn = r_quads[eid]
-                d_elem_avg = sum(recip_d[n] for n in conn) / 4.0
-                deck_svar_d_list.append(d_elem_avg)
-                d_vals = [d_elem_avg] * 4
-                svar_str1 = ", ".join("%.6e" % v for v in d_vals + d_vals)
-                svar_str2 = ", ".join("%.6e" % v for v in h_vals)
-                out.write("%d, %s, %s, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0\n" % (
-                    vis_eid, svar_str1, svar_str2
-                ))
-            else:
-                h_val = recip_h_gp.get((eid, 1), 0.0)
-                conn = r_tris[eid]
-                d_elem_avg = sum(recip_d[n] for n in conn) / 3.0
-                deck_svar_d_list.append(d_elem_avg)
-                out.write("%d, %.6e, 0.0, 0.0, 0.0, %.6e, 0.0, 0.0, 0.0, %.6e, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0\n" % (
-                    vis_eid, d_elem_avg, d_elem_avg, h_val
-                ))
+        for eid in sorted(r_quads.keys()):
+            conn = r_quads[eid]
+            d_elem_avg = sum(recip_d[n] for n in conn) / 4.0
+            deck_svar_d_list.append(d_elem_avg)
+            deg = (1.0 - d_elem_avg)**2 + k_res
+            h_vals = [recip_h_gp.get((eid, gp), 0.0) for gp in range(1, 5)]
+            h1, h2, h3, h4 = h_vals
+            # SVARS 1..18 for UEL U1 (VARIABLES=18)
+            sv = [
+                d_elem_avg, d_elem_avg, d_elem_avg, d_elem_avg,
+                h1, h2, h3, h4,
+                h1, h2, h3, h4,
+                d_elem_avg, d_elem_avg, deg, h1, 0.0, 0.0
+            ]
+            card1 = "%8d, " % eid + ", ".join("%14.7e" % v for v in sv[:7])
+            card2 = "  " + ", ".join("%14.7e" % v for v in sv[7:15])
+            card3 = "  " + ", ".join("%14.7e" % v for v in sv[15:18])
+            out.write(card1 + "\n" + card2 + "\n" + card3 + "\n")
+
+        for eid in sorted(r_tris.keys()):
+            conn = r_tris[eid]
+            d_elem_avg = sum(recip_d[n] for n in conn) / 3.0
+            deck_svar_d_list.append(d_elem_avg)
+            deg = (1.0 - d_elem_avg)**2 + k_res
+            h1 = recip_h_gp.get((eid, 1), 0.0)
+            # SVARS 1..18 for UEL U3 (VARIABLES=18)
+            sv = [
+                d_elem_avg, d_elem_avg, d_elem_avg, 0.0,
+                h1, h1,
+                h1, h1, h1,
+                0.0, 0.0, 0.0,
+                d_elem_avg, d_elem_avg, deg, h1, 0.0, 0.0
+            ]
+            card1 = "%8d, " % eid + ", ".join("%14.7e" % v for v in sv[:7])
+            card2 = "  " + ", ".join("%14.7e" % v for v in sv[7:15])
+            card3 = "  " + ", ".join("%14.7e" % v for v in sv[15:18])
+            out.write(card1 + "\n" + card2 + "\n" + card3 + "\n")
 
         max_deck_svar_d = max(deck_svar_d_list) if deck_svar_d_list else 0.0
 

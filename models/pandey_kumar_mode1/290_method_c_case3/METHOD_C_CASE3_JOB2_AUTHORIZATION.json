@@ -1,0 +1,38 @@
+{
+  "batch_name": "MODE1_METHOD_C_CASE3_JOB2",
+  "max_submissions": 1,
+  "hours_valid": 72,
+  "automatic_retry": false,
+  "files": {
+    "PK_METHOD_C_CASE3_CYCLE1_REFINED_JOB2.inp": "612afe2a96d74f5b9d7485aeaebdb13868dd4131810c8b27f5a51ee26b60f484",
+    "PK_METHOD_C_CASE3_CYCLE1_PHYS.inp": "25661f0e2d8cb31a5b9b30ae50427a3c64317362f444fd3408658d0af597d90e",
+    "f42_mixed_uel.for": "ce8d5edcd2911dcb018bb15275271f874e7ea62b8fb48cf4a8297469a83acdd6",
+    "submit_case3_cycle1_job2.pbs": "e3d5184c18435b654372b2efd68cbcf0c2fe37de71fb63b91fe16d4a92cd5af6",
+    "job_notifications.sh": "96756a681d2d36c11b36b89288f631f8ecc9537543c2c745a4bae1b425984b47"
+  },
+  "jobs": [
+    {
+      "id": "case3_cycle1_job2",
+      "pbs": "submit_case3_cycle1_job2.pbs",
+      "command": "powershell -NoProfile -ExecutionPolicy Bypass -File .\\.agents\\scripts\\Invoke-GuardedSsh.ps1 -RemoteCommand \"qsub -q entry_imfdfkmq /scratch9/pr21vyci/runs/mode1_290_method_c_case3_c1_job2/submit_case3_cycle1_job2.pbs\"",
+      "command_sha256": "43e92e47add11f9ac15c408928a71a24eaf336dec5b82129b193a62e2de8d561",
+      "max_submissions": 1,
+      "depends_on": [],
+      "purpose": "Method C Case 3 Job-2 Cycle-1 refined solve (69,378 layered elements, Step 1 hold at u2=0.05 mm, Step 2 forward propagation to u2=0.4125 mm)",
+      "cpus": 16,
+      "memory_gb": 48,
+      "walltime_hours": 72,
+      "queue": "entry_imfdfkmq",
+      "execution": "16-cpu shared-memory SMP",
+      "input": "PK_METHOD_C_CASE3_CYCLE1_REFINED_JOB2.inp",
+      "datacheck": "PK_METHOD_C_CASE3_CYCLE1_REFINED_JOB2_DC.dat"
+    }
+  ],
+  "adapter": "mode1-qualified-batch-v2",
+  "scientific_scope": "MODE1",
+  "technical_stage": "C1-0",
+  "remote_run_dir": "/scratch9/pr21vyci/runs/mode1_290_method_c_case3_c1_job2",
+  "acceptance": {
+    "case3_cycle1_job2": "Method C Case 3 Job-2 Cycle-1 refined solve completes with Exit 0; Step 1 re-equilibration force continuity (|RF2 - 3.9288 kN| / 3.9288 <= 5%) and energy continuity; Step 2 forward crack propagation advances toward u2=0.4125 mm."
+  }
+}

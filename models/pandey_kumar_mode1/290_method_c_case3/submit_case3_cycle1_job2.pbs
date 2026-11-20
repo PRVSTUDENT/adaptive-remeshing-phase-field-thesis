@@ -5,12 +5,12 @@
 #PBS -q entry_imfdfkmq
 #PBS -j oe
 #PBS -r n
-#PBS -o /scratch9/pr21vyci/runs/mode1_290_method_c_case3_cycle1/pbs_execution.log
+#PBS -o /scratch9/pr21vyci/runs/mode1_290_method_c_case3_c1_job2/pbs_execution.log
 #PBS -m abe
 #PBS -M pr21vyci@mailserver.tu-freiberg.de
 
 set -euo pipefail
-RUN_DIR="/scratch9/pr21vyci/runs/mode1_290_method_c_case3_cycle1"
+RUN_DIR="/scratch9/pr21vyci/runs/mode1_290_method_c_case3_c1_job2"
 cd "${RUN_DIR}"
 
 export JOB_NAME="PK_METHOD_C_CASE3_CYCLE1_REFINED_JOB2"
