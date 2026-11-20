@@ -1,17 +1,17 @@
 ﻿{
   "task_id": "METHOD-C-CASE3-JOB1-COARSE-SOLVE",
   "title": "Method C Case 3: Job-1 Coarse Baseline Solve Execution",
-  "task_status": "SUBMITTED_AND_RUNNING",
+  "task_status": "REVIEWED_APPROVED",
   "master_goal_status": "OPEN",
-  "status": "SUBMITTED_AND_RUNNING",
-  "review_verdict": null,
-  "review_correlation_id": null,
+  "status": "REVIEWED_APPROVED",
+  "review_verdict": "APPROVE",
+  "review_correlation_id": "HND-METHOD-C-CASE3-JOB1-001",
   "classification": "METHOD_C_INCREMENTAL_ADAPTIVE_REMESHING",
   "assigned_agent": "gemini-antigravity",
   "active_pbs_job_id": "1424711.mmaster02",
   "last_successful_pbs_job_id": "1424702.mmaster02",
   "checkpoint_artifact": "docs/validation/METHOD_C_CASE3_JOB1_EXECUTION_REPORT.md",
-  "review_directive": "Execute Case 3 Job-1 coarse baseline solve (Step 1 precritical to 0.05 mm, Step 2 forward propagation to 0.4125 mm) on cluster with 16 CPU SMP, 48 GB, 72 h. Extract observables (RF2/U2, peak damage, peak history, crack-tip position, increment/cutback telemetry), confirm donor state at u2=0.4125 mm. Max 1 new PBS job; cumulative 62 to 63.",
+  "review_directive": "Monitor Case 3 Job-1 (PBS 1424711.mmaster02) only — no new PBS submissions. The job is queued while HPC scheduling is suspended after the 20 Nov scratch outage; leave it queued, do not delete, move, or resubmit it. When the HPC team confirms scheduling has resumed and the job completes, verify its exit status and .sta file, then run the staged extractor (extract_case3_job1_observables.py) on the cluster and prepare the Job-1 observables report: Step-1 baseline at u2=0.05 mm (RF2, peak damage, peak history, MISESERI/MISESAVG) and Step-2 propagation to u2=0.4125 mm (RF2(u2), peak load, crack-tip position and extension, energies), with a completion receipt and summary committed with verified SHAs, in INDEPENDENT_STRUCTURED_REVIEW_V1 format. Correct the quad-fraction typo (97.24%, not 96.85%) in the next handoff. Bounds: 0 new PBS jobs, cumulative 63 strictly preserved. No Cycle-2 remesh/transfer work until the Job-1 observables report is reviewed.",
   "predecessor_task": {
     "task_id": "METHOD-C-CASE3-ADAPTATION-PACKAGE",
     "checkpoint_artifact": "docs/validation/METHOD_C_CASE3_ADAPTATION_PACKAGE_REPORT.md",
@@ -21,8 +21,8 @@
   },
   "correlation_id": "HND-METHOD-C-CASE3-JOB1-001",
   "re_review_correlation_id": null,
-  "scientific_operation": "method_c_case3_job1_coarse_solve",
-  "scientific_operation_id": "method_c_case3_job1_coarse_solve_001",
+  "scientific_operation": "method_c_case3_job1_observables",
+  "scientific_operation_id": "method_c_case3_job1_observables_001",
   "scientific_checkpoint_required": true,
   "frozen_uel_sha256": "CE8D5EDCD2911DCB018BB15275271F874E7EA62B8FB48CF4A8297469A83ACDD6",
   "native_interface_sha256": "E5C98B6F601B1CD586571F8E24F357D15ABBD1C5D5487B52903BA249734279B2",
@@ -30,5 +30,5 @@
   "max_new_pbs_submissions": 0,
   "submissions_consumed": 1,
   "cumulative_pbs_submissions": 63,
-  "notes": "Case 3 Job-1 coarse baseline solve submitted to cluster as PBS Job 1424711.mmaster02 in normal_imfdfkmq with 16 CPUs SMP / 48 GB / 72 h; Step 1 to u2=0.05 mm (50 increments) and Step 2 to u2=0.4125 mm; dual-channel submission notifications dispatched; exactly 1 new PBS job consumed, cumulative 62 -> 63; MASTER_GOAL_STATUS = OPEN."
+  "notes": "Case 3 Job-1 submission officially APPROVED under HND-METHOD-C-CASE3-JOB1-001; 0 review gaps; NOTE-MC-C3J1-01 (queued state during HPC scheduling suspension acknowledged, non-polling wait) and NOTE-MC-C3J1-02 recorded; cumulative PBS submissions = 63, max_new_pbs = 0; MASTER_GOAL_STATUS strictly remains OPEN."
 }
