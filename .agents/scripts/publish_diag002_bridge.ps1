@@ -94,19 +94,10 @@ INDEPENDENT_STRUCTURED_REVIEW_V1
 '@
 
 if ($Publish) {
-    # Publish to bridge_request.ready via the guarded prompt builder
-    $packet = New-BridgeCanonicalPrompt -PromptText $prompt -HandoffId 'HND-METHOD-C-CASE3-JOB1-DIAG-002' -TaskId 'METHOD-C-CASE3-JOB1-FAILURE-DIAGNOSIS'
-    $bridgeDir = "C:\Users\pruth\OpenClawPAD\ChatGPTBridge"
-    $archiveDir = Join-Path $bridgeDir "archive"
-    $timestamp = (Get-Date).ToString("yyyyMMdd_HHmmss")
-    $archRequest = Join-Path $archiveDir ("request_{0}_{1}.txt" -f $timestamp, $packet.handoff_id)
-    $requestTmp = Join-Path $bridgeDir "bridge_request.tmp"
-    $requestReady = Join-Path $bridgeDir "bridge_request.ready"
-
-    [System.IO.File]::WriteAllText($archRequest, $packet.text, [System.Text.UTF8Encoding]::new($false))
-    [System.IO.File]::WriteAllText($requestTmp, $packet.text, [System.Text.UTF8Encoding]::new($false))
-    Move-Item -LiteralPath $requestTmp -Destination $requestReady -Force
-    Write-Host "[Bridge] Published bridge_request.ready with $($packet.text.Length) chars, archived to $archRequest"
+    Write-Host "[Bridge] Executing guarded Invoke-ChatGPTBridge for HND-METHOD-C-CASE3-JOB1-DIAG-002..." -ForegroundColor Cyan
+    $res = Invoke-ChatGPTBridge -PromptText $prompt -HandoffId 'HND-METHOD-C-CASE3-JOB1-DIAG-002' -TaskId 'METHOD-C-CASE3-JOB1-FAILURE-DIAGNOSIS' -LaunchPad
+    Write-Host "[Bridge] Handshake completed successfully. Response length: $($res.Length)" -ForegroundColor Green
+    return $res
 } else {
     $res = Invoke-ChatGPTBridge -DryRun -PromptText $prompt -HandoffId 'HND-METHOD-C-CASE3-JOB1-DIAG-002' -TaskId 'METHOD-C-CASE3-JOB1-FAILURE-DIAGNOSIS'
     Write-Host "Dry run passed. Prompt length: $($res.Length)"
