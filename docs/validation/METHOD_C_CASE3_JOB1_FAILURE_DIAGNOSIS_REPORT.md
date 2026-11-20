@@ -239,3 +239,21 @@ This report is re-issued under `HND-METHOD-C-CASE3-JOB1-DIAG-002` following `INS
 2. Submit this re-issued diagnosis report in `INDEPENDENT_STRUCTURED_REVIEW_V1` format under correlation ID `HND-METHOD-C-CASE3-JOB1-DIAG-002`.
 3. Await reviewer determination on whether to adopt **Fix Option A** (use Step-1 $u_2 = 0.05\,\text{mm}$ donor for Cycle 1 refinement) or **Fix Option B** (re-run Job 1 with $dt_{\min} = 10^{-14}$ and line search).
 4. `MASTER_GOAL_STATUS` strictly remains **OPEN**.
+
+---
+
+## 8. Independent Structured Review Outcome (HND-METHOD-C-CASE3-JOB1-DIAG-002)
+
+On 20 November 2026, independent structured review of `HND-METHOD-C-CASE3-JOB1-DIAG-002` was completed with the official verdict:
+
+> **Verdict: `APPROVE`**
+>
+> *"DIAG-002 resolves all three DIAG-001 gaps with repo-verified evidence. All five solver outputs are now committed to models/pandey_kumar_mode1/290_method_c_case3/ and all seven file SHAs match exactly at the real commit `ee467cec5ba305fa700f81a688f49f0df3d52807`... The committed `.sta`/`.msg`/`.dat` verify the diagnosis from source: Step 1 converged 50/50 to $u_2 = 0.0500\,\text{mm}$ with $RF_2 = 3.9288\,\text{kN}$, peak $F_{\max} = 4.3318\,\text{kN}$ at $u_2 = 0.05610\,\text{mm}$, Step-2 Inc 13 cut back $8.147\times 10^{-8} \to 2.037\times 10^{-8} \to 1.000\times 10^{-8}$, `.msg` 'TIME INCREMENT REQUIRED IS LESS THAN THE MINIMUM SPECIFIED', Node 2117 DOF 3 correction $4.351\times 10^{-2}$ and Node 2222 DOF 2 residual $-1.182\times 10^{-2}$, deck line 18981 $dt_{\min} = 1.0\times 10^{-8}$. The $dt_{\min}$ cutback-floor mechanism is therefore verified, not merely reported. Fix Option A is adopted: refine from the Step-1 donor."*
+
+### Decision & Action Items
+1. **Fix Option A Officially Adopted:** Refine from the Step-1 donor state at $u_2 = 0.0500\,\text{mm}$ ($RF_2 = 3.9288\,\text{kN}$) extracted from `PK_METHOD_C_CASE3_COARSE_JOB1.odb` on cluster scratch. Do NOT resubmit Job-1 and do NOT regenerate the coarse deck.
+2. **Fix Option B Not Adopted:** Retained solely as a recorded numerical contingency fallback.
+3. **PBS Budget Confirmed:** The 5-job budget (cumulative 62 to 67: 1 coarse baseline + 4 adaptive remesh cycles) is acknowledged for the upcoming Cycle-1 refinement package. No extra job authorized in this review.
+4. **Non-blocking Defect `GAP-MC-C3J1D2-01` Recorded:** Future handoffs and GitHub permalinks must reference verified commit `ee467cec5ba305fa700f81a688f49f0df3d52807`.
+5. **Next Milestone:** Author and stage the Method C Case 3 Cycle-1 refinement package (`HND-METHOD-C-CASE3-CYCLE1-PREP-001`) with 0 new PBS jobs consumed. Cumulative PBS submissions remain strictly bounded at **63**. `MASTER_GOAL_STATUS = OPEN`.
+

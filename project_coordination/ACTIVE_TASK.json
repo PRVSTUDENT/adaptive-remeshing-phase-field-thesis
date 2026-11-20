@@ -1,11 +1,11 @@
 ﻿{
   "task_id": "METHOD-C-CASE3-JOB1-FAILURE-DIAGNOSIS",
   "title": "Method C Case 3: Job-1 Coarse Baseline Solve Failure Diagnosis Re-Issue",
-  "task_status": "COMPLETED_READY_FOR_INDEPENDENT_REVIEW",
+  "task_status": "REVIEWED_APPROVED",
   "master_goal_status": "OPEN",
-  "status": "COMPLETED_READY_FOR_INDEPENDENT_REVIEW",
-  "review_verdict": null,
-  "review_correlation_id": null,
+  "status": "REVIEWED_APPROVED",
+  "review_verdict": "APPROVE",
+  "review_correlation_id": "HND-METHOD-C-CASE3-JOB1-DIAG-002",
   "classification": "METHOD_C_INCREMENTAL_ADAPTIVE_REMESHING",
   "assigned_agent": "gemini-antigravity",
   "active_pbs_job_id": null,
@@ -13,7 +13,7 @@
   "last_failed_pbs_job_id": "1424711.mmaster02",
   "checkpoint_artifact": "docs/validation/METHOD_C_CASE3_JOB1_FAILURE_DIAGNOSIS_REPORT.md",
   "checkpoint_artifact_sha256": "154540458FD63618ECBE793C5E7C21B471D59D834C5F3691E033EE71103AE180",
-  "review_directive": "Re-issued independent structured review under HND-METHOD-C-CASE3-JOB1-DIAG-002 resolving GAP-MC-C3J1D-01 (committed five text solver outputs with verified hashes), GAP-MC-C3J1D-02 (corrected UEL path to models/pandey_kumar_mode1/f42_mixed_uel.for), and GAP-MC-C3J1D-03 (updated operation label to method_c_case3_job1_failure_diagnosis). Bounds: 0 new PBS jobs, cumulative 63 strictly preserved.",
+  "review_directive": "DIAG-002 APPROVED by independent structured review under HND-METHOD-C-CASE3-JOB1-DIAG-002. All three predecessor gaps resolved with repo-verified evidence. Fix Option A adopted: refine from the Step-1 donor state at u2=0.0500 mm (RF2=3.9288 kN). Fix Option B not adopted (recorded fallback only). 5-job PBS budget (cumulative 62 to 67) acknowledged for Cycle-1 package. Bounds: 0 new PBS jobs consumed, cumulative 63 strictly preserved. Next task: prepare Cycle-1 refinement package under HND-METHOD-C-CASE3-CYCLE1-PREP-001.",
   "predecessor_task": {
     "task_id": "METHOD-C-CASE3-JOB1-COARSE-SOLVE",
     "checkpoint_artifact": "docs/validation/METHOD_C_CASE3_JOB1_EXECUTION_REPORT.md",
@@ -32,5 +32,5 @@
   "max_new_pbs_submissions": 0,
   "submissions_consumed": 0,
   "cumulative_pbs_submissions": 63,
-  "notes": "Case 3 Job-1 failure diagnosis re-issued under HND-METHOD-C-CASE3-JOB1-DIAG-002; GAP-MC-C3J1D-01 resolved by committing all five text solver outputs (.sta, .msg, .dat, pbs_execution.log, uel_energy_balance.csv) to repo with verified hashes; GAP-MC-C3J1D-02 resolved by correcting UEL path; GAP-MC-C3J1D-03 resolved by setting operation to method_c_case3_job1_failure_diagnosis; NOTE-MC-C3J1D-04 through 06 recorded; cumulative count 63 preserved, 0 new PBS jobs; MASTER_GOAL_STATUS strictly remains OPEN."
+  "notes": "Case 3 Job-1 failure diagnosis APPROVED under HND-METHOD-C-CASE3-JOB1-DIAG-002. GAP-MC-C3J1D-01 (committed outputs), GAP-MC-C3J1D-02 (UEL path), GAP-MC-C3J1D-03 (operation label) confirmed resolved. Fix Option A adopted: refine from Step-1 donor; NOTE-MC-C3J1D2-02 (5-job budget 62-67) to be stated in Cycle-1 package; NOTE-MC-C3J1D2-03 (Fix B not adopted); GAP-MC-C3J1D2-01 (use real commit ee467cec5ba305fa700f81a688f49f0df3d52807 in future handoff links) recorded. Cumulative count 63 preserved, 0 new PBS jobs; MASTER_GOAL_STATUS strictly remains OPEN."
 }
