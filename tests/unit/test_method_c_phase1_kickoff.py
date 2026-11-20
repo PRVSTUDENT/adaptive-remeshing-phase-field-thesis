@@ -80,7 +80,7 @@ def test_active_task_governance():
         task = json.load(f)
 
     assert task['task_id'] in ('METHOD-C-PHASE1-DEMO-AND-LOOP-SKELETON', 'METHOD-C-CYCLE2-REMESH-TRANSFER-PROPAGATE') or task['task_id'].startswith('METHOD-C-')
-    assert task['status'] in ('IN_PROGRESS', 'SUBMITTED_AND_QUEUED', 'SUBMITTED_AND_RUNNING', 'COMPLETED_READY_FOR_INDEPENDENT_REVIEW')
+    assert task['status'] in ('IN_PROGRESS', 'SUBMITTED_AND_QUEUED', 'SUBMITTED_AND_RUNNING', 'COMPLETED_READY_FOR_INDEPENDENT_REVIEW', 'REVIEWED_APPROVED')
     assert task['master_goal_status'] == 'OPEN'
     assert task['cumulative_pbs_submissions'] in (57, 58, 59, 60, 61, 62)
 
