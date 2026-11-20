@@ -70,7 +70,7 @@ INDEPENDENT_STRUCTURED_REVIEW_V1
     "expected_numerical_result": "PBS Job 1424702.mmaster02 completed Step-1 fixed-load hold at strictly constant displacement u2 = 0.008756 mm across 6 increments in 74s solver walltime (Exit 1 cutback termination during rapid localized dynamic crack propagation across narrow 76.7 um remaining ligament); initial re-equilibration force continuity satisfied at RF2 = 0.249323 kN vs Job-3 end 0.262226 kN (delta = -4.92%, satisfying the <= 5% gate, step1_init_force_continuity_pass = True); spontaneous forward crack tip propagation demonstrated under fixed hold from x_tip = 0.895686 mm to 0.923302 mm (Delta x = +27.62 um through second ligament, total crack extension Delta a = 0.423302 mm); structural load relaxation/softening from 0.249323 kN down to 0.199318 kN (-20.06% softening load drop under fixed hold); pre-existing crack wake damage preserved strictly at d_max = 1.002061 (zero healing verified); transferred extreme history preserved identically at H_max = 4629.688965 MPa; dual fracture energy baselines reported (+5.83% vs Job-3 end, +7.86% vs receiver initial); 41/41 unit tests PASS (100%); exactly 1 new PBS job consumed (cumulative 62); MASTER_GOAL_STATUS = OPEN.",
     "indicator_type": "F1852_MEASURED_DRIVER",
     "indicator_role": "METHOD_C_DRIVER",
-    "causal_evidence_status": "OBSERVED"
+    "causal_evidence_status": "VERIFIED"
   },
   "evidence_manifest": {
     "execution_report": {
