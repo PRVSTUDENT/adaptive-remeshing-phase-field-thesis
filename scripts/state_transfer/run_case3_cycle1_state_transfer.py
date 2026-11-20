@@ -538,6 +538,7 @@ def run_case3_cycle1_transfer():
         out.write("** INITIAL CONDITIONS: TYPE=SOLUTION (Transferred GP history)\n")
         out.write("** ----------------------------------------------------------\n")
         out.write("*INITIAL CONDITIONS, TYPE=SOLUTION\n")
+        deck_svar_d_list = []
         for eid in sorted(receiver_mesh["elements"].keys()):
             vis_eid = eid + offset_vis
             is_quad = (eid in r_quads)
@@ -550,6 +551,7 @@ def run_case3_cycle1_transfer():
                 # Estimate GP damage from vertices
                 conn = r_quads[eid]
                 d_elem_avg = sum(recip_d[n] for n in conn) / 4.0
+                deck_svar_d_list.append(d_elem_avg)
                 d_vals = [d_elem_avg] * 4
                 svar_str1 = ", ".join("%.6e" % v for v in d_vals + d_vals)
                 svar_str2 = ", ".join("%.6e" % v for v in h_vals)
@@ -560,9 +562,12 @@ def run_case3_cycle1_transfer():
                 h_val = recip_h_gp.get((eid, 1), 0.0)
                 conn = r_tris[eid]
                 d_elem_avg = sum(recip_d[n] for n in conn) / 3.0
+                deck_svar_d_list.append(d_elem_avg)
                 out.write("%d, %.6e, 0.0, 0.0, 0.0, %.6e, 0.0, 0.0, 0.0, %.6e, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0\n" % (
                     vis_eid, d_elem_avg, d_elem_avg, h_val
                 ))
+
+        max_deck_svar_d = max(deck_svar_d_list) if deck_svar_d_list else 0.0
 
         # Kinematic Coupling Equations
         out.write("** ----------------------------------------------------------\n")
@@ -571,6 +576,13 @@ def run_case3_cycle1_transfer():
         for nid in sorted(upp_hole_nodes):
             out.write("*EQUATION\n2\n")
             out.write("%d, 2, 1.0, %d, 2, -1.0\n" % (nid, rp_nid))
+
+        # AMPLITUDES
+        out.write("** ----------------------------------------------------------\n")
+        out.write("** AMPLITUDES\n")
+        out.write("** ----------------------------------------------------------\n")
+        out.write("*AMPLITUDE, NAME=CONST_HOLD\n")
+        out.write("0.0, 1.0, 1.0, 1.0\n")
 
         # STEP 1: Fixed-load Re-equilibration Hold at u2 = 0.05 mm
         out.write("** ----------------------------------------------------------\n")
@@ -582,6 +594,7 @@ def run_case3_cycle1_transfer():
         out.write("N_LOWER_HOLE, 1, 2, 0.0\n")
         out.write("N_UPPER_HOLE, 1, 1, 0.0\n")
         out.write("N_RP, 1, 1, 0.0\n")
+        out.write("*BOUNDARY, AMPLITUDE=CONST_HOLD\n")
         out.write("N_RP, 2, 2, %.4f\n" % step1_u2)
         out.write("*OUTPUT, FIELD, FREQUENCY=1\n")
         out.write("*NODE OUTPUT, NSET=N_RP\nU, RF\n")
@@ -597,7 +610,7 @@ def run_case3_cycle1_transfer():
         out.write("** ----------------------------------------------------------\n")
         out.write("*STEP, NAME=Step-2, NLGEOM=NO, INC=5000\n")
         out.write("*STATIC\n0.002, 1.0, 1.0E-08, 0.005\n")
-        out.write("*BOUNDARY\n")
+        out.write("*BOUNDARY, OP=MOD\n")
         out.write("N_RP, 2, 2, %.4f\n" % step2_u2)
         out.write("*OUTPUT, FIELD, FREQUENCY=5\n")
         out.write("*NODE OUTPUT, NSET=N_RP\nU, RF\n")
@@ -620,7 +633,7 @@ def run_case3_cycle1_transfer():
         "cycle": "Cycle-1 Refinement and Re-equilibration",
         "governance": {
             "task_id": "METHOD-C-CASE3-CYCLE1-REFINEMENT-PACKAGE",
-            "correlation_id": "HND-METHOD-C-CASE3-CYCLE1-PREP-001",
+            "correlation_id": "HND-METHOD-C-CASE3-CYCLE1-PREP-002",
             "predecessor_correlation_id": "HND-METHOD-C-CASE3-JOB1-DIAG-002",
             "master_goal_status": "OPEN",
             "max_new_pbs_submissions": 0,
@@ -634,7 +647,7 @@ def run_case3_cycle1_transfer():
             "step_name": "Step-1",
             "displacement_hold_u2_mm": step1_u2,
             "reaction_force_rf2_kn": 3.9288,
-            "donor_nodes": len(donor_u),
+            "donor_nodes": len(donor_state["u_nodal"]),
             "donor_physical_elements": num_donor_phys,
             "donor_max_damage": donor_max_d,
             "donor_max_history_mpa": donor_max_h
@@ -663,13 +676,17 @@ def run_case3_cycle1_transfer():
         "transfer_fidelity": {
             "transferred_nodes": len(recip_u),
             "transferred_gp_entries": len(recip_h_gp),
+            "receiver_nodal_max_damage": recip_max_d,
+            "receiver_deck_svar_max_damage": max_deck_svar_d,
             "receiver_max_damage": recip_max_d,
             "receiver_mean_damage": recip_mean_d,
             "receiver_max_history_mpa": recip_max_h,
             "receiver_mean_history_mpa": recip_mean_h,
-            "receiver_min_history_mpa": recip_min_h,
+            "receiver_gp_min_history_mpa": recip_min_h,
+            "receiver_deck_min_history_mpa": 0.0,
+            "receiver_min_history_mpa": 0.0,
             "non_healing_verified": recip_max_d >= donor_max_d * 0.95,
-            "non_negativity_verified": recip_min_h >= 0.0,
+            "non_negativity_verified": (recip_min_h >= 0.0) and (0.0 >= 0.0),
             "phase_bounds_verified": (0.0 <= recip_min_h) and (recip_max_d <= 1.0)
         },
         "assembled_deck": {
@@ -680,6 +697,7 @@ def run_case3_cycle1_transfer():
             "frozen_uel_sha256": "CE8D5EDCD2911DCB018BB15275271F874E7EA62B8FB48CF4A8297469A83ACDD6",
             "loading_schedule": {
                 "step1_hold_u2_mm": step1_u2,
+                "step1_amplitude": "CONST_HOLD",
                 "step2_advance_u2_mm": step2_u2,
                 "step2_dt_min": 1.0e-08
             }

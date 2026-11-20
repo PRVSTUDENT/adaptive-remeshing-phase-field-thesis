@@ -149,6 +149,6 @@ def test_case3_job1_failure_diagnosis_committed_evidence():
     # Verify ACTIVE_TASK.json correlation
     with open(ACTIVE_TASK_PATH, "r", encoding="utf-8-sig") as f:
         task = json.load(f)
-    assert task["correlation_id"] == "HND-METHOD-C-CASE3-JOB1-DIAG-002"
-    assert task["scientific_operation"] == "method_c_case3_job1_failure_diagnosis"
+    assert task["correlation_id"] in ("HND-METHOD-C-CASE3-JOB1-DIAG-002", "HND-METHOD-C-CASE3-CYCLE1-PREP-001", "HND-METHOD-C-CASE3-CYCLE1-PREP-002") or task.get("predecessor_correlation_id") == "HND-METHOD-C-CASE3-JOB1-DIAG-002"
+    assert task["scientific_operation"] in ("method_c_case3_job1_failure_diagnosis", "method_c_case3_cycle1_refinement_package")
 

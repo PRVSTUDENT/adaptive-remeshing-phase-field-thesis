@@ -184813,6 +184813,11 @@ All_elem
 2
 817, 2, 1.0, 999999, 2, -1.0
 ** ----------------------------------------------------------
+** AMPLITUDES
+** ----------------------------------------------------------
+*AMPLITUDE, NAME=CONST_HOLD
+0.0, 1.0, 1.0, 1.0
+** ----------------------------------------------------------
 ** STEP 1: Fixed-Load Re-equilibration Hold at u2 = 0.0500 mm
 ** ----------------------------------------------------------
 *STEP, NAME=Step-1-Hold, NLGEOM=NO, INC=100
@@ -184822,6 +184827,7 @@ All_elem
 N_LOWER_HOLE, 1, 2, 0.0
 N_UPPER_HOLE, 1, 1, 0.0
 N_RP, 1, 1, 0.0
+*BOUNDARY, AMPLITUDE=CONST_HOLD
 N_RP, 2, 2, 0.0500
 *OUTPUT, FIELD, FREQUENCY=1
 *NODE OUTPUT, NSET=N_RP
@@ -184841,7 +184847,7 @@ U2, RF2
 *STEP, NAME=Step-2, NLGEOM=NO, INC=5000
 *STATIC
 0.002, 1.0, 1.0E-08, 0.005
-*BOUNDARY
+*BOUNDARY, OP=MOD
 N_RP, 2, 2, 0.4125
 *OUTPUT, FIELD, FREQUENCY=5
 *NODE OUTPUT, NSET=N_RP

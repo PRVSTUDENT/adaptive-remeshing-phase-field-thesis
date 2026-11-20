@@ -12,8 +12,8 @@
   "last_successful_pbs_job_id": "1424702.mmaster02",
   "last_failed_pbs_job_id": "1424711.mmaster02",
   "checkpoint_artifact": "docs/validation/METHOD_C_CASE3_CYCLE1_REFINEMENT_PACKAGE_REPORT.md",
-  "checkpoint_artifact_sha256": "9C5EBD48044B29A56BCF183922D6234340AF9A5D005A67C566AC5A3918538746",
-  "review_directive": "Prepare Method C Case 3 Cycle-1 refinement package from verified Step-1 donor state at u2=0.0500 mm (RF2=3.9288 kN) from PK_METHOD_C_CASE3_COARSE_JOB1.odb on cluster scratch. Build adapted mesh with F1852 damage-envelope driver; stage transfer + re-equilibration at 0.05 mm hold; explicitly declare 5-job Fix A budget (cumulative 62 to 67); use verified artifact commit ee467cec5ba305fa700f81a688f49f0df3d52807. Bounds: 0 new PBS jobs, cumulative 63 strictly preserved.",
+  "checkpoint_artifact_sha256": "ABE7B15BBE5D0CB57897B3B818F07A16F71262525A8FAA5B2EFFFCAA0621D2AC",
+  "review_directive": "Re-issue Case 3 Cycle-1 refinement package as HND-METHOD-C-CASE3-CYCLE1-PREP-002 resolving GAP-MC-C3C1P-01 (Step-1 CONST_HOLD amplitude in deck E22F38DB...), GAP-MC-C3C1P-02 (F1852 Incipient-Damage Decision Rule and native MISESERI inactivity rationale), GAP-MC-C3C1P-03 (correct §8 sizes and SHAs, 4813 donor nodes), and GAP-MC-C3C1P-04 (deck SVAR 0.0 vs GP min 9.8003e-12 MPa history, nodal 0.469063 vs deck SVAR 0.446607 damage). Bounds: 0 new PBS jobs, cumulative 63 strictly preserved.",
   "predecessor_task": {
     "task_id": "METHOD-C-CASE3-JOB1-FAILURE-DIAGNOSIS",
     "checkpoint_artifact": "docs/validation/METHOD_C_CASE3_JOB1_FAILURE_DIAGNOSIS_REPORT.md",
@@ -21,10 +21,10 @@
     "review_verdict": "APPROVE",
     "correlation_id": "HND-METHOD-C-CASE3-JOB1-DIAG-002"
   },
-  "correlation_id": "HND-METHOD-C-CASE3-CYCLE1-PREP-001",
+  "correlation_id": "HND-METHOD-C-CASE3-CYCLE1-PREP-002",
   "predecessor_correlation_id": "HND-METHOD-C-CASE3-JOB1-DIAG-002",
   "scientific_operation": "method_c_case3_cycle1_refinement_package",
-  "scientific_operation_id": "method_c_case3_cycle1_refinement_package_001",
+  "scientific_operation_id": "method_c_case3_cycle1_refinement_package_002",
   "scientific_checkpoint_required": true,
   "frozen_uel_sha256": "CE8D5EDCD2911DCB018BB15275271F874E7EA62B8FB48CF4A8297469A83ACDD6",
   "native_interface_sha256": "E5C98B6F601B1CD586571F8E24F357D15ABBD1C5D5487B52903BA249734279B2",
@@ -32,5 +32,5 @@
   "max_new_pbs_submissions": 0,
   "submissions_consumed": 0,
   "cumulative_pbs_submissions": 63,
-  "notes": "Case 3 Cycle-1 refinement package prepared from verified Step-1 donor state (u2=0.0500 mm, RF2=3.9288 kN, max_d=0.469063, max_H=0.016731 MPa); adapted physical mesh generated (23,126 elements, 97.34% quads, href=0.140 mm <= l0/2=0.1425 mm, min_det_J=8.728e-4 > 0, max_AR=3.949 <= 4.0, all gates PASS); state & history transfer completed via isoparametric_gp_transfer.py with convex_clamp (strict non-negativity H_min=9.800e-12 >= 0, phase bounds 0<=d<=1, zero healing); 3-layer production deck PK_METHOD_C_CASE3_CYCLE1_REFINED_JOB2.inp assembled (69,378 layered elements) with Step-1 hold at u2=0.05 mm and Step-2 advance to 0.4125 mm (dt_min=1e-8); 5-job Fix A budget (cumulative 62 to 67) declared; predecessor commit ee467cec5ba305fa700f81a688f49f0df3d52807 cited; 0 new PBS jobs consumed, cumulative count strictly 63; MASTER_GOAL_STATUS strictly remains OPEN."
+  "notes": "Case 3 Cycle-1 refinement package re-issued as PREP-002 resolving all 4 review gaps: [1] Added *AMPLITUDE, NAME=CONST_HOLD (0.0, 1.0, 1.0, 1.0) and *BOUNDARY, AMPLITUDE=CONST_HOLD on N_RP, 2, 2, 0.0500 to PK_METHOD_C_CASE3_CYCLE1_REFINED_JOB2.inp (E22F38DB...); [2] Documented F1852 Incipient-Damage Decision Rule branching to CONSTRUCTED_DAMAGE_ENVELOPE as native MISESERI is inactive (0.0) for *USER MATERIAL companion formulation; [3] Corrected report §8 sizes, SHAs, and §4 node count to 4,813; [4] Clarified receiver history minimum (deck SVAR 0.0 vs GP min 9.8003e-12 MPa) and damage peak (nodal 0.469063 vs deck SVAR 0.446607); 56/56 unit tests PASS; 0 new PBS jobs consumed, cumulative count strictly 63; MASTER_GOAL_STATUS strictly remains OPEN."
 }

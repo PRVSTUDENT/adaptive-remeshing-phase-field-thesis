@@ -122,9 +122,12 @@ def test_cycle1_3layer_production_deck_structure():
     assert "*INITIAL CONDITIONS, TYPE=SOLUTION" in deck_text
 
     # Step-1 Hold and Step-2 Advance
+    assert "*AMPLITUDE, NAME=CONST_HOLD" in deck_text
     assert "*STEP, NAME=Step-1-Hold, NLGEOM=NO, INC=100" in deck_text
+    assert "*BOUNDARY, AMPLITUDE=CONST_HOLD" in deck_text
     assert "N_RP, 2, 2, 0.0500" in deck_text
     assert "*STEP, NAME=Step-2, NLGEOM=NO, INC=5000" in deck_text
+    assert "*BOUNDARY, OP=MOD" in deck_text
     assert "N_RP, 2, 2, 0.4125" in deck_text
     assert "*END STEP" in deck_text
 
