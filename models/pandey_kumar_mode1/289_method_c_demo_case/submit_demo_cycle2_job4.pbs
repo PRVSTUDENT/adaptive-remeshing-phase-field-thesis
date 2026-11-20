@@ -1,0 +1,39 @@
+#!/bin/bash
+#PBS -N M1_MC_DEMO_JOB4
+#PBS -l select=1:ncpus=16:mpiprocs=1:ompthreads=16:mem=48gb
+#PBS -l walltime=72:00:00
+#PBS -q entry_imfdfkmq
+#PBS -j oe
+#PBS -r n
+#PBS -o /scratch9/pr21vyci/runs/mode1_289_method_c_demo_job4_r1/pbs_execution_job4.log
+#PBS -m abe
+#PBS -M pr21vyci@mailserver.tu-freiberg.de
+
+set -euo pipefail
+RUN_DIR="/scratch9/pr21vyci/runs/mode1_289_method_c_demo_job4_r1"
+cd "${RUN_DIR}"
+
+export JOB_NAME="PK_METHOD_C_CYCLE2_REFINED_JOB4"
+export NOTIFICATION_CONFIG="${NOTIFICATION_CONFIG:-${HOME}/.config/adaptive-remeshing/notifications.env}"
+source "${RUN_DIR}/job_notifications.sh"
+notification_load_config
+notification_install_terminal_trap
+notify_start
+
+if ! type module >/dev/null 2>&1; then source /etc/profile.d/lmod.sh; fi
+module purge
+module load gcc/11.4.0 intel/2024.2.0 abaqus/2023
+command -v ifort
+
+JOB_NAME="PK_METHOD_C_CYCLE2_REFINED_JOB4"
+INP_NAME="PK_METHOD_C_CYCLE2_REFINED_JOB4.inp"
+USER_SUB="f42_mixed_uel.for"
+
+test ! -e "${JOB_NAME}.lck"
+
+echo "Starting Abaqus/Standard 2023 Method C Cycle 2 Re-Equilibration and Propagation Simulation (Job-4)..."
+abaqus job="${JOB_NAME}" input="${INP_NAME}" user="${USER_SUB}" cpus=16 interactive
+EXIT_CODE=$?
+
+echo "Abaqus Finished with Exit Code: ${EXIT_CODE}"
+exit ${EXIT_CODE}

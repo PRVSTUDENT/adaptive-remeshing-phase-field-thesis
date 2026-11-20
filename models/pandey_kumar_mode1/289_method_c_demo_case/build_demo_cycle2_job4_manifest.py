@@ -32,7 +32,7 @@ uel_sha = get_sha256(uel_path)
 pbs_sha = get_sha256(pbs_path)
 notif_sha = get_sha256(notif_path)
 
-cmd = 'powershell -NoProfile -ExecutionPolicy Bypass -File .\\.agents\\scripts\\Invoke-GuardedSsh.ps1 -RemoteCommand "qsub -q entry_imfdfkmq /scratch9/pr21vyci/runs/mode1_289_method_c_demo_job4/submit_demo_cycle2_job4.pbs"'
+cmd = 'powershell -NoProfile -ExecutionPolicy Bypass -File .\\.agents\\scripts\\Invoke-GuardedSsh.ps1 -RemoteCommand "qsub -q entry_imfdfkmq /scratch9/pr21vyci/runs/mode1_289_method_c_demo_job4_r1/submit_demo_cycle2_job4.pbs"'
 cmd_sha = hashlib.sha256(cmd.encode("utf-8")).hexdigest().lower()
 
 manifest = {
@@ -41,7 +41,7 @@ manifest = {
     "max_new_pbs_submissions": 1,
     "submissions_authorized": 1,
     "submissions_consumed": 0,
-    "cumulative_pbs_submissions": 60,
+    "cumulative_pbs_submissions": 61,
     "max_submissions": 1,
     "hours_valid": 72,
     "automatic_retry": False,
@@ -94,7 +94,7 @@ manifest = {
     "adapter": "mode1-qualified-batch-v2",
     "scientific_scope": "MODE1",
     "technical_stage": "C1-2",
-    "remote_run_dir": "/scratch9/pr21vyci/runs/mode1_289_method_c_demo_job4",
+    "remote_run_dir": "/scratch9/pr21vyci/runs/mode1_289_method_c_demo_job4_r1",
     "acceptance": {
         "demo_cycle2_job4": "Method C Cycle 2 Job-4 re-equilibration at u2=0.008756 mm and forward crack propagation to u2=0.012000 mm completes with Exit 0; force and energy continuity in Step 1 (<5% delta vs Job-3); forward crack propagation across remaining ligament in Step 2; peak damage preserved (zero healing) and thermodynamic non-negativity maintained."
     }

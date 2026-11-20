@@ -1,158 +1,71 @@
 {
   "physical_elements_count": 14004, 
   "step2_increments": 0, 
-  "step1_increments": 29, 
-  "total_equilibrium_iterations": 142, 
+  "step1_increments": 6, 
+  "total_equilibrium_iterations": 63, 
+  "step1_init_RF2_kN": 0.24932269752025604, 
   "sta_completed_successfully": false, 
-  "cpu_time_s": 473.0, 
+  "cpu_time_s": 204.0, 
   "step1_energy_continuity_pass": false, 
   "step2_end_u2_mm": null, 
-  "step1_energy_continuity_delta_pct": 35.05516587986571, 
-  "job_id": "1424700.mmaster02", 
+  "step1_energy_continuity_delta_pct": 60.3073411223913, 
+  "job_id": "1424702.mmaster02", 
   "peak_damage_SDV1": 1.002061128616333, 
-  "step1_end_RF2_kN": 0.16038912534713745, 
-  "step1_end_u2_mm": 0.006525280885398388, 
-  "post_peak_softening_demonstrated": false, 
+  "step1_end_RF2_kN": 0.1993178129196167, 
+  "step1_end_u2_mm": 0.008755999617278576, 
+  "post_peak_softening_demonstrated": true, 
   "right_boundary_reached": false, 
+  "step1_init_force_continuity_delta_pct": -4.920680054511746, 
   "msg_zero_errors": false, 
   "initial_crack_tip_x_mm": 0.895686, 
-  "total_increments": 29, 
-  "peak_RF2_kN": 0.1676407903432846, 
-  "E_elastic_kNmm": 0.00052329203, 
+  "total_increments": 6, 
+  "peak_RF2_kN": 0.24932269752025604, 
+  "fracture_energy_delta_vs_job3_pct": 5.832352389077962, 
+  "E_elastic_kNmm": 0.00087261342, 
   "step2_equilibrium_iterations": 0, 
-  "step1_equilibrium_iterations": 142, 
+  "step1_equilibrium_iterations": 63, 
   "layered_elements_count": 42012, 
-  "sys_time_s": 129.0, 
+  "sys_time_s": 52.0, 
   "specimen_completely_severed": false, 
   "job_name": "PK_METHOD_C_CYCLE2_REFINED_JOB4", 
-  "u2_at_peak_RF2_mm": 0.006495087873190641, 
-  "step1_force_continuity_delta_pct": -38.83553677090089, 
-  "final_crack_extension_mm": 0.4202466607093811, 
-  "step1_cutbacks": 12, 
+  "u2_at_peak_RF2_mm": 0.008755999617278576, 
+  "step1_force_continuity_delta_pct": -23.990064707688525, 
+  "final_crack_extension_mm": 0.4233023524284363, 
+  "step1_cutbacks": 8, 
   "max_history_MPa": 4629.68896484375, 
-  "final_crack_tip_x_mm": 0.9202466607093811, 
+  "step1_init_u2_mm": 0.008755999617278576, 
+  "final_crack_tip_x_mm": 0.9233023524284363, 
+  "fracture_energy_delta_vs_receiver_init_pct": 7.863736559053786, 
   "exit_code": 1, 
-  "total_cutbacks": 12, 
-  "E_total_kNmm": 0.0021553643, 
+  "total_cutbacks": 8, 
+  "E_total_kNmm": 0.0025583673, 
   "dat_rp_history": [
     {
-      "rf2_kN": 0.002493227, 
-      "u2_mm": 8.756e-05
+      "rf2_kN": 0.2493227, 
+      "u2_mm": 0.008756
     }, 
     {
-      "rf2_kN": 0.004986454, 
-      "u2_mm": 0.00017512
+      "rf2_kN": 0.23546908, 
+      "u2_mm": 0.008756
     }, 
     {
-      "rf2_kN": 0.0087262945, 
-      "u2_mm": 0.00030646
+      "rf2_kN": 0.22290717, 
+      "u2_mm": 0.008756
     }, 
     {
-      "rf2_kN": 0.014336055, 
-      "u2_mm": 0.00050347
+      "rf2_kN": 0.2109624, 
+      "u2_mm": 0.008756
     }, 
     {
-      "rf2_kN": 0.022750696, 
-      "u2_mm": 0.000798985
+      "rf2_kN": 0.19931782, 
+      "u2_mm": 0.008756
     }, 
     {
-      "rf2_kN": 0.035216831, 
-      "u2_mm": 0.001236785
-    }, 
-    {
-      "rf2_kN": 0.04768275, 
-      "u2_mm": 0.001674585
-    }, 
-    {
-      "rf2_kN": 0.060147164, 
-      "u2_mm": 0.002112385
-    }, 
-    {
-      "rf2_kN": 0.072609991, 
-      "u2_mm": 0.002550185
-    }, 
-    {
-      "rf2_kN": 0.085071361, 
-      "u2_mm": 0.002987985
-    }, 
-    {
-      "rf2_kN": 0.097531399, 
-      "u2_mm": 0.003425785
-    }, 
-    {
-      "rf2_kN": 0.10998862, 
-      "u2_mm": 0.003863585
-    }, 
-    {
-      "rf2_kN": 0.12241373, 
-      "u2_mm": 0.004301385
-    }, 
-    {
-      "rf2_kN": 0.13466218, 
-      "u2_mm": 0.004739185
-    }, 
-    {
-      "rf2_kN": 0.13530741, 
-      "u2_mm": 0.0047665475
-    }, 
-    {
-      "rf2_kN": 0.13610387, 
-      "u2_mm": 0.0048075912
-    }, 
-    {
-      "rf2_kN": 0.1371107, 
-      "u2_mm": 0.0048691569
-    }, 
-    {
-      "rf2_kN": 0.13873052, 
-      "u2_mm": 0.0049615053
-    }, 
-    {
-      "rf2_kN": 0.1413875, 
-      "u2_mm": 0.005100028
-    }, 
-    {
-      "rf2_kN": 0.1455456, 
-      "u2_mm": 0.005307812
-    }, 
-    {
-      "rf2_kN": 0.15177308, 
-      "u2_mm": 0.0056194879
-    }, 
-    {
-      "rf2_kN": 0.16040464, 
-      "u2_mm": 0.0060572879
-    }, 
-    {
-      "rf2_kN": 0.16764079, 
-      "u2_mm": 0.0064950879
-    }, 
-    {
-      "rf2_kN": 0.16683112, 
-      "u2_mm": 0.0065224504
-    }, 
-    {
-      "rf2_kN": 0.16531931, 
-      "u2_mm": 0.0065250157
-    }, 
-    {
-      "rf2_kN": 0.16373088, 
-      "u2_mm": 0.0065252562
-    }, 
-    {
-      "rf2_kN": 0.16210193, 
-      "u2_mm": 0.0065252787
-    }, 
-    {
-      "rf2_kN": 0.16038912, 
-      "u2_mm": 0.0065252808
-    }, 
-    {
-      "rf2_kN": 0.16038912, 
-      "u2_mm": 0.0065252808
+      "rf2_kN": 0.19931782, 
+      "u2_mm": 0.008756
     }
   ], 
-  "walltime_s": 394.0, 
+  "walltime_s": 74.0, 
   "status": "CUTBACK_TERMINATION", 
   "termination_reason": "TIME_INCREMENT_LESS_THAN_MINIMUM", 
   "step2_cutbacks": 0, 
@@ -174,8 +87,8 @@
       "crack_tip_x_mm": 0.895686, 
       "step": "Step-1-ReEquilibrate", 
       "description": "Increment      1: Step Time =   1.0000E-02", 
-      "u2_mm": 8.756000170251355e-05, 
-      "RF2_kN": 0.0024932269006967545, 
+      "u2_mm": 0.008755999617278576, 
+      "RF2_kN": 0.24932269752025604, 
       "frame": 1, 
       "max_damage": 1.002061128616333, 
       "max_history_MPa": 4629.68896484375, 
@@ -183,348 +96,73 @@
       "frame_time": 0.009999999776482582
     }, 
     {
-      "crack_tip_x_mm": 0.895686, 
-      "step": "Step-1-ReEquilibrate", 
-      "description": "Increment      2: Step Time =   2.0000E-02", 
-      "u2_mm": 0.0001751200034050271, 
-      "RF2_kN": 0.004986453801393509, 
-      "frame": 2, 
-      "max_damage": 1.002061128616333, 
-      "max_history_MPa": 4629.68896484375, 
-      "crack_extension_Delta_a_mm": 0.395686, 
-      "frame_time": 0.019999999552965164
-    }, 
-    {
-      "crack_tip_x_mm": 0.895686, 
-      "step": "Step-1-ReEquilibrate", 
-      "description": "Increment      3: Step Time =   3.5000E-02", 
-      "u2_mm": 0.0003064599877689034, 
-      "RF2_kN": 0.00872629415243864, 
-      "frame": 3, 
-      "max_damage": 1.002061128616333, 
-      "max_history_MPa": 4629.68896484375, 
-      "crack_extension_Delta_a_mm": 0.395686, 
-      "frame_time": 0.03500000014901161
-    }, 
-    {
-      "crack_tip_x_mm": 0.895686, 
-      "step": "Step-1-ReEquilibrate", 
-      "description": "Increment      4: Step Time =   5.7500E-02", 
-      "u2_mm": 0.0005034700152464211, 
-      "RF2_kN": 0.014336055144667625, 
-      "frame": 4, 
-      "max_damage": 1.002061128616333, 
-      "max_history_MPa": 4629.68896484375, 
-      "crack_extension_Delta_a_mm": 0.395686, 
-      "frame_time": 0.057500001043081284
-    }, 
-    {
-      "crack_tip_x_mm": 0.895686, 
-      "step": "Step-1-ReEquilibrate", 
-      "description": "Increment      5: Step Time =   9.1250E-02", 
-      "u2_mm": 0.000798985012806952, 
-      "RF2_kN": 0.022750696167349815, 
-      "frame": 5, 
-      "max_damage": 1.002061128616333, 
-      "max_history_MPa": 4629.68896484375, 
-      "crack_extension_Delta_a_mm": 0.395686, 
-      "frame_time": 0.09125000238418579
-    }, 
-    {
-      "crack_tip_x_mm": 0.895686, 
-      "step": "Step-1-ReEquilibrate", 
-      "description": "Increment      6: Step Time =   0.1412", 
-      "u2_mm": 0.0012367849703878164, 
-      "RF2_kN": 0.03521683067083359, 
-      "frame": 6, 
-      "max_damage": 1.002061128616333, 
-      "max_history_MPa": 4629.68896484375, 
-      "crack_extension_Delta_a_mm": 0.395686, 
-      "frame_time": 0.14124999940395355
-    }, 
-    {
-      "crack_tip_x_mm": 0.895686, 
-      "step": "Step-1-ReEquilibrate", 
-      "description": "Increment      7: Step Time =   0.1912", 
-      "u2_mm": 0.0016745850443840027, 
-      "RF2_kN": 0.0476827509701252, 
-      "frame": 7, 
-      "max_damage": 1.002061128616333, 
-      "max_history_MPa": 4629.68896484375, 
-      "crack_extension_Delta_a_mm": 0.395686, 
-      "frame_time": 0.1912499964237213
-    }, 
-    {
-      "crack_tip_x_mm": 0.895686, 
-      "step": "Step-1-ReEquilibrate", 
-      "description": "Increment      8: Step Time =   0.2412", 
-      "u2_mm": 0.0021123848855495453, 
-      "RF2_kN": 0.06014716252684593, 
-      "frame": 8, 
-      "max_damage": 1.002061128616333, 
-      "max_history_MPa": 4629.68896484375, 
-      "crack_extension_Delta_a_mm": 0.395686, 
-      "frame_time": 0.24124999344348907
-    }, 
-    {
-      "crack_tip_x_mm": 0.895686, 
-      "step": "Step-1-ReEquilibrate", 
-      "description": "Increment      9: Step Time =   0.2912", 
-      "u2_mm": 0.0025501849595457315, 
-      "RF2_kN": 0.07260999083518982, 
-      "frame": 9, 
-      "max_damage": 1.0020602941513062, 
-      "max_history_MPa": 4629.68896484375, 
-      "crack_extension_Delta_a_mm": 0.395686, 
-      "frame_time": 0.29124999046325684
-    }, 
-    {
-      "crack_tip_x_mm": 0.895686, 
-      "step": "Step-1-ReEquilibrate", 
-      "description": "Increment     10: Step Time =   0.3412", 
-      "u2_mm": 0.002987985033541918, 
-      "RF2_kN": 0.08507136255502701, 
-      "frame": 10, 
-      "max_damage": 1.0020582675933838, 
-      "max_history_MPa": 4629.68896484375, 
-      "crack_extension_Delta_a_mm": 0.395686, 
-      "frame_time": 0.3412500023841858
-    }, 
-    {
-      "crack_tip_x_mm": 0.895686, 
-      "step": "Step-1-ReEquilibrate", 
-      "description": "Increment     11: Step Time =   0.3912", 
-      "u2_mm": 0.003425785107538104, 
-      "RF2_kN": 0.09753140062093735, 
-      "frame": 11, 
-      "max_damage": 1.0020551681518555, 
-      "max_history_MPa": 4629.68896484375, 
-      "crack_extension_Delta_a_mm": 0.395686, 
-      "frame_time": 0.39125001430511475
-    }, 
-    {
-      "crack_tip_x_mm": 0.895686, 
-      "step": "Step-1-ReEquilibrate", 
-      "description": "Increment     12: Step Time =   0.4412", 
-      "u2_mm": 0.0038635849487036467, 
-      "RF2_kN": 0.10998862236738205, 
-      "frame": 12, 
-      "max_damage": 1.0020519495010376, 
-      "max_history_MPa": 4629.68896484375, 
-      "crack_extension_Delta_a_mm": 0.395686, 
-      "frame_time": 0.4412499964237213
-    }, 
-    {
-      "crack_tip_x_mm": 0.895686, 
-      "step": "Step-1-ReEquilibrate", 
-      "description": "Increment     13: Step Time =   0.4912", 
-      "u2_mm": 0.004301385022699833, 
-      "RF2_kN": 0.12241372466087341, 
-      "frame": 13, 
-      "max_damage": 1.0020496845245361, 
-      "max_history_MPa": 4629.68896484375, 
-      "crack_extension_Delta_a_mm": 0.395686, 
-      "frame_time": 0.49125000834465027
-    }, 
-    {
-      "crack_tip_x_mm": 0.8960232734680176, 
-      "step": "Step-1-ReEquilibrate", 
-      "description": "Increment     14: Step Time =   0.5412", 
-      "u2_mm": 0.0047391848638653755, 
-      "RF2_kN": 0.1346621811389923, 
-      "frame": 14, 
-      "max_damage": 1.0020482540130615, 
-      "max_history_MPa": 4629.68896484375, 
-      "crack_extension_Delta_a_mm": 0.3960232734680176, 
-      "frame_time": 0.5412499904632568
-    }, 
-    {
-      "crack_tip_x_mm": 0.8960232734680176, 
-      "step": "Step-1-ReEquilibrate", 
-      "description": "Increment     15: Step Time =   0.5444", 
-      "u2_mm": 0.004766547586768866, 
-      "RF2_kN": 0.1353074163198471, 
-      "frame": 15, 
-      "max_damage": 1.0020482540130615, 
-      "max_history_MPa": 4629.68896484375, 
-      "crack_extension_Delta_a_mm": 0.3960232734680176, 
-      "frame_time": 0.5443750023841858
-    }, 
-    {
-      "crack_tip_x_mm": 0.8960232734680176, 
-      "step": "Step-1-ReEquilibrate", 
-      "description": "Increment     16: Step Time =   0.5491", 
-      "u2_mm": 0.004807591438293457, 
-      "RF2_kN": 0.13610386848449707, 
-      "frame": 16, 
-      "max_damage": 1.0020482540130615, 
-      "max_history_MPa": 4629.68896484375, 
-      "crack_extension_Delta_a_mm": 0.3960232734680176, 
-      "frame_time": 0.5490624904632568
-    }, 
-    {
-      "crack_tip_x_mm": 0.8960232734680176, 
-      "step": "Step-1-ReEquilibrate", 
-      "description": "Increment     17: Step Time =   0.5561", 
-      "u2_mm": 0.0048691569827497005, 
-      "RF2_kN": 0.13711069524288177, 
-      "frame": 17, 
-      "max_damage": 1.0020482540130615, 
-      "max_history_MPa": 4629.68896484375, 
-      "crack_extension_Delta_a_mm": 0.3960232734680176, 
-      "frame_time": 0.5560937523841858
-    }, 
-    {
-      "crack_tip_x_mm": 0.8965803980827332, 
-      "step": "Step-1-ReEquilibrate", 
-      "description": "Increment     18: Step Time =   0.5666", 
-      "u2_mm": 0.0049615055322647095, 
-      "RF2_kN": 0.1387305110692978, 
-      "frame": 18, 
-      "max_damage": 1.0020480155944824, 
-      "max_history_MPa": 4629.68896484375, 
-      "crack_extension_Delta_a_mm": 0.39658039808273315, 
-      "frame_time": 0.5666406154632568
-    }, 
-    {
       "crack_tip_x_mm": 0.8996279239654541, 
       "step": "Step-1-ReEquilibrate", 
-      "description": "Increment     19: Step Time =   0.5825", 
-      "u2_mm": 0.005100028123706579, 
-      "RF2_kN": 0.14138750731945038, 
-      "frame": 19, 
-      "max_damage": 1.0020476579666138, 
+      "description": "Increment      2: Step Time =   1.0625E-02", 
+      "u2_mm": 0.008755999617278576, 
+      "RF2_kN": 0.23546907305717468, 
+      "frame": 2, 
+      "max_damage": 1.0017811059951782, 
       "max_history_MPa": 4629.68896484375, 
       "crack_extension_Delta_a_mm": 0.3996279239654541, 
-      "frame_time": 0.5824609398841858
-    }, 
-    {
-      "crack_tip_x_mm": 0.904439389705658, 
-      "step": "Step-1-ReEquilibrate", 
-      "description": "Increment     20: Step Time =   0.6062", 
-      "u2_mm": 0.00530781177803874, 
-      "RF2_kN": 0.1455456018447876, 
-      "frame": 20, 
-      "max_damage": 1.0020473003387451, 
-      "max_history_MPa": 4629.68896484375, 
-      "crack_extension_Delta_a_mm": 0.40443938970565796, 
-      "frame_time": 0.6061913967132568
-    }, 
-    {
-      "crack_tip_x_mm": 0.9109261631965637, 
-      "step": "Step-1-ReEquilibrate", 
-      "description": "Increment     21: Step Time =   0.6418", 
-      "u2_mm": 0.005619487725198269, 
-      "RF2_kN": 0.15177308022975922, 
-      "frame": 21, 
-      "max_damage": 1.0020467042922974, 
-      "max_history_MPa": 4629.68896484375, 
-      "crack_extension_Delta_a_mm": 0.4109261631965637, 
-      "frame_time": 0.6417871117591858
+      "frame_time": 0.010625000111758709
     }, 
     {
       "crack_tip_x_mm": 0.9112021923065186, 
       "step": "Step-1-ReEquilibrate", 
-      "description": "Increment     22: Step Time =   0.6918", 
-      "u2_mm": 0.006057288032025099, 
-      "RF2_kN": 0.16040463745594025, 
-      "frame": 22, 
-      "max_damage": 1.0020461082458496, 
+      "description": "Increment      3: Step Time =   1.0684E-02", 
+      "u2_mm": 0.008755999617278576, 
+      "RF2_kN": 0.2229071706533432, 
+      "frame": 3, 
+      "max_damage": 1.0017801523208618, 
       "max_history_MPa": 4629.68896484375, 
       "crack_extension_Delta_a_mm": 0.41120219230651855, 
-      "frame_time": 0.6917871236801147
-    }, 
-    {
-      "crack_tip_x_mm": 0.9132997989654541, 
-      "step": "Step-1-ReEquilibrate", 
-      "description": "Increment     23: Step Time =   0.7418", 
-      "u2_mm": 0.006495087873190641, 
-      "RF2_kN": 0.1676407903432846, 
-      "frame": 23, 
-      "max_damage": 1.002045750617981, 
-      "max_history_MPa": 4629.68896484375, 
-      "crack_extension_Delta_a_mm": 0.4132997989654541, 
-      "frame_time": 0.7417871356010437
-    }, 
-    {
-      "crack_tip_x_mm": 0.9176196455955505, 
-      "step": "Step-1-ReEquilibrate", 
-      "description": "Increment     24: Step Time =   0.7449", 
-      "u2_mm": 0.0065224505960941315, 
-      "RF2_kN": 0.1668311208486557, 
-      "frame": 24, 
-      "max_damage": 1.002045750617981, 
-      "max_history_MPa": 4629.68896484375, 
-      "crack_extension_Delta_a_mm": 0.41761964559555054, 
-      "frame_time": 0.7449120879173279
-    }, 
-    {
-      "crack_tip_x_mm": 0.9176196455955505, 
-      "step": "Step-1-ReEquilibrate", 
-      "description": "Increment     25: Step Time =   0.7452", 
-      "u2_mm": 0.0065250154584646225, 
-      "RF2_kN": 0.1653193086385727, 
-      "frame": 25, 
-      "max_damage": 1.0020458698272705, 
-      "max_history_MPa": 4629.68896484375, 
-      "crack_extension_Delta_a_mm": 0.41761964559555054, 
-      "frame_time": 0.7452051043510437
+      "frame_time": 0.010683593340218067
     }, 
     {
       "crack_tip_x_mm": 0.9202466607093811, 
       "step": "Step-1-ReEquilibrate", 
-      "description": "Increment     26: Step Time =   0.7452", 
-      "u2_mm": 0.006525256205350161, 
-      "RF2_kN": 0.16373087465763092, 
-      "frame": 26, 
-      "max_damage": 1.0020458698272705, 
+      "description": "Increment      4: Step Time =   1.0689E-02", 
+      "u2_mm": 0.008755999617278576, 
+      "RF2_kN": 0.21096239984035492, 
+      "frame": 4, 
+      "max_damage": 1.0017799139022827, 
       "max_history_MPa": 4629.68896484375, 
       "crack_extension_Delta_a_mm": 0.4202466607093811, 
-      "frame_time": 0.7452325224876404
+      "frame_time": 0.010689087212085724
     }, 
     {
-      "crack_tip_x_mm": 0.9202466607093811, 
+      "crack_tip_x_mm": 0.9233023524284363, 
       "step": "Step-1-ReEquilibrate", 
-      "description": "Increment     27: Step Time =   0.7452", 
-      "u2_mm": 0.006525278557091951, 
-      "RF2_kN": 0.16210193932056427, 
-      "frame": 27, 
-      "max_damage": 1.0020458698272705, 
+      "description": "Increment      5: Step Time =   1.0690E-02", 
+      "u2_mm": 0.008755999617278576, 
+      "RF2_kN": 0.1993178129196167, 
+      "frame": 5, 
+      "max_damage": 1.0017799139022827, 
       "max_history_MPa": 4629.68896484375, 
-      "crack_extension_Delta_a_mm": 0.4202466607093811, 
-      "frame_time": 0.7452351450920105
+      "crack_extension_Delta_a_mm": 0.4233023524284363, 
+      "frame_time": 0.010689602233469486
     }, 
     {
-      "crack_tip_x_mm": 0.9202466607093811, 
+      "crack_tip_x_mm": 0.9233023524284363, 
       "step": "Step-1-ReEquilibrate", 
-      "description": "Increment     28: Step Time =   0.7452", 
-      "u2_mm": 0.006525280885398388, 
-      "RF2_kN": 0.16038912534713745, 
-      "frame": 28, 
-      "max_damage": 1.0020458698272705, 
+      "description": "Increment      6: Step Time =   1.0690E-02", 
+      "u2_mm": 0.008755999617278576, 
+      "RF2_kN": 0.1993178129196167, 
+      "frame": 6, 
+      "max_damage": 1.0017799139022827, 
       "max_history_MPa": 4629.68896484375, 
-      "crack_extension_Delta_a_mm": 0.4202466607093811, 
-      "frame_time": 0.7452353835105896
-    }, 
-    {
-      "crack_tip_x_mm": 0.9202466607093811, 
-      "step": "Step-1-ReEquilibrate", 
-      "description": "Increment     29: Step Time =   0.7452", 
-      "u2_mm": 0.006525280885398388, 
-      "RF2_kN": 0.16038912534713745, 
-      "frame": 29, 
-      "max_damage": 1.0020458698272705, 
-      "max_history_MPa": 4629.68896484375, 
-      "crack_extension_Delta_a_mm": 0.4202466607093811, 
-      "frame_time": 0.7452353835105896
+      "crack_extension_Delta_a_mm": 0.4233023524284363, 
+      "frame_time": 0.010689602233469486
     }
   ], 
   "nodes_count": 14012, 
   "step1_force_continuity_pass": false, 
   "elements_count": 42012, 
-  "user_time_s": 343.0, 
+  "user_time_s": 151.0, 
   "max_damage": 1.002061128616333, 
-  "run_dir": "/scratch9/pr21vyci/runs/mode1_289_method_c_demo_job4", 
-  "E_fracture_kNmm": 0.0016320723, 
+  "run_dir": "/scratch9/pr21vyci/runs/mode1_289_method_c_demo_job4_r1", 
+  "E_fracture_kNmm": 0.0016857538, 
+  "step1_init_force_continuity_pass": true, 
   "step2_end_RF2_kN": null
 }

@@ -4,14 +4,14 @@
   "task_status": "COMPLETED_READY_FOR_INDEPENDENT_REVIEW",
   "master_goal_status": "OPEN",
   "status": "COMPLETED_READY_FOR_INDEPENDENT_REVIEW",
-  "review_verdict": "APPROVE",
-  "review_correlation_id": "HND-METHOD-C-CYCLE2-PREP-001",
+  "review_verdict": "INSUFFICIENT_EVIDENCE",
+  "review_correlation_id": "HND-METHOD-C-CYCLE2-JOB4-001",
   "classification": "METHOD_C_INCREMENTAL_ADAPTIVE_REMESHING",
   "assigned_agent": "gemini-antigravity",
-  "active_pbs_job_id": "1424700.mmaster02",
+  "active_pbs_job_id": "1424702.mmaster02",
   "last_successful_pbs_job_id": "1424609.mmaster02",
   "checkpoint_artifact": "docs/validation/METHOD_C_CYCLE2_JOB4_EXECUTION_REPORT.md",
-  "review_directive": "Cycle 2 package APPROVED. Submit Job-4 (PK_METHOD_C_CYCLE2_REFINED_JOB4.inp, deck SHA E2F64262D3379297A41A448832F63169AA680E1C0B1E12A08FC8CF9912DAD6FE) to the cluster: Step-1 fixed-load re-equilibration at u2 = 0.008756 mm, then Step-2 forward propagation to u2 = 0.012000 mm. Use scripts/hpc/Invoke-Mode1Execution.ps1 following the Job-2/Job-3 pattern (16 CPU SMP, 48 GB, 72 h, queue entry_imfdfkmq). Max 1 PBS job; cumulative 60 to 61. Report the PBS job ID, exit status, Step-1 force/energy continuity vs Job-3, peak damage and peak history, crack-tip advance, and any cutback termination, with commit-pinned SHAs.",
+  "review_directive": "Correction-only re-run: Fix Job-4 deck so Step 1 is a true fixed-load hold at u2 = 0.008756 mm and RP does not ramp from 0. Re-run Job-4 with corrected deck (Step-1 hold at 0.008756 mm, Step-2 propagation to 0.012000 mm). Max 1 PBS job; cumulative 61 to 62.",
   "predecessor_task": {
     "task_id": "METHOD-C-CYCLE2-REMESH-TRANSFER-PROPAGATE",
     "checkpoint_artifact": "docs/validation/METHOD_C_CYCLE2_PACKAGE_REPORT.md",
@@ -19,7 +19,7 @@
     "review_verdict": "APPROVE",
     "correlation_id": "HND-METHOD-C-CYCLE2-PREP-001"
   },
-  "correlation_id": "HND-METHOD-C-CYCLE2-JOB4-001",
+  "correlation_id": "HND-METHOD-C-CYCLE2-JOB4-002",
   "re_review_correlation_id": null,
   "scientific_operation": "method_c_cycle2_remesh_transfer_propagate",
   "scientific_operation_id": "method_c_cycle2_remesh_transfer_propagate_002",
@@ -29,6 +29,6 @@
   "framework_sha256": "42217DAB0B8C3B7EFF9C8BF46FD75B7E99F06E436D9841846DF36C46E618A30A",
   "max_new_pbs_submissions": 0,
   "submissions_consumed": 1,
-  "cumulative_pbs_submissions": 61,
-  "notes": "Job-4 submitted and actively running on cluster (PBS ID 1424700.mmaster02, 16 CPUs SMP on mnode100, 48 GB RAM, queue normal_imfdfkmq). Exactly 1 PBS job consumed out of 1 authorized; cumulative count: 61."
+  "cumulative_pbs_submissions": 62,
+  "notes": "Corrected Job-4 execution verified on cluster (PBS ID 1424702.mmaster02, Exit 1 cutback termination at u2 = 0.008756 mm hold). Step 1 fixed hold verified; initial force continuity delta RF2 = -4.92% (PASS <= 5%); spontaneous forward crack growth across second ligament demonstrated (+27.62 um, x_tip = 0.8957 -> 0.9233 mm); zero healing verified (d_max = 1.002061); extreme history preserved (4629.69 MPa); cumulative PBS submissions: 62. Ready for independent review under HND-METHOD-C-CYCLE2-JOB4-002."
 }

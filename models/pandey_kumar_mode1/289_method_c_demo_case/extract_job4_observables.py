@@ -32,7 +32,7 @@ except ImportError:
     ABAQUS_AVAILABLE = False
 
 
-def extract_job4_observables(run_dir):
+def extract_job4_observables(run_dir, job_id=None):
     job_name = "PK_METHOD_C_CYCLE2_REFINED_JOB4"
     odb_path = os.path.join(run_dir, job_name + ".odb")
     sta_path = os.path.join(run_dir, job_name + ".sta")
@@ -44,14 +44,15 @@ def extract_job4_observables(run_dir):
     out_json = os.path.join(run_dir, "PK_METHOD_C_CYCLE2_REFINED_JOB4_SUMMARY.json")
     receipt_json = os.path.join(run_dir, "PK_METHOD_C_CYCLE2_REFINED_JOB4_RECEIPT.json")
 
-    # Reference values from Job-3 end state (donor)
+    # Reference values from Job-3 end state (donor) and post-transfer receiver state
     job3_end_RF2_kN = 0.262226
     job3_end_E_total_kNmm = 0.001595914
     job3_end_E_fracture_kNmm = 0.001592853
+    receiver_init_E_fracture_kNmm = 0.001562855
     job3_end_x_tip_mm = 0.895686
 
     results = {
-        "job_id": "1424700.mmaster02",
+        "job_id": job_id or "1424702.mmaster02",
         "job_name": job_name,
         "run_dir": run_dir,
         "status": "UNKNOWN",
@@ -345,6 +346,13 @@ def extract_job4_observables(run_dir):
                     if len(s1_frames) > 0:
                         results["step1_end_RF2_kN"] = s1_frames[-1]["RF2_kN"]
                         results["step1_end_u2_mm"] = s1_frames[-1]["u2_mm"]
+                        # Frame 1 corresponds to Increment 1 (initial re-equilibrated state under u2 = 0.008756 mm hold)
+                        if len(s1_frames) > 1:
+                            results["step1_init_RF2_kN"] = s1_frames[1]["RF2_kN"]
+                            results["step1_init_u2_mm"] = s1_frames[1]["u2_mm"]
+                        else:
+                            results["step1_init_RF2_kN"] = s1_frames[0]["RF2_kN"]
+                            results["step1_init_u2_mm"] = s1_frames[0]["u2_mm"]
                 if "Step-2-Propagate" in odb.steps:
                     s2_frames = [h for h in all_history if h["step"] == "Step-2-Propagate"]
                     if len(s2_frames) > 0:
@@ -358,6 +366,11 @@ def extract_job4_observables(run_dir):
             odb.close()
 
     # Step 1 Continuity checks
+    if results.get("step1_init_RF2_kN") is not None:
+        init_rf_delta = ((results["step1_init_RF2_kN"] - job3_end_RF2_kN) / job3_end_RF2_kN) * 100.0
+        results["step1_init_force_continuity_delta_pct"] = init_rf_delta
+        results["step1_init_force_continuity_pass"] = bool(abs(init_rf_delta) <= 5.0)
+
     if results["step1_end_RF2_kN"] is not None:
         rf_delta = ((results["step1_end_RF2_kN"] - job3_end_RF2_kN) / job3_end_RF2_kN) * 100.0
         results["step1_force_continuity_delta_pct"] = rf_delta
@@ -367,6 +380,10 @@ def extract_job4_observables(run_dir):
         e_delta = ((results["E_total_kNmm"] - job3_end_E_total_kNmm) / job3_end_E_total_kNmm) * 100.0
         results["step1_energy_continuity_delta_pct"] = e_delta
         results["step1_energy_continuity_pass"] = bool(abs(e_delta) <= 5.0)
+
+    if results["E_fracture_kNmm"] is not None:
+        results["fracture_energy_delta_vs_job3_pct"] = ((results["E_fracture_kNmm"] - job3_end_E_fracture_kNmm) / job3_end_E_fracture_kNmm) * 100.0
+        results["fracture_energy_delta_vs_receiver_init_pct"] = ((results["E_fracture_kNmm"] - receiver_init_E_fracture_kNmm) / receiver_init_E_fracture_kNmm) * 100.0
 
     # Save summary JSON
     with open(out_json, "w") as f:
@@ -385,6 +402,9 @@ def extract_job4_observables(run_dir):
         "walltime_s": results["walltime_s"],
         "cpu_time_s": results["cpu_time_s"],
         "step1_increments": results["step1_increments"],
+        "step1_init_RF2_kN": results.get("step1_init_RF2_kN"),
+        "step1_init_force_continuity_delta_pct": results.get("step1_init_force_continuity_delta_pct"),
+        "step1_init_force_continuity_pass": results.get("step1_init_force_continuity_pass"),
         "step1_end_RF2_kN": results["step1_end_RF2_kN"],
         "step1_force_continuity_delta_pct": results["step1_force_continuity_delta_pct"],
         "step1_force_continuity_pass": results["step1_force_continuity_pass"],
@@ -405,6 +425,8 @@ def extract_job4_observables(run_dir):
         "specimen_completely_severed": results["specimen_completely_severed"],
         "E_elastic_kNmm": results["E_elastic_kNmm"],
         "E_fracture_kNmm": results["E_fracture_kNmm"],
+        "fracture_energy_delta_vs_job3_pct": results.get("fracture_energy_delta_vs_job3_pct"),
+        "fracture_energy_delta_vs_receiver_init_pct": results.get("fracture_energy_delta_vs_receiver_init_pct"),
         "E_total_kNmm": results["E_total_kNmm"],
         "physical_elements_count": results["physical_elements_count"],
         "layered_elements_count": results["layered_elements_count"]
@@ -419,8 +441,9 @@ def extract_job4_observables(run_dir):
 if __name__ == "__main__":
     import argparse
     parser = argparse.ArgumentParser(description="Extract Job-4 Cycle 2 observables")
-    parser.add_argument("--run-dir", default="/scratch9/pr21vyci/runs/mode1_289_method_c_demo_job4")
+    parser.add_argument("--run-dir", default="/scratch9/pr21vyci/runs/mode1_289_method_c_demo_job4_r1")
+    parser.add_argument("--job-id", default="1424702.mmaster02")
     args = parser.parse_args()
-    res = extract_job4_observables(args.run_dir)
+    res = extract_job4_observables(args.run_dir, job_id=args.job_id)
     print("EXTRACTED_JOB4_OBSERVABLES_JSON:")
     print(json.dumps(res, indent=2))
