@@ -1,0 +1,119 @@
+{
+  "case_id": "method_c_case3",
+  "benchmark_name": "Method C: Pandey & Kumar (2025) Section 4.3 Rectangular Notched Plate with Hole and Pins",
+  "geometry_type": "NOTCHED_PLATE_WITH_PIN_HOLES",
+  "geometry": {
+    "plate_width": 65.0,
+    "plate_height": 120.0,
+    "notch_length": 10.0,
+    "notch_y": 70.0,
+    "notch_slit_opening": 0.2,
+    "notch_root_elements": 4,
+    "has_hole": true,
+    "voids": [
+      {
+        "name": "central_hole",
+        "type": "circle",
+        "x": 36.5,
+        "y": 51.0,
+        "r": 10.0
+      },
+      {
+        "name": "lower_pin_hole",
+        "type": "circle",
+        "x": 20.0,
+        "y": 20.0,
+        "r": 5.0
+      },
+      {
+        "name": "upper_pin_hole",
+        "type": "circle",
+        "x": 20.0,
+        "y": 100.0,
+        "r": 5.0
+      }
+    ],
+    "ligament_notch_to_central_hole_mm": 17.58,
+    "ligament_central_hole_to_right_edge_mm": 18.5
+  },
+  "material": {
+    "youngs_modulus_mpa": 210000.0,
+    "poisson_ratio": 0.3,
+    "length_scale_l0_mm": 0.285,
+    "gc_kn_per_mm": 0.00228,
+    "residual_stiffness_k": 1e-07,
+    "constitutive_law": "ISOTROPIC_ELASTIC_PHASE_FIELD"
+  },
+  "loading": {
+    "loading_type": "PIN_HOLE_PULL",
+    "step1_precritical_u2": 0.05,
+    "step2_fracture_u2": 1.5,
+    "kinematics": "PIN_HOLE_PULL",
+    "lower_hole_center": [20.0, 20.0],
+    "lower_hole_radius": 5.0,
+    "upper_hole_center": [20.0, 100.0],
+    "upper_hole_radius": 5.0
+  },
+  "load_schedule": {
+    "num_cycles": 4,
+    "step1_u2_mm": 0.05,
+    "step2_final_u2_mm": 1.50,
+    "fracture_range_mm": 1.45,
+    "cycle_targets_u2_mm": [0.05, 0.4125, 0.775, 1.1375, 1.50],
+    "cycles": [
+      {
+        "cycle_index": 1,
+        "job_name": "PK_METHOD_C_CASE3_JOB1",
+        "step1_hold_u2_mm": 0.05,
+        "step2_target_u2_mm": 0.4125,
+        "description": "Cycle 1: Initial coarse solve (Step 1 to u2=0.05 mm, Step 2 forward propagation to 0.4125 mm)"
+      },
+      {
+        "cycle_index": 2,
+        "job_name": "PK_METHOD_C_CASE3_JOB2",
+        "step1_hold_u2_mm": 0.4125,
+        "step2_target_u2_mm": 0.7750,
+        "description": "Cycle 2: Remesh from Job-1 end, transfer (u,d,H), CONST_HOLD re-equilibration at 0.4125 mm, forward propagation to 0.7750 mm"
+      },
+      {
+        "cycle_index": 3,
+        "job_name": "PK_METHOD_C_CASE3_JOB3",
+        "step1_hold_u2_mm": 0.7750,
+        "step2_target_u2_mm": 1.1375,
+        "description": "Cycle 3: Remesh from Job-2 end, transfer (u,d,H), CONST_HOLD re-equilibration at 0.7750 mm, forward propagation to 1.1375 mm"
+      },
+      {
+        "cycle_index": 4,
+        "job_name": "PK_METHOD_C_CASE3_JOB4",
+        "step1_hold_u2_mm": 1.1375,
+        "step2_target_u2_mm": 1.5000,
+        "description": "Cycle 4: Remesh from Job-3 end, transfer (u,d,H), CONST_HOLD re-equilibration at 1.1375 mm, forward propagation to 1.5000 mm"
+      }
+    ]
+  },
+  "remeshing_rule": {
+    "error_target": 3.0,
+    "min_element_size_mm": 0.1425,
+    "max_element_size_mm": 2.5,
+    "coarse_seed_size_mm": 2.5,
+    "refinement_factor": 10,
+    "coarsening_factor": "DEFAULT_LIMIT",
+    "sizing_method": "UNIFORM_ERROR",
+    "variable": "MISESERI",
+    "step_name": "Step-1",
+    "output_frequency": "LAST_INCREMENT"
+  },
+  "paths": {
+    "work_dir": "models/pandey_kumar_mode1/290_method_c_case3",
+    "physical_mesh": "models/pandey_kumar_mode1/290_method_c_case3/PK_METHOD_C_CASE3_COARSE_PHYS.inp",
+    "coarse_deck": "models/pandey_kumar_mode1/290_method_c_case3/PK_METHOD_C_CASE3_COARSE_JOB1.inp",
+    "uel_subroutine": "models/pandey_kumar_mode1/f42_mixed_uel.for"
+  },
+  "published_benchmark": {
+    "paper": "Pandey & Kumar (2025)",
+    "section": "4.3",
+    "figures": ["Fig. 14", "Fig. 15(b)", "Fig. 16", "Fig. 17(b)"],
+    "target_elements": 12168,
+    "target_h_min_mm": 0.143
+  }
+}

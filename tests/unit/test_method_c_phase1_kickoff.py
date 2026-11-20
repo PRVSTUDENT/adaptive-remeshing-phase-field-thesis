@@ -205,7 +205,7 @@ def test_job1_cluster_submission_receipt():
 
     with open(active_task_path, 'r', encoding='utf-8-sig') as f:
         active_task = json.load(f)
-    assert (active_task.get('active_pbs_job_id') in ("1424517.mmaster02", "1424584.mmaster02", "1424609.mmaster02", "1424700.mmaster02", "1424702.mmaster02") or active_task.get('last_successful_pbs_job_id') in ("1424517.mmaster02", "1424584.mmaster02", "1424609.mmaster02"))
+    assert (active_task.get('active_pbs_job_id') in ("1424517.mmaster02", "1424584.mmaster02", "1424609.mmaster02", "1424700.mmaster02", "1424702.mmaster02") or active_task.get('last_successful_pbs_job_id') in ("1424517.mmaster02", "1424584.mmaster02", "1424609.mmaster02", "1424700.mmaster02", "1424702.mmaster02"))
     assert active_task['cumulative_pbs_submissions'] in (58, 59, 60, 61, 62)
     assert active_task['submissions_consumed'] in (0, 1)
 

@@ -1,0 +1,58 @@
+{
+  "benchmark": "Pandey & Kumar (2025) Section 4.3 Rectangular Notched Plate with Hole and Pins",
+  "case_id": "method_c_case3",
+  "geometry": {
+    "plate_width_mm": 65.0,
+    "plate_height_mm": 120.0,
+    "notch_length_mm": 10.0,
+    "notch_y_mm": 70.0,
+    "notch_slit_opening_mm": 0.2,
+    "central_hole": {
+      "x_mm": 36.5,
+      "y_mm": 51.0,
+      "r_mm": 10.0
+    },
+    "lower_pin_hole": {
+      "x_mm": 20.0,
+      "y_mm": 20.0,
+      "r_mm": 5.0
+    },
+    "upper_pin_hole": {
+      "x_mm": 20.0,
+      "y_mm": 100.0,
+      "r_mm": 5.0
+    }
+  },
+  "mesh_statistics": {
+    "physical_elements": 4671,
+    "quad_elements": 4542,
+    "tri_elements": 129,
+    "quad_fraction_pct": 97.24,
+    "physical_nodes": 4812,
+    "layered_elements": 14013,
+    "total_nodes_with_rp": 4813,
+    "rp_node_id": 999999
+  },
+  "material": {
+    "E_GPa": 210.0,
+    "nu": 0.3,
+    "Gc_kN_per_mm": 0.00228,
+    "l0_mm": 0.285,
+    "k_residual": 1e-07,
+    "frozen_uel_sha256": "CE8D5EDCD2911DCB018BB15275271F874E7EA62B8FB48CF4A8297469A83ACDD6"
+  },
+  "loading": {
+    "loading_type": "PIN_HOLE_PULL",
+    "step1_u2_mm": 0.05,
+    "lower_hole_nodes_count": 16,
+    "upper_hole_nodes_count": 16,
+    "initial_conditions_protocol": "TYPE=SOLUTION only (strictly no TYPE=DISPLACEMENT)"
+  },
+  "artifacts": {
+    "physical_inp": "models/pandey_kumar_mode1/290_method_c_case3/PK_METHOD_C_CASE3_COARSE_PHYS.inp",
+    "physical_inp_sha256": "29AF8622A20C006F31B488CCED8E0C054749CB243ACB0F2B2D9CBEF35067CCDD",
+    "coupled_inp": "models/pandey_kumar_mode1/290_method_c_case3/PK_METHOD_C_CASE3_COARSE_JOB1.inp",
+    "coupled_inp_sha256": "B7FFD5494B82FD41C509F7BFD3F1CC78E319C809561FDDB924A2C71FB8378689",
+    "coupled_inp_body_sha256": "84A654CEE22343E0DB1DD652AA4C77884372ABB7E9458DE706A30E0EDF38D9F0"
+  }
+}

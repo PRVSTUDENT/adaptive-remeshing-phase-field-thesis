@@ -1,0 +1,30 @@
+{
+  "benchmark": "Pandey & Kumar (2025) Section 4.3 Rectangular Notched Plate with Hole and Pins",
+  "case_id": "method_c_case3",
+  "transfer_operator": "isoparametric_gp_transfer.py",
+  "limiter_mode": "convex_clamp",
+  "parameters": {
+    "slit_y_mm": 70.0,
+    "slit_a0_mm": 10.0,
+    "bin_size_mm": 2.5
+  },
+  "mesh_path": "models/pandey_kumar_mode1/290_method_c_case3/PK_METHOD_C_CASE3_COARSE_PHYS.inp",
+  "mesh_sha256": "29AF8622A20C006F31B488CCED8E0C054749CB243ACB0F2B2D9CBEF35067CCDD",
+  "mesh_elements": 4671,
+  "mesh_nodes": 4812,
+  "verification_results": {
+    "same_mesh_shortcut_identity": "PASS",
+    "max_shortcut_history_error": 0.0,
+    "full_interpolation_identity": "PASS",
+    "max_interpolation_history_error": 4.082956195361476e-12,
+    "non_negativity_guard": "PASS",
+    "min_transferred_history": 0.0,
+    "void_penetration_guard": "PASS",
+    "clamped_count": 0,
+    "negative_prevented_count": 75,
+    "max_donor_history_MPa": 9.995538767737663,
+    "max_transferred_history_MPa": 9.995538767737667,
+    "all_gates_pass": true
+  },
+  "readiness_status": "READY_FOR_CASE3_METHOD_C"
+}

@@ -1,0 +1,27 @@
+{
+  "mesh_path": "models/pandey_kumar_mode1/290_method_c_case3/PK_METHOD_C_CASE3_COARSE_PHYS.inp",
+  "mesh_sha256": "29AF8622A20C006F31B488CCED8E0C054749CB243ACB0F2B2D9CBEF35067CCDD",
+  "benchmark": "Pandey & Kumar (2025) Section 4.3 Rectangular Notched Plate with Hole and Pins",
+  "statistics": {
+    "total_elements": 4671,
+    "quad_elements": 4542,
+    "tri_elements": 129,
+    "quad_fraction_pct": 97.23827874116891,
+    "total_nodes": 4812
+  },
+  "quality_metrics": {
+    "min_det_j": 0.0011951466999445895,
+    "non_positive_jacobians": 0,
+    "mean_aspect_ratio": 1.3231631540030264,
+    "max_aspect_ratio": 3.9282167136453423,
+    "mean_h_area_mm": 0.8550749442790466,
+    "min_h_area_mm": 0.046947516433671455,
+    "max_h_area_mm": 3.4373216976192187
+  },
+  "gates": {
+    "gate_01_jacobian": "PASS",
+    "gate_02_quad_fraction": "PASS",
+    "gate_03_aspect_ratio": "PASS",
+    "all_gates_pass": true
+  }
+}
