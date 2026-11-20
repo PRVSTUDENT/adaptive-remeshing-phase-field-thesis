@@ -216,7 +216,7 @@ def test_governance_and_pbs_accounting_invariance():
     with open(active_task_path, "r", encoding="utf-8-sig") as f:
         active_task = json.load(f)
 
-    assert active_task["task_id"] in ("METHOD-C-CASE3-ADAPTATION-PACKAGE", "METHOD-C-CASE3-JOB1-COARSE-SOLVE", "METHOD-C-CASE3-JOB1-FAILURE-DIAGNOSIS")
+    assert active_task["task_id"] in ("METHOD-C-CASE3-ADAPTATION-PACKAGE", "METHOD-C-CASE3-JOB1-COARSE-SOLVE", "METHOD-C-CASE3-JOB1-FAILURE-DIAGNOSIS", "METHOD-C-CASE3-CYCLE1-REFINEMENT-PACKAGE")
     assert active_task["master_goal_status"] == "OPEN"
     assert active_task["task_status"] in ("IN_PROGRESS", "SUBMITTED_AND_RUNNING", "COMPLETED_READY_FOR_INDEPENDENT_REVIEW", "REVIEWED_APPROVED")
     assert active_task["max_new_pbs_submissions"] in (0, 1)
