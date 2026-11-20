@@ -1,49 +1,57 @@
 {
+  "benchmark": "Pandey & Kumar (2025) Section 4.3 - Case 3 Cycle 1",
+  "job": "PK_METHOD_C_CASE3_CYCLE1_REFINED_JOB2",
   "steps": {
-    "Step-2": [
-      {
-        "rf2_rp": 3.913525104522705, 
-        "frame": 0, 
-        "u2_rp": 0.05000000074505806, 
-        "max_d": 0.4964737296104431, 
-        "time": 0.0
-      }, 
-      {
-        "rf2_rp": 4.044050693511963, 
-        "frame": 1, 
-        "u2_rp": 0.0521976575255394, 
-        "max_d": 0.8537552952766418, 
-        "time": 0.006062500178813934
-      }, 
-      {
-        "rf2_rp": 4.03329610824585, 
-        "frame": 2, 
-        "u2_rp": 0.05245077982544899, 
-        "max_d": 0.9768218994140625, 
-        "time": 0.006760770920664072
-      }, 
-      {
-        "rf2_rp": 4.03329610824585, 
-        "frame": 3, 
-        "u2_rp": 0.05245077982544899, 
-        "max_d": 0.9768218994140625, 
-        "time": 0.006760770920664072
-      }
-    ], 
     "Step-1-Hold": [
       {
-        "rf2_rp": -0.0, 
-        "frame": 0, 
-        "u2_rp": 0.0, 
-        "max_d": 0.0, 
-        "time": 0.0
-      }, 
+        "frame": 0,
+        "time": 0.0,
+        "u2_rp": 0.0,
+        "rf2_rp": -0.0,
+        "max_d": 0.0,
+        "description": "Increment 0: Base initial state before Step-1 hold"
+      },
       {
-        "rf2_rp": 3.913525104522705, 
-        "frame": 1, 
-        "u2_rp": 0.05000000074505806, 
-        "max_d": 0.4964737296104431, 
-        "time": 1.0
+        "frame": 1,
+        "time": 1.0,
+        "u2_rp": 0.05000000074505806,
+        "rf2_rp": 3.913525104522705,
+        "max_d": 0.4964737296104431,
+        "description": "Increment 1: Fixed displacement hold re-equilibrated state (u2 = 0.0500 mm)"
+      }
+    ],
+    "Step-2": [
+      {
+        "frame": 0,
+        "time": 0.0,
+        "u2_rp": 0.05000000074505806,
+        "rf2_rp": 3.913525104522705,
+        "max_d": 0.4964737296104431,
+        "description": "Increment 0: Base initial state for Step-2 (identical to Step-1-Hold Frame 1 end state)"
+      },
+      {
+        "frame": 1,
+        "time": 0.006062500178813934,
+        "u2_rp": 0.0521976575255394,
+        "rf2_rp": 4.044050693511963,
+        "max_d": 0.8537552952766418,
+        "description": "Increment 5: Damage localization surge approaching peak structural load"
+      },
+      {
+        "frame": 2,
+        "time": 0.006760770920664072,
+        "u2_rp": 0.05245077982544899,
+        "rf2_rp": 4.03329610824585,
+        "max_d": 0.9768218994140625,
+        "description": "Increment 10: Fully localized crack tip formed in post-peak softening regime"
+      },
+      {
+        "frame": 3,
+        "time": 0.006760770920664072,
+        "u2_rp": 0.05245077982544899,
+        "rf2_rp": 4.03329610824585,
+        "max_d": 0.9768218994140625,
+        "description": "Terminal Frame: Abaqus end-of-analysis state written upon Inc 11 dt_min cutback termination (identical to Frame 2)"
       }
     ]
   }

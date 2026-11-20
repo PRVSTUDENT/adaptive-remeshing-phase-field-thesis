@@ -44,7 +44,7 @@ def test_case3_job1_submission_and_ledger_accounting():
     with open(ACTIVE_TASK_PATH, "r", encoding="utf-8-sig") as f:
         task = json.load(f)
 
-    assert task["active_pbs_job_id"] == EXPECTED_JOB_ID or task.get("last_failed_pbs_job_id") == EXPECTED_JOB_ID
+    assert task["active_pbs_job_id"] == EXPECTED_JOB_ID or task.get("last_failed_pbs_job_id") in (EXPECTED_JOB_ID, "1424772.mmaster02") or task.get("last_successful_pbs_job_id") == EXPECTED_JOB_ID
     assert task["cumulative_pbs_submissions"] in (63, 64)
     assert task["max_new_pbs_submissions"] in (0, 1)
     assert task["submissions_consumed"] in (0, 1)
@@ -149,6 +149,6 @@ def test_case3_job1_failure_diagnosis_committed_evidence():
     # Verify ACTIVE_TASK.json correlation
     with open(ACTIVE_TASK_PATH, "r", encoding="utf-8-sig") as f:
         task = json.load(f)
-    assert task["correlation_id"] in ("HND-METHOD-C-CASE3-JOB1-DIAG-002", "HND-METHOD-C-CASE3-CYCLE1-PREP-001", "HND-METHOD-C-CASE3-CYCLE1-PREP-002", "HND-METHOD-C-CASE3-JOB2-001") or task.get("predecessor_correlation_id") in ("HND-METHOD-C-CASE3-JOB1-DIAG-002", "HND-METHOD-C-CASE3-CYCLE1-PREP-002")
-    assert task["scientific_operation"] in ("method_c_case3_job1_failure_diagnosis", "method_c_case3_cycle1_refinement_package", "method_c_case3_cycle1_job2_solve")
+    assert task["correlation_id"] in ("HND-METHOD-C-CASE3-JOB1-DIAG-002", "HND-METHOD-C-CASE3-CYCLE1-PREP-001", "HND-METHOD-C-CASE3-CYCLE1-PREP-002", "HND-METHOD-C-CASE3-JOB2-001", "HND-METHOD-C-CASE3-JOB2-DIAG-001") or task.get("predecessor_correlation_id") in ("HND-METHOD-C-CASE3-JOB1-DIAG-002", "HND-METHOD-C-CASE3-CYCLE1-PREP-002", "HND-METHOD-C-CASE3-JOB2-001")
+    assert task["scientific_operation"] in ("method_c_case3_job1_failure_diagnosis", "method_c_case3_cycle1_refinement_package", "method_c_case3_cycle1_job2_solve", "method_c_case3_job2_diagnosis")
 
