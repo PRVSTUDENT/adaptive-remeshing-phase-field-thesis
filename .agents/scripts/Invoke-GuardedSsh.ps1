@@ -41,7 +41,7 @@ if ($PSCmdlet.ParameterSetName -eq 'Upload') {
         throw 'FAIL_CLOSED_UNSAFE_UPLOAD: explicit workspace file and bounded Mode-I scratch destination required'
     }
     $scp = (Get-Command scp.exe -ErrorAction Stop).Source
-    $argsText = '-B -o BatchMode=yes -o ConnectTimeout=20 -F "' + $ConfigPath + '" "' + $source + '" ' + $HostAlias + ':' + $RemotePath
+    $argsText = '-O -B -o BatchMode=yes -o ConnectTimeout=20 -F "' + $ConfigPath + '" "' + $source + '" ' + $HostAlias + ':' + $RemotePath
     $uploadInfo = [Diagnostics.ProcessStartInfo]::new($scp, $argsText)
     $uploadInfo.UseShellExecute = $false
     $uploadInfo.CreateNoWindow = $true
