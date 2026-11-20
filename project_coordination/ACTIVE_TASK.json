@@ -19,8 +19,8 @@
     "review_verdict": "APPROVE",
     "correlation_id": "HND-METHOD-C-CYCLE2-JOB4-002"
   },
-  "correlation_id": "HND-METHOD-C-CASE3-PREP-001",
-  "re_review_correlation_id": null,
+  "correlation_id": "HND-METHOD-C-CASE3-PREP-002",
+  "re_review_correlation_id": "HND-METHOD-C-CASE3-PREP-001",
   "scientific_operation": "method_c_case3_adaptation_package",
   "scientific_operation_id": "method_c_case3_adaptation_package_001",
   "scientific_checkpoint_required": true,
@@ -30,5 +30,5 @@
   "max_new_pbs_submissions": 0,
   "submissions_consumed": 0,
   "cumulative_pbs_submissions": 62,
-  "notes": "Method C Case 3 adaptation package prepared and verified: 4,671 physical elements, 14,013 layered elements, PIN_HOLE_PULL kinematics, TYPE=SOLUTION initial conditions protocol, 4-cycle load schedule across 1.45 mm fracture range, transfer operator readiness verified with machine precision 4.08e-12, generalized incremental loop driver, 35/35 Method C unit tests PASS, 0 new PBS jobs, cumulative 62 preserved."
+  "notes": "Method C Case 3 adaptation package re-issued for review under HND-METHOD-C-CASE3-PREP-002 resolving all review gaps: Step 1 (0.05 mm) and Step 2 (0.4125 mm) incorporated in PK_METHOD_C_CASE3_COARSE_JOB1.inp; 4,671 physical elements, 14,013 layered elements, PIN_HOLE_PULL kinematics, TYPE=SOLUTION initial conditions protocol, 4-cycle load schedule across 1.45 mm fracture range, transfer operator readiness verified with machine precision 4.08e-12, generalized incremental loop driver, 47/47 Method C unit tests PASS, 0 new PBS jobs, cumulative 62 preserved."
 }

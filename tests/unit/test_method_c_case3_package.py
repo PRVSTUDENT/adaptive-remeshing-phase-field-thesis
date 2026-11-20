@@ -153,9 +153,11 @@ def test_case3_coarse_3layer_deck_structure_and_syntax():
         "Forbidden *INITIAL CONDITIONS, TYPE=DISPLACEMENT found in deck"
     )
 
-    # Step definition
+    # Step definitions
     assert "*STEP, NAME=Step-1, NLGEOM=NO, INC=1000" in deck_text
     assert "N_RP, 2, 2, 0.0500" in deck_text
+    assert "*STEP, NAME=Step-2, NLGEOM=NO, INC=5000" in deck_text
+    assert "N_RP, 2, 2, 0.4125" in deck_text
     assert "*END STEP" in deck_text
 
 def test_case3_transfer_operator_readiness():
@@ -194,18 +196,19 @@ def test_case3_generalized_incremental_loop():
     assert loop.step2_final_u2 == 1.50
     assert len(loop.cycle_targets) == 5
 
-    # Run dry-run loop for all 4 cycles
-    summary = loop.run_orchestration_loop(max_increments=4)
+    # Run dry-run loop for all 5 increments reaching the 1.50 mm final target
+    summary = loop.run_orchestration_loop(max_increments=5)
     assert summary["case_id"] == "method_c_case3"
-    assert len(summary["cycles"]) == 4
+    assert len(summary["cycles"]) == 5
     assert summary["governance"]["max_new_pbs_submissions"] == 0
     assert summary["governance"]["master_goal_status"] == "OPEN"
 
-    # Increment targets match 4-cycle schedule
+    # Increment targets match 4-cycle schedule and reach final 1.50 mm target
     assert summary["cycles"][0]["target_u2_mm"] == 0.05
     assert summary["cycles"][1]["target_u2_mm"] == 0.4125
     assert summary["cycles"][2]["target_u2_mm"] == 0.775
     assert summary["cycles"][3]["target_u2_mm"] == 1.1375
+    assert summary["cycles"][4]["target_u2_mm"] == 1.50
 
 def test_governance_and_pbs_accounting_invariance():
     """Validates 0 new PBS submissions and active task status."""
@@ -215,7 +218,7 @@ def test_governance_and_pbs_accounting_invariance():
 
     assert active_task["task_id"] == "METHOD-C-CASE3-ADAPTATION-PACKAGE"
     assert active_task["master_goal_status"] == "OPEN"
-    assert active_task["task_status"] == "IN_PROGRESS"
+    assert active_task["task_status"] in ("IN_PROGRESS", "COMPLETED_READY_FOR_INDEPENDENT_REVIEW")
     assert active_task["max_new_pbs_submissions"] == 0
     assert active_task["submissions_consumed"] == 0
     assert active_task["cumulative_pbs_submissions"] == 62

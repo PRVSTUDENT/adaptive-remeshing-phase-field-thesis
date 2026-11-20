@@ -44,6 +44,7 @@
   "loading": {
     "loading_type": "PIN_HOLE_PULL",
     "step1_u2_mm": 0.05,
+    "step2_u2_mm": 0.4125,
     "lower_hole_nodes_count": 16,
     "upper_hole_nodes_count": 16,
     "initial_conditions_protocol": "TYPE=SOLUTION only (strictly no TYPE=DISPLACEMENT)"
@@ -52,7 +53,7 @@
     "physical_inp": "models/pandey_kumar_mode1/290_method_c_case3/PK_METHOD_C_CASE3_COARSE_PHYS.inp",
     "physical_inp_sha256": "29AF8622A20C006F31B488CCED8E0C054749CB243ACB0F2B2D9CBEF35067CCDD",
     "coupled_inp": "models/pandey_kumar_mode1/290_method_c_case3/PK_METHOD_C_CASE3_COARSE_JOB1.inp",
-    "coupled_inp_sha256": "B7FFD5494B82FD41C509F7BFD3F1CC78E319C809561FDDB924A2C71FB8378689",
-    "coupled_inp_body_sha256": "84A654CEE22343E0DB1DD652AA4C77884372ABB7E9458DE706A30E0EDF38D9F0"
+    "coupled_inp_sha256": "1B3C9A62A9644E1E9FD6E8F4AD4B2DC734D69688D80E2655B0A11F8A7A7BDDC2",
+    "coupled_inp_body_sha256": "B89A146FF8407661F06599B11D62FF10989E62BB1CBB50360966ED6AABF612CA"
   }
 }

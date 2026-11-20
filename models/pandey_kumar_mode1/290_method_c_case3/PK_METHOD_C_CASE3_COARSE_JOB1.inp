@@ -18973,3 +18973,23 @@ S, MISESERI, MISESAVG, EVOL, SDV
 *NODE PRINT, FREQ=1, NSET=N_RP
 U2, RF2
 *END STEP
+** ----------------------------------------------------------
+** STEP 2: Forward crack propagation to u2 = 0.4125 mm
+** ----------------------------------------------------------
+*STEP, NAME=Step-2, NLGEOM=NO, INC=5000
+*STATIC
+0.002, 1.0, 1.0E-08, 0.005
+*BOUNDARY
+N_RP, 2, 2, 0.4125
+*OUTPUT, FIELD, FREQUENCY=2
+*NODE OUTPUT, NSET=N_RP
+U, RF
+*NODE OUTPUT, NSET=N_LOWER_HOLE
+RF
+*NODE OUTPUT
+U
+*ELEMENT OUTPUT, ELSET=umatelem
+S, MISESERI, MISESAVG, EVOL, SDV
+*NODE PRINT, FREQ=1, NSET=N_RP
+U2, RF2
+*END STEP

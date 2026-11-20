@@ -308,7 +308,11 @@ class MethodCIncrementalLoop(object):
                 deck_path = os.path.join(self.work_dir, "PK_METHOD_C_DEMO_COARSE_JOB1.inp")
         else:
             cycles = self.load_schedule.get("cycles", [])
-            if inc_idx < len(cycles) and "job_name" in cycles[inc_idx]:
+            cycle_idx = inc_idx - 1
+            if 0 <= cycle_idx < len(cycles) and "job_name" in cycles[cycle_idx]:
+                job_name = cycles[cycle_idx]["job_name"]
+                deck_path = os.path.join(self.work_dir, "%s.inp" % job_name)
+            elif inc_idx < len(cycles) and "job_name" in cycles[inc_idx]:
                 job_name = cycles[inc_idx]["job_name"]
                 deck_path = os.path.join(self.work_dir, "%s.inp" % job_name)
             else:

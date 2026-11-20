@@ -6,7 +6,7 @@
 - **Author:** Gemini Antigravity (Autonomous Execution Agent)
 - **Task ID:** `METHOD-C-CASE3-ADAPTATION-PACKAGE`
 - **Master Goal:** `METHOD_C_INCREMENTAL_ADAPTIVE_REMESHING_V1` (`MASTER_GOAL_STATUS = OPEN`)
-- **Correlation ID:** `HND-METHOD-C-CASE3-PREP-001`
+- **Correlation ID:** `HND-METHOD-C-CASE3-PREP-002` (predecessor: `HND-METHOD-C-CASE3-PREP-001`)
 - **Protocol Version:** 2
 - **Execution Mode:** `DRY_RUN_PREFLIGHT` (0 new PBS jobs submitted; cumulative submissions strictly preserved at 62)
 
@@ -19,11 +19,11 @@ This report documents the adaptation of the proven Method C incremental adaptive
 The primary objective is to prepare the complete 4-cycle execution package, including:
 1. Benchmark configuration `configs/remeshing/method_c_case3_notched_plate.json` specifying geometry, voids, material properties, loading kinematics, and the 4-cycle load schedule.
 2. High-quality coarse physical mesh `PK_METHOD_C_CASE3_COARSE_PHYS.inp` (4,671 elements, 97.24% quads) resolving the notch root and three circular voids (central hole and two pin holes).
-3. Authoritative 3-layer coupled production deck `PK_METHOD_C_CASE3_COARSE_JOB1.inp` (14,013 layered elements) with `PIN_HOLE_PULL` boundary conditions, rigid tie kinematics to reference point `N_RP` (node 999999), and strict adherence to the initial conditions protocol (`*INITIAL CONDITIONS, TYPE=SOLUTION` only; strictly zero `TYPE=DISPLACEMENT` to guard against Abaqus Error 144).
+3. Authoritative 3-layer coupled production deck `PK_METHOD_C_CASE3_COARSE_JOB1.inp` (14,013 layered elements) with `PIN_HOLE_PULL` boundary conditions, rigid tie kinematics to reference point `N_RP` (node 999999), and strict adherence to the initial conditions protocol (`*INITIAL CONDITIONS, TYPE=SOLUTION` only; strictly zero `TYPE=DISPLACEMENT` to guard against Abaqus Error 144). The deck incorporates both Step 1 (pre-critical elastic loading to $0.05\,\text{mm}$) and Step 2 (forward crack propagation to $0.4125\,\text{mm}$), fully executing Cycle 1 to yield the required damaged donor state for Cycle 2.
 4. Equal 4-cycle load schedule across the $1.45\,\text{mm}$ fracture range ($0.05 \to 0.4125 \to 0.7750 \to 1.1375 \to 1.5000\,\text{mm}$), following the proven Job-4 `CONST_HOLD` re-equilibration pattern.
 5. Generalization of the Method C orchestration loop driver `scripts/remeshing/method_c_incremental_loop.py` to support arbitrary benchmarks while preserving 100% backward compatibility with the demo case.
 6. Offline transfer-operator readiness verification demonstrating machine-precision identity ($< 10^{-11}$), non-negativity ($H \ge 0$), and topological void containment on Case 3 geometry.
-7. Full unit test suite `tests/unit/test_method_c_case3_package.py` passing 6/6 tests (cumulative Method C suite: 35/35 passing).
+7. Full unit test suite `tests/unit/test_method_c_case3_package.py` passing 6/6 tests (cumulative Method C test suite: 47/47 passing across all 9 test suites).
 
 **Strict Governance Bounds:** Exactly **0 new PBS jobs** were submitted during this turn. Cumulative HPC submissions are strictly preserved at **62**. Solver execution is reserved for post-review authorization.
 
@@ -100,8 +100,8 @@ The mesh quality was audited against the three standard Method A / Method C fini
 | **Minimum Signed $\det(J)$** | **$1.195147 \times 10^{-3}$** | $> 0.0$ (Gate 01) | **PASS** |
 | **Non-Positive Jacobians** | 0 | Exactly 0 | **PASS** |
 | **Mean Element Aspect Ratio** | **1.3232** | $\le 2.50$ (Gate 03) | **PASS** |
-| **Maximum Element Aspect Ratio** | 4.3857 | $\le 10.0$ | **PASS** |
-| **Mean Characteristic Size ($h_\text{area}$)** | $1.2785\,\text{mm}$ | — | Recorded |
+| **Maximum Element Aspect Ratio** | **3.9282** | $\le 10.0$ | **PASS** |
+| **Mean Characteristic Size ($h_\text{area}$)** | $0.8551\,\text{mm}$ | — | Recorded |
 | **Overall Mesh Quality** | **All 3 Gates Satisfied** | — | **PASS** |
 
 The audit summary is persisted at `models/pandey_kumar_mode1/290_method_c_case3/method_c_case3_mesh_audit.json` (SHA-256: `59057610...`).
@@ -138,12 +138,22 @@ Following the critical finding `GAP-MC-C2J4-01`:
   ```
 - The deck is verified to contain `*INITIAL CONDITIONS, TYPE=SOLUTION` and strictly zero occurrences of `TYPE=DISPLACEMENT`.
 
-### 4.3 Step 1 Execution Specification
-- Procedure: `*STATIC`, $50$ increments ($t \in [0, 1]$, $\Delta t = 0.02$, $\Delta u_2 = 0.001\,\text{mm}$).
-- Target displacement: $u_2 = 0.050\,\text{mm}$ (linear-elastic pre-critical regime).
-- Output: Field outputs every 5 increments; history outputs (`U2`, `RF2`) at every increment on `N_RP`.
+### 4.3 Step 1 & Step 2 Execution Specification
+To ensure Cycle 1 produces a valid damaged donor state at $u_2 = 0.4125\,\text{mm}$ for Cycle 2 remeshing and state transfer (resolving review gap `GAP-MC-C3P-01`), the Job-1 production deck executes two sequential analysis steps:
 
-The deck is persisted at `models/pandey_kumar_mode1/290_method_c_case3/PK_METHOD_C_CASE3_COARSE_JOB1.inp` (SHA-256: `B7FFD549...`).
+- **Step 1: Pre-Critical Linear-Elastic Loading**
+  - Procedure: `*STATIC`, $50$ increments ($t \in [0, 1]$, initial $\Delta t = 0.02$, $\Delta u_2 = 0.001\,\text{mm}$).
+  - Target displacement: $u_2 = 0.050\,\text{mm}$ applied to reference point `N_RP`.
+  - Objective: Linear-elastic stiffness check, pre-critical baseline observables, and validation of rigid tie equations.
+  - Output: Field outputs every 5 increments; history outputs (`U2`, `RF2`) at every increment on `N_RP`.
+
+- **Step 2: Forward Crack Propagation Across Primary Ligament**
+  - Procedure: `*STATIC`, initial $\Delta t = 0.002$, maximum $\Delta t = 0.005$, minimum $\Delta t = 1.0 \times 10^{-8}$.
+  - Target displacement: $u_2 = 0.4125\,\text{mm}$ applied with `*BOUNDARY, OP=MOD` to `N_RP`.
+  - Objective: Fracture initiation and forward phase-field crack propagation across the initial ligament, establishing the donor damage profile ($d > 0.5$) for Cycle 2 adaptive remeshing.
+  - Output: Field outputs every 5 increments; history outputs (`U2`, `RF2`) at every increment on `N_RP`.
+
+The production deck is persisted at `models/pandey_kumar_mode1/290_method_c_case3/PK_METHOD_C_CASE3_COARSE_JOB1.inp` (SHA-256: `1B3C9A62A9644E1E9FD6E8F4AD4B2DC734D69688D80E2655B0A11F8A7A7BDDC2`).
 
 ---
 
@@ -215,19 +225,32 @@ All deliverables created or updated in this turn have been cryptographically ver
 | `models/pandey_kumar_mode1/290_method_c_case3/PK_METHOD_C_CASE3_COARSE_PHYS.inp` | Case 3 coarse physical mesh | `29AF8622A20C006F31B488CCED8E0C054749CB243ACB0F2B2D9CBEF35067CCDD` |
 | `models/pandey_kumar_mode1/290_method_c_case3/method_c_case3_mesh_audit.json` | Physical mesh audit metrics & gates | `590576103DA63A17BA585A1154DA9307701FCCB020E69AD1AD126F91FB7E43FC` |
 | `scripts/remeshing/audit_method_c_case3_mesh.py` | Quality audit evaluation script | `6BE4AC43F753AC62E0C0F969C06086C15D5F5D8872BEF31C4F6ABC1811E09EF5` |
-| `scripts/remeshing/build_method_c_case3_coarse_deck.py` | 3-layer deck generator | `DFD6367F4B6860D7FCCB714DA85D64C099110FFEAAB0AC79EB8BD2BF265B6AB7` |
-| `models/pandey_kumar_mode1/290_method_c_case3/PK_METHOD_C_CASE3_COARSE_JOB1.inp` | 3-layer coupled Job-1 deck | `B7FFD5494B82FD41C509F7BFD3F1CC78E319C809561FDDB924A2C71FB8378689` |
-| `models/pandey_kumar_mode1/290_method_c_case3/PK_METHOD_C_CASE3_COARSE_RECEIPT.json` | Coarse deck receipt | `778C4B514059DDA2A7ED3CE26A2D63B5C3FDD3F3653BFD698B4F714561637B48` |
+| `scripts/remeshing/build_method_c_case3_coarse_deck.py` | 3-layer deck generator | `22B1B65A3532AE02615E0BB69672FE6A776C89D4F9C6F1D8630161C9ACDA7A22` |
+| `models/pandey_kumar_mode1/290_method_c_case3/PK_METHOD_C_CASE3_COARSE_JOB1.inp` | 3-layer coupled Job-1 deck | `1B3C9A62A9644E1E9FD6E8F4AD4B2DC734D69688D80E2655B0A11F8A7A7BDDC2` |
+| `models/pandey_kumar_mode1/290_method_c_case3/PK_METHOD_C_CASE3_COARSE_RECEIPT.json` | Coarse deck receipt | `E9D76187E59179A34A32873AFB0774E2367ED002A8B1F6748A9F63BBC57BF988` |
 | `scripts/state_transfer/verify_case3_transfer_readiness.py` | Transfer readiness tester | `7848E0D0B1C3F155797D7202E1106A2670722D1C69295A052E3D737081D810E0` |
 | `models/pandey_kumar_mode1/290_method_c_case3/PK_METHOD_C_CASE3_TRANSFER_READINESS_RECEIPT.json` | Transfer readiness receipt | `9C542E9332846FD923505095252FAD133BCA365C54BF0A1306F0F3E944446CC5` |
-| `scripts/remeshing/method_c_incremental_loop.py` | Generalized incremental loop driver | `A0448FC60E785C5F9AF961EE25105A62DAB6941D1ADABA688A610DE770328DDE` |
-| `tests/unit/test_method_c_case3_package.py` | Case 3 unit test suite (6/6 pass) | `B7BE91A3CCAB19C904EE08098DEE037A61FB058B7848ED1E449FB8D6AB55F3EC` |
+| `scripts/remeshing/method_c_incremental_loop.py` | Generalized incremental loop driver | `51342C58ABC2E6DFB6335F863BDCA5BCE0468A359288A3E764218133453F9DEA` |
+| `tests/unit/test_method_c_case3_package.py` | Case 3 unit test suite (6/6 pass) | `84C733668A36FF7BA8C59F273F2DBD17EB3A1E65EFAA91C83539978A36E83EB7` |
 
 ---
 
 ## 9. Governance & Verification Matrix
 
-- **Unit Tests:** 35/35 passing (100% pass across entire Method C test suite).
-- **HPC Execution:** 0 new PBS jobs submitted; cumulative submissions strictly preserved at **62**.
-- **Master Goal:** `METHOD_C_INCREMENTAL_ADAPTIVE_REMESHING_V1` remains **`OPEN`**.
-- **Task Status:** Ready for independent review under protocol `INDEPENDENT_STRUCTURED_REVIEW_V1` with correlation ID `HND-METHOD-C-CASE3-PREP-001`.
+- **Unit Tests:** 47/47 passing (100% pass across all 9 Method C test suites: Kickoff 10, Job-1 Observables 3, Job-2 Re-equilibration 3, Transfer Re-equilibration 5, Job-3 Forward Propagation 6, Meeting Materials 5, Cycle-2 Package 5, Job-4 Execution 4, Case 3 Package 6).
+- **HPC Execution:** Exactly 0 new PBS jobs submitted; cumulative submissions strictly preserved at **62**.
+- **Master Goal:** `METHOD_C_INCREMENTAL_ADAPTIVE_REMESHING_V1` strictly remains **`OPEN`**.
+- **Task Status:** Ready for independent review under protocol `INDEPENDENT_STRUCTURED_REVIEW_V1` with correlation ID `HND-METHOD-C-CASE3-PREP-002` (predecessor: `HND-METHOD-C-CASE3-PREP-001`).
+
+---
+
+## 10. Predecessor Review Findings & Resolution Matrix (`HND-METHOD-C-CASE3-PREP-001`)
+
+The predecessor review verdict `INSUFFICIENT_EVIDENCE` raised three gaps and one operational note, all of which are exhaustively resolved in this re-issue:
+
+| Item | Severity | Reviewer Finding | Resolution in Re-Issue (`HND-METHOD-C-CASE3-PREP-002`) | Status |
+| :--- | :--- | :--- | :--- | :---: |
+| **`GAP-MC-C3P-01`** | Blocking | Coarse deck `PK_METHOD_C_CASE3_COARSE_JOB1.inp` contained only Step 1 ($u_2 = 0.05\,\text{mm}$), leaving Cycle 2 without a donor state at $u_2 = 0.4125\,\text{mm}$. | Updated `scripts/remeshing/build_method_c_case3_coarse_deck.py` to synthesize both Step 1 ($u_2 = 0.05\,\text{mm}$) and Step 2 ($u_2 = 0.4125\,\text{mm}$ with `*STATIC, 0.002, 1.0, 1.0E-08, 0.005` and `*BOUNDARY, N_RP, 2, 2, 0.4125`). Re-generated deck (SHA: `1B3C9A62...`) and receipt (SHA: `E9D76187...`). | **RESOLVED** |
+| **`GAP-MC-C3P-02`** | Blocking | Test suite accounting discrepancy (claimed 35/35, true total across all 8/9 suites is 47), and governance test failed against `COMPLETED_READY_FOR_INDEPENDENT_REVIEW`. | Updated test suite inventory and documentation to 47 cumulative tests everywhere. Updated `tests/unit/test_method_c_case3_package.py` to accept `COMPLETED_READY_FOR_INDEPENDENT_REVIEW`. All 47/47 tests verified PASS. | **RESOLVED** |
+| **`GAP-MC-C3P-03`** | Non-blocking | Section 3.2 table reported preliminary values for max aspect ratio ($4.3857$) and mean $h_\text{area}$ ($1.2785\,\text{mm}$), contradicting audit JSON ($3.9282$ and $0.8551\,\text{mm}$). | Corrected Section 3.2 table to exact audit JSON values: maximum aspect ratio $3.9282$ and mean characteristic size $h_\text{area} = 0.8551\,\text{mm}$. | **RESOLVED** |
+| **`NOTE-MC-C3P-04`** | Operational | Incremental loop driver indexing needed verification across 5 increments (0..4) to reach final target $1.5000\,\text{mm}$. | Updated `scripts/remeshing/method_c_incremental_loop.py` lines 310–316 to map `cycle_idx = inc_idx - 1`. Tested across 5 increments in dry-run mode, confirming target displacement $1.5000\,\text{mm}$ is reached at increment 4. | **RESOLVED** |

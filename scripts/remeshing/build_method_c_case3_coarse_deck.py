@@ -131,6 +131,7 @@ def build_case3_coarse_deck():
     nu = 0.30
     k_res = 1.0e-07
     step1_u2 = 0.050
+    step2_u2 = 0.4125
 
     with open(COUPLED_INP, "w") as out:
         out.write("** ==========================================================\n")
@@ -278,6 +279,22 @@ def build_case3_coarse_deck():
         out.write("*NODE PRINT, FREQ=1, NSET=N_RP\nU2, RF2\n")
         out.write("*END STEP\n")
 
+        # STEP 2: Forward crack propagation across ligament toward central hole (u2 = 0.050 mm -> 0.4125 mm)
+        out.write("** ----------------------------------------------------------\n")
+        out.write("** STEP 2: Forward crack propagation to u2 = %.4f mm\n" % step2_u2)
+        out.write("** ----------------------------------------------------------\n")
+        out.write("*STEP, NAME=Step-2, NLGEOM=NO, INC=5000\n")
+        out.write("*STATIC\n0.002, 1.0, 1.0E-08, 0.005\n")
+        out.write("*BOUNDARY\n")
+        out.write("N_RP, 2, 2, %.4f\n" % step2_u2)
+        out.write("*OUTPUT, FIELD, FREQUENCY=2\n")
+        out.write("*NODE OUTPUT, NSET=N_RP\nU, RF\n")
+        out.write("*NODE OUTPUT, NSET=N_LOWER_HOLE\nRF\n")
+        out.write("*NODE OUTPUT\nU\n")
+        out.write("*ELEMENT OUTPUT, ELSET=umatelem\nS, MISESERI, MISESAVG, EVOL, SDV\n")
+        out.write("*NODE PRINT, FREQ=1, NSET=N_RP\nU2, RF2\n")
+        out.write("*END STEP\n")
+
     phys_sha = compute_sha256(PHYS_INP)
     coupled_sha = compute_sha256(COUPLED_INP)
     coupled_body_sha = compute_body_sha256(COUPLED_INP)
@@ -316,6 +333,7 @@ def build_case3_coarse_deck():
         "loading": {
             "loading_type": "PIN_HOLE_PULL",
             "step1_u2_mm": step1_u2,
+            "step2_u2_mm": step2_u2,
             "lower_hole_nodes_count": len(low_hole_nodes),
             "upper_hole_nodes_count": len(upp_hole_nodes),
             "initial_conditions_protocol": "TYPE=SOLUTION only (strictly no TYPE=DISPLACEMENT)"
