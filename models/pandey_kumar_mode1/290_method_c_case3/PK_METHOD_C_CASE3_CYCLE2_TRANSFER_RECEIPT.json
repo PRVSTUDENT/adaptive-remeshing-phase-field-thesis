@@ -1,0 +1,91 @@
+{
+  "protocol": "METHOD_C_STATE_TRANSFER_RECEIPT_V1",
+  "benchmark": "Pandey & Kumar (2025) Section 4.3 Rectangular Notched Plate with Hole and Pins",
+  "case_id": "method_c_case3",
+  "cycle": "Cycle-2 Refinement, Re-equilibration, and Forward Propagation",
+  "governance": {
+    "task_id": "METHOD-C-CASE3-CYCLE2-REFINEMENT-PACKAGE",
+    "correlation_id": "HND-METHOD-C-CASE3-CYCLE2-PREP-001",
+    "predecessor_correlation_id": "HND-METHOD-C-CASE3-JOB2-DIAG-001",
+    "master_goal_status": "OPEN",
+    "max_new_pbs_submissions": 0,
+    "cumulative_pbs_submissions": 64,
+    "fix_option_adopted": "Fix Option A (refine from Job-2 donor state with dt_min=1e-14 and line search)"
+  },
+  "donor_provenance": {
+    "source_odb": "/scratch9/pr21vyci/runs/mode1_290_method_c_case3_c1_job2/PK_METHOD_C_CASE3_CYCLE1_REFINED_JOB2.odb",
+    "donor_state_file": "models/pandey_kumar_mode1/290_method_c_case3/donor_case3_cycle1_state.json",
+    "donor_state_sha256": "08A87E41202A2EA40F4E87D4450EF55EDADA7EFBEDEA25A8AFD689B8D1176955",
+    "step_name": "Step-2",
+    "displacement_hold_u2_mm": 0.052451,
+    "reaction_force_rf2_kn": 4.033296,
+    "donor_nodes": 23047,
+    "donor_physical_elements": 23126,
+    "donor_max_damage": 0.9472333490848541,
+    "donor_max_history_mpa": 1.1072160005569458
+  },
+  "receiver_mesh": {
+    "physical_mesh_path": "models/pandey_kumar_mode1/290_method_c_case3/PK_METHOD_C_CASE3_CYCLE2_PHYS.inp",
+    "physical_mesh_sha256": "58466F66E1D9E41E73C5E5233DD748B5237193E225407320DB4288A8DB38081F",
+    "total_physical_elements": 39312,
+    "quad_elements": 38301,
+    "tri_elements": 1011,
+    "quad_fraction_pct": 97.42826617826618,
+    "total_physical_nodes": 39034,
+    "total_layered_elements": 117936,
+    "rp_node_id": 999999
+  },
+  "transfer_operator": {
+    "module": "isoparametric_gp_transfer.py",
+    "limiter_mode": "convex_clamp",
+    "slit_isolation": {
+      "slit_y_mm": 70.0,
+      "slit_a0_mm": 10.0,
+      "slit_isolated": true
+    },
+    "spatial_bin_size_mm": 2.5
+  },
+  "transfer_fidelity": {
+    "transferred_nodes": 39034,
+    "transferred_gp_entries": 154215,
+    "receiver_nodal_max_damage": 0.947233349084804,
+    "receiver_deck_svar_max_damage": 0.9183852967056723,
+    "receiver_max_damage": 0.947233349084804,
+    "receiver_mean_damage": 0.014757885033737803,
+    "receiver_max_history_mpa": 1.1058555990515064,
+    "receiver_mean_history_mpa": 0.00012607310287977562,
+    "receiver_gp_min_history_mpa": 9.837631325862291e-12,
+    "receiver_deck_min_history_mpa": 0.0,
+    "receiver_min_history_mpa": 0.0,
+    "non_healing_verified": true,
+    "non_negativity_verified": true,
+    "phase_bounds_verified": true
+  },
+  "assembled_deck": {
+    "deck_path": "models/pandey_kumar_mode1/290_method_c_case3/PK_METHOD_C_CASE3_CYCLE2_REFINED_JOB3.inp",
+    "deck_sha256": "8DDE4D8B762C3019C90D4876A9558AACCB7EF4150CB37E5002E9E0305D68A890",
+    "deck_body_sha256": "0867CCF38E5D3129F8EBF86426F35E9AC57C0DD082D53F2FA509EE5034E1C8A9",
+    "frozen_uel_path": "models/pandey_kumar_mode1/f42_mixed_uel.for",
+    "frozen_uel_sha256": "CE8D5EDCD2911DCB018BB15275271F874E7EA62B8FB48CF4A8297469A83ACDD6",
+    "loading_schedule": {
+      "step1_hold_u2_mm": 0.052451,
+      "step1_amplitude": "CONST_HOLD",
+      "step1_dt_min": 1e-14,
+      "step2_advance_u2_mm": 0.4125,
+      "step2_dt_min": 1e-14,
+      "line_search": {
+        "activated": true,
+        "keyword": "*CONTROLS, PARAMETERS=LINE SEARCH",
+        "iterations": 4
+      }
+    }
+  },
+  "quality_gates": {
+    "gate_01_non_negativity": "PASS",
+    "gate_02_phase_bounds": "PASS",
+    "gate_03_non_healing": "PASS",
+    "gate_04_slit_isolation": "PASS",
+    "gate_05_deck_integrity": "PASS",
+    "all_transfer_gates_pass": true
+  }
+}
