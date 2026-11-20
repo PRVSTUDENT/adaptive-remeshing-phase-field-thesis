@@ -63,8 +63,35 @@ RESEARCH_GOAL_ID: METHOD_C_INCREMENTAL_ADAPTIVE_REMESHING_V1
   bridge_handoff_id/status/copied_at/response_chars/response wrapper. Validate both
   identities and freshness. Transport OK is not scientific APPROVE or signed provenance.
 
+## Single-response completion requirement (Muse / ChatGPT)
+- The bridge copies only the FIRST assistant response. Muse / ChatGPT MUST place
+  the complete review AND the executable continuation directive in that FIRST
+  and ONLY assistant message: exactly one json-fenced JSON object, no surrounding
+  prose. Do not send an acknowledgement, progress message, partial review or
+  separate follow-up response. Finish evidence inspection before responding.
+- Include decision, review_summary, evidence/gaps, master_goal_status,
+  next_instruction_to_antigravity and next_operation together in that same object,
+  preserving the protocol, correlation_id, task_id and canonical rules hash.
+  Never promise to provide the next instruction later or require a second reply.
+- While master_goal_status is OPEN, next_instruction_to_antigravity MUST give a
+  concrete bounded next operation, its inputs, measurable completion check and
+  applicable execution limits. next_operation MUST use the research_contract
+  schema and canonical allowed operation names. A review decision alone is
+  incomplete; APPROVE does not itself allocate PBS submissions or waive gates.
+- If continuation is genuinely blocked, include the exact blocker and resume
+  condition in the SAME response, with the applicable WAIT/STOP instruction.
+  Do not tell AGY to stand by for another assistant message or a manual paste
+  of instructions omitted from the first response.
+- Before sending, verify the single JSON object contains both the review and
+  the next instruction. Treat missing continuation fields as an incomplete reply;
+  preserve it for owner reconciliation, never infer scientific approval or replay
+  an ambiguous transaction automatically.
+
 ## Continuation and execution safety
-- Existing AGY -> PAD -> ChatGPT -> AGY cycle continues while master goal OPEN:
+- While goal <> achieved (master goal OPEN), repeat the complete bridge loop:
+  AGY -> PAD -> C:\Users\pruth\OpenClawPAD\ChatGPTBridge\bridge_request.ready
+  -> ChatGPT/Muse -> C:\Users\pruth\OpenClawPAD\ChatGPTBridge\bridge_response.ready
+  -> AGY;
   send, await matching completed response, validate, apply next operation, repeat.
   Finished/commit/subtask closeout never means GOAL_COMPLETE. Completion requires
   independently reviewed master criteria on the single demo: fixed-load transfer
