@@ -145,4 +145,4 @@ def test_governance_and_pbs_accounting():
     assert task["max_new_pbs_submissions"] == 1
     assert task["submissions_consumed"] == 1
     assert task["cumulative_pbs_submissions"] == 64
-    assert task["active_pbs_job_id"] == "1424772.mmaster02"
+    assert task["last_successful_pbs_job_id"] == "1424772.mmaster02"

@@ -12,7 +12,7 @@
   "last_successful_pbs_job_id": "1424772.mmaster02",
   "last_failed_pbs_job_id": "1424711.mmaster02",
   "checkpoint_artifact": "docs/validation/METHOD_C_CASE3_JOB2_EXECUTION_REPORT.md",
-  "checkpoint_artifact_sha256": "243D8C9CB2F31BF733E482BB954BA487B30DE702489372A75FC39246ABA6D8C3",
+  "checkpoint_artifact_sha256": "A2B705919D7893BDAC3D0677E63D4DD98A9EF9C6470E54162D04D59FCBC0163B",
   "review_directive": "Execute Job 2 (M1_MC_C3_JOB2) via Invoke-Mode1Execution.ps1 under approved Fix Option A allocation (1 PBS job, cumulative 63 to 64). Verify Step-1 fixed-load re-equilibration force continuity (|RF2 - 3.9288 kN| / 3.9288 <= 5%) and energy continuity at u2 = 0.0500 mm. Evaluate Step-2 forward crack propagation toward u2 = 0.4125 mm. Issue HND-METHOD-C-CASE3-JOB2-001 upon solver completion.",
   "predecessor_task": {
     "task_id": "METHOD-C-CASE3-CYCLE1-REFINEMENT-PACKAGE",
