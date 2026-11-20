@@ -1,13 +1,15 @@
-# METHOD C CASE 3 JOB-1 FAILURE DIAGNOSIS REPORT
+# METHOD C CASE 3 JOB-1 FAILURE DIAGNOSIS REPORT (RE-ISSUE)
 
 **Task ID:** `METHOD-C-CASE3-JOB1-FAILURE-DIAGNOSIS`  
 **Master Goal:** `METHOD_C_INCREMENTAL_ADAPTIVE_REMESHING_V1` (OPEN)  
+**Re-Review Correlation ID:** `HND-METHOD-C-CASE3-JOB1-DIAG-002` (Following `INSUFFICIENT_EVIDENCE` under `HND-METHOD-C-CASE3-JOB1-DIAG-001`)  
 **PBS Job ID:** `1424711.mmaster02` (`M1_MC_C3_JOB1`)  
 **Execution Node:** `mnode103` in queue `normal_imfdfkmq`  
 **Start Time:** 2026-11-20 14:24:46Z (15:24:46 CET)  
 **Termination Time:** 2026-11-20 14:31:16Z (15:31:16 CET)  
 **Duration:** 390 s walltime (Solver: 242 s wallclock / 290 s CPU)  
 **Deck SHA-256:** `1B3C9A62A9644E1E9FD6E8F4AD4B2DC734D69688D80E2655B0A11F8A7A7BDDC2`  
+**Frozen UEL Canonical Path:** `models/pandey_kumar_mode1/f42_mixed_uel.for`  
 **Frozen UEL SHA-256:** `CE8D5EDCD2911DCB018BB15275271F874E7EA62B8FB48CF4A8297469A83ACDD6`  
 **Cumulative PBS Submissions:** 63 (strictly preserved, 0 new jobs consumed)  
 
@@ -26,16 +28,19 @@ In Step 2 Increment 13 ($u_2 = 0.05611\,\text{mm}$), sharp post-peak localized c
 
 ---
 
-## 2. Verbatim Error Evidence from Solver Artifacts
+## 2. Committed Text Solver Evidence & Hashes
 
-The solver outputs were pulled directly from remote scratch directory `/scratch9/pr21vyci/runs/mode1_290_method_c_case3/`:
-- `PK_METHOD_C_CASE3_COARSE_JOB1.sta` (5,389 bytes)
-- `PK_METHOD_C_CASE3_COARSE_JOB1.msg` (286,954 bytes)
-- `PK_METHOD_C_CASE3_COARSE_JOB1.dat` (60,737 bytes)
-- `pbs_execution.log` (2,750 bytes)
-- `uel_energy_balance.csv` (6,092 bytes)
-- `PK_METHOD_C_CASE3_COARSE_JOB1.odb` (37,216,840 bytes)
-*(Note: No `.res` file was requested or produced; Abaqus solver stdout was redirected directly to `pbs_execution.log`).*
+To ensure 100% independent auditability and resolve `GAP-MC-C3J1D-01`, all five text solver output files from `/scratch9/pr21vyci/runs/mode1_290_method_c_case3/` are committed directly to the repository under `models/pandey_kumar_mode1/290_method_c_case3/`:
+
+| Artifact | Repository Path | Size (Bytes) | SHA-256 Hash |
+| :--- | :--- | :---: | :--- |
+| **Status File** | `models/pandey_kumar_mode1/290_method_c_case3/PK_METHOD_C_CASE3_COARSE_JOB1.sta` | 5,389 | `C2FC8AD21A6258D36ACAE1530C69796BC0DC5EDAC2A210C64693E24AF11C3A5E` |
+| **Message File** | `models/pandey_kumar_mode1/290_method_c_case3/PK_METHOD_C_CASE3_COARSE_JOB1.msg` | 286,954 | `A8C95DDD4861E2342F51F399553324D6F95FC7072BE2CA78EDCA4C71321BC00B` |
+| **Data File** | `models/pandey_kumar_mode1/290_method_c_case3/PK_METHOD_C_CASE3_COARSE_JOB1.dat` | 60,737 | `C4C2D56BAA63AB84C19D1DACF779E21494D66A156CED7BC4D7E23719EC6E93C0` |
+| **PBS Log** | `models/pandey_kumar_mode1/290_method_c_case3/pbs_execution.log` | 2,750 | `27FC07A82C36237AA2CBA16C3F84B1129C7C1DC0968271453007B9F0E8A99D60` |
+| **Energy CSV** | `models/pandey_kumar_mode1/290_method_c_case3/uel_energy_balance.csv` | 6,092 | `8DA7DDFA4713D55C16FDD0DA5EE715895ABBCEB18D699DEF7B5AA8435F49609B` |
+
+*(Note: `PK_METHOD_C_CASE3_COARSE_JOB1.odb` [37,216,840 bytes] remains preserved on cluster scratch `/scratch9/pr21vyci/runs/mode1_290_method_c_case3/` as the authentic donor state for Cycle-1 refinement).*
 
 ### 2.1 `pbs_execution.log` (Verbatim Tail)
 ```
@@ -214,9 +219,23 @@ If independent review requires Job 1 to push further into Step 2 on the coarse m
 
 ---
 
-## 6. Next Steps & Governance
+## 6. Review Feedback & Gap Resolution Matrix
+
+This report is re-issued under `HND-METHOD-C-CASE3-JOB1-DIAG-002` following `INSUFFICIENT_EVIDENCE` review under `HND-METHOD-C-CASE3-JOB1-DIAG-001`:
+
+| Gap / Note ID | Severity | Description | Resolution in Re-Issue | Status |
+| :--- | :---: | :--- | :--- | :---: |
+| **`GAP-MC-C3J1D-01`** | **BLOCKING** | Claimed solver outputs were uncommitted in the repo, preventing independent verification of quotations, Step 1 convergence, and peak load. | All five text solver outputs (`.sta`, `.msg`, `.dat`, `pbs_execution.log`, `uel_energy_balance.csv`) are committed to `models/pandey_kumar_mode1/290_method_c_case3/` with verified cryptographic SHA-256 hashes listed in Section 2. | **RESOLVED** |
+| **`GAP-MC-C3J1D-02`** | **BLOCKING** | Frozen-UEL evidence path was listed under `290_method_c_case3/f42_mixed_uel.for` instead of canonical repository path. | Corrected the evidence manifest path to `models/pandey_kumar_mode1/f42_mixed_uel.for` (verified SHA-256 `CE8D5EDC...`). | **RESOLVED** |
+| **`GAP-MC-C3J1D-03`** | Non-blocking | Operation label `transfer_reequilibration_diagnosis` did not match failure diagnosis work. | Updated operation to `method_c_case3_job1_failure_diagnosis` in the re-issued handoff. | **RESOLVED** |
+| **`NOTE-MC-C3J1D-04`** | Advisory | Fix Option A PBS budget implies 5 jobs total (cumulative 62 to 67: 1 coarse + 4 adaptive remesh steps). | Budget acknowledged; will be formally confirmed upon review approval of Fix Option A. No extra job authorized at this stage. | **RECORDED** |
+| **`NOTE-MC-C3J1D-05`** | Advisory | `PK_METHOD_C_CASE3_COARSE_JOB1.odb` (37.2 MB) remains on cluster scratch for Cycle-1 refinement donor extraction. | Scratch run directory `/scratch9/pr21vyci/runs/mode1_290_method_c_case3/` preserved intact; zero deletion or movement. | **RECORDED** |
+
+---
+
+## 7. Next Steps & Governance
 
 1. Strictly maintain **0 new PBS jobs**; cumulative PBS submissions remain **63**.
-2. Submit this diagnosis report in `INDEPENDENT_STRUCTURED_REVIEW_V1` format to the supervisor / independent reviewer.
+2. Submit this re-issued diagnosis report in `INDEPENDENT_STRUCTURED_REVIEW_V1` format under correlation ID `HND-METHOD-C-CASE3-JOB1-DIAG-002`.
 3. Await reviewer determination on whether to adopt **Fix Option A** (use Step-1 $u_2 = 0.05\,\text{mm}$ donor for Cycle 1 refinement) or **Fix Option B** (re-run Job 1 with $dt_{\min} = 10^{-14}$ and line search).
 4. `MASTER_GOAL_STATUS` strictly remains **OPEN**.

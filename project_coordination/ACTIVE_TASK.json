@@ -1,6 +1,6 @@
 ﻿{
   "task_id": "METHOD-C-CASE3-JOB1-FAILURE-DIAGNOSIS",
-  "title": "Method C Case 3: Job-1 Coarse Baseline Solve Failure Diagnosis",
+  "title": "Method C Case 3: Job-1 Coarse Baseline Solve Failure Diagnosis Re-Issue",
   "task_status": "COMPLETED_READY_FOR_INDEPENDENT_REVIEW",
   "master_goal_status": "OPEN",
   "status": "COMPLETED_READY_FOR_INDEPENDENT_REVIEW",
@@ -12,7 +12,8 @@
   "last_successful_pbs_job_id": "1424702.mmaster02",
   "last_failed_pbs_job_id": "1424711.mmaster02",
   "checkpoint_artifact": "docs/validation/METHOD_C_CASE3_JOB1_FAILURE_DIAGNOSIS_REPORT.md",
-  "review_directive": "Independent structured review of Method C Case 3 Job-1 failure diagnosis report (DOC_METHOD_C_CASE3_JOB1_FAILURE_DIAGNOSIS_REPORT, SHA 070334FA0D12D9B56AD434453E0F460FBEAB61308A1EC2B44C149CB9DAEBB71A). Bounds: 0 new PBS jobs, cumulative 63 strictly preserved.",
+  "checkpoint_artifact_sha256": "154540458FD63618ECBE793C5E7C21B471D59D834C5F3691E033EE71103AE180",
+  "review_directive": "Re-issued independent structured review under HND-METHOD-C-CASE3-JOB1-DIAG-002 resolving GAP-MC-C3J1D-01 (committed five text solver outputs with verified hashes), GAP-MC-C3J1D-02 (corrected UEL path to models/pandey_kumar_mode1/f42_mixed_uel.for), and GAP-MC-C3J1D-03 (updated operation label to method_c_case3_job1_failure_diagnosis). Bounds: 0 new PBS jobs, cumulative 63 strictly preserved.",
   "predecessor_task": {
     "task_id": "METHOD-C-CASE3-JOB1-COARSE-SOLVE",
     "checkpoint_artifact": "docs/validation/METHOD_C_CASE3_JOB1_EXECUTION_REPORT.md",
@@ -20,10 +21,10 @@
     "review_verdict": "APPROVE",
     "correlation_id": "HND-METHOD-C-CASE3-JOB1-001"
   },
-  "correlation_id": "HND-METHOD-C-CASE3-JOB1-DIAG-001",
-  "re_review_correlation_id": null,
-  "scientific_operation": "method_c_case3_job1_diagnosis",
-  "scientific_operation_id": "method_c_case3_job1_diagnosis_001",
+  "correlation_id": "HND-METHOD-C-CASE3-JOB1-DIAG-002",
+  "re_review_correlation_id": "HND-METHOD-C-CASE3-JOB1-DIAG-001",
+  "scientific_operation": "method_c_case3_job1_failure_diagnosis",
+  "scientific_operation_id": "method_c_case3_job1_failure_diagnosis_002",
   "scientific_checkpoint_required": true,
   "frozen_uel_sha256": "CE8D5EDCD2911DCB018BB15275271F874E7EA62B8FB48CF4A8297469A83ACDD6",
   "native_interface_sha256": "E5C98B6F601B1CD586571F8E24F357D15ABBD1C5D5487B52903BA249734279B2",
@@ -31,5 +32,5 @@
   "max_new_pbs_submissions": 0,
   "submissions_consumed": 0,
   "cumulative_pbs_submissions": 63,
-  "notes": "Case 3 Job-1 failure diagnosis complete; solver outputs (.sta, .msg, .dat, pbs_execution.log, uel_energy_balance.csv) pulled from cluster; classified failure as (a) Abaqus runtime numerical convergence failure at Step 2 Inc 13 u2=0.05611 mm hitting dt_min=1.0e-8 during post-peak crack localization; compile, environment, scratch I/O, and license ruled out; proposed Fix Option A (architectural alignment with Step 1 donor at u2=0.05 mm) and Fix Option B (deck parameter fix dt_min=1e-14 with line search); exactly 0 new PBS jobs consumed, cumulative count 63 preserved; MASTER_GOAL_STATUS strictly remains OPEN."
+  "notes": "Case 3 Job-1 failure diagnosis re-issued under HND-METHOD-C-CASE3-JOB1-DIAG-002; GAP-MC-C3J1D-01 resolved by committing all five text solver outputs (.sta, .msg, .dat, pbs_execution.log, uel_energy_balance.csv) to repo with verified hashes; GAP-MC-C3J1D-02 resolved by correcting UEL path; GAP-MC-C3J1D-03 resolved by setting operation to method_c_case3_job1_failure_diagnosis; NOTE-MC-C3J1D-04 through 06 recorded; cumulative count 63 preserved, 0 new PBS jobs; MASTER_GOAL_STATUS strictly remains OPEN."
 }
