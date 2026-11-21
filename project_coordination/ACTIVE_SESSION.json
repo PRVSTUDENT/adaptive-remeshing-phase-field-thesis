@@ -1,9 +1,19 @@
 {
   "active": false,
-  "agent": null,
-  "task_id": null,
-  "session_id": null,
-  "started_at": null,
-  "starting_commit": null,
-  "allowed_write_scope": []
+  "agent": "gemini-antigravity",
+  "task_id": "METHOD-C-CASE3-FRAMEWORK-CYCLE0-ORCHESTRATOR-REPAIR-REISSUE",
+  "session_id": "2026-11-21_gemini_method_c_case3_orchestrator_reissue_001",
+  "started_at": "2026-11-21T11:39:00+01:00",
+  "starting_commit": "4a082c2ec47cf9f961bd383b34980e3e948e9033",
+  "allowed_write_scope": [
+    "models/pandey_kumar_mode1/290_method_c_case3/*",
+    "scripts/remeshing/*",
+    "scripts/state_transfer/*",
+    "scripts/postprocessing/*",
+    "scripts/hpc/*",
+    "docs/validation/*",
+    "tests/unit/*",
+    "project_coordination/*",
+    ".agents/scripts/*"
+  ]
 }

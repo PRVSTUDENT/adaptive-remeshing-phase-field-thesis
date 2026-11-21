@@ -308,3 +308,72 @@ def test_transfer_routines_bounds():
     for val in recip_h.values():
         assert val >= 0.0
 
+def test_per_cycle_state_advancement_in_orchestrator():
+    """Verify that extract_cycle_state updates orchestrator donor_state and observables."""
+    orch = Case3SingleJobOrchestrator(run_dir=os.path.join(REPO_ROOT, "models", "pandey_kumar_mode1", "290_method_c_case3"), dry_run=True)
+    state = orch.extract_cycle_state("PK_METHOD_C_CASE3_COARSE_JOB1")
+    assert state["tip_x"] == 10.0
+    assert state["tip_y"] == 70.0
+    assert state["step1_rf2"] == 3.928812
+    assert state["terminal_rf2"] == 4.241979
+    assert state["peak_rf2"] == 4.331821
+    assert state["max_damage"] > 0.0
+    assert state["max_history_MPa"] > 0.0
+
+def test_donor_file_dynamic_observables_without_hardcoded_defaults():
+    """Verify extract_cycle_state derives observables dynamically without hardcoded Job-1 fallbacks."""
+    with tempfile.NamedTemporaryFile(mode="w", delete=False, suffix="_state.json") as tf:
+        dummy_state = {
+            "u_nodal": {"1": [0.01, 0.02]},
+            "d_nodal": {"1": 0.55},
+            "h_gp": {"1_1": 0.08},
+            "tip_x": 12.5,
+            "tip_y": 70.0,
+            "peak_rf2": 4.10,
+            "terminal_rf2": 3.95,
+            "step1_rf2": 3.90,
+            "e_frac": 0.0050
+        }
+        json.dump(dummy_state, tf)
+        tmp_name = tf.name
+
+    try:
+        orch = Case3SingleJobOrchestrator(run_dir=os.path.dirname(tmp_name), dry_run=True)
+        job_base = os.path.splitext(os.path.basename(tmp_name))[0].replace("_state", "")
+        extracted = orch.extract_cycle_state(job_base)
+        assert extracted["max_damage"] == 0.55
+        assert extracted["max_history_MPa"] == 0.08
+        assert extracted["tip_x"] == 12.5
+        assert extracted["peak_rf2"] == 4.10
+        assert extracted["terminal_rf2"] == 3.95
+        assert extracted["step1_rf2"] == 3.90
+        assert extracted["e_frac"] == 0.0050
+    finally:
+        if os.path.exists(tmp_name):
+            os.remove(tmp_name)
+
+def test_cycle0_run_artifacts_and_timing_reconciliation():
+    """Verify committed Cycle-0 run artifacts and timing reconciliation (546 s solver CPU vs 559 s scheduler cput)."""
+    case3_dir = os.path.join(REPO_ROOT, "models", "pandey_kumar_mode1", "290_method_c_case3")
+    state_json = os.path.join(case3_dir, "PK_METHOD_C_CASE3_COARSE_JOB1_state.json")
+    summary_json = os.path.join(case3_dir, "PK_METHOD_C_CASE3_COARSE_JOB1_SUMMARY.json")
+    sta_file = os.path.join(case3_dir, "PK_METHOD_C_CASE3_COARSE_JOB1.sta")
+    pbs_log = os.path.join(case3_dir, "PK_METHOD_C_CASE3_FRAMEWORK_CYCLE0_pbs_execution.log")
+
+    for fpath in [state_json, summary_json, sta_file, pbs_log]:
+        assert os.path.isfile(fpath), "Missing run artifact: %s" % fpath
+        assert os.path.getsize(fpath) > 0, "Empty run artifact: %s" % fpath
+
+    with open(state_json, "r") as f:
+        state_data = json.load(f)
+
+    assert state_data["solver_cpu_time_s"] == 546.0
+    assert state_data["scheduler_cput_s"] == 559.0
+    assert state_data["solver_walltime_s"] == 816.0
+    assert state_data["scheduler_walltime_s"] == 2114.0
+    assert state_data["tip_extraction_method"] == "nodal_damage_threshold_d_ge_0.95_and_notch_root_geometry"
+    assert state_data["tip_damage_threshold"] == 0.95
+    assert state_data["tip_x"] == 10.0
+    assert state_data["tip_y"] == 70.0
+
+

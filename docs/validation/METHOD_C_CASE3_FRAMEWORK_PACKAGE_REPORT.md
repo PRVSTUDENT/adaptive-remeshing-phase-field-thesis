@@ -60,7 +60,7 @@ The single-job orchestrator manages the entire propagation sequence inside **one
 
 | Parameter | Identifier | Value / Behavior | Source / Justification |
 | :--- | :--- | :--- | :--- |
-| **Adaptive Step Granularity** | `n_adaptive_steps` | User-settable (default: `4`) | Configures planned remeshes per pass; not a hard cap |
+| **Adaptive Step Granularity** | `n_adaptive_steps` | User-settable (default: `4`) | Configures user-specifiable loop bound for in-allocation adaptive cycles |
 | **Equal Load Increment** | `load_increment_mm` | Default: `0.0100 mm` | Sized at roughly $2\times$ largest observed advance ($0.0061\,\text{mm}$) |
 | **Onset Displacement** | `coarse_u2_mm` | `0.0500 mm` | Initial elastic pre-cracking onset |
 | **Displacement Cap** | Final $u_2$ limit | **NONE** | Uncapped; loops dynamically until complete severance |

@@ -1,0 +1,169 @@
+/cluster/stages/2024.0/software/intel/2024.2/compiler/2024.2/bin/ifort
+/cluster/application/abaqus/2023/Commands/abaqus
+/bin/python3
+=================================================================
+Method C Case 3: Single-Job Multi-Cycle Adaptive Framework
+Host: mnode103.cluster
+Start time: Sa 21. Nov 10:50:06 CET 2026
+Run directory: /scratch9/pr21vyci/runs/mode1_290_method_c_case3_single_job
+=================================================================
+=================================================================
+Starting Method C Case 3 Single-Job Multi-Cycle In-Allocation Run
+Parameters: n_adaptive_steps=4, load_increment=0.0100 mm
+Run directory: /scratch9/pr21vyci/runs/mode1_290_method_c_case3_single_job
+=================================================================
+Executing Cycle 0: Initial Coarse Solve...
+[Orchestrator EXEC] Running: abaqus job=PK_METHOD_C_CASE3_COARSE_JOB1 input=PK_METHOD_C_CASE3_COARSE_JOB1 user=f42_mixed_uel.for cpus=16 interactive
+Analysis initiated from SIMULIA established products
+Abaqus JOB PK_METHOD_C_CASE3_COARSE_JOB1
+Abaqus 2023
+Abaqus License Manager checked out the following licenses:
+Abaqus/Standard checked out 16 tokens from Flexnet server license4.imfd.tu-freiberg.de.
+<156 out of 300 licenses remain available>.
+Begin Compiling Abaqus/Standard User Subroutines
+Sat 21 Nov 2026 10:50:10 AM CET
+Intel(R) Fortran Intel(R) 64 Compiler Classic for applications running on Intel(R) 64, Version 2021.13.0 Build 20240602_000000
+Copyright (C) 1985-2024 Intel Corporation.  All rights reserved.
+
+ifort: remark #10448: Intel(R) Fortran Compiler Classic (ifort) is now deprecated and will be discontinued late 2024. Intel recommends that customers transition now to using the LLVM-based Intel(R) Fortran Compiler (ifx) for continued Windows* and Linux* support, new language support, new language features, and optimizations. Use '-diag-disable=10448' to disable this message.
+ifort: command line warning #10434: option '-extend_source' use with underscore is deprecated; use '-extend-source' instead
+ Intel(R) Fortran 2021.13.0-1693
+f42_mixed_uel.for(164): remark #15009: uel_ has been targeted for automatic cpu dispatch
+f42_mixed_uel.for(839): remark #15009: umat_ has been targeted for automatic cpu dispatch
+End Compiling Abaqus/Standard User Subroutines
+Begin Linking Abaqus/Standard User Subroutines
+Intel(R) Fortran Intel(R) 64 Compiler Classic for applications running on Intel(R) 64, Version 2021.13.0 Build 20240602_000000
+Copyright (C) 1985-2024 Intel Corporation.  All rights reserved.
+
+ifort: remark #10448: Intel(R) Fortran Compiler Classic (ifort) is now deprecated and will be discontinued late 2024. Intel recommends that customers transition now to using the LLVM-based Intel(R) Fortran Compiler (ifx) for continued Windows* and Linux* support, new language support, new language features, and optimizations. Use '-diag-disable=10448' to disable this message.
+GNU ld version 2.30-128.el8_10
+End Linking Abaqus/Standard User Subroutines
+Sat 21 Nov 2026 10:50:16 AM CET
+Begin Analysis Input File Processor
+Sat 21 Nov 2026 10:50:16 AM CET
+Run pre
+Sat 21 Nov 2026 11:10:53 AM CET
+End Analysis Input File Processor
+Begin Abaqus/Standard Analysis
+Sat 21 Nov 2026 11:10:54 AM CET
+Run standard
+Sat 21 Nov 2026 11:25:15 AM CET
+Abaqus Error: Abaqus/Standard Analysis exited with an error - Please see the 
+message file for possible error messages if the file exists.
+Begin SIM Wrap-up
+Sat 21 Nov 2026 11:25:16 AM CET
+Run SMASimUtility
+Sat 21 Nov 2026 11:25:20 AM CET
+End SIM Wrap-up
+Abaqus/Analysis exited with errors
+
+Cycle 0 exited with code: 1
+Cycle 0 Evaluation: {'status': 'CUTBACK_TERMINATED', 'can_continue': True, 'terminal_step': 2, 'terminal_increment': 12, 'terminal_step_time': 0.0169, 'terminal_dt': 5.431e-08, 'terminal_frame_label': 'Increment 12 (terminal converged state)', 'dt_min_floor_reached': True, 'no_further_dt_min_reduction': True}
+-----------------------------------------------------------------
+Starting Cycle 1: target u2 = 0.0600 mm (donor u2 = 0.0500 mm)
+-----------------------------------------------------------------
+Starting Cycle 2: target u2 = 0.0700 mm (donor u2 = 0.0600 mm)
+-----------------------------------------------------------------
+Starting Cycle 3: target u2 = 0.0800 mm (donor u2 = 0.0700 mm)
+-----------------------------------------------------------------
+Starting Cycle 4: target u2 = 0.0900 mm (donor u2 = 0.0800 mm)
+-----------------------------------------------------------------
+Starting Cycle 5: target u2 = 0.1000 mm (donor u2 = 0.0900 mm)
+-----------------------------------------------------------------
+Starting Cycle 6: target u2 = 0.1100 mm (donor u2 = 0.1000 mm)
+-----------------------------------------------------------------
+Starting Cycle 7: target u2 = 0.1200 mm (donor u2 = 0.1100 mm)
+-----------------------------------------------------------------
+Starting Cycle 8: target u2 = 0.1300 mm (donor u2 = 0.1200 mm)
+-----------------------------------------------------------------
+Starting Cycle 9: target u2 = 0.1400 mm (donor u2 = 0.1300 mm)
+-----------------------------------------------------------------
+Starting Cycle 10: target u2 = 0.1500 mm (donor u2 = 0.1400 mm)
+-----------------------------------------------------------------
+Starting Cycle 11: target u2 = 0.1600 mm (donor u2 = 0.1500 mm)
+-----------------------------------------------------------------
+Starting Cycle 12: target u2 = 0.1700 mm (donor u2 = 0.1600 mm)
+-----------------------------------------------------------------
+Starting Cycle 13: target u2 = 0.1800 mm (donor u2 = 0.1700 mm)
+-----------------------------------------------------------------
+Starting Cycle 14: target u2 = 0.1900 mm (donor u2 = 0.1800 mm)
+-----------------------------------------------------------------
+Starting Cycle 15: target u2 = 0.2000 mm (donor u2 = 0.1900 mm)
+-----------------------------------------------------------------
+Starting Cycle 16: target u2 = 0.2100 mm (donor u2 = 0.2000 mm)
+-----------------------------------------------------------------
+Starting Cycle 17: target u2 = 0.2200 mm (donor u2 = 0.2100 mm)
+-----------------------------------------------------------------
+Starting Cycle 18: target u2 = 0.2300 mm (donor u2 = 0.2200 mm)
+-----------------------------------------------------------------
+Starting Cycle 19: target u2 = 0.2400 mm (donor u2 = 0.2300 mm)
+-----------------------------------------------------------------
+Starting Cycle 20: target u2 = 0.2500 mm (donor u2 = 0.2400 mm)
+-----------------------------------------------------------------
+Starting Cycle 21: target u2 = 0.2600 mm (donor u2 = 0.2500 mm)
+-----------------------------------------------------------------
+Starting Cycle 22: target u2 = 0.2700 mm (donor u2 = 0.2600 mm)
+-----------------------------------------------------------------
+Starting Cycle 23: target u2 = 0.2800 mm (donor u2 = 0.2700 mm)
+-----------------------------------------------------------------
+Starting Cycle 24: target u2 = 0.2900 mm (donor u2 = 0.2800 mm)
+-----------------------------------------------------------------
+Starting Cycle 25: target u2 = 0.3000 mm (donor u2 = 0.2900 mm)
+-----------------------------------------------------------------
+Starting Cycle 26: target u2 = 0.3100 mm (donor u2 = 0.3000 mm)
+-----------------------------------------------------------------
+Starting Cycle 27: target u2 = 0.3200 mm (donor u2 = 0.3100 mm)
+-----------------------------------------------------------------
+Starting Cycle 28: target u2 = 0.3300 mm (donor u2 = 0.3200 mm)
+-----------------------------------------------------------------
+Starting Cycle 29: target u2 = 0.3400 mm (donor u2 = 0.3300 mm)
+-----------------------------------------------------------------
+Starting Cycle 30: target u2 = 0.3500 mm (donor u2 = 0.3400 mm)
+-----------------------------------------------------------------
+Starting Cycle 31: target u2 = 0.3600 mm (donor u2 = 0.3500 mm)
+-----------------------------------------------------------------
+Starting Cycle 32: target u2 = 0.3700 mm (donor u2 = 0.3600 mm)
+-----------------------------------------------------------------
+Starting Cycle 33: target u2 = 0.3800 mm (donor u2 = 0.3700 mm)
+-----------------------------------------------------------------
+Starting Cycle 34: target u2 = 0.3900 mm (donor u2 = 0.3800 mm)
+-----------------------------------------------------------------
+Starting Cycle 35: target u2 = 0.4000 mm (donor u2 = 0.3900 mm)
+-----------------------------------------------------------------
+Starting Cycle 36: target u2 = 0.4100 mm (donor u2 = 0.4000 mm)
+-----------------------------------------------------------------
+Starting Cycle 37: target u2 = 0.4200 mm (donor u2 = 0.4100 mm)
+-----------------------------------------------------------------
+Starting Cycle 38: target u2 = 0.4300 mm (donor u2 = 0.4200 mm)
+-----------------------------------------------------------------
+Starting Cycle 39: target u2 = 0.4400 mm (donor u2 = 0.4300 mm)
+-----------------------------------------------------------------
+Starting Cycle 40: target u2 = 0.4500 mm (donor u2 = 0.4400 mm)
+-----------------------------------------------------------------
+Starting Cycle 41: target u2 = 0.4600 mm (donor u2 = 0.4500 mm)
+-----------------------------------------------------------------
+Starting Cycle 42: target u2 = 0.4700 mm (donor u2 = 0.4600 mm)
+-----------------------------------------------------------------
+Starting Cycle 43: target u2 = 0.4800 mm (donor u2 = 0.4700 mm)
+-----------------------------------------------------------------
+Starting Cycle 44: target u2 = 0.4900 mm (donor u2 = 0.4800 mm)
+-----------------------------------------------------------------
+Starting Cycle 45: target u2 = 0.5000 mm (donor u2 = 0.4900 mm)
+-----------------------------------------------------------------
+Starting Cycle 46: target u2 = 0.5100 mm (donor u2 = 0.5000 mm)
+-----------------------------------------------------------------
+Starting Cycle 47: target u2 = 0.5200 mm (donor u2 = 0.5100 mm)
+-----------------------------------------------------------------
+Starting Cycle 48: target u2 = 0.5300 mm (donor u2 = 0.5200 mm)
+-----------------------------------------------------------------
+Starting Cycle 49: target u2 = 0.5400 mm (donor u2 = 0.5300 mm)
+-----------------------------------------------------------------
+Starting Cycle 50: target u2 = 0.5500 mm (donor u2 = 0.5400 mm)
+=================================================================
+Framework Execution Loop Completed.
+Total cycles processed: 50
+=================================================================
+=================================================================
+Framework Orchestrator Finished with Exit Code: 0
+End time: Sa 21. Nov 11:25:20 CET 2026
+=================================================================

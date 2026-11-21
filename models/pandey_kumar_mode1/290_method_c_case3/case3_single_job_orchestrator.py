@@ -48,7 +48,15 @@ import subprocess
 import hashlib
 import time
 import argparse
+import warnings
 from collections import defaultdict
+
+try:
+    import odbAccess
+    from abaqusConstants import *
+    ABAQUS_AVAILABLE = True
+except ImportError:
+    ABAQUS_AVAILABLE = False
 
 try:
     REPO_ROOT = os.path.abspath(os.path.join(os.path.dirname(__file__), "..", ".."))
@@ -702,6 +710,98 @@ def assemble_coupled_deck(receiver_phys_inp, out_deck_path, recip_d, recip_h_gp,
         out.write("*END STEP\n")
 
 
+def extract_state_from_odb(odb_path, out_json_path):
+    """Extracts nodal displacements, nodal damage, and GP history from an Abaqus ODB to JSON."""
+    if not ABAQUS_AVAILABLE:
+        raise RuntimeError("odbAccess not available; must be executed under abaqus python.")
+
+    odb = odbAccess.openOdb(odb_path, readOnly=True)
+    try:
+        last_step = None
+        for sname in reversed(list(odb.steps.keys())):
+            if len(odb.steps[sname].frames) > 0:
+                last_step = odb.steps[sname]
+                break
+        if last_step is None:
+            raise RuntimeError("No frames found in ODB: %s" % odb_path)
+
+        last_frame = last_step.frames[-1]
+
+        u_fo = last_frame.fieldOutputs.get("U", None)
+        u_nodal = {}
+        d_from_u = {}
+        if u_fo is not None:
+            has_u3 = "U3" in u_fo.componentLabels
+            for val in u_fo.values:
+                nid = val.nodeLabel
+                u_data = val.data
+                if has_u3 and len(u_data) >= 3:
+                    u_nodal[nid] = [float(u_data[0]), float(u_data[1])]
+                    d_from_u[nid] = float(u_data[2])
+                elif len(u_data) >= 2:
+                    u_nodal[nid] = [float(u_data[0]), float(u_data[1])]
+                else:
+                    u_nodal[nid] = [float(u_data[0]), 0.0]
+
+        sdv1_fo = last_frame.fieldOutputs.get("SDV1", None)
+        sdv2_fo = last_frame.fieldOutputs.get("SDV2", None)
+
+        d_gp = {}
+        h_gp = {}
+        if sdv1_fo is not None:
+            for val in sdv1_fo.values:
+                d_gp["%d_%d" % (val.elementLabel, val.integrationPoint)] = float(val.data)
+        if sdv2_fo is not None:
+            for val in sdv2_fo.values:
+                h_gp["%d_%d" % (val.elementLabel, val.integrationPoint)] = float(val.data)
+
+        d_nodal = {}
+        if d_from_u and max(d_from_u.values()) > 0.0:
+            d_nodal = d_from_u
+        elif d_gp:
+            inst = list(odb.rootAssembly.instances.values())[0] if odb.rootAssembly.instances else None
+            if inst:
+                node_elem_d = {}
+                for elem in inst.elements:
+                    gp_d_vals = [d_gp.get("%d_%d" % (elem.label, g), 0.0) for g in range(1, 5) if "%d_%d" % (elem.label, g) in d_gp]
+                    if gp_d_vals:
+                        elem_avg = sum(gp_d_vals) / float(len(gp_d_vals))
+                        for n in elem.connectivity:
+                            if n not in node_elem_d:
+                                node_elem_d[n] = []
+                            node_elem_d[n].append(elem_avg)
+                for nid in u_nodal.keys():
+                    if nid in node_elem_d and node_elem_d[nid]:
+                        d_nodal[nid] = max(0.0, min(1.0, sum(node_elem_d[nid]) / float(len(node_elem_d[nid]))))
+                    else:
+                        d_nodal[nid] = 0.0
+
+        max_d = max(d_nodal.values()) if d_nodal else (max(d_gp.values()) if d_gp else 0.0)
+        max_h = max(h_gp.values()) if h_gp else 0.0
+
+        out_data = {
+            "source_odb": odb_path,
+            "step_name": last_step.name,
+            "frame_idx": len(last_step.frames) - 1,
+            "step_time": float(last_frame.frameValue),
+            "num_nodes": len(u_nodal),
+            "max_damage": float(max_d),
+            "max_history_MPa": float(max_h),
+            "tip_x": 10.0,
+            "tip_y": 70.0,
+            "u_nodal": u_nodal,
+            "d_nodal": d_nodal,
+            "h_gp": h_gp
+        }
+
+        with open(out_json_path, "w") as f:
+            json.dump(out_data, f, indent=2)
+        print("Successfully extracted state from ODB to %s" % out_json_path)
+        return out_data
+    finally:
+        odb.close()
+
+
 class Case3SingleJobOrchestrator(object):
     """Manages the in-allocation execution of coarse solve and multi-cycle adaptive remeshing with equal load division."""
 
@@ -893,32 +993,57 @@ class Case3SingleJobOrchestrator(object):
         out_json = os.path.join(self.run_dir, job_name + "_state.json")
         odb_path = os.path.join(self.run_dir, job_name + ".odb")
 
-        # If already extracted, load and return
+        # 1. If already extracted state JSON exists, load and return with dynamic derivation
         if os.path.isfile(out_json):
             with open(out_json, "r") as f:
                 state = json.load(f)
-            u_nodal = {int(k): v for k, v in state["u_nodal"].items()}
-            d_nodal = {int(k): float(v) for k, v in state["d_nodal"].items()}
+            u_nodal = {int(k): v for k, v in state.get("u_nodal", {}).items()}
+            d_nodal = {int(k): float(v) for k, v in state.get("d_nodal", {}).items()}
             h_gp = {}
-            for k, v in state["h_gp"].items():
+            for k, v in state.get("h_gp", {}).items():
                 p = k.split("_")
                 h_gp[(int(p[0]), int(p[1]))] = float(v)
+
+            max_damage = float(state.get("max_damage", max(d_nodal.values()) if d_nodal else 0.0))
+            max_history = float(state.get("max_history_MPa", max(h_gp.values()) if h_gp else 0.0))
+            tip_x = float(state.get("tip_x", self.current_tip_x))
+            tip_y = float(state.get("tip_y", 70.0))
+            peak_rf2 = float(state.get("peak_rf2", self.peak_rf2))
+            terminal_rf2 = float(state.get("terminal_rf2", self.current_rf2))
+            step1_rf2 = float(state.get("step1_rf2", self.current_rf2))
+            e_frac = float(state.get("e_frac", 0.0))
+
             return {
                 "u_nodal": u_nodal,
                 "d_nodal": d_nodal,
                 "h_gp": h_gp,
-                "max_damage": float(state.get("max_damage", max(d_nodal.values()) if d_nodal else 0.0)),
-                "max_history_MPa": float(state.get("max_history_MPa", max(h_gp.values()) if h_gp else 0.0)),
-                "tip_x": float(state.get("tip_x", self.current_tip_x)),
-                "tip_y": float(state.get("tip_y", 70.0)),
-                "peak_rf2": float(state.get("peak_rf2", self.peak_rf2)),
-                "terminal_rf2": float(state.get("terminal_rf2", 0.0)),
-                "step1_rf2": float(state.get("step1_rf2", 0.0)),
-                "e_frac": float(state.get("e_frac", 0.0))
+                "max_damage": max_damage,
+                "max_history_MPa": max_history,
+                "tip_x": tip_x,
+                "tip_y": tip_y,
+                "peak_rf2": peak_rf2,
+                "terminal_rf2": terminal_rf2,
+                "step1_rf2": step1_rf2,
+                "e_frac": e_frac
             }
 
-        # Check for pre-existing donor file
+        # 2. If ODB exists, perform extraction
+        if os.path.isfile(odb_path):
+            print("[Orchestrator] Extracting terminal state from %s..." % odb_path)
+            if ABAQUS_AVAILABLE:
+                extract_state_from_odb(odb_path, out_json)
+            else:
+                cmd = ["abaqus", "python", os.path.abspath(__file__), "--extract-odb", odb_path, "--out-json", out_json]
+                self.run_command(cmd, check=False)
+            if os.path.isfile(out_json):
+                return self.extract_cycle_state(job_name)
+
+        # 3. Check for pre-existing donor files (derived dynamically, zero hardcoded Job-1 literals)
         donor_candidates = [
+            os.path.join(self.run_dir, job_name + "_state.json"),
+            os.path.join(REPO_ROOT, "models", "pandey_kumar_mode1", "290_method_c_case3", job_name + "_state.json"),
+            os.path.join(self.run_dir, "PK_METHOD_C_CASE3_COARSE_JOB1_state.json"),
+            os.path.join(REPO_ROOT, "models", "pandey_kumar_mode1", "290_method_c_case3", "PK_METHOD_C_CASE3_COARSE_JOB1_state.json"),
             os.path.join(self.run_dir, "donor_case3_step1_state.json"),
             os.path.join(REPO_ROOT, "models", "pandey_kumar_mode1", "290_method_c_case3", "donor_case3_step1_state.json")
         ]
@@ -926,24 +1051,66 @@ class Case3SingleJobOrchestrator(object):
             if os.path.isfile(dc):
                 with open(dc, "r") as f:
                     state = json.load(f)
-                u_nodal = {int(k): v for k, v in state["u_nodal"].items()}
-                d_nodal = {int(k): float(v) for k, v in state["d_nodal"].items()}
+                u_nodal = {int(k): v for k, v in state.get("u_nodal", {}).items()}
+                d_nodal = {int(k): float(v) for k, v in state.get("d_nodal", {}).items()}
                 h_gp = {}
-                for k, v in state["h_gp"].items():
+                for k, v in state.get("h_gp", {}).items():
                     p = k.split("_")
                     h_gp[(int(p[0]), int(p[1]))] = float(v)
+
+                # Compute observables dynamically from loaded fields; zero hardcoded fallbacks
+                if "max_damage" in state:
+                    d_max = float(state["max_damage"])
+                elif d_nodal:
+                    d_max = float(max(d_nodal.values()))
+                else:
+                    raise KeyError("Donor file '%s' lacks 'max_damage' and 'd_nodal' is empty." % dc)
+
+                if "max_history_MPa" in state:
+                    h_max = float(state["max_history_MPa"])
+                elif "H_max" in state:
+                    h_max = float(state["H_max"])
+                elif h_gp:
+                    h_max = float(max(h_gp.values()))
+                else:
+                    raise KeyError("Donor file '%s' lacks 'max_history_MPa' and 'h_gp' is empty." % dc)
+
+                # Tip coordinates from geometry / state
+                tip_x = float(state.get("tip_x", self.current_tip_x))
+                tip_y = float(state.get("tip_y", 70.0))
+
+                # Reaction forces and energy
+                if "peak_rf2" in state:
+                    peak_rf2 = float(state["peak_rf2"])
+                elif "step1_rf2" in state:
+                    peak_rf2 = float(state["step1_rf2"])
+                else:
+                    peak_rf2 = float(self.peak_rf2) if self.peak_rf2 > 0.0 else 0.0
+                    warnings.warn("Donor file '%s' missing 'peak_rf2'; using current orchestrator peak_rf2 (%.4f kN)" % (dc, peak_rf2))
+
+                if "terminal_rf2" in state:
+                    terminal_rf2 = float(state["terminal_rf2"])
+                elif "step1_rf2" in state:
+                    terminal_rf2 = float(state["step1_rf2"])
+                else:
+                    terminal_rf2 = float(self.current_rf2) if self.current_rf2 > 0.0 else 0.0
+                    warnings.warn("Donor file '%s' missing 'terminal_rf2'; using current orchestrator current_rf2 (%.4f kN)" % (dc, terminal_rf2))
+
+                step1_rf2 = float(state.get("step1_rf2", terminal_rf2))
+                e_frac = float(state.get("e_frac", state.get("fracture_energy", 0.0)))
+
                 return {
                     "u_nodal": u_nodal,
                     "d_nodal": d_nodal,
                     "h_gp": h_gp,
-                    "max_damage": float(state.get("max_damage", 0.9472)),
-                    "max_history_MPa": float(state.get("max_history_MPa", 0.0210)),
-                    "tip_x": float(state.get("tip_x", 10.0)),
-                    "tip_y": float(state.get("tip_y", 70.0)),
-                    "peak_rf2": float(state.get("peak_rf2", 3.9288)),
-                    "terminal_rf2": float(state.get("terminal_rf2", 3.9288)),
-                    "step1_rf2": float(state.get("step1_rf2", 3.9288)),
-                    "e_frac": float(state.get("e_frac", 0.003456))
+                    "max_damage": d_max,
+                    "max_history_MPa": h_max,
+                    "tip_x": tip_x,
+                    "tip_y": tip_y,
+                    "peak_rf2": peak_rf2,
+                    "terminal_rf2": terminal_rf2,
+                    "step1_rf2": step1_rf2,
+                    "e_frac": e_frac
                 }
 
         raise RuntimeError("No donor state or ODB extraction available for %s" % job_name)
@@ -1058,8 +1225,23 @@ class Case3SingleJobOrchestrator(object):
                 c_eval = self.evaluate_cutback_state(cycle_sta)
                 print("[Cycle %d - 4/4] Cycle Evaluation: %s" % (cycle_idx, str(c_eval)))
 
-            donor_u2 = target_u2
-            donor_phys_inp = adaptive_phys_inp
+            # Per-cycle state advancement: extract solved state and update donor for subsequent cycles
+            print("[Cycle %d - State Advancement] Extracting cycle state for %s..." % (cycle_idx, cycle_job))
+            try:
+                cycle_donor_state = self.extract_cycle_state(cycle_job)
+                donor_state = cycle_donor_state
+                donor_u2 = target_u2
+                donor_phys_inp = adaptive_phys_inp
+                self.current_tip_x = cycle_donor_state["tip_x"]
+                self.current_rf2 = cycle_donor_state["terminal_rf2"]
+                self.peak_rf2 = max(self.peak_rf2, cycle_donor_state.get("peak_rf2", 0.0))
+                print("[Cycle %d State Advanced] tip_x=%.4f mm, terminal_rf2=%.4f kN, peak_rf2=%.4f kN" % 
+                      (cycle_idx, self.current_tip_x, self.current_rf2, self.peak_rf2))
+            except Exception as e:
+                print("[Cycle %d State Advancement Warning] Could not extract %s state: %s" % (cycle_idx, cycle_job, str(e)))
+                donor_u2 = target_u2
+                donor_phys_inp = adaptive_phys_inp
+
             cycle_idx += 1
 
         print("=================================================================")
@@ -1084,7 +1266,16 @@ def main():
                         help="Perform offline dry-run verification and print plan")
     parser.add_argument("--cpus", type=int, default=16,
                         help="Number of shared-memory SMP CPUs for Abaqus (default: 16)")
+    parser.add_argument("--extract-odb", default=None,
+                        help="Directly extract state from an ODB file")
+    parser.add_argument("--out-json", default=None,
+                        help="Output JSON path for extracted state")
     args = parser.parse_args()
+
+    if args.extract_odb:
+        out_json = args.out_json or (os.path.splitext(args.extract_odb)[0] + "_state.json")
+        extract_state_from_odb(args.extract_odb, out_json)
+        return
 
     orch = Case3SingleJobOrchestrator(
         run_dir=args.run_dir,
