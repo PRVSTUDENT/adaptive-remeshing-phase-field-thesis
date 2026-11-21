@@ -25,10 +25,12 @@ Key architectural specifications:
    - The orchestrator extracts the last converged increment (filtering unconverged 'U' attempts).
    - No further manual dt_min reduction is authorized.
    - Adaptive remeshing proceeds directly from that terminal converged state.
-4. Refinement corridor minimization:
-   - Minimized corridor partition: x in [8.5, 20.0] mm, y in [60.0, 77.0] mm (area 195.5 mm^2)
-   - Physical element count target: ~30,000 physical elements (24,832 elements generated)
+4. Refinement corridor minimization (Narrow Damage-Following Band):
+   - Narrow damage-following band: height H_band = 2.0 mm (half-width w_half = 1.0 mm ~ 3.5 l0)
+   - Follows evolving crack trajectory from notch root (x=10, y=70) past tip with wake margin 1.5 mm, ahead margin 2.0 mm
+   - Dynamic per-cycle receiver mesh generation via generate_cycle_adaptive_mesh()
    - Refined element size: href = 0.140 mm < l0 / 2 = 0.1425 mm (l0 = 0.285 mm)
+   - Advance rate: ~102 elements/mm; bounded mesh element count strictly < 35,000 at full plate severance (~12,265 elements est.)
 5. Gates enforced per cycle:
    - Fixed-load re-equilibration force continuity: |Delta RF2| <= 5.0% vs donor terminal state
    - Energy continuity: evaluated with Gc normalization (Gamma = E_frac / Gc)
@@ -1016,6 +1018,51 @@ class Case3SingleJobOrchestrator(object):
             )
         return False, None
 
+    def generate_cycle_adaptive_mesh(self, cycle_idx, tip_x, tip_y=70.0, d_nodal=None):
+        """
+        Generate or resolve cycle-specific adaptive receiver mesh for the narrow damage-following band.
+
+        Given current crack tip position (tip_x, tip_y), computes the narrow band partition
+        and either:
+        (a) Generates PK_METHOD_C_CASE3_CYCLE<k>_PHYS.inp via Abaqus CAE if available, or
+        (b) Resolves the cycle-specific or baseline physical mesh file.
+
+        Returns absolute path to the cycle receiver physical mesh .inp file.
+        """
+        cycle_mesh_name = "PK_METHOD_C_CASE3_CYCLE%d_PHYS.inp" % cycle_idx
+        cycle_mesh_path = os.path.join(self.run_dir, cycle_mesh_name)
+
+        # 1. If Abaqus CAE is available, generate fresh narrow-band receiver mesh
+        if ABAQUS_AVAILABLE:
+            try:
+                from generate_case3_adaptive_corridor_mesh import generate_abaqus_cae_mesh
+                print("[Mesh Generation Cycle %d] Generating cycle physical mesh via Abaqus CAE at tip (%.2f, %.2f) mm..." %
+                      (cycle_idx, tip_x, tip_y))
+                generate_abaqus_cae_mesh(cycle_mesh_path, tip_x=tip_x, tip_y=tip_y)
+                if os.path.isfile(cycle_mesh_path):
+                    return cycle_mesh_path
+            except Exception as e:
+                print("[Mesh Generation Cycle %d Warning] Abaqus CAE generation exception: %s" % (cycle_idx, str(e)))
+
+        # 2. Check if a pre-generated cycle physical mesh exists in run_dir or repo
+        if os.path.isfile(cycle_mesh_path):
+            return cycle_mesh_path
+        repo_cycle_mesh = os.path.join(REPO_ROOT, "models", "pandey_kumar_mode1", "290_method_c_case3", cycle_mesh_name)
+        if os.path.isfile(repo_cycle_mesh):
+            return repo_cycle_mesh
+
+        # 3. Fallback to adaptive physical baseline mesh
+        baseline_adapt = os.path.join(self.run_dir, "PK_METHOD_C_CASE3_ADAPTIVE_PHYS.inp")
+        if os.path.isfile(baseline_adapt):
+            print("[Mesh Generation Cycle %d Notice] Using baseline adaptive physical mesh: %s" % (cycle_idx, baseline_adapt))
+            return baseline_adapt
+        repo_adapt = os.path.join(REPO_ROOT, "models", "pandey_kumar_mode1", "290_method_c_case3", "PK_METHOD_C_CASE3_ADAPTIVE_PHYS.inp")
+        if os.path.isfile(repo_adapt):
+            print("[Mesh Generation Cycle %d Notice] Using repo baseline adaptive physical mesh: %s" % (cycle_idx, repo_adapt))
+            return repo_adapt
+
+        raise RuntimeError("No physical mesh available for Cycle %d (tip_x=%.2f, tip_y=%.2f)" % (cycle_idx, tip_x, tip_y))
+
     def generate_plan(self):
         """Generates dynamic plan based on n_adaptive_steps and equal load increment."""
         plan_cycles = []
@@ -1320,7 +1367,7 @@ class Case3SingleJobOrchestrator(object):
                 print("Crack propagation completion criteria met: %s" % reason)
                 break
 
-            # 0. Narrow Damage-Following Band Definition
+            # 0. Narrow Damage-Following Band Definition & Per-Cycle Mesh Generation
             band_spec = self.get_corridor_definition(
                 tip_x=self.current_tip_x,
                 tip_y=getattr(self, "current_tip_y", 70.0),
@@ -1331,6 +1378,14 @@ class Case3SingleJobOrchestrator(object):
                 band_spec["y_min_mm"], band_spec["y_max_mm"],
                 band_spec["band_height_mm"], band_spec["elements_per_mm_advance"]
             ))
+
+            adaptive_phys_inp = self.generate_cycle_adaptive_mesh(
+                cycle_idx=cycle_idx,
+                tip_x=self.current_tip_x,
+                tip_y=getattr(self, "current_tip_y", 70.0),
+                d_nodal=donor_state.get("d_nodal", None)
+            )
+            print("[Cycle %d - 0/4] Active receiver physical mesh: %s" % (cycle_idx, adaptive_phys_inp))
 
             # 1. State Transfer: Map donor state onto adapted physical mesh
             print("[Cycle %d - 1/4] Performing state transfer (convex_clamp)..." % cycle_idx)

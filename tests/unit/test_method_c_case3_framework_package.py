@@ -294,7 +294,10 @@ def test_manifest_schema_and_integrity():
     assert manifest["refinement_corridor_minimization"]["architecture"] == "NARROW_DAMAGE_FOLLOWING_BAND"
     assert manifest["refinement_corridor_minimization"]["narrow_band_specification"]["band_height_mm"] == 2.0
     assert manifest["refinement_corridor_minimization"]["narrow_band_specification"]["target_total_elements_bounded"] == 35000
-    assert manifest["refinement_corridor_minimization"]["corridor_box"]["area_mm2"] == 195.5
+    assert manifest["refinement_corridor_minimization"]["corridor_box"]["area_mm2"] == 7.0
+    assert manifest["refinement_corridor_minimization"]["corridor_box"]["height_mm"] == 2.0
+    assert manifest["refinement_corridor_minimization"]["corridor_box"]["width_mm"] == 3.5
+    assert manifest["refinement_corridor_minimization"]["target_physical_elements_bounded"] == 35000
     assert manifest["adaptive_schedule_parameters"]["n_adaptive_steps"] == 4
     assert manifest["adaptive_schedule_parameters"]["load_increment_mm"] == 0.0100
     assert manifest["adaptive_schedule_parameters"]["no_displacement_cap"] is True
@@ -496,5 +499,39 @@ def test_bom_prefixed_json_decoding():
         assert state["tip_x"] == 12.5
         assert state["peak_rf2"] == 4.1
         assert state["terminal_rf2"] == 3.8
+
+
+def test_receiver_mesh_generation_per_cycle_follows_tip():
+    """Verify that receiver mesh definition and resolution per cycle dynamically follows the crack tip."""
+    orch = Case3SingleJobOrchestrator(run_dir=PACKAGE_DIR, uel_path=UEL_PATH)
+
+    # Cycle 1: Tip at initial notch root (x=10.0, y=70.0)
+    spec_c1 = orch.get_corridor_definition(tip_x=10.0, tip_y=70.0)
+    assert spec_c1["corridor_width_mm"] == 3.5  # 12.0 - 8.5
+    assert spec_c1["band_height_mm"] == 2.0
+    assert abs(spec_c1["corridor_area_mm2"] - 7.0) < 1e-4
+
+    # Cycle 2: Tip advanced into plate (x=15.0, y=68.5)
+    spec_c2 = orch.get_corridor_definition(tip_x=15.0, tip_y=68.5)
+    assert spec_c2["corridor_width_mm"] == 8.5  # 17.0 - 8.5
+    assert spec_c2["band_height_mm"] == 2.0
+    assert abs(spec_c2["corridor_area_mm2"] - 17.0) < 1e-4
+
+    # Cycle 3: Tip propagated further toward void (x=25.0, y=65.0)
+    spec_c3 = orch.get_corridor_definition(tip_x=25.0, tip_y=65.0)
+    assert spec_c3["corridor_width_mm"] == 18.5  # 27.0 - 8.5
+    assert spec_c3["band_height_mm"] == 2.0
+    assert abs(spec_c3["corridor_area_mm2"] - 37.0) < 1e-4
+
+    # Verify monotonic expansion of refined region
+    assert spec_c1["corridor_width_mm"] < spec_c2["corridor_width_mm"] < spec_c3["corridor_width_mm"]
+    assert spec_c1["corridor_area_mm2"] < spec_c2["corridor_area_mm2"] < spec_c3["corridor_area_mm2"]
+    assert spec_c1["refined_band_elements"] < spec_c2["refined_band_elements"] < spec_c3["refined_band_elements"]
+
+    # Test orchestrator mesh resolution fallback
+    mesh_path = orch.generate_cycle_adaptive_mesh(cycle_idx=1, tip_x=10.0, tip_y=70.0)
+    assert os.path.isfile(mesh_path), "Resolved receiver mesh file must exist"
+    assert "PHYS.inp" in mesh_path
+
 
 

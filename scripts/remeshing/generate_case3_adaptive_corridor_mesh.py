@@ -9,12 +9,12 @@ Generates and audits the minimized corridor physical mesh for Method C Case 3:
 - Benchmark: Pandey & Kumar (2025) Section 4.3 Mode-I Plate with Hole
 - Domain: 65.0 x 120.0 mm plate with notch (a=10 mm, y=70 mm), central void (36.5, 51.0, r=10 mm),
   and pin loading holes (r=5 mm at (20,20) and (20,100) mm).
-- Refinement corridor minimization:
-  * Partition box: x in [8.5, 20.0] mm, y in [60.0, 77.0] mm
-  * Corridor width = 11.5 mm, height = 17.0 mm, area = 195.5 mm^2
+- Refinement corridor minimization (Narrow Damage-Following Band):
+  * Initial partition box at notch: x in [8.5, 12.0] mm, y in [69.0, 71.0] mm
+  * Narrow band: height H_band = 2.0 mm (half-width w_half = 1.0 mm ~ 3.5 l0), wake margin 1.5 mm, ahead margin 2.0 mm
   * Refined seed: h_ref = 0.140 mm < l0 / 2 = 0.1425 mm (l0 = 0.285 mm)
   * Background seed: h_bg = 2.0 mm
-  * Target physical element count: ~30,000 physical elements
+  * Growth rate: ~102 elements/mm; bounded mesh element count strictly < 35,000 (~12,265 elements est. at full severance)
 - Quality Gates Audited:
   * Gate 01: Minimum Jacobian determinant min(det(J)) > 0 (strictly positive)
   * Gate 02: Quad element fraction >= 85.0%
