@@ -1,0 +1,44 @@
+{
+  "mesh_path": "models/pandey_kumar_mode1/290_method_c_case3/PK_METHOD_C_CASE3_CYCLE3_PHYS.inp",
+  "mesh_sha256": "305EF98842EA94DDC3A83F22D1CD7658B7A6BE22C99DD0758CF8F4537220B679",
+  "benchmark": "Pandey & Kumar (2025) Section 4.3 Rectangular Notched Plate with Hole and Pins",
+  "cycle": "Cycle-3 Refinement (Adapted from Job-3 Donor)",
+  "statistics": {
+    "total_elements": 61688,
+    "quad_elements": 59936,
+    "tri_elements": 1752,
+    "quad_fraction_pct": 97.15990143950201,
+    "total_nodes": 61106
+  },
+  "quality_metrics": {
+    "min_det_j": 0.0006684684939835986,
+    "non_positive_jacobians": 0,
+    "mean_aspect_ratio": 1.2670001784321157,
+    "max_aspect_ratio": 4.506367894977274,
+    "mean_h_area_mm": 0.19474598059822734,
+    "min_h_area_mm": 0.03659342311317768,
+    "max_h_area_mm": 2.6943493814584834
+  },
+  "corridor_element_size_distribution": {
+    "entire_corridor": {
+      "count": 45423,
+      "min_h_mm": 0.036593423113455245,
+      "max_h_mm": 0.19238837221303756,
+      "mean_h_mm": 0.12383839527974556,
+      "median_h_mm": 0.12552427844094685
+    },
+    "forward_crack_path": {
+      "count": 8885,
+      "min_h_mm": 0.036593423113455245,
+      "max_h_mm": 0.18681143589667157,
+      "mean_h_mm": 0.12242506814717385,
+      "median_h_mm": 0.12399227992305183
+    }
+  },
+  "gates": {
+    "gate_01_jacobian": "PASS",
+    "gate_02_quad_fraction": "PASS",
+    "gate_03_aspect_ratio": "PASS",
+    "all_gates_pass": true
+  }
+}

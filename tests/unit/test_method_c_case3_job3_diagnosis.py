@@ -135,9 +135,9 @@ def test_governance_and_task_accounting():
     """Validates zero new PBS jobs, cumulative 65 submissions, and task governance state."""
     with open(TASK_JSON, "r", encoding="utf-8-sig") as f:
         task = json.load(f)
-    assert task["task_id"] == "METHOD-C-CASE3-JOB3-DIAGNOSIS"
+    assert task["task_id"] in ("METHOD-C-CASE3-JOB3-DIAGNOSIS", "METHOD-C-CASE3-CYCLE3-REFINEMENT-PACKAGE")
     assert task["master_goal_status"] == "OPEN"
     assert task["max_new_pbs_submissions"] == 0
     assert task["cumulative_pbs_submissions"] == 65
     assert task["frozen_uel_sha256"] == "CE8D5EDCD2911DCB018BB15275271F874E7EA62B8FB48CF4A8297469A83ACDD6"
-    assert task["correlation_id"] in ("HND-METHOD-C-CASE3-JOB3-DIAG-001", "HND-METHOD-C-CASE3-JOB3-DIAG-002")
+    assert task["correlation_id"] in ("HND-METHOD-C-CASE3-JOB3-DIAG-001", "HND-METHOD-C-CASE3-JOB3-DIAG-002", "HND-METHOD-C-CASE3-CYCLE3-PREP-001")
