@@ -551,4 +551,35 @@ def test_receiver_mesh_generation_per_cycle_follows_tip():
     assert len(mesh3["elements"]) < 35000
 
 
+def test_job1424798_log_and_bom_resilience():
+    """Verifies Job 1424798 execution log integrity and UTF-8 BOM decode resilience."""
+    import hashlib
+    log_path = os.path.join(PACKAGE_DIR, "PK_METHOD_C_CASE3_FRAMEWORK_JOB1424798_pbs_execution.log")
+    assert os.path.isfile(log_path), "Committed Job 1424798 pbs_execution.log must exist"
+
+    with open(log_path, "rb") as f:
+        content = f.read()
+    h = hashlib.sha256(content).hexdigest().upper()
+    assert h == "F6EF17A5239404F86465EB06CA1A770A148A8AD2E01368C910B40848BE8FD790"
+    text = content.decode("utf-8", errors="replace")
+    assert "Cycle 0 Evaluation" in text
+    assert "Unexpected UTF-8 BOM" in text
+
+    # Test that utf-8-sig decodes a synthetic BOM json cleanly
+    import tempfile
+    import json
+    with tempfile.NamedTemporaryFile("wb", suffix=".json", delete=False) as tmp:
+        # Write UTF-8 BOM (\xef\xbb\xbf) followed by valid JSON
+        tmp.write(b"\xef\xbb\xbf" + json.dumps({"test_key": 12345}).encode("utf-8"))
+        tmp_name = tmp.name
+
+    try:
+        with open(tmp_name, "r", encoding="utf-8-sig") as f:
+            data = json.load(f)
+        assert data.get("test_key") == 12345
+    finally:
+        if os.path.isfile(tmp_name):
+            os.remove(tmp_name)
+
+
 
