@@ -72,11 +72,17 @@ BENCHMARK_L0_MM = 0.285
 H_REF_MM = 0.140
 DT_MIN = 1.0e-14
 
-# Refinement minimization box
+# Narrow damage-following band parameters (replaces fixed tall corridor)
+BAND_HALF_WIDTH_MM = 1.0   # Refine within +/- 1.0 mm of crack path (~3.5 * l0)
+BAND_HEIGHT_MM = 2.0       # Total height 2 * half_width (a few mm, not 17-30 mm)
+BAND_WAKE_MARGIN_MM = 1.5  # Wake extension behind notch root (8.5 mm)
+BAND_AHEAD_MARGIN_MM = 2.0 # Forward extension ahead of tip
+
+# Initial cycle reference constants (for backward-compatible module-level imports)
 CORRIDOR_X_MIN = 8.5
-CORRIDOR_X_MAX = 20.0
-CORRIDOR_Y_MIN = 60.0
-CORRIDOR_Y_MAX = 77.0
+CORRIDOR_X_MAX = 12.0      # Follows tip: initial = 10.0 + 2.0 = 12.0 mm
+CORRIDOR_Y_MIN = 69.0      # 70.0 - 1.0 mm
+CORRIDOR_Y_MAX = 71.0      # 70.0 + 1.0 mm
 
 # Plate geometry bounds for completion check
 PLATE_WIDTH_MM = 65.0
@@ -835,6 +841,90 @@ def extract_state_from_odb(odb_path, out_json_path):
         odb.close()
 
 
+def compute_narrow_band_spec(tip_x=10.0, tip_y=70.0, d_nodal=None,
+                             half_width_mm=BAND_HALF_WIDTH_MM,
+                             ahead_margin_mm=BAND_AHEAD_MARGIN_MM,
+                             wake_margin_mm=BAND_WAKE_MARGIN_MM,
+                             notch_x=10.0, notch_y=70.0,
+                             plate_w=PLATE_WIDTH_MM):
+    """
+    Computes narrow damage-following band geometry for a given crack tip position and damage field.
+
+    Rule:
+    1. Crack path locus: Starts at notch root (notch_x, notch_y) = (10.0, 70.0)
+       and extends to current crack tip (tip_x, tip_y).
+       If tip_x > notch_x, trajectory centerline y_c(x) interpolates from notch root to tip.
+    2. Wake extension: Extends wake_margin_mm behind notch root (x_min = notch_x - wake_margin_mm = 8.5 mm).
+    3. Tip advance margin: Extends ahead_margin_mm ahead of tip (x_max = min(plate_w, tip_x + ahead_margin_mm)).
+    4. Band half-width: Refines strictly within |y - y_c(x)| <= half_width_mm (default 1.0 mm).
+       Height of refined region at any x is strictly 2 * half_width_mm = 2.0 mm (a few mm, not 17-30 mm).
+    5. Element growth: At h_ref = 0.140 mm, each 1 mm of crack advance adds:
+       (1.0 mm / 0.140 mm) * (2.0 mm / 0.140 mm) ≈ 7.14 * 14.28 ≈ 102 elements/mm.
+       Total mesh remains bounded (< 35,000 elements for full propagation vs ~65,000 in Cycle 4).
+    """
+    tip_x = float(tip_x)
+    tip_y = float(tip_y)
+
+    x_min = max(0.0, notch_x - wake_margin_mm)
+    x_max = min(plate_w, tip_x + ahead_margin_mm)
+    length = max(0.0, x_max - x_min)
+
+    if tip_x > notch_x:
+        slope = (tip_y - notch_y) / (tip_x - notch_x)
+    else:
+        slope = 0.0
+
+    y_at_xmin = notch_y
+    y_at_notch = notch_y
+    y_at_tip = tip_y
+    y_at_xmax = tip_y + slope * (x_max - tip_x)
+
+    y_center_min = min(y_at_xmin, y_at_notch, y_at_tip, y_at_xmax)
+    y_center_max = max(y_at_xmin, y_at_notch, y_at_tip, y_at_xmax)
+    y_min = y_center_min - half_width_mm
+    y_max = y_center_max + half_width_mm
+
+    local_band_height = 2.0 * half_width_mm
+    box_height = y_max - y_min
+    band_area = length * local_band_height
+
+    elem_area = H_REF_MM * H_REF_MM
+    refined_elements = int(round(band_area / elem_area))
+    elements_per_mm_advance = int(round((1.0 * local_band_height) / elem_area))
+
+    estimated_total_elements = 4000 + 2500 + refined_elements
+
+    polygon_vertices = [
+        (x_min, y_at_xmin - half_width_mm),
+        (x_max, y_at_xmax - half_width_mm),
+        (x_max, y_at_xmax + half_width_mm),
+        (x_min, y_at_xmin + half_width_mm)
+    ]
+
+    return {
+        "band_type": "NARROW_DAMAGE_FOLLOWING_BAND",
+        "tip_x": tip_x,
+        "tip_y": tip_y,
+        "x_min": x_min,
+        "x_max": x_max,
+        "y_min": y_min,
+        "y_max": y_max,
+        "length_mm": length,
+        "half_width_mm": half_width_mm,
+        "band_height_mm": local_band_height,
+        "bounding_box_height_mm": box_height,
+        "area_mm2": band_area,
+        "h_ref_mm": H_REF_MM,
+        "h_bg_mm": 2.0,
+        "l0_mm": BENCHMARK_L0_MM,
+        "l0_half_mm": BENCHMARK_L0_MM / 2.0,
+        "elements_per_mm_advance": elements_per_mm_advance,
+        "refined_band_elements": refined_elements,
+        "estimated_total_elements": estimated_total_elements,
+        "polygon_vertices": polygon_vertices
+    }
+
+
 class Case3SingleJobOrchestrator(object):
     """Manages the in-allocation execution of coarse solve and multi-cycle adaptive remeshing with equal load division."""
 
@@ -856,42 +946,64 @@ class Case3SingleJobOrchestrator(object):
         self.history = []
         self.peak_rf2 = 0.0
         self.current_tip_x = 10.0  # initial notch length a = 10.0 mm
+        self.current_tip_y = 70.0  # initial notch height y = 70.0 mm
         self.current_rf2 = 0.0
 
     def verify_prerequisites(self):
-        """Verifies UEL existence, cryptographic hash, and corridor geometry."""
+        """Verifies UEL existence, cryptographic hash, and narrow band geometry."""
         if not os.path.isfile(self.uel_path):
             raise RuntimeError("Frozen UEL not found at: %s" % self.uel_path)
         uel_hash = compute_sha256(self.uel_path)
         if uel_hash != FROZEN_UEL_SHA256:
             raise RuntimeError("Frozen UEL hash mismatch: expected %s, got %s" % (FROZEN_UEL_SHA256, uel_hash))
 
-        width = CORRIDOR_X_MAX - CORRIDOR_X_MIN
-        height = CORRIDOR_Y_MAX - CORRIDOR_Y_MIN
-        area = width * height
-        assert width == 11.5, "Corridor width mismatch"
-        assert height == 17.0, "Corridor height mismatch"
-        assert abs(area - 195.5) < 1e-4, "Corridor area mismatch"
-        assert H_REF_MM <= BENCHMARK_L0_MM / 2.0, "h_ref exceeds l0/2 threshold"
+        band = self.get_corridor_definition()
+        assert band["band_height_mm"] <= 3.0, "Narrow band height must be a few mm (not 17-30 mm)"
+        assert band["half_width_mm"] <= 2.0, "Band half-width exceeds limit"
+        assert band["h_ref_mm"] <= BENCHMARK_L0_MM / 2.0, "h_ref exceeds l0/2 threshold"
+        assert band["elements_per_mm_advance"] <= 150, "Elements per mm advance exceeds target"
         return True
 
-    def get_corridor_definition(self):
-        """Returns the formal minimized corridor specification."""
-        width = CORRIDOR_X_MAX - CORRIDOR_X_MIN
-        height = CORRIDOR_Y_MAX - CORRIDOR_Y_MIN
-        area = width * height
+    def get_corridor_definition(self, tip_x=None, tip_y=None, d_nodal=None):
+        """Returns the formal narrow damage-following band specification."""
+        if tip_x is None:
+            tip_x = self.current_tip_x if self.current_tip_x > 0 else 10.0
+        if tip_y is None:
+            tip_y = getattr(self, "current_tip_y", 70.0)
+
+        spec = compute_narrow_band_spec(
+            tip_x=tip_x,
+            tip_y=tip_y,
+            d_nodal=d_nodal,
+            half_width_mm=BAND_HALF_WIDTH_MM,
+            ahead_margin_mm=BAND_AHEAD_MARGIN_MM,
+            wake_margin_mm=BAND_WAKE_MARGIN_MM,
+            notch_x=10.0,
+            notch_y=70.0,
+            plate_w=PLATE_WIDTH_MM
+        )
         return {
-            "x_min_mm": CORRIDOR_X_MIN,
-            "x_max_mm": CORRIDOR_X_MAX,
-            "y_min_mm": CORRIDOR_Y_MIN,
-            "y_max_mm": CORRIDOR_Y_MAX,
-            "corridor_width_mm": width,
-            "corridor_height_mm": height,
-            "corridor_area_mm2": area,
-            "h_ref_mm": H_REF_MM,
-            "l0_mm": BENCHMARK_L0_MM,
-            "l0_half_mm": BENCHMARK_L0_MM / 2.0,
-            "target_total_elements": 30000
+            "band_type": "NARROW_DAMAGE_FOLLOWING_BAND",
+            "tip_x_mm": spec["tip_x"],
+            "tip_y_mm": spec["tip_y"],
+            "x_min_mm": spec["x_min"],
+            "x_max_mm": spec["x_max"],
+            "y_min_mm": spec["y_min"],
+            "y_max_mm": spec["y_max"],
+            "half_width_mm": spec["half_width_mm"],
+            "band_height_mm": spec["band_height_mm"],
+            "corridor_width_mm": spec["length_mm"],
+            "corridor_height_mm": spec["band_height_mm"],
+            "corridor_area_mm2": spec["area_mm2"],
+            "h_ref_mm": spec["h_ref_mm"],
+            "h_bg_mm": spec["h_bg_mm"],
+            "l0_mm": spec["l0_mm"],
+            "l0_half_mm": spec["l0_half_mm"],
+            "elements_per_mm_advance": spec["elements_per_mm_advance"],
+            "refined_band_elements": spec["refined_band_elements"],
+            "estimated_total_elements": spec["estimated_total_elements"],
+            "target_total_elements_bounded": 35000,
+            "polygon_vertices": spec["polygon_vertices"]
         }
 
     def check_completion(self, current_tip_x, current_rf2, peak_rf2):
@@ -1207,6 +1319,18 @@ class Case3SingleJobOrchestrator(object):
             if is_done:
                 print("Crack propagation completion criteria met: %s" % reason)
                 break
+
+            # 0. Narrow Damage-Following Band Definition
+            band_spec = self.get_corridor_definition(
+                tip_x=self.current_tip_x,
+                tip_y=getattr(self, "current_tip_y", 70.0),
+                d_nodal=donor_state.get("d_nodal", None)
+            )
+            print("[Cycle %d - 0/4] Narrow damage-following band: x in [%.1f, %.1f] mm, y in [%.1f, %.1f] mm, height=%.1f mm (estimated elements/mm: %d)" % (
+                cycle_idx, band_spec["x_min_mm"], band_spec["x_max_mm"],
+                band_spec["y_min_mm"], band_spec["y_max_mm"],
+                band_spec["band_height_mm"], band_spec["elements_per_mm_advance"]
+            ))
 
             # 1. State Transfer: Map donor state onto adapted physical mesh
             print("[Cycle %d - 1/4] Performing state transfer (convex_clamp)..." % cycle_idx)

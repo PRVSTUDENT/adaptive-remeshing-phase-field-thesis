@@ -45,6 +45,15 @@
     }
   },
   "refinement_corridor_minimization": {
+    "architecture": "NARROW_DAMAGE_FOLLOWING_BAND",
+    "narrow_band_specification": {
+      "band_half_width_mm": 1.0,
+      "band_height_mm": 2.0,
+      "wake_margin_mm": 1.5,
+      "ahead_margin_mm": 2.0,
+      "elements_per_mm_advance": 102,
+      "target_total_elements_bounded": 35000
+    },
     "corridor_box": {
       "x_min_mm": 8.5,
       "x_max_mm": 20.0,

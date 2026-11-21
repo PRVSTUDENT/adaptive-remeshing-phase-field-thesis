@@ -41,6 +41,11 @@ from scripts.remeshing.case3_single_job_orchestrator import (
     BENCHMARK_GC_KN_MM,
     BENCHMARK_L0_MM,
     H_REF_MM,
+    BAND_HALF_WIDTH_MM,
+    BAND_HEIGHT_MM,
+    BAND_WAKE_MARGIN_MM,
+    BAND_AHEAD_MARGIN_MM,
+    compute_narrow_band_spec,
     CORRIDOR_X_MIN,
     CORRIDOR_X_MAX,
     CORRIDOR_Y_MIN,
@@ -53,6 +58,7 @@ from scripts.remeshing.case3_single_job_orchestrator import (
 from scripts.remeshing.generate_case3_adaptive_corridor_mesh import (
     compute_element_area_and_h,
     get_corridor_partition_spec,
+    compute_narrow_band_spec as gen_compute_narrow_band_spec,
 )
 
 PACKAGE_DIR = os.path.join(REPO_ROOT, "models", "pandey_kumar_mode1", "290_method_c_case3")
@@ -114,18 +120,96 @@ def test_crack_completion_criteria():
     assert "PLATE_SEVERED_LOAD_DROP_BELOW_5PCT" in reason_b
 
 def test_minimized_corridor_geometry():
-    """Verify corridor partition box dimensions and area."""
+    """Verify narrow damage-following band geometry at initial notch state."""
     width = CORRIDOR_X_MAX - CORRIDOR_X_MIN
     height = CORRIDOR_Y_MAX - CORRIDOR_Y_MIN
     area = width * height
-    assert width == 11.5
-    assert height == 17.0
-    assert abs(area - 195.5) < 1e-4
+    assert width == 3.5
+    assert height == 2.0
+    assert abs(area - 7.0) < 1e-4
     assert H_REF_MM == 0.140
     assert H_REF_MM < (BENCHMARK_L0_MM / 2.0)
     spec = get_corridor_partition_spec()
-    assert spec["corridor_box"]["area_mm2"] == 195.5
-    assert spec["target_mesh_metrics"]["target_total_elements"] == 30000
+    assert spec["band_type"] == "NARROW_DAMAGE_FOLLOWING_BAND"
+    assert spec["corridor_box"]["height_mm"] == 2.0
+    assert spec["target_mesh_metrics"]["target_total_elements_bounded"] == 35000
+    assert spec["target_mesh_metrics"]["elements_per_mm_advance"] == 102
+
+def test_narrow_band_follows_tip():
+    """Verify that the narrow damage-following band dynamically tracks crack tip movement."""
+    # 1. Initial notch state (tip at notch root x=10, y=70)
+    spec_init = compute_narrow_band_spec(tip_x=10.0, tip_y=70.0)
+    assert spec_init["x_min"] == 8.5
+    assert spec_init["x_max"] == 12.0  # 10.0 + ahead_margin (2.0)
+    assert spec_init["length_mm"] == 3.5
+    assert abs(spec_init["tip_y"] - 70.0) < 1e-6
+
+    # 2. Intermediate state (tip advanced to x=22, y=66)
+    spec_mid = compute_narrow_band_spec(tip_x=22.0, tip_y=66.0)
+    assert spec_mid["x_min"] == 8.5
+    assert spec_mid["x_max"] == 24.0  # 22.0 + ahead_margin (2.0)
+    assert spec_mid["length_mm"] == 15.5
+    assert spec_mid["x_max"] > spec_init["x_max"]
+    assert spec_mid["length_mm"] > spec_init["length_mm"]
+    assert spec_mid["polygon_vertices"][1][1] < spec_init["polygon_vertices"][1][1]
+
+    # 3. Deep propagation state (tip advanced to x=35, y=55)
+    spec_deep = compute_narrow_band_spec(tip_x=35.0, tip_y=55.0)
+    assert spec_deep["x_max"] == 37.0  # 35.0 + 2.0
+    assert spec_deep["length_mm"] == 28.5
+    assert spec_deep["x_max"] > spec_mid["x_max"]
+
+    # 4. Orchestrator method dynamic query
+    orch = Case3SingleJobOrchestrator(run_dir=PACKAGE_DIR, uel_path=UEL_PATH)
+    orch_band = orch.get_corridor_definition(tip_x=28.0, tip_y=61.0)
+    assert orch_band["x_max_mm"] == 30.0
+    assert orch_band["corridor_width_mm"] == 21.5
+    assert orch_band["tip_x_mm"] == 28.0
+    assert orch_band["tip_y_mm"] == 61.0
+
+def test_narrow_band_is_narrow():
+    """Verify that the band height is narrow (few mm, not 17-30 mm tall rectangle)."""
+    tip_positions = [
+        (10.0, 70.0),
+        (15.0, 68.5),
+        (20.0, 67.0),
+        (30.0, 60.0),
+        (45.0, 50.0),
+        (60.0, 52.0)
+    ]
+
+    for tx, ty in tip_positions:
+        spec = compute_narrow_band_spec(tip_x=tx, tip_y=ty)
+        # Band height at cross section is strictly 2.0 mm (half-width = 1.0 mm)
+        assert spec["band_height_mm"] == 2.0, "Band height must be exactly 2.0 mm"
+        assert spec["half_width_mm"] == 1.0, "Half width must be 1.0 mm (~3.5 * l0)"
+        assert spec["half_width_mm"] < 2.0, "Half width must stay below 2.0 mm"
+        assert spec["band_height_mm"] <= 3.0, "Band height must be a few mm"
+
+        # Compare with old fixed 17 mm and manual 30 mm corridor
+        assert spec["band_height_mm"] < (0.20 * 17.0), "Band must be >5x narrower than old 17 mm corridor"
+        assert spec["band_height_mm"] < (0.10 * 30.0), "Band must be >10x narrower than manual 30 mm corridor"
+
+def test_narrow_band_element_count_bounded():
+    """Verify that refined band elements and total mesh stay strictly bounded (< 35,000) for representative and full crack path."""
+    # 1. Elements per mm advance rate: target ~100 elements / mm
+    spec_rate = compute_narrow_band_spec(tip_x=10.0, tip_y=70.0)
+    assert 90 <= spec_rate["elements_per_mm_advance"] <= 115, "Elements per mm advance must be roughly 100"
+    assert spec_rate["elements_per_mm_advance"] == 102
+
+    # 2. Representative tip position: tip_x = 30.0 mm (after substantial crack advance)
+    spec_30 = compute_narrow_band_spec(tip_x=30.0, tip_y=60.0)
+    assert spec_30["refined_band_elements"] < 3000  # ~2,400 elements
+    assert spec_30["estimated_total_elements"] < 12000  # ~8,900 elements
+    # Far fewer than manual campaign's Cycle-4 mesh of 64,653 elements
+    assert spec_30["estimated_total_elements"] < (0.25 * 64653), "Must be far fewer than manual Cycle-4 (64,653)"
+    assert spec_30["estimated_total_elements"] < 35000, "Must stay well under 35,000 threshold"
+
+    # 3. Full crack propagation to plate edge: tip_x = 64.0 mm
+    spec_end = compute_narrow_band_spec(tip_x=64.0, tip_y=51.0)
+    assert spec_end["refined_band_elements"] < 7000  # ~5,765 elements
+    assert spec_end["estimated_total_elements"] < 15000  # ~12,265 elements
+    assert spec_end["estimated_total_elements"] < 35000, "Full propagation mesh must remain well under 35,000"
 
 def test_sta_cutback_parsing():
     """Verify .sta file parser detects cutback floor and terminal converged state."""
@@ -207,6 +291,9 @@ def test_manifest_schema_and_integrity():
     assert manifest["benchmark"]["material_parameters"]["Gc_kN_per_mm"] == 0.00228
     assert manifest["benchmark"]["material_parameters"]["l0_mm"] == 0.285
     assert manifest["single_job_architecture"]["frozen_uel"]["sha256"] == FROZEN_UEL_SHA256
+    assert manifest["refinement_corridor_minimization"]["architecture"] == "NARROW_DAMAGE_FOLLOWING_BAND"
+    assert manifest["refinement_corridor_minimization"]["narrow_band_specification"]["band_height_mm"] == 2.0
+    assert manifest["refinement_corridor_minimization"]["narrow_band_specification"]["target_total_elements_bounded"] == 35000
     assert manifest["refinement_corridor_minimization"]["corridor_box"]["area_mm2"] == 195.5
     assert manifest["adaptive_schedule_parameters"]["n_adaptive_steps"] == 4
     assert manifest["adaptive_schedule_parameters"]["load_increment_mm"] == 0.0100
@@ -387,5 +474,27 @@ def test_cycle0_run_artifacts_and_timing_reconciliation():
     assert abs(summary_data["final_crack_extension_mm"] - 0.676) < 0.001
     assert summary_data["forward_crack_growth_demonstrated"] is True
     assert abs(summary_data["E_fracture_kNmm"] - 0.005743) < 0.0001
+
+
+def test_bom_prefixed_json_decoding():
+    """Verify that orchestrator extract_cycle_state handles UTF-8 BOM-prefixed JSON without decoding error (NOTE-DIAG-01)."""
+    from scripts.remeshing.case3_single_job_orchestrator import Case3SingleJobOrchestrator
+    import tempfile
+
+    with tempfile.TemporaryDirectory() as tmpdir:
+        orch = Case3SingleJobOrchestrator(run_dir=tmpdir)
+        bom_json_path = os.path.join(tmpdir, "test_job_state.json")
+        bom_payload = b'\xef\xbb\xbf{"u_nodal": {"1": [0.01, -0.02]}, "d_nodal": {"1": 0.75}, "h_gp": {"1_1": 150.0}, "tip_x": 12.5, "peak_rf2": 4.1, "terminal_rf2": 3.8}'
+        with open(bom_json_path, "wb") as f:
+            f.write(bom_payload)
+
+        # Ensure extract_cycle_state parses cleanly with utf-8-sig
+        state = orch.extract_cycle_state("test_job")
+        assert state["u_nodal"][1] == [0.01, -0.02]
+        assert state["d_nodal"][1] == 0.75
+        assert state["h_gp"][(1, 1)] == 150.0
+        assert state["tip_x"] == 12.5
+        assert state["peak_rf2"] == 4.1
+        assert state["terminal_rf2"] == 3.8
 
 

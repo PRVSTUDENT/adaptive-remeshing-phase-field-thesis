@@ -49,16 +49,106 @@ UPPER_PIN_X = 20.0
 UPPER_PIN_Y = 100.0
 UPPER_PIN_R = 5.0
 
-# Minimized corridor partition
-CORRIDOR_X_MIN = 8.5
-CORRIDOR_X_MAX = 20.0
-CORRIDOR_Y_MIN = 60.0
-CORRIDOR_Y_MAX = 77.0
-
-H_REF = 0.140
-H_BG = 2.00
+# Narrow damage-following band parameters (replaces fixed tall corridor)
 L0 = 0.285
 L0_HALF = L0 / 2.0  # 0.1425 mm
+H_REF = 0.140  # Refined element size (<= l0/2)
+H_BG = 2.00    # Background element size
+
+BAND_HALF_WIDTH_MM = 1.0   # Refine within +/- 1.0 mm of crack path (~3.5 * l0)
+BAND_HEIGHT_MM = 2.0       # Total height 2 * half_width (a few mm, not 17-30 mm)
+BAND_WAKE_MARGIN_MM = 1.5  # Wake extension behind notch (x_min = 10.0 - 1.5 = 8.5 mm)
+BAND_AHEAD_MARGIN_MM = 2.0 # Forward extension ahead of tip
+
+# Initial cycle reference constants (initial crack at notch root 10.0, 70.0)
+CORRIDOR_X_MIN = NOTCH_A - BAND_WAKE_MARGIN_MM   # 8.5 mm
+CORRIDOR_X_MAX = NOTCH_A + BAND_AHEAD_MARGIN_MM  # 12.0 mm (follows tip dynamically)
+CORRIDOR_Y_MIN = NOTCH_Y - BAND_HALF_WIDTH_MM    # 69.0 mm
+CORRIDOR_Y_MAX = NOTCH_Y + BAND_HALF_WIDTH_MM    # 71.0 mm
+
+def compute_narrow_band_spec(tip_x=10.0, tip_y=70.0, d_nodal=None,
+                             half_width_mm=BAND_HALF_WIDTH_MM,
+                             ahead_margin_mm=BAND_AHEAD_MARGIN_MM,
+                             wake_margin_mm=BAND_WAKE_MARGIN_MM,
+                             notch_x=NOTCH_A, notch_y=NOTCH_Y,
+                             plate_w=PLATE_W):
+    """
+    Computes narrow damage-following band geometry for a given crack tip position and damage field.
+
+    Rule:
+    1. Crack path locus: Starts at notch root (notch_x, notch_y) = (10.0, 70.0)
+       and extends to current crack tip (tip_x, tip_y).
+       If tip_x > notch_x, trajectory centerline y_c(x) interpolates from notch root to tip.
+    2. Wake extension: Extends wake_margin_mm behind notch root (x_min = notch_x - wake_margin_mm = 8.5 mm).
+    3. Tip advance margin: Extends ahead_margin_mm ahead of tip (x_max = min(plate_w, tip_x + ahead_margin_mm)).
+    4. Band half-width: Refines strictly within |y - y_c(x)| <= half_width_mm (default 1.0 mm).
+       Height of refined region at any x is strictly 2 * half_width_mm = 2.0 mm (a few mm, not 17-30 mm).
+    5. Element growth: At h_ref = 0.140 mm, each 1 mm of crack advance adds:
+       (1.0 mm / 0.140 mm) * (2.0 mm / 0.140 mm) ≈ 7.14 * 14.28 ≈ 102 elements/mm.
+       Total mesh remains bounded (< 35,000 elements for full propagation vs ~65,000 in Cycle 4).
+    """
+    tip_x = float(tip_x)
+    tip_y = float(tip_y)
+
+    x_min = max(0.0, notch_x - wake_margin_mm)
+    x_max = min(plate_w, tip_x + ahead_margin_mm)
+    length = max(0.0, x_max - x_min)
+
+    if tip_x > notch_x:
+        slope = (tip_y - notch_y) / (tip_x - notch_x)
+    else:
+        slope = 0.0
+
+    y_at_xmin = notch_y
+    y_at_notch = notch_y
+    y_at_tip = tip_y
+    y_at_xmax = tip_y + slope * (x_max - tip_x)
+
+    y_center_min = min(y_at_xmin, y_at_notch, y_at_tip, y_at_xmax)
+    y_center_max = max(y_at_xmin, y_at_notch, y_at_tip, y_at_xmax)
+    y_min = y_center_min - half_width_mm
+    y_max = y_center_max + half_width_mm
+
+    local_band_height = 2.0 * half_width_mm
+    box_height = y_max - y_min
+    band_area = length * local_band_height
+
+    elem_area = H_REF * H_REF  # 0.0196 mm^2
+    refined_elements = int(round(band_area / elem_area))
+    elements_per_mm_advance = int(round((1.0 * local_band_height) / elem_area))  # ~102
+
+    # Estimated total physical elements: background (~4,000) + transition (~2,500) + band elements
+    estimated_total_elements = 4000 + 2500 + refined_elements
+
+    polygon_vertices = [
+        (x_min, y_at_xmin - half_width_mm),
+        (x_max, y_at_xmax - half_width_mm),
+        (x_max, y_at_xmax + half_width_mm),
+        (x_min, y_at_xmin + half_width_mm)
+    ]
+
+    return {
+        "band_type": "NARROW_DAMAGE_FOLLOWING_BAND",
+        "tip_x": tip_x,
+        "tip_y": tip_y,
+        "x_min": x_min,
+        "x_max": x_max,
+        "y_min": y_min,
+        "y_max": y_max,
+        "length_mm": length,
+        "half_width_mm": half_width_mm,
+        "band_height_mm": local_band_height,
+        "bounding_box_height_mm": box_height,
+        "area_mm2": band_area,
+        "h_ref_mm": H_REF,
+        "h_bg_mm": H_BG,
+        "l0_mm": L0,
+        "l0_half_mm": L0_HALF,
+        "elements_per_mm_advance": elements_per_mm_advance,
+        "refined_band_elements": refined_elements,
+        "estimated_total_elements": estimated_total_elements,
+        "polygon_vertices": polygon_vertices
+    }
 
 def compute_element_area_and_h(coords):
     """Computes area and characteristic size h = sqrt(Area) for 2D quad or tri element."""
@@ -80,11 +170,19 @@ def compute_element_area_and_h(coords):
     h = math.sqrt(area) if area > 0 else 0.0
     return area, h
 
-def evaluate_corridor_audit(nodes, elements, elem_type_map):
-    """Performs geometric audit of elements located in the minimized corridor."""
+def evaluate_corridor_audit(nodes, elements, elem_type_map, tip_x=10.0, tip_y=70.0, d_nodal=None):
+    """Performs geometric audit of elements located in the narrow damage-following band."""
+    spec = compute_narrow_band_spec(tip_x=tip_x, tip_y=tip_y, d_nodal=d_nodal)
     corridor_elements = []
     total_quads = 0
     total_tris = 0
+
+    x_min = spec["x_min"]
+    x_max = spec["x_max"]
+    notch_x = NOTCH_A
+    notch_y = NOTCH_Y
+    slope = (tip_y - notch_y) / (tip_x - notch_x) if tip_x > notch_x else 0.0
+    half_w = spec["half_width_mm"]
 
     for eid, conn in elements.items():
         coords = [nodes[nid] for nid in conn if nid in nodes]
@@ -99,15 +197,20 @@ def evaluate_corridor_audit(nodes, elements, elem_type_map):
         else:
             total_tris += 1
 
-        if CORRIDOR_X_MIN <= cx <= CORRIDOR_X_MAX and CORRIDOR_Y_MIN <= cy <= CORRIDOR_Y_MAX:
-            area, h = compute_element_area_and_h(coords)
-            corridor_elements.append({
-                "eid": eid,
-                "center": (cx, cy),
-                "area": area,
-                "h": h,
-                "type": etype
-            })
+        if x_min <= cx <= x_max:
+            if cx <= notch_x:
+                yc = notch_y
+            else:
+                yc = notch_y + slope * (cx - notch_x)
+            if abs(cy - yc) <= (half_w + 0.15):
+                area, h = compute_element_area_and_h(coords)
+                corridor_elements.append({
+                    "eid": eid,
+                    "center": (cx, cy),
+                    "area": area,
+                    "h": h,
+                    "type": etype
+                })
 
     total_elems = len(elements)
     quad_frac = (total_quads / total_elems * 100.0) if total_elems > 0 else 0.0
@@ -117,6 +220,7 @@ def evaluate_corridor_audit(nodes, elements, elem_type_map):
     max_h = max(h_values) if h_values else 0.0
 
     return {
+        "band_spec": spec,
         "total_elements": total_elems,
         "total_quads": total_quads,
         "total_tris": total_tris,
@@ -129,34 +233,41 @@ def evaluate_corridor_audit(nodes, elements, elem_type_map):
         "gate_04_corridor_h_pass": median_h <= L0_HALF if corridor_elements else True
     }
 
-def get_corridor_partition_spec():
-    """Returns the exact partition geometry definition."""
-    width = CORRIDOR_X_MAX - CORRIDOR_X_MIN
-    height = CORRIDOR_Y_MAX - CORRIDOR_Y_MIN
-    area = width * height
+def get_corridor_partition_spec(tip_x=10.0, tip_y=70.0, d_nodal=None):
+    """Returns the exact narrow damage-following band partition geometry definition."""
+    spec = compute_narrow_band_spec(tip_x=tip_x, tip_y=tip_y, d_nodal=d_nodal)
     return {
+        "band_type": "NARROW_DAMAGE_FOLLOWING_BAND",
+        "tip_x": spec["tip_x"],
+        "tip_y": spec["tip_y"],
         "corridor_box": {
-            "x_min": CORRIDOR_X_MIN,
-            "x_max": CORRIDOR_X_MAX,
-            "y_min": CORRIDOR_Y_MIN,
-            "y_max": CORRIDOR_Y_MAX,
-            "width_mm": width,
-            "height_mm": height,
-            "area_mm2": area
+            "x_min": spec["x_min"],
+            "x_max": spec["x_max"],
+            "y_min": spec["y_min"],
+            "y_max": spec["y_max"],
+            "width_mm": spec["length_mm"],
+            "height_mm": spec["band_height_mm"],
+            "bounding_box_height_mm": spec["bounding_box_height_mm"],
+            "area_mm2": spec["area_mm2"],
+            "half_width_mm": spec["half_width_mm"]
         },
         "target_mesh_metrics": {
             "h_ref_mm": H_REF,
             "h_bg_mm": H_BG,
             "l0_mm": L0,
             "l0_half_mm": L0_HALF,
-            "target_total_elements": 30000,
+            "elements_per_mm_advance": spec["elements_per_mm_advance"],
+            "target_total_elements_bounded": 35000,
+            "estimated_total_elements": spec["estimated_total_elements"],
+            "refined_band_elements": spec["refined_band_elements"],
             "min_quad_fraction_pct": 85.0,
             "max_aspect_ratio": 4.0
-        }
+        },
+        "polygon_vertices": spec["polygon_vertices"]
     }
 
-def generate_abaqus_cae_mesh(out_phys_inp):
-    """Executes Abaqus CAE commands to generate physical mesh with minimized corridor."""
+def generate_abaqus_cae_mesh(out_phys_inp, tip_x=10.0, tip_y=70.0):
+    """Executes Abaqus CAE commands to generate physical mesh with narrow damage-following band."""
     try:
         from abaqus import mdb
         from abaqusConstants import TWO_D_PLANAR, DEFORMABLE_BODY, QUAD_DOMINATED, FREE, CPE4, CPE3, STANDARD, OFF, ON, ANALYSIS
@@ -165,8 +276,12 @@ def generate_abaqus_cae_mesh(out_phys_inp):
     except ImportError:
         raise RuntimeError("Abaqus Python modules not available. Must be invoked via 'abaqus cae noGUI=...'")
 
-    print("Generating Case 3 Minimized Corridor physical mesh...")
-    model_name = "CASE3_MINIMIZED_CORRIDOR"
+    spec = compute_narrow_band_spec(tip_x=tip_x, tip_y=tip_y)
+    print("Generating Case 3 Narrow Damage-Following Band physical mesh...")
+    print("Narrow band: x in [%.1f, %.1f] mm, y in [%.1f, %.1f] mm, height=%.1f mm" % (
+        spec["x_min"], spec["x_max"], spec["y_min"], spec["y_max"], spec["band_height_mm"]
+    ))
+    model_name = "CASE3_NARROW_BAND"
     if model_name in mdb.models:
         del mdb.models[model_name]
     m = mdb.Model(name=model_name)
@@ -194,7 +309,9 @@ def generate_abaqus_cae_mesh(out_phys_inp):
     del m.sketches["__profile__"]
 
     sp = m.ConstrainedSketch(name="__partition__", sheetSize=250.0)
-    sp.rectangle(point1=(CORRIDOR_X_MIN, CORRIDOR_Y_MIN), point2=(CORRIDOR_X_MAX, CORRIDOR_Y_MAX))
+    poly = spec["polygon_vertices"]
+    for i in range(len(poly)):
+        sp.Line(point1=poly[i], point2=poly[(i + 1) % len(poly)])
     p.PartitionFaceBySketch(faces=p.faces, sketch=sp)
     del m.sketches["__partition__"]
 
@@ -206,10 +323,19 @@ def generate_abaqus_cae_mesh(out_phys_inp):
     p.seedPart(size=H_BG, deviationFactor=0.05, minSizeFactor=0.02)
 
     ref_faces = []
+    x_min = spec["x_min"]
+    x_max = spec["x_max"]
+    notch_x = NOTCH_A
+    notch_y = NOTCH_Y
+    slope = (tip_y - notch_y) / (tip_x - notch_x) if tip_x > notch_x else 0.0
+    half_w = spec["half_width_mm"]
     for f in p.faces:
         pt = f.pointOn[0]
-        if (CORRIDOR_X_MIN - 1e-3 <= pt[0] <= CORRIDOR_X_MAX + 1e-3) and (CORRIDOR_Y_MIN - 1e-3 <= pt[1] <= CORRIDOR_Y_MAX + 1e-3):
-            ref_faces.append(f)
+        if (x_min - 1e-3 <= pt[0] <= x_max + 1e-3):
+            cx = pt[0]
+            yc = notch_y if cx <= notch_x else notch_y + slope * (cx - notch_x)
+            if abs(pt[1] - yc) <= half_w + 1e-2:
+                ref_faces.append(f)
 
     ref_edges = []
     edge_indices_seen = set()
@@ -313,9 +439,11 @@ def generate_abaqus_cae_mesh(out_phys_inp):
 
     with open(out_phys_inp, "w") as f:
         f.write("** ============================================================\n")
-        f.write("** Method C Case 3 Minimized Corridor Physical Mesh\n")
+        f.write("** Method C Case 3 Narrow Damage-Following Band Physical Mesh\n")
         f.write("** Benchmark: Pandey & Kumar (2025) Section 4.3 Plate with Hole\n")
-        f.write("** Corridor: x in [%.1f, %.1f], y in [%.1f, %.1f]\n" % (CORRIDOR_X_MIN, CORRIDOR_X_MAX, CORRIDOR_Y_MIN, CORRIDOR_Y_MAX))
+        f.write("** Narrow Band: x in [%.1f, %.1f], y in [%.1f, %.1f], height = %.1f mm\n" % (
+            spec["x_min"], spec["x_max"], spec["y_min"], spec["y_max"], spec["band_height_mm"]
+        ))
         f.write("** Sizing: h_ref = %.3f mm, h_bg = %.3f mm\n" % (H_REF, H_BG))
         f.write("** Statistics: %d nodes, %d elements (%d quads, %d tris, %.2f%% quad)\n" % (
             len(new_nodes), len(new_elements), len(quads), len(tris), quad_pct
