@@ -1,6 +1,6 @@
 1
 
-   Abaqus 2023                                  Date 21-Nov-2026   Time 08:08:56
+   Abaqus 2023                                  Date 21-Nov-2026   Time 08:38:49
    For use by TECHNISCHE UNIVERSITAET BERGAKADEMIE FREIBERG under license from Dassault Systemes or its subsidiary.
 
  Method C Case 3 Cycle-4 Refined Job-5: Re-equilibration & Forward Crack Growth  
@@ -34,7 +34,7 @@
 
      JOB TIME SUMMARY
        USER TIME (SEC)      =      3.9    
-       SYSTEM TIME (SEC)    =     0.86    
-       TOTAL CPU TIME (SEC) =      4.7    
+       SYSTEM TIME (SEC)    =     0.70    
+       TOTAL CPU TIME (SEC) =      4.6    
        WALLCLOCK TIME (SEC) =            7
        MEMORY PEAK (GB)     =            0

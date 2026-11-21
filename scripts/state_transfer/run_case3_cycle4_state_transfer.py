@@ -378,9 +378,9 @@ def run_case3_cycle4_transfer():
     # 4. Assemble Job 5 Production Input Deck
     print("\n[4/5] Assembling 3-layer coupled re-equilibration & propagation deck: %s..." % RECEIVER_DECK_INP)
 
-    # Physical parameters (Pandey & Kumar Case 3)
+    # Physical parameters (Pandey & Kumar Case 3, Section 4.3 benchmark)
     l0 = 0.285
-    Gc = 0.0027  # kN/mm
+    Gc = 0.00228  # kN/mm (Section 4.3 benchmark value: 2.28 J/m^2 = 0.00228 kN/mm)
     E_GPa = 210.0  # kN/mm^2
     nu = 0.30
     k_res = 1.0e-7
@@ -684,6 +684,7 @@ def run_case3_cycle4_transfer():
             "deck_file": "models/pandey_kumar_mode1/290_method_c_case3/PK_METHOD_C_CASE3_CYCLE4_REFINED_JOB5.inp",
             "deck_sha256": deck_sha,
             "deck_body_sha256": deck_body_sha,
+            "fracture_energy_Gc_kN_per_mm": Gc,
             "num_total_elements": total_layered_elems,
             "num_layers": 3,
             "layer_1_uel_phase": {"type": "U1 (quad) / U3 (tri)", "dof": 3, "variables": 18, "count": num_recip_phys},
