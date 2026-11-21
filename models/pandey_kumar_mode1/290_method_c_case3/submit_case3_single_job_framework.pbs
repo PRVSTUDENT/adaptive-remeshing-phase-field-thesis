@@ -1,0 +1,54 @@
+#!/bin/bash
+#PBS -N M1_MC_C3_FRAMEWORK
+#PBS -l select=1:ncpus=16:mpiprocs=1:ompthreads=16:mem=48gb
+#PBS -l walltime=72:00:00
+#PBS -q entry_imfdfkmq
+#PBS -j oe
+#PBS -r n
+#PBS -o /scratch9/pr21vyci/runs/mode1_290_method_c_case3_single_job/pbs_execution.log
+#PBS -m abe
+#PBS -M pr21vyci@mailserver.tu-freiberg.de
+
+set -euo pipefail
+RUN_DIR="/scratch9/pr21vyci/runs/mode1_290_method_c_case3_single_job"
+mkdir -p "${RUN_DIR}"
+cd "${RUN_DIR}"
+
+export JOB_NAME="PK_METHOD_C_CASE3_SINGLE_JOB_FRAMEWORK"
+export NOTIFICATION_CONFIG="${NOTIFICATION_CONFIG:-${HOME}/.config/adaptive-remeshing/notifications.env}"
+
+if [ -f "${RUN_DIR}/job_notifications.sh" ]; then
+    source "${RUN_DIR}/job_notifications.sh"
+elif [ -f "${HOME}/projects/adaptive-remeshing/scripts/hpc/notifications/job_notifications.sh" ]; then
+    source "${HOME}/projects/adaptive-remeshing/scripts/hpc/notifications/job_notifications.sh"
+fi
+
+if type notification_load_config >/dev/null 2>&1; then
+    notification_load_config
+    notification_install_terminal_trap
+    notify_start
+fi
+
+if ! type module >/dev/null 2>&1; then source /etc/profile.d/lmod.sh; fi
+module purge
+module load gcc/11.4.0 intel/2024.2.0 abaqus/2023 python/3.10.8 || module load gcc/11.4.0 intel/2024.2.0 abaqus/2023
+command -v ifort
+command -v abaqus
+command -v python3
+
+echo "================================================================="
+echo "Method C Case 3: Single-Job Multi-Cycle Adaptive Framework"
+echo "Host: $(hostname)"
+echo "Start time: $(date)"
+echo "Run directory: ${RUN_DIR}"
+echo "================================================================="
+
+# Execute in-allocation Python orchestrator
+python3 "${RUN_DIR}/case3_single_job_orchestrator.py" --run-dir "${RUN_DIR}"
+EXIT_CODE=$?
+
+echo "================================================================="
+echo "Framework Orchestrator Finished with Exit Code: ${EXIT_CODE}"
+echo "End time: $(date)"
+echo "================================================================="
+exit ${EXIT_CODE}

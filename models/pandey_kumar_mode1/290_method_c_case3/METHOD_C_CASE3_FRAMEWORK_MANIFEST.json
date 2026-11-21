@@ -1,0 +1,132 @@
+{
+  "manifest_version": "1.0.0",
+  "task_id": "METHOD-C-CASE3-SINGLE-JOB-FRAMEWORK-BUILD",
+  "correlation_id": "HND-METHOD-C-CASE3-FRAMEWORK-PREP-001",
+  "predecessor_correlation_id": "HND-METHOD-C-CASE3-FRAMEWORK-001",
+  "benchmark": {
+    "reference": "Pandey & Kumar (2025) Section 4.3",
+    "case": "Case 3: Mode-I Cracked Plate with Central Void and Pin Loading",
+    "dimensions_mm": {
+      "width": 65.0,
+      "height": 120.0,
+      "notch_length": 10.0,
+      "notch_y": 70.0,
+      "central_void_x": 36.5,
+      "central_void_y": 51.0,
+      "central_void_r": 10.0,
+      "pins_r": 5.0,
+      "pin_lower_y": 20.0,
+      "pin_upper_y": 100.0
+    },
+    "material_parameters": {
+      "E_GPa": 210.0,
+      "nu": 0.3,
+      "Gc_kN_per_mm": 0.00228,
+      "l0_mm": 0.285,
+      "h_ref_max_mm": 0.1425
+    }
+  },
+  "single_job_architecture": {
+    "description": "In-allocation orchestrator chaining Coarse solve plus 4 adaptive remesh cycles in ONE PBS allocation without round-trip queuing",
+    "orchestrator_script": "scripts/remeshing/case3_single_job_orchestrator.py",
+    "submission_script": "models/pandey_kumar_mode1/290_method_c_case3/submit_case3_single_job_framework.pbs",
+    "frozen_uel": {
+      "path": "models/pandey_kumar_mode1/f42_mixed_uel.for",
+      "sha256": "CE8D5EDCD2911DCB018BB15275271F874E7EA62B8FB48CF4A8297469A83ACDD6"
+    },
+    "pbs_resources": {
+      "nodes": 1,
+      "ncpus": 16,
+      "mem_gb": 48,
+      "walltime_hours": 72,
+      "queue": "entry_imfdfkmq",
+      "scratch_base": "/scratch9/pr21vyci/runs/mode1_290_method_c_case3_single_job"
+    }
+  },
+  "refinement_corridor_minimization": {
+    "corridor_box": {
+      "x_min_mm": 8.5,
+      "x_max_mm": 20.0,
+      "y_min_mm": 60.0,
+      "y_max_mm": 77.0,
+      "width_mm": 11.5,
+      "height_mm": 17.0,
+      "area_mm2": 195.5
+    },
+    "h_ref_mm": 0.140,
+    "h_bg_mm": 2.0,
+    "target_physical_elements": 30000,
+    "quality_gates": {
+      "min_jacobian_det": "strictly_positive",
+      "min_quad_fraction_pct": 85.0,
+      "max_aspect_ratio": 4.0,
+      "characteristic_size_metric": "h = sqrt(Area) <= 0.1425 mm"
+    }
+  },
+  "cycle_schedule": [
+    {
+      "cycle": 0,
+      "name": "COARSE",
+      "type": "INITIAL_COARSE_SOLVE",
+      "u2_target_mm": 0.0500,
+      "dt_min": 1.0e-08,
+      "dt_max": 0.001,
+      "description": "Pre-cracking coarse solve to initial onset load u2=0.0500 mm"
+    },
+    {
+      "cycle": 1,
+      "name": "CYCLE1_ADAPT1",
+      "type": "ADAPTIVE_RE_EQUILIBRATION_AND_ADVANCE",
+      "u2_hold_mm": 0.0500,
+      "u2_target_mm": 0.4125,
+      "dt_min": 1.0e-14,
+      "description": "Remesh from Coarse donor, hold at u2=0.05 mm, advance to u2=0.4125 mm"
+    },
+    {
+      "cycle": 2,
+      "name": "CYCLE2_ADAPT2",
+      "type": "ADAPTIVE_RE_EQUILIBRATION_AND_ADVANCE",
+      "u2_hold_mm": "donor_terminal_u2",
+      "u2_target_mm": 0.7750,
+      "dt_min": 1.0e-14,
+      "description": "Remesh from Cycle-1 terminal state, hold at donor u2, advance to u2=0.7750 mm"
+    },
+    {
+      "cycle": 3,
+      "name": "CYCLE3_ADAPT3",
+      "type": "ADAPTIVE_RE_EQUILIBRATION_AND_ADVANCE",
+      "u2_hold_mm": "donor_terminal_u2",
+      "u2_target_mm": 1.1375,
+      "dt_min": 1.0e-14,
+      "description": "Remesh from Cycle-2 terminal state, hold at donor u2, advance to u2=1.1375 mm"
+    },
+    {
+      "cycle": 4,
+      "name": "CYCLE4_ADAPT4",
+      "type": "ADAPTIVE_RE_EQUILIBRATION_AND_ADVANCE",
+      "u2_hold_mm": "donor_terminal_u2",
+      "u2_target_mm": 1.5000,
+      "dt_min": 1.0e-14,
+      "description": "Remesh from Cycle-3 terminal state, hold at donor u2, advance to final u2=1.5000 mm"
+    }
+  ],
+  "runtime_policies": {
+    "dt_min_floor_behaviour": {
+      "floor_threshold": 1.0e-14,
+      "policy": "STOP_AT_FLOOR_AND_REMESH_FROM_TERMINAL_STATE",
+      "further_dt_min_reduction_authorized": false
+    },
+    "convergence_gates": {
+      "force_continuity_threshold_pct": 5.0,
+      "energy_evaluation": "Gc_normalized_integral (Gamma = E_frac / Gc)",
+      "zero_healing_enforcement": "d_max_terminal >= d_max_transferred - 1e-4",
+      "terminal_frame_naming": "DYNAMIC_FROM_LAST_CONVERGED_INCREMENT"
+    }
+  },
+  "accounting": {
+    "current_cumulative_pbs_submissions": 67,
+    "framework_build_pbs_consumed": 0,
+    "authorized_first_run_pbs_submissions": 1,
+    "execution_requires_independent_review_approval": true
+  }
+}
