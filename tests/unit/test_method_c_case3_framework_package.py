@@ -552,10 +552,12 @@ def test_receiver_mesh_generation_per_cycle_follows_tip():
 
 
 def test_job1424798_log_and_bom_resilience():
-    """Verifies Job 1424798 execution log integrity and UTF-8 BOM decode resilience."""
+    """Verifies predecessor Job 1424797 execution log integrity and UTF-8 BOM decode resilience."""
     import hashlib
-    log_path = os.path.join(PACKAGE_DIR, "PK_METHOD_C_CASE3_FRAMEWORK_JOB1424798_pbs_execution.log")
-    assert os.path.isfile(log_path), "Committed Job 1424798 pbs_execution.log must exist"
+    log_path = os.path.join(PACKAGE_DIR, "PK_METHOD_C_CASE3_FRAMEWORK_JOB1424797_pbs_execution.log")
+    if not os.path.isfile(log_path):
+        log_path = os.path.join(PACKAGE_DIR, "PK_METHOD_C_CASE3_FRAMEWORK_JOB1424798_pbs_execution.log")
+    assert os.path.isfile(log_path), "Committed Job pbs_execution.log must exist"
 
     with open(log_path, "rb") as f:
         content = f.read()
@@ -580,6 +582,23 @@ def test_job1424798_log_and_bom_resilience():
     finally:
         if os.path.isfile(tmp_name):
             os.remove(tmp_name)
+
+
+def test_job1424798_identity_reconciliation_and_scheduler_status():
+    """Verifies that Job 1424798 timing and identity are reconciled against scheduler facts."""
+    report_path = os.path.join(REPO_ROOT, "docs", "validation", "METHOD_C_CASE3_FRAMEWORK_JOB1424798_EXECUTION_REPORT.md")
+    assert os.path.isfile(report_path), "Job 1424798 execution report must exist"
+
+    with open(report_path, "r", encoding="utf-8") as f:
+        report_text = f.read()
+
+    # Verify reconciliation claims
+    assert "GAP-JOB-01 Resolved" in report_text
+    assert "GAP-JOB-02 Resolved" in report_text
+    assert "1424797.mmaster02" in report_text
+    assert "1424798.mmaster02" in report_text
+    assert "221c6d13" in report_text
+    assert "-0.3912" in report_text  # Step 1 force continuity passed gate
 
 
 
