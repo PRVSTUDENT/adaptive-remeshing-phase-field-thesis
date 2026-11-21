@@ -376,4 +376,16 @@ def test_cycle0_run_artifacts_and_timing_reconciliation():
     assert state_data["tip_x"] == 10.0
     assert state_data["tip_y"] == 70.0
 
+    with open(summary_json, "r") as f:
+        summary_data = json.load(f)
+
+    assert summary_data["total_equilibrium_iterations"] == 256
+    assert summary_data["step1_equilibrium_iterations"] == 160
+    assert summary_data["step2_equilibrium_iterations"] == 96
+    assert abs(summary_data["final_crack_tip_x_mm"] - 10.6727) < 0.001
+    assert abs(summary_data["final_crack_tip_y_mm"] - 69.9342) < 0.001
+    assert abs(summary_data["final_crack_extension_mm"] - 0.676) < 0.001
+    assert summary_data["forward_crack_growth_demonstrated"] is True
+    assert abs(summary_data["E_fracture_kNmm"] - 0.005743) < 0.0001
+
 

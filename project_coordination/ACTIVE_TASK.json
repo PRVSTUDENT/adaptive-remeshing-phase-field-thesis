@@ -1,28 +1,28 @@
 ﻿{
-  "task_id": "METHOD-C-CASE3-FRAMEWORK-CYCLE0-ORCHESTRATOR-REPAIR-REISSUE",
-  "title": "Method C Case 3: Single-Job Framework Cycle-0 Observables Extraction & Orchestrator Repair Re-Issue (CYCLE0-002)",
-  "task_status": "COMPLETED_READY_FOR_INDEPENDENT_REVIEW",
+  "task_id": "METHOD-C-CASE3-FRAMEWORK-CYCLE0-REPORT-CORRECTION-003",
+  "title": "Method C Case 3: Single-Job Framework Cycle-0 Report Observables Correction (CYCLE0-003)",
+  "task_status": "ACTIVE_EXECUTION",
   "master_goal_status": "OPEN",
-  "status": "COMPLETED_READY_FOR_INDEPENDENT_REVIEW",
+  "status": "ACTIVE_EXECUTION",
   "review_verdict": "INSUFFICIENT_EVIDENCE",
-  "review_correlation_id": "HND-METHOD-C-CASE3-FRAMEWORK-CYCLE0-001",
+  "review_correlation_id": "HND-METHOD-C-CASE3-FRAMEWORK-CYCLE0-002",
   "classification": "METHOD_C_INCREMENTAL_ADAPTIVE_REMESHING",
   "assigned_agent": "gemini-antigravity",
   "active_pbs_job_id": null,
   "last_successful_pbs_job_id": "1424786.mmaster02",
   "last_failed_pbs_job_id": "1424780.mmaster02",
   "checkpoint_artifact": "docs/validation/METHOD_C_CASE3_FRAMEWORK_CYCLE0_RESULTS_REPORT.md",
-  "checkpoint_artifact_sha256": "D1D2EDFB3B0BEE9BDDF001A08B06199B2635E3389ECF5EA007AE711CAAA5D2F9",
-  "review_directive": "Fix the three blocking gaps and report for review; 0 new PBS in this instruction. (1) Per-cycle state advancement: after each cycle solve in execute(), extract the cycle's terminal state (extract_cycle_state on the cycle job, with the state JSON written from the ODB) and update donor_state, current_tip_x, current_rf2 and peak_rf2 before the next cycle's transfer, so each cycle transfers the previous cycle's end state (not the Cycle-0 state) and the completion check sees the current crack state. (2) Cycle-0 run artifact: commit the Cycle-0 state JSON (PK_METHOD_C_CASE3_COARSE_JOB1_state.json) or the .sta/.msg tail from the /scratch9/pr21vyci/runs/mode1_290_method_c_case3_single_job run directory so the Cycle-0 observables are verifiable; state the terminal crack tip with its extraction method and threshold (d>=0.95); reconcile the CPU time (handoff 546 s vs ledger 559 s, walltime 2114 s). (3) Remove the silent hardcoded fallback defaults in extract_cycle_state's donor-file branch (0.9472, 0.0210, 3.9288, 0.003456): derive the observables from the donor file's own fields or compute them from the loaded u_nodal/d_nodal/h_gp, and raise an error or log an explicit warning when a required key is absent. Also correct the package report wording so n_adaptive_steps is described as the loop bound (user-settable, default 4). Re-run the offline test suite (must PASS, 13/13 or more) and commit the revised orchestrator and the Cycle-0 run artifact for review before any further PBS run.",
+  "checkpoint_artifact_sha256": "CB346B76DFB8EE399BFB02424D247AC3670DF598153A349684AD9C700398F1BF",
+  "review_directive": "Correct the two remaining false values in the Cycle-0 report Section 3 against the committed artifacts and re-report; 0 new PBS in this instruction. (1) Equilibrium iterations: state Step-1 equilibrium iterations 160 (average 3.20 per increment), Step-2 equilibrium iterations 96, total 256, as established by the committed .sta and SUMMARY.json. Remove the false '148 (average 2.96)' figure. (2) Terminal crack tip: state the terminal tip as (10.6727, 69.9342) mm at the d>=0.95 threshold, with final crack extension 0.676 mm from the notch root and forward crack growth demonstrated (per the SUMMARY propagation_history Step-2 frame 6 and final_crack_tip_x_mm / final_crack_tip_y_mm / final_crack_extension_mm). Remove the false 'x_tip = 10.0 mm, y_tip = 70.0 mm' terminal tip and the 'zero macroscopic crack advance' claim; the (10.0, 70.0) coordinates are the Step-1 end frame's tip (no node at d>=0.95 at Step-1 end) and must be labelled as such if retained. Also state in the report that the committed SUMMARY.json is the Job-1 summary (job_id 1424711) whose values the framework run reproduced, and that the Step-1 fracture energy 0.003456 kN*mm is the Step-1 portion while the total fracture energy is 0.005743 kN*mm. Re-run the offline test suite (must PASS, 16/16 or more) and commit the corrected report for review before any further PBS run.",
   "predecessor_task": {
-    "task_id": "METHOD-C-CASE3-FRAMEWORK-ORCHESTRATOR-REPAIR-AND-CYCLE0-RESULTS",
+    "task_id": "METHOD-C-CASE3-FRAMEWORK-CYCLE0-ORCHESTRATOR-REPAIR-REISSUE",
     "checkpoint_artifact": "docs/validation/METHOD_C_CASE3_FRAMEWORK_CYCLE0_RESULTS_REPORT.md",
     "classification": "METHOD_C_INCREMENTAL_ADAPTIVE_REMESHING",
     "review_verdict": "INSUFFICIENT_EVIDENCE",
-    "correlation_id": "HND-METHOD-C-CASE3-FRAMEWORK-CYCLE0-001"
+    "correlation_id": "HND-METHOD-C-CASE3-FRAMEWORK-CYCLE0-002"
   },
-  "correlation_id": "HND-METHOD-C-CASE3-FRAMEWORK-CYCLE0-002",
-  "predecessor_correlation_id": "HND-METHOD-C-CASE3-FRAMEWORK-CYCLE0-001",
+  "correlation_id": "HND-METHOD-C-CASE3-FRAMEWORK-CYCLE0-003",
+  "predecessor_correlation_id": "HND-METHOD-C-CASE3-FRAMEWORK-CYCLE0-002",
   "scientific_operation": "method_c_single_job_framework_build",
   "scientific_operation_id": "method_c_single_job_framework_build",
   "scientific_checkpoint_required": true,
@@ -32,5 +32,5 @@
   "max_new_pbs_submissions": 0,
   "submissions_consumed": 0,
   "cumulative_pbs_submissions": 68,
-  "notes": "Resolved all 3 blocking gaps and 2 advisory notes from HND-METHOD-C-CASE3-FRAMEWORK-CYCLE0-001: (1) Implemented per-cycle state extraction and advancement in execute() loop; (2) Committed 4 raw Cycle-0 run artifacts (.state.json, .SUMMARY.json, .sta, pbs_execution.log), documented d>=0.95 crack tip threshold at (10.0, 70.0) mm, and reconciled solver CPU 546s vs scheduler cput 559s (walltime 2114s); (3) Excised all hardcoded Job-1 fallback literals; (4) Synchronized both orchestrator copies; (5) Corrected loop bound documentation. 16/16 tests PASS. 0 new PBS jobs consumed."
+  "notes": "Addressing GAP-C0-02 residual report corrections: 256 total equilibrium iterations (Step 1 160, Step 2 96); terminal tip (10.6727, 69.9342) mm at d>=0.95 with 0.676 mm crack extension and forward crack growth demonstrated; SUMMARY.json provenance and Step 1 vs total fracture energy disclosed. 0 new PBS jobs consumed."
 }
