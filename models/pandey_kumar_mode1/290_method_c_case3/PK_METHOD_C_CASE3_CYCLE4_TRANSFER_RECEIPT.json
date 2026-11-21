@@ -1,0 +1,113 @@
+{
+  "protocol": "METHOD_C_STATE_TRANSFER_RECEIPT_V1",
+  "benchmark": "Pandey & Kumar (2025) Section 4.3 Rectangular Notched Plate with Hole and Pins",
+  "case_id": "method_c_case3",
+  "cycle": "Cycle-4 Refinement, Re-equilibration, and Forward Propagation",
+  "governance": {
+    "task_id": "METHOD-C-CASE3-CYCLE4-REFINEMENT-PACKAGE",
+    "correlation_id": "HND-METHOD-C-CASE3-CYCLE4-PREP-001",
+    "predecessor_correlation_id": "HND-METHOD-C-CASE3-JOB4-DIAG-001",
+    "master_goal_status": "OPEN",
+    "max_new_pbs_submissions": 0,
+    "cumulative_pbs_submissions": 66,
+    "fix_option_adopted": "Fix Option A (refine from Job-4 Inc-11 donor state with extended hole corridor and dt_min=1e-14)"
+  },
+  "donor_provenance": {
+    "source_odb": "/scratch9/pr21vyci/runs/mode1_290_method_c_case3_c3_job4/PK_METHOD_C_CASE3_CYCLE3_REFINED_JOB4.odb",
+    "donor_state_file": "models/pandey_kumar_mode1/290_method_c_case3/donor_case3_cycle3_state.json",
+    "donor_mesh_file": "models/pandey_kumar_mode1/290_method_c_case3/PK_METHOD_C_CASE3_CYCLE3_PHYS.inp",
+    "donor_job": "PK_METHOD_C_CASE3_CYCLE3_REFINED_JOB4",
+    "donor_step": "Step-2",
+    "donor_frame": 3,
+    "donor_step_time": 0.002137931063771248,
+    "donor_max_damage": 0.9968817979097366,
+    "donor_mean_damage": 0.01615677932566562,
+    "donor_max_history_MPa": 19.16556167602539,
+    "donor_mean_history_MPa": 0.0034021080838047084,
+    "donor_num_nodes": 61106,
+    "donor_num_elements": 61688
+  },
+  "receiver_mesh": {
+    "physical_mesh_file": "models/pandey_kumar_mode1/290_method_c_case3/PK_METHOD_C_CASE3_CYCLE4_PHYS.inp",
+    "physical_mesh_sha256": "18E9B7ACD4E66B8503CD6E876FAE211671927874EEF7B1A3FF9F37068E44C5BA",
+    "num_nodes": 64106,
+    "num_physical_elements": 64653,
+    "num_quads": 62958,
+    "num_tris": 1695,
+    "quad_fraction_pct": 97.37831191128022,
+    "refinement_corridor": {
+      "x_min_mm": 8.5,
+      "x_max_mm": 38.0,
+      "y_min_mm": 47.0,
+      "y_max_mm": 77.0,
+      "extends_to_hole": true,
+      "hole_center_mm": [
+        36.5,
+        51.0
+      ],
+      "hole_radius_mm": 10.0,
+      "hole_perimeter_x_mm": 26.5
+    }
+  },
+  "production_deck": {
+    "deck_file": "models/pandey_kumar_mode1/290_method_c_case3/PK_METHOD_C_CASE3_CYCLE4_REFINED_JOB5.inp",
+    "deck_sha256": "C2C9D98CEA43DC4A9A042360302AF2B2867754C028957DB0605DC10D7CF52D6F",
+    "deck_body_sha256": "F58E3B2CC79D6228EAAD08F4E4EECD545E215B4B883F18AC596324A14731474C",
+    "num_total_elements": 193959,
+    "num_layers": 3,
+    "layer_1_uel_phase": {
+      "type": "U1 (quad) / U3 (tri)",
+      "dof": 3,
+      "variables": 18,
+      "count": 64653
+    },
+    "layer_2_uel_disp": {
+      "type": "U2 (quad) / U4 (tri)",
+      "dof": [
+        1,
+        2
+      ],
+      "variables": 18,
+      "count": 64653
+    },
+    "layer_3_companion": {
+      "type": "CPE4 (quad) / CPE3 (tri)",
+      "count": 64653
+    },
+    "step_1_hold": {
+      "name": "Step-1-Hold",
+      "u2_target_mm": 0.056835,
+      "dt_min": 1e-14,
+      "controls": "*CONTROLS, PARAMETERS=LINE SEARCH \\n 4",
+      "amplitude": "CONST_HOLD"
+    },
+    "step_2_propagation": {
+      "name": "Step-2",
+      "u2_target_mm": 0.4125,
+      "dt_min": 1e-14,
+      "controls": "*CONTROLS, PARAMETERS=LINE SEARCH \\n 4",
+      "amplitude": "RAMP"
+    },
+    "snap_through_strategy": "Incremental adaptive remeshing: when crack propagates and triggers cutback floor under steep energy release, freeze the terminal converged state, build next refinement cycle tracking evolving crack path toward the hole, transfer state, and advance."
+  },
+  "transfer_metrics": {
+    "receiver_max_damage": 0.9922287887374099,
+    "receiver_mean_damage": 0.01538884817510105,
+    "receiver_deck_svar_max_damage": 0.9796154511166606,
+    "receiver_max_history_MPa": 19.16556167602539,
+    "receiver_min_history_MPa": 1.1160962549389151e-11,
+    "receiver_mean_history_MPa": 0.0028546736852974163,
+    "damage_preservation_ratio": 0.9953324364211653,
+    "history_preservation_ratio": 1.0,
+    "healing_detected": false,
+    "non_negativity_satisfied": true,
+    "phase_bounds_satisfied": true
+  },
+  "transfer_gates": {
+    "phase_bounds_gate": "PASS",
+    "non_negativity_gate": "PASS",
+    "non_healing_gate": "PASS",
+    "deck_uel_syntax_gate": "PASS",
+    "all_transfer_gates_pass": true
+  }
+}
