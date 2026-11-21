@@ -1,0 +1,497 @@
+{
+  "num_physical_elements": 64653, 
+  "job": "PK_METHOD_C_CASE3_CYCLE4_REFINED_JOB5", 
+  "hole_radius": 10.0, 
+  "steps": {
+    "Step-2": [
+      {
+        "peak_damage_coord": [
+          11.15356755, 
+          69.84695052499998
+        ], 
+        "spatial_metrics": {
+          "d_ge_0.40": {
+            "delta_a_euclid_mm": 3.860779515176255, 
+            "delta_a_x_mm": 3.849335674999999, 
+            "tip_y": 69.70295905, 
+            "tip_x": 13.849335674999999, 
+            "hole_penetrated": false, 
+            "count_elements": 252, 
+            "dist_to_hole_mm": 19.374364190392356
+          }, 
+          "d_ge_0.50": {
+            "delta_a_euclid_mm": 3.6901786536978074, 
+            "delta_a_x_mm": 3.6891882249999988, 
+            "tip_y": 69.91450885, 
+            "tip_x": 13.689188224999999, 
+            "hole_penetrated": false, 
+            "count_elements": 199, 
+            "dist_to_hole_mm": 19.632613433026915
+          }, 
+          "d_ge_0.95": {
+            "delta_a_euclid_mm": 3.215259291340384, 
+            "delta_a_x_mm": 3.210456200000001, 
+            "tip_y": 69.82432046666666, 
+            "tip_x": 13.210456200000001, 
+            "hole_penetrated": false, 
+            "count_elements": 54, 
+            "dist_to_hole_mm": 19.945916106272048
+          }, 
+          "d_ge_0.80": {
+            "delta_a_euclid_mm": 3.4086274947520225, 
+            "delta_a_x_mm": 3.4017334000000012, 
+            "tip_y": 69.783317575, 
+            "tip_x": 13.401733400000001, 
+            "hole_penetrated": false, 
+            "count_elements": 104, 
+            "dist_to_hole_mm": 19.77151220626825
+          }, 
+          "d_ge_0.90": {
+            "delta_a_euclid_mm": 3.215259291340384, 
+            "delta_a_x_mm": 3.210456200000001, 
+            "tip_y": 69.82432046666666, 
+            "tip_x": 13.210456200000001, 
+            "hole_penetrated": false, 
+            "count_elements": 68, 
+            "dist_to_hole_mm": 19.945916106272048
+          }, 
+          "d_ge_0.60": {
+            "delta_a_euclid_mm": 3.587089962107162, 
+            "delta_a_x_mm": 3.5735783249999997, 
+            "tip_y": 69.6889496, 
+            "tip_x": 13.573578325, 
+            "hole_penetrated": false, 
+            "count_elements": 162, 
+            "dist_to_hole_mm": 19.57866879985051
+          }, 
+          "d_ge_0.20": {
+            "delta_a_euclid_mm": 4.2986311342808055, 
+            "delta_a_x_mm": 4.292201275, 
+            "tip_y": 69.764972675, 
+            "tip_x": 14.292201275, 
+            "hole_penetrated": false, 
+            "count_elements": 480, 
+            "dist_to_hole_mm": 19.074224386965305
+          }
+        }, 
+        "u2_rp_mm": 0.05683499947190285, 
+        "rf2_rp_kn": 3.869248628616333, 
+        "frame_index": 0, 
+        "peak_damage_eid": 19700, 
+        "step_time": 0.0, 
+        "peak_damage": 1.0017179250717163, 
+        "description": "Increment      0: Step Time =    0.000"
+      }, 
+      {
+        "peak_damage_coord": [
+          11.15356755, 
+          69.84695052499998
+        ], 
+        "spatial_metrics": {
+          "d_ge_0.40": {
+            "delta_a_euclid_mm": 4.361270774424413, 
+            "delta_a_x_mm": 4.34896015, 
+            "tip_y": 69.67254255, 
+            "tip_x": 14.34896015, 
+            "hole_penetrated": false, 
+            "count_elements": 289, 
+            "dist_to_hole_mm": 18.971234211159327
+          }, 
+          "d_ge_0.50": {
+            "delta_a_euclid_mm": 4.195116111543387, 
+            "delta_a_x_mm": 4.184815875, 
+            "tip_y": 69.706205375, 
+            "tip_x": 14.184815875, 
+            "hole_penetrated": false, 
+            "count_elements": 228, 
+            "dist_to_hole_mm": 19.118543268239414
+          }, 
+          "d_ge_0.95": {
+            "delta_a_euclid_mm": 3.54659694556737, 
+            "delta_a_x_mm": 3.5416257249999994, 
+            "tip_y": 69.812284475, 
+            "tip_x": 13.541625725, 
+            "hole_penetrated": false, 
+            "count_elements": 59, 
+            "dist_to_hole_mm": 19.681458800390992
+          }, 
+          "d_ge_0.80": {
+            "delta_a_euclid_mm": 3.860779515176255, 
+            "delta_a_x_mm": 3.849335674999999, 
+            "tip_y": 69.70295905, 
+            "tip_x": 13.849335674999999, 
+            "hole_penetrated": false, 
+            "count_elements": 116, 
+            "dist_to_hole_mm": 19.374364190392356
+          }, 
+          "d_ge_0.90": {
+            "delta_a_euclid_mm": 3.6934485296421165, 
+            "delta_a_x_mm": 3.682979575000001, 
+            "tip_y": 69.72210885, 
+            "tip_x": 13.682979575000001, 
+            "hole_penetrated": false, 
+            "count_elements": 80, 
+            "dist_to_hole_mm": 19.514975535583886
+          }, 
+          "d_ge_0.60": {
+            "delta_a_euclid_mm": 4.077046105938273, 
+            "delta_a_x_mm": 4.074792175000001, 
+            "tip_y": 69.86445044999999, 
+            "tip_x": 14.074792175, 
+            "hole_penetrated": false, 
+            "count_elements": 185, 
+            "dist_to_hole_mm": 19.304563412119727
+          }, 
+          "d_ge_0.20": {
+            "delta_a_euclid_mm": 4.791105290417605, 
+            "delta_a_x_mm": 4.76446795, 
+            "tip_y": 69.495485325, 
+            "tip_x": 14.76446795, 
+            "hole_penetrated": false, 
+            "count_elements": 549, 
+            "dist_to_hole_mm": 18.539732495310247
+          }
+        }, 
+        "u2_rp_mm": 0.0575953833758831, 
+        "rf2_rp_kn": 3.8380563259124756, 
+        "frame_index": 1, 
+        "peak_damage_eid": 19700, 
+        "step_time": 0.00213792035356164, 
+        "peak_damage": 1.0019265413284302, 
+        "description": "Increment      5: Step Time =   2.1379E-03"
+      }, 
+      {
+        "peak_damage_coord": [
+          11.15356755, 
+          69.84695052499998
+        ], 
+        "spatial_metrics": {
+          "d_ge_0.40": {
+            "delta_a_euclid_mm": 4.791105290417605, 
+            "delta_a_x_mm": 4.76446795, 
+            "tip_y": 69.495485325, 
+            "tip_x": 14.76446795, 
+            "hole_penetrated": false, 
+            "count_elements": 329, 
+            "dist_to_hole_mm": 18.539732495310247
+          }, 
+          "d_ge_0.50": {
+            "delta_a_euclid_mm": 4.70524886780649, 
+            "delta_a_x_mm": 4.696280025, 
+            "tip_y": 69.7096195, 
+            "tip_x": 14.696280025, 
+            "hole_penetrated": false, 
+            "count_elements": 259, 
+            "dist_to_hole_mm": 18.730681624058178
+          }, 
+          "d_ge_0.95": {
+            "delta_a_euclid_mm": 4.043631566546584, 
+            "delta_a_x_mm": 4.0370934, 
+            "tip_y": 69.77014542500001, 
+            "tip_x": 14.0370934, 
+            "hole_penetrated": false, 
+            "count_elements": 65, 
+            "dist_to_hole_mm": 19.272863409580765
+          }, 
+          "d_ge_0.80": {
+            "delta_a_euclid_mm": 4.361270774424413, 
+            "delta_a_x_mm": 4.34896015, 
+            "tip_y": 69.67254255, 
+            "tip_x": 14.34896015, 
+            "hole_penetrated": false, 
+            "count_elements": 130, 
+            "dist_to_hole_mm": 18.971234211159327
+          }, 
+          "d_ge_0.90": {
+            "delta_a_euclid_mm": 4.195116111543387, 
+            "delta_a_x_mm": 4.184815875, 
+            "tip_y": 69.706205375, 
+            "tip_x": 14.184815875, 
+            "hole_penetrated": false, 
+            "count_elements": 90, 
+            "dist_to_hole_mm": 19.118543268239414
+          }, 
+          "d_ge_0.60": {
+            "delta_a_euclid_mm": 4.556688967155357, 
+            "delta_a_x_mm": 4.550530200000001, 
+            "tip_y": 69.76316832500001, 
+            "tip_x": 14.5505302, 
+            "hole_penetrated": false, 
+            "count_elements": 208, 
+            "dist_to_hole_mm": 18.876213569188664
+          }, 
+          "d_ge_0.20": {
+            "delta_a_euclid_mm": 5.292313518896957, 
+            "delta_a_x_mm": 5.268528333333334, 
+            "tip_y": 69.49880983333333, 
+            "tip_x": 15.268528333333334, 
+            "hole_penetrated": false, 
+            "count_elements": 607, 
+            "dist_to_hole_mm": 18.159924616062078
+          }
+        }, 
+        "u2_rp_mm": 0.0575953871011734, 
+        "rf2_rp_kn": 3.7575182914733887, 
+        "frame_index": 2, 
+        "peak_damage_eid": 19700, 
+        "step_time": 0.002137931063771248, 
+        "peak_damage": 1.00193452835083, 
+        "description": "Increment     10: Step Time =   2.1379E-03"
+      }, 
+      {
+        "peak_damage_coord": [
+          11.15356755, 
+          69.84695052499998
+        ], 
+        "spatial_metrics": {
+          "d_ge_0.40": {
+            "delta_a_euclid_mm": 4.891542115837235, 
+            "delta_a_x_mm": 4.878205549999999, 
+            "tip_y": 69.639036175, 
+            "tip_x": 14.878205549999999, 
+            "hole_penetrated": false, 
+            "count_elements": 337, 
+            "dist_to_hole_mm": 18.54672774191483
+          }, 
+          "d_ge_0.50": {
+            "delta_a_euclid_mm": 4.752585894634786, 
+            "delta_a_x_mm": 4.747864025, 
+            "tip_y": 69.788198475, 
+            "tip_x": 14.747864025, 
+            "hole_penetrated": false, 
+            "count_elements": 265, 
+            "dist_to_hole_mm": 18.74285687628983
+          }, 
+          "d_ge_0.95": {
+            "delta_a_euclid_mm": 4.195116111543387, 
+            "delta_a_x_mm": 4.184815875, 
+            "tip_y": 69.706205375, 
+            "tip_x": 14.184815875, 
+            "hole_penetrated": false, 
+            "count_elements": 67, 
+            "dist_to_hole_mm": 19.118543268239414
+          }, 
+          "d_ge_0.80": {
+            "delta_a_euclid_mm": 4.459108572413199, 
+            "delta_a_x_mm": 4.450479975, 
+            "tip_y": 69.722732525, 
+            "tip_x": 14.450479975, 
+            "hole_penetrated": false, 
+            "count_elements": 132, 
+            "dist_to_hole_mm": 18.92614814550269
+          }, 
+          "d_ge_0.90": {
+            "delta_a_euclid_mm": 4.2986311342808055, 
+            "delta_a_x_mm": 4.292201275, 
+            "tip_y": 69.764972675, 
+            "tip_x": 14.292201275, 
+            "hole_penetrated": false, 
+            "count_elements": 91, 
+            "dist_to_hole_mm": 19.074224386965305
+          }, 
+          "d_ge_0.60": {
+            "delta_a_euclid_mm": 4.653593526170259, 
+            "delta_a_x_mm": 4.648975625, 
+            "tip_y": 69.79273605, 
+            "tip_x": 14.648975625, 
+            "hole_penetrated": false, 
+            "count_elements": 215, 
+            "dist_to_hole_mm": 18.82072508598307
+          }, 
+          "d_ge_0.20": {
+            "delta_a_euclid_mm": 5.3827629651281566, 
+            "delta_a_x_mm": 5.363052875000001, 
+            "tip_y": 69.53978157499999, 
+            "tip_x": 15.363052875000001, 
+            "hole_penetrated": false, 
+            "count_elements": 622, 
+            "dist_to_hole_mm": 18.115725752926153
+          }
+        }, 
+        "u2_rp_mm": 0.0575953871011734, 
+        "rf2_rp_kn": 3.741222381591797, 
+        "frame_index": 3, 
+        "peak_damage_eid": 19700, 
+        "step_time": 0.002137931063771248, 
+        "peak_damage": 1.0019320249557495, 
+        "description": "Increment     12: Step Time =   2.1379E-03"
+      }
+    ], 
+    "Step-1-Hold": [
+      {
+        "peak_damage_coord": [
+          37.651093475, 
+          61.00055315
+        ], 
+        "spatial_metrics": {
+          "d_ge_0.40": {
+            "delta_a_euclid_mm": 0.0, 
+            "delta_a_x_mm": 0.0, 
+            "tip_y": 70.0, 
+            "tip_x": 10.0, 
+            "hole_penetrated": false, 
+            "count_elements": 0, 
+            "dist_to_hole_mm": 22.607514471360737
+          }, 
+          "d_ge_0.50": {
+            "delta_a_euclid_mm": 0.0, 
+            "delta_a_x_mm": 0.0, 
+            "tip_y": 70.0, 
+            "tip_x": 10.0, 
+            "hole_penetrated": false, 
+            "count_elements": 0, 
+            "dist_to_hole_mm": 22.607514471360737
+          }, 
+          "d_ge_0.95": {
+            "delta_a_euclid_mm": 0.0, 
+            "delta_a_x_mm": 0.0, 
+            "tip_y": 70.0, 
+            "tip_x": 10.0, 
+            "hole_penetrated": false, 
+            "count_elements": 0, 
+            "dist_to_hole_mm": 22.607514471360737
+          }, 
+          "d_ge_0.80": {
+            "delta_a_euclid_mm": 0.0, 
+            "delta_a_x_mm": 0.0, 
+            "tip_y": 70.0, 
+            "tip_x": 10.0, 
+            "hole_penetrated": false, 
+            "count_elements": 0, 
+            "dist_to_hole_mm": 22.607514471360737
+          }, 
+          "d_ge_0.90": {
+            "delta_a_euclid_mm": 0.0, 
+            "delta_a_x_mm": 0.0, 
+            "tip_y": 70.0, 
+            "tip_x": 10.0, 
+            "hole_penetrated": false, 
+            "count_elements": 0, 
+            "dist_to_hole_mm": 22.607514471360737
+          }, 
+          "d_ge_0.60": {
+            "delta_a_euclid_mm": 0.0, 
+            "delta_a_x_mm": 0.0, 
+            "tip_y": 70.0, 
+            "tip_x": 10.0, 
+            "hole_penetrated": false, 
+            "count_elements": 0, 
+            "dist_to_hole_mm": 22.607514471360737
+          }, 
+          "d_ge_0.20": {
+            "delta_a_euclid_mm": 0.0, 
+            "delta_a_x_mm": 0.0, 
+            "tip_y": 70.0, 
+            "tip_x": 10.0, 
+            "hole_penetrated": false, 
+            "count_elements": 0, 
+            "dist_to_hole_mm": 22.607514471360737
+          }
+        }, 
+        "u2_rp_mm": 0.0, 
+        "rf2_rp_kn": -0.0, 
+        "frame_index": 0, 
+        "peak_damage_eid": 1, 
+        "step_time": 0.0, 
+        "peak_damage": 0.0, 
+        "description": "Increment      0: Step Time =    0.000"
+      }, 
+      {
+        "peak_damage_coord": [
+          11.15356755, 
+          69.84695052499998
+        ], 
+        "spatial_metrics": {
+          "d_ge_0.40": {
+            "delta_a_euclid_mm": 3.860779515176255, 
+            "delta_a_x_mm": 3.849335674999999, 
+            "tip_y": 69.70295905, 
+            "tip_x": 13.849335674999999, 
+            "hole_penetrated": false, 
+            "count_elements": 252, 
+            "dist_to_hole_mm": 19.374364190392356
+          }, 
+          "d_ge_0.50": {
+            "delta_a_euclid_mm": 3.6901786536978074, 
+            "delta_a_x_mm": 3.6891882249999988, 
+            "tip_y": 69.91450885, 
+            "tip_x": 13.689188224999999, 
+            "hole_penetrated": false, 
+            "count_elements": 199, 
+            "dist_to_hole_mm": 19.632613433026915
+          }, 
+          "d_ge_0.95": {
+            "delta_a_euclid_mm": 3.215259291340384, 
+            "delta_a_x_mm": 3.210456200000001, 
+            "tip_y": 69.82432046666666, 
+            "tip_x": 13.210456200000001, 
+            "hole_penetrated": false, 
+            "count_elements": 54, 
+            "dist_to_hole_mm": 19.945916106272048
+          }, 
+          "d_ge_0.80": {
+            "delta_a_euclid_mm": 3.4086274947520225, 
+            "delta_a_x_mm": 3.4017334000000012, 
+            "tip_y": 69.783317575, 
+            "tip_x": 13.401733400000001, 
+            "hole_penetrated": false, 
+            "count_elements": 104, 
+            "dist_to_hole_mm": 19.77151220626825
+          }, 
+          "d_ge_0.90": {
+            "delta_a_euclid_mm": 3.215259291340384, 
+            "delta_a_x_mm": 3.210456200000001, 
+            "tip_y": 69.82432046666666, 
+            "tip_x": 13.210456200000001, 
+            "hole_penetrated": false, 
+            "count_elements": 68, 
+            "dist_to_hole_mm": 19.945916106272048
+          }, 
+          "d_ge_0.60": {
+            "delta_a_euclid_mm": 3.587089962107162, 
+            "delta_a_x_mm": 3.5735783249999997, 
+            "tip_y": 69.6889496, 
+            "tip_x": 13.573578325, 
+            "hole_penetrated": false, 
+            "count_elements": 162, 
+            "dist_to_hole_mm": 19.57866879985051
+          }, 
+          "d_ge_0.20": {
+            "delta_a_euclid_mm": 4.2986311342808055, 
+            "delta_a_x_mm": 4.292201275, 
+            "tip_y": 69.764972675, 
+            "tip_x": 14.292201275, 
+            "hole_penetrated": false, 
+            "count_elements": 480, 
+            "dist_to_hole_mm": 19.074224386965305
+          }
+        }, 
+        "u2_rp_mm": 0.05683499947190285, 
+        "rf2_rp_kn": 3.869248628616333, 
+        "frame_index": 1, 
+        "peak_damage_eid": 19700, 
+        "step_time": 1.0, 
+        "peak_damage": 1.0017179250717163, 
+        "description": "Increment      1: Step Time =    1.000"
+      }
+    ]
+  }, 
+  "thresholds": [
+    0.2, 
+    0.4, 
+    0.5, 
+    0.6, 
+    0.8, 
+    0.9, 
+    0.95
+  ], 
+  "notch_root": [
+    10.0, 
+    70.0
+  ], 
+  "benchmark": "Pandey & Kumar (2025) Section 4.3 - Case 3 Cycle 4", 
+  "hole_center": [
+    36.5, 
+    51.0
+  ]
+}

@@ -1,18 +1,18 @@
 ﻿{
   "task_id": "METHOD-C-CASE3-CYCLE4-JOB5-SOLVE",
   "title": "Method C Case 3: Cycle-4 Job-5 Refined Re-Equilibration and Forward Crack Propagation Solve",
-  "task_status": "IN_PROGRESS",
+  "task_status": "COMPLETED_READY_FOR_INDEPENDENT_REVIEW",
   "master_goal_status": "OPEN",
-  "status": "IN_PROGRESS",
+  "status": "COMPLETED_READY_FOR_INDEPENDENT_REVIEW",
   "review_verdict": "APPROVE",
   "review_correlation_id": "HND-METHOD-C-CASE3-CYCLE4-PREP-002",
   "classification": "METHOD_C_INCREMENTAL_ADAPTIVE_REMESHING",
   "assigned_agent": "gemini-antigravity",
-  "active_pbs_job_id": "1424783.mmaster02",
-  "last_successful_pbs_job_id": "1424778.mmaster02",
+  "active_pbs_job_id": null,
+  "last_successful_pbs_job_id": "1424783.mmaster02",
   "last_failed_pbs_job_id": "1424780.mmaster02",
   "checkpoint_artifact": "docs/validation/METHOD_C_CASE3_JOB5_EXECUTION_REPORT.md",
-  "checkpoint_artifact_sha256": null,
+  "checkpoint_artifact_sha256": "99BD2268AE4938FF8094E31732231463DFDD8EC5FB3B00B5CABA8FF5768075B5",
   "review_directive": "Submit Job-5 HND-METHOD-C-CASE3-JOB5-001, operation method_c_case3_cycle4_job5_solve, exactly 1 PBS job (cumulative 66 -> 67), the final job of the Fix Option A 5-job budget (62-67), via scripts/hpc/Invoke-Mode1Execution.ps1 ONLY. No direct qsub. Submit exactly the approved deck PK_METHOD_C_CASE3_CYCLE4_REFINED_JOB5.inp with SHA DF46D07BAF1F4A65D1F6E7192D4230134605F25A377AD1D96F511F149A521B91 (Gc = 0.00228 kN/mm) and the frozen UEL CE8D5EDC, job name M1_MC_C3_JOB5, 16 CPU / 48 GB / 72 h, queue entry_imfdfkmq, run directory /scratch9/pr21vyci/runs/mode1_290_method_c_case3_c4_job5/. Before submission verify the submitted deck SHA equals DF46D07B; if the deck is regenerated for any reason, disclose the regeneration and the new SHA in the submission package itself and do not submit until that disclosure is reviewed. After the job terminates, deliver the Job-5 execution report (HND-METHOD-C-CASE3-JOB5-001) extracting the Step-1 hold observables (u2 = 0.056835 mm, RF2, energy continuity vs the Job-4 terminal state) and the Step-2 observables (peak load, terminal u2, crack-tip advance at d >= 0.95 / 0.80 / 0.50, terminal increment and cutback state) from the committed solver outputs, with the 5 dedicated unit tests executed. No further PBS submissions and no Cycle-5 work: Job-5 is the last job of the budget. Master goal stays OPEN.",
   "predecessor_task": {
     "task_id": "METHOD-C-CASE3-CYCLE4-REFINEMENT-PACKAGE",
@@ -29,8 +29,8 @@
   "frozen_uel_sha256": "CE8D5EDCD2911DCB018BB15275271F874E7EA62B8FB48CF4A8297469A83ACDD6",
   "native_interface_sha256": "E5C98B6F601B1CD586571F8E24F357D15ABBD1C5D5487B52903BA249734279B2",
   "framework_sha256": "42217DAB0B8C3B7EFF9C8BF46FD75B7E99F06E436D9841846DF36C46E618A30A",
-  "max_new_pbs_submissions": 1,
+  "max_new_pbs_submissions": 0,
   "submissions_consumed": 1,
   "cumulative_pbs_submissions": 67,
-  "notes": "Job-5 (PBS ID 1424783.mmaster02) actively running on mnode103 (16 CPUs SMP, 48 GB RAM). Approved deck SHA DF46D07BAF1F4A65D1F6E7192D4230134605F25A377AD1D96F511F149A521B91 with benchmark Gc = 0.00228 kN/mm and frozen UEL CE8D5EDCD2911DCB018BB15275271F874E7EA62B8FB48CF4A8297469A83ACDD6. Master goal strictly remains OPEN."
+  "notes": "Job-5 (PBS ID 1424783.mmaster02) completed cleanly at Inc 12 cutback floor with 12 converged increments (1 in Step 1 hold, 11 in Step 2 forward propagation). Step 1 force continuity passed at -0.9501% (3.8692 vs 3.9064 kN, <= 5.0%). Peak load 3.8998 kN with post-peak softening to 3.7412 kN (-4.07%). Spatial crack tip advanced +1.0730 mm past Job-4 donor tip to x=14.1848 mm (Delta a_x = +4.1848 mm from notch root); damage envelope reached x=14.748 mm (distance to hole perimeter reduced to 19.12 mm); monotonic fracture energy surge +25.78% (0.01485 -> 0.01868 kN*mm); strict non-healing verified (d_max=1.0019 >= 0.99). All 5 dedicated unit tests PASS (100%). Cumulative PBS count strictly 67. Master goal strictly remains OPEN."
 }

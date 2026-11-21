@@ -1,0 +1,82 @@
+{
+  "benchmark": "Pandey & Kumar (2025) Section 4.3 - Case 3 Cycle 4",
+  "job": "PK_METHOD_C_CASE3_CYCLE4_REFINED_JOB5",
+  "steps": {
+    "Step-2": [
+      {
+        "frame": 0,
+        "time": 0.0,
+        "u2_rp": 0.05683499947190285,
+        "rf2_rp": 3.869248628616333,
+        "max_d": 1.0017179250717163,
+        "tip_x_d095": 13.210456200000001,
+        "delta_a_x_d095": 3.210456200000001,
+        "dist_to_hole": 19.945916106272048,
+        "hole_penetrated": false,
+        "description": "Increment      0: Step Time =    0.000"
+      },
+      {
+        "frame": 1,
+        "time": 0.00213792035356164,
+        "u2_rp": 0.0575953833758831,
+        "rf2_rp": 3.8380563259124756,
+        "max_d": 1.0019265413284302,
+        "tip_x_d095": 13.541625725,
+        "delta_a_x_d095": 3.5416257249999994,
+        "dist_to_hole": 19.681458800390992,
+        "hole_penetrated": false,
+        "description": "Increment      5: Step Time =   2.1379E-03"
+      },
+      {
+        "frame": 2,
+        "time": 0.002137931063771248,
+        "u2_rp": 0.0575953871011734,
+        "rf2_rp": 3.7575182914733887,
+        "max_d": 1.00193452835083,
+        "tip_x_d095": 14.0370934,
+        "delta_a_x_d095": 4.0370934,
+        "dist_to_hole": 19.272863409580765,
+        "hole_penetrated": false,
+        "description": "Increment     10: Step Time =   2.1379E-03"
+      },
+      {
+        "frame": 3,
+        "time": 0.002137931063771248,
+        "u2_rp": 0.0575953871011734,
+        "rf2_rp": 3.741222381591797,
+        "max_d": 1.0019320249557495,
+        "tip_x_d095": 14.184815875,
+        "delta_a_x_d095": 4.184815875,
+        "dist_to_hole": 19.118543268239414,
+        "hole_penetrated": false,
+        "description": "Increment     12: Step Time =   2.1379E-03"
+      }
+    ],
+    "Step-1-Hold": [
+      {
+        "frame": 0,
+        "time": 0.0,
+        "u2_rp": 0.0,
+        "rf2_rp": -0.0,
+        "max_d": 0.0,
+        "tip_x_d095": 10.0,
+        "delta_a_x_d095": 0.0,
+        "dist_to_hole": 22.607514471360737,
+        "hole_penetrated": false,
+        "description": "Increment      0: Step Time =    0.000"
+      },
+      {
+        "frame": 1,
+        "time": 1.0,
+        "u2_rp": 0.05683499947190285,
+        "rf2_rp": 3.869248628616333,
+        "max_d": 1.0017179250717163,
+        "tip_x_d095": 13.210456200000001,
+        "delta_a_x_d095": 3.210456200000001,
+        "dist_to_hole": 19.945916106272048,
+        "hole_penetrated": false,
+        "description": "Increment      1: Step Time =    1.000"
+      }
+    ]
+  }
+}
