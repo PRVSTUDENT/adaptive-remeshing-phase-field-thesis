@@ -1,0 +1,38 @@
+{
+  "batch_name": "MODE1_METHOD_C_CASE3_JOB5",
+  "max_submissions": 1,
+  "hours_valid": 72,
+  "automatic_retry": false,
+  "files": {
+    "PK_METHOD_C_CASE3_CYCLE4_REFINED_JOB5.inp": "df46d07baf1f4a65d1f6e7192d4230134605f25a377ad1d96f511f149a521b91",
+    "PK_METHOD_C_CASE3_CYCLE4_PHYS.inp": "18e9b7acd4e66b8503cd6e876fae211671927874eef7b1a3ff9f37068e44c5ba",
+    "f42_mixed_uel.for": "ce8d5edcd2911dcb018bb15275271f874e7ea62b8fb48cf4a8297469a83acdd6",
+    "submit_case3_cycle4_job5.pbs": "deec3c6ea6b7f7ecda301de082ca7efef5aea660488cfe509b9f65db818dc206",
+    "job_notifications.sh": "96756a681d2d36c11b36b89288f631f8ecc9537543c2c745a4bae1b425984b47"
+  },
+  "jobs": [
+    {
+      "id": "case3_cycle4_job5",
+      "pbs": "submit_case3_cycle4_job5.pbs",
+      "command": "powershell -NoProfile -ExecutionPolicy Bypass -File .\\.agents\\scripts\\Invoke-GuardedSsh.ps1 -RemoteCommand \"qsub -q entry_imfdfkmq /scratch9/pr21vyci/runs/mode1_290_method_c_case3_c4_job5/submit_case3_cycle4_job5.pbs\"",
+      "command_sha256": "f1b1c772ba22f97206a9d56517fcc7cc5176f11b3cdb56bbd31138a4511779a1",
+      "max_submissions": 1,
+      "depends_on": [],
+      "purpose": "Method C Case 3 Job-5 Cycle-4 refined solve (193,959 layered elements, Step 1 hold at u2=0.056835 mm, Step 2 forward propagation to u2=0.4125 mm, Gc=0.00228 kN/mm)",
+      "cpus": 16,
+      "memory_gb": 48,
+      "walltime_hours": 72,
+      "queue": "entry_imfdfkmq",
+      "execution": "16-cpu shared-memory SMP",
+      "input": "PK_METHOD_C_CASE3_CYCLE4_REFINED_JOB5.inp",
+      "datacheck": "PK_METHOD_C_CASE3_CYCLE4_REFINED_JOB5_DC.dat"
+    }
+  ],
+  "adapter": "mode1-qualified-batch-v2",
+  "scientific_scope": "MODE1",
+  "technical_stage": "C1-0",
+  "remote_run_dir": "/scratch9/pr21vyci/runs/mode1_290_method_c_case3_c4_job5",
+  "acceptance": {
+    "case3_cycle4_job5": "Method C Case 3 Job-5 Cycle-4 refined solve completes with Step-1 re-equilibration force and energy continuity within <= 5% vs donor Job 4 (RF2=3.9063646 kN); Step 2 forward crack propagation advances past Job-4 cutback point toward central hole (d >= 0.95 tip advancing past x=13.1118 mm) and demonstrates post-peak softening."
+  }
+}
