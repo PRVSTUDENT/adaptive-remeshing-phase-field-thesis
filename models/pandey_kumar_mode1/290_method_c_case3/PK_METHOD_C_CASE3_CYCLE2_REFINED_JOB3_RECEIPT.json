@@ -22,12 +22,17 @@
     "exit_code": 1,
     "status": "CUTBACK_TERMINATION",
     "termination_reason": "TIME_INCREMENT_LESS_THAN_MINIMUM",
-    "dt_min_specified": 1.0e-14,
-    "line_search_enabled": true
+    "dt_min_specified": 1e-14,
+    "line_search_enabled": true,
+    "pbs_job_span_walltime_s": 4602.0,
+    "solver_wallclock_s": 4268.0,
+    "solver_cpu_s": 2918.0,
+    "timestamps_utc": "2026-11-20 23:09:47Z to 2026-11-21 00:26:29Z",
+    "timestamps_cet": "2026-11-21 00:09:47 CET to 2026-11-21 01:26:29 CET"
   },
   "step1_re_equilibration": {
     "hold_u2_mm": 0.052451,
-    "donor_RF2_kN": 4.0332960,
+    "donor_RF2_kN": 4.033296,
     "re_equilibrated_RF2_kN": 4.0484387,
     "force_continuity_delta_pct": 0.375442,
     "force_continuity_gate_pct": 5.0,
@@ -48,7 +53,7 @@
     "u2_at_peak_load_mm": 0.053284,
     "peak_increment": 4,
     "terminal_u2_mm": 0.056073,
-    "terminal_RF2_kN": 3.947500,
+    "terminal_RF2_kN": 3.9475,
     "softening_demonstrated": true,
     "load_drop_from_peak_pct": -3.743858,
     "smallest_converged_dt": 6.728e-14,
@@ -56,12 +61,15 @@
     "initial_fracture_energy_kNmm": 0.0034895,
     "terminal_fracture_energy_kNmm": 0.013756,
     "fracture_energy_growth_pct": 294.2112,
-    "peak_elastic_strain_energy_kNmm": 0.113310,
+    "peak_elastic_strain_energy_kNmm": 0.11331,
     "terminal_elastic_strain_energy_kNmm": 0.110674,
     "strain_energy_release_demonstrated": true,
     "monotonic_fracture_energy_growth": true,
     "zero_healing_verified": true,
-    "terminal_peak_damage": 0.999750
+    "terminal_peak_damage": 0.99975,
+    "terminal_frame_label": "Increment 28 (terminal converged state; Increment 29 attempted 3 cutbacks down to dt_min=1.0e-14 and aborted)",
+    "peak_load_RF2_dat_kN": 4.1009829,
+    "peak_load_source": "ODB field output reports 4.101037 kN; .dat summary reports 4.1009829 kN at Increment 4"
   },
   "spatial_crack_propagation": {
     "notch_root_x_mm": 10.0,
@@ -80,7 +88,11 @@
     "process_zone_elements_d050_initial": 34,
     "process_zone_elements_d050_terminal": 170,
     "crack_propagated_spatially": true,
-    "crack_heading_toward_hole": true
+    "crack_heading_toward_hole": true,
+    "donor_tip_baseline_forward_advance_mm_d095": 2.3686,
+    "post_hold_baseline_forward_advance_mm_d095": 2.3649,
+    "step1_damage_growth_classification": "GROWTH_UNDER_HOLD",
+    "step1_damage_growth_details": "From donor tip x=10.1529 mm (d_max=0.976822) to post-hold tip x=10.1566 mm (d_max=0.977715, +0.09%): minor tip advance +0.0037 mm occurred during fixed-load equilibration hold"
   },
   "artifacts": {
     "sta_file": "models/pandey_kumar_mode1/290_method_c_case3/PK_METHOD_C_CASE3_CYCLE2_REFINED_JOB3.sta",
@@ -100,6 +112,27 @@
     "physical_mesh": "models/pandey_kumar_mode1/290_method_c_case3/PK_METHOD_C_CASE3_CYCLE2_PHYS.inp",
     "physical_mesh_sha256": "58466F66E1D9E41E73C5E5233DD748B5237193E225407320DB4288A8DB38081F",
     "frozen_uel": "models/pandey_kumar_mode1/f42_mixed_uel.for",
-    "frozen_uel_sha256": "CE8D5EDCD2911DCB018BB15275271F874E7EA62B8FB48CF4A8297469A83ACDD6"
+    "frozen_uel_sha256": "CE8D5EDCD2911DCB018BB15275271F874E7EA62B8FB48CF4A8297469A83ACDD6",
+    "job3_observables_json": "models/pandey_kumar_mode1/290_method_c_case3/job3_observables.json",
+    "job3_observables_json_sha256": "05DAA9BC1B93A6B2D4C0D98DA1652527F7806F21AAF0ED01AFDC5502520E50D2",
+    "job3_observables_json_size_bytes": 3227,
+    "spatial_crack_json_size_bytes": 33824,
+    "sta_size_bytes": 4183,
+    "msg_size_bytes": 250303,
+    "dat_size_bytes": 39663,
+    "pbs_log_size_bytes": 2775,
+    "energy_csv_size_bytes": 2891,
+    "executed_deck_size_bytes": 17373692,
+    "physical_mesh_size_bytes": 3090607,
+    "frozen_uel_size_bytes": 29722
+  },
+  "deck_regeneration": {
+    "approved_deck_sha256": "8DDE4D8B4D441CEFFCE55979FBFB4DC5C5C0F6662446A310CE7D2791C24D338C",
+    "approved_deck_size_bytes": 17373879,
+    "executed_deck_file": "models/pandey_kumar_mode1/290_method_c_case3/PK_METHOD_C_CASE3_CYCLE2_REFINED_JOB3.inp",
+    "executed_deck_sha256": "1D72A98120AAFF2EAC657779C6F3477CDCCF3B22C3528E6CF2BB0E233EE4BC9C",
+    "executed_deck_size_bytes": 17373692,
+    "deck_status": "REGENERATED_PREFLIGHT_SYNTAX_REPAIR",
+    "syntax_repair_details": "Approved deck 8DDE4D8B contained defective *USER ELEMENT cards (all 4 UEL types mapped to displacement DOFs 1, 2 with IPROPERTY=1 and no UNSYMM). During preflight datacheck, run_case3_cycle2_state_transfer.py was corrected to restore Job-2 working syntax (U1/U3 phase DOF 3, U2/U4 disp DOFs 1, 2, UNSYMM on all 4 cards, IPROPERTY=1 removed) and regenerated to executed deck 1D72A981. Line diff is strictly 23 lines in header cards; all 746,928 initial-condition SVAR values are 100% bitwise identical."
   }
 }

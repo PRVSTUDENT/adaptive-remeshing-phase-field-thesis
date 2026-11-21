@@ -46,5 +46,18 @@
   "cpu_time_s": 2918.0,
   "exit_code": 1,
   "status": "CUTBACK_TERMINATION",
-  "termination_reason": "TIME_INCREMENT_LESS_THAN_MINIMUM"
+  "termination_reason": "TIME_INCREMENT_LESS_THAN_MINIMUM",
+  "pbs_job_span_walltime_s": 4602.0,
+  "solver_wallclock_s": 4268.0,
+  "solver_cpu_s": 2918.0,
+  "timestamps_utc": "2026-11-20 23:09:47Z to 2026-11-21 00:26:29Z",
+  "timestamps_cet": "2026-11-21 00:09:47 CET to 2026-11-21 01:26:29 CET",
+  "terminal_frame_label": "Increment 28 (terminal converged state)",
+  "peak_RF2_dat_kN": 4.1009829,
+  "donor_tip_baseline_forward_advance_mm_d095": 2.3686,
+  "post_hold_baseline_forward_advance_mm_d095": 2.3649,
+  "step1_damage_growth_classification": "GROWTH_UNDER_HOLD",
+  "deck_status": "REGENERATED_PREFLIGHT_SYNTAX_REPAIR",
+  "approved_deck_sha256": "8DDE4D8B4D441CEFFCE55979FBFB4DC5C5C0F6662446A310CE7D2791C24D338C",
+  "executed_deck_sha256": "1D72A98120AAFF2EAC657779C6F3477CDCCF3B22C3528E6CF2BB0E233EE4BC9C"
 }

@@ -146,7 +146,7 @@ def test_governance_and_pbs_accounting():
     with open(task_json, "r", encoding="utf-8-sig") as f:
         task = json.load(f)
 
-    assert task["task_id"] in ("METHOD-C-CASE3-JOB2-DIAGNOSIS", "METHOD-C-CASE3-CYCLE2-REFINEMENT-PACKAGE", "METHOD-C-CASE3-CYCLE2-JOB3-SOLVE")
+    assert task["task_id"] in ("METHOD-C-CASE3-JOB2-DIAGNOSIS", "METHOD-C-CASE3-CYCLE2-REFINEMENT-PACKAGE", "METHOD-C-CASE3-CYCLE2-JOB3-SOLVE", "METHOD-C-CASE3-JOB3-DIAGNOSIS")
     assert task["master_goal_status"] == "OPEN"
     assert task["max_new_pbs_submissions"] in (0, 1)
     assert task["cumulative_pbs_submissions"] in (64, 65)
