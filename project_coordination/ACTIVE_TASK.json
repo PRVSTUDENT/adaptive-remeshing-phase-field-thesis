@@ -1,30 +1,30 @@
 ﻿{
   "task_id": "METHOD-C-CASE3-JOB3-DIAGNOSIS",
-  "title": "Method C Case 3: Job-3 Diagnosis and Deck Regeneration Disclosure",
+  "title": "Method C Case 3: Job-3 Diagnosis and Deck Regeneration Disclosure (DIAG-002)",
   "task_status": "COMPLETED_READY_FOR_INDEPENDENT_REVIEW",
   "master_goal_status": "OPEN",
   "status": "COMPLETED_READY_FOR_INDEPENDENT_REVIEW",
   "review_verdict": "INSUFFICIENT_EVIDENCE",
-  "review_correlation_id": "HND-METHOD-C-CASE3-JOB3-001",
+  "review_correlation_id": "HND-METHOD-C-CASE3-JOB3-DIAG-001",
   "classification": "METHOD_C_INCREMENTAL_ADAPTIVE_REMESHING",
   "assigned_agent": "gemini-antigravity",
   "active_pbs_job_id": "1424778.mmaster02",
   "last_successful_pbs_job_id": null,
   "last_failed_pbs_job_id": "1424772.mmaster02",
   "checkpoint_artifact": "docs/validation/METHOD_C_CASE3_JOB3_DIAGNOSIS_REPORT.md",
-  "checkpoint_artifact_sha256": "270B96BB26266524044A34899FB0993AABB9FF097A19C11AB9F316F56F3A1D6B",
-  "review_directive": "Diagnose and re-issue Job 3 as HND-METHOD-C-CASE3-JOB3-DIAG-001, correction-only, 0 new PBS jobs, cumulative 65 strictly preserved, no Cycle-3 work until re-review. (1) Disclose the deck regeneration: when and by what script deck 8DDE4D8B became executed deck 1D72A981, state explicitly that the approved deck's *USER ELEMENT block was defective (all UEL types on DOFs '1, 2', no UNSYMM) and that the executed deck restores the Job-2 working form (U1/U3 DOF 3, U2/U4 DOFs 1, 2, UNSYMM), confirm the diff is confined to those 23 lines with all 746,928 initial-condition values identical, and record the executed deck as regenerated, not approved. (2) Correct report §2 Job-2 column from committed Job-2 evidence: Step-1 energy continuity -0.21% (fracture) / -0.38% (total), initial fracture energy 0.00172721 kN*mm, peak load 4.0498816 kN at u2=0.0524271 mm; state which energy each continuity figure refers to. (3) Correct report §4 sizes to the committed values (spatial 33,824 B, observables 3,206 B, receipt 4,755 B, summary 1,875 B, UEL 29,722 B) and state the size-check step. (4) Relabel the terminal frame as the Inc-28 converged state, state that peak 4.101037 kN is ODB-sourced (.dat supports 4.1009829 kN), fix the walltime/timestamp labels (4602 s is the PBS job span; .dat solver wallclock 4,268 s; timestamps are UTC), define one forward-advance baseline (2.3649 mm from the post-hold tip 10.1566, or 2.3686 mm from the donor tip 10.1529) and use it everywhere, and classify the Step-1 damage growth (0.976822 -> 0.977715) as GROWTH_UNDER_HOLD. Verify every SHA, size and GitHub link resolves before issuing. Loop while (goal <> achieved): AGY -> PAD -> C:\\Users\\pruth\\OpenClawPAD\\ChatGPTBridge\\bridge_request.ready -> ChatGPT -> C:\\Users\\pruth\\OpenClawPAD\\ChatGPTBridge\\bridge_response.ready -> AGY, end loop.",
+  "checkpoint_artifact_sha256": "163FC113B8254C5106FF95C6CC64FC63C0A8C954BF064DC294BDC0CC4BE1CD11",
+  "review_directive": "Re-issue the Job-3 diagnosis as HND-METHOD-C-CASE3-JOB3-DIAG-002, correction-only, 0 new PBS jobs, cumulative 65 strictly preserved, no Cycle-3 work until re-review. (1) Correct diagnosis §2.2 to quote the executed deck's *USER ELEMENT cards verbatim: PROPERTIES=6, COORDINATES=2, VARIABLES=18, UNSYMM, with data '3' for U1/U3 and '1, 2' for U2/U4; correct §2.3 to the actual diff line numbers (executed deck lines 39054/77358/78375/116679; approved deck lines 39052-39063) and to the true SVAR count (18 SVARs per physical element over 39,312 records = 707,616 SVAR values + 39,312 element ids = 746,928 values). (2) Establish the regeneration mechanism from evidence: commit scripts/state_transfer/run_case3_cycle2_state_transfer.py with its SHA 4C61BC4950EB7491E594F2CFD1768D187FE039521A9476B2E8ED00BAFAA10EF4 and cite lines 443, 449, 460, 466 (which write exactly the executed form matching cycle1 lines 441-464). (3) Correct §3.1 total-energy absolutes to the committed CSV values (Job-2 Step-1 E_total 0.09956534 kN*mm vs Job-1 Step-1 0.099949652 kN*mm, -0.385%); remove legacy receipt walltime_s field and state timestamp source. Loop while (goal <> achieved): AGY -> PAD -> C:\\Users\\pruth\\OpenClawPAD\\ChatGPTBridge\\bridge_request.ready -> ChatGPT -> C:\\Users\\pruth\\OpenClawPAD\\ChatGPTBridge\\bridge_response.ready -> AGY, end loop.",
   "predecessor_task": {
-    "task_id": "METHOD-C-CASE3-CYCLE2-JOB3-SOLVE",
-    "checkpoint_artifact": "docs/validation/METHOD_C_CASE3_JOB3_EXECUTION_REPORT.md",
+    "task_id": "METHOD-C-CASE3-JOB3-DIAGNOSIS",
+    "checkpoint_artifact": "docs/validation/METHOD_C_CASE3_JOB3_DIAGNOSIS_REPORT.md",
     "classification": "METHOD_C_INCREMENTAL_ADAPTIVE_REMESHING",
     "review_verdict": "INSUFFICIENT_EVIDENCE",
-    "correlation_id": "HND-METHOD-C-CASE3-JOB3-001"
+    "correlation_id": "HND-METHOD-C-CASE3-JOB3-DIAG-001"
   },
-  "correlation_id": "HND-METHOD-C-CASE3-JOB3-DIAG-001",
-  "predecessor_correlation_id": "HND-METHOD-C-CASE3-JOB3-001",
+  "correlation_id": "HND-METHOD-C-CASE3-JOB3-DIAG-002",
+  "predecessor_correlation_id": "HND-METHOD-C-CASE3-JOB3-DIAG-001",
   "scientific_operation": "method_c_case3_job3_diagnosis",
-  "scientific_operation_id": "method_c_case3_job3_diag_001",
+  "scientific_operation_id": "method_c_case3_job3_diag_002",
   "scientific_checkpoint_required": true,
   "frozen_uel_sha256": "CE8D5EDCD2911DCB018BB15275271F874E7EA62B8FB48CF4A8297469A83ACDD6",
   "native_interface_sha256": "E5C98B6F601B1CD586571F8E24F357D15ABBD1C5D5487B52903BA249734279B2",
@@ -32,5 +32,5 @@
   "max_new_pbs_submissions": 0,
   "submissions_consumed": 0,
   "cumulative_pbs_submissions": 65,
-  "notes": "Job 3 diagnosis and disclosure: disclose deck regeneration (approved 8DDE4D8B vs executed 1D72A981, restoring Job-2 working UEL DOFs/UNSYMM form), correct report Section 2 Job-2 comparison values (-0.21%/-0.38% energy continuity, 0.00172721 kN*mm fracture energy, 4.0498816 kN peak load), correct report Section 4 file sizes, relabel terminal frame as Inc 28, state ODB vs .dat peak load, fix walltime/timestamp labels, harmonize forward crack advance baselines, and classify Step-1 damage growth as GROWTH_UNDER_HOLD; 0 new PBS jobs, cumulative 65 strictly preserved; MASTER_GOAL_STATUS = OPEN."
+  "notes": "Job 3 diagnosis and disclosure re-issue DIAG-002: quote executed deck UEL cards verbatim (PROPERTIES=6, VARIABLES=18, UNSYMM, DOF 3 / 1, 2), correct line numbers (39054/77358/78375/116679 vs 39052-39063), correct SVAR count (18 SVARs x 39,312 records = 707,616 SVAR values + 39,312 IDs = 746,928 total values), commit and attribute generating script run_case3_cycle2_state_transfer.py (lines 443, 449, 460, 466), correct Section 3.1 total-energy absolutes (0.09956534 vs 0.099949652 kN*mm, -0.385%), remove legacy walltime_s from receipt and state timestamp source; 0 new PBS jobs, cumulative 65 strictly preserved; MASTER_GOAL_STATUS = OPEN."
 }

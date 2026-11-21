@@ -17,7 +17,6 @@
   "solver_execution": {
     "cpus_smp": 16,
     "memory_gb": 48,
-    "walltime_s": 4602.0,
     "cpu_time_s": 2918.0,
     "exit_code": 1,
     "status": "CUTBACK_TERMINATION",
@@ -28,7 +27,8 @@
     "solver_wallclock_s": 4268.0,
     "solver_cpu_s": 2918.0,
     "timestamps_utc": "2026-11-20 23:09:47Z to 2026-11-21 00:26:29Z",
-    "timestamps_cet": "2026-11-21 00:09:47 CET to 2026-11-21 01:26:29 CET"
+    "timestamps_cet": "2026-11-21 00:09:47 CET to 2026-11-21 01:26:29 CET",
+    "timestamp_source_notes": "Timestamps 2026-11-20 23:09:47Z to 2026-11-21 00:26:29Z (00:09:47 to 01:26:29 CET) represent the 4,602 s scheduler span; pbs_execution.log records compilation starting at 00:09:21 CET (23:09:21Z) and epilogue completion at 01:26:03 CET (00:26:03Z)."
   },
   "step1_re_equilibration": {
     "hold_u2_mm": 0.052451,
@@ -124,7 +124,10 @@
     "energy_csv_size_bytes": 2891,
     "executed_deck_size_bytes": 17373692,
     "physical_mesh_size_bytes": 3090607,
-    "frozen_uel_size_bytes": 29722
+    "frozen_uel_size_bytes": 29722,
+    "generating_script": "scripts/state_transfer/run_case3_cycle2_state_transfer.py",
+    "generating_script_sha256": "4C61BC4950EB7491E594F2CFD1768D187FE039521A9476B2E8ED00BAFAA10EF4",
+    "generating_script_size_bytes": 33734
   },
   "deck_regeneration": {
     "approved_deck_sha256": "8DDE4D8B4D441CEFFCE55979FBFB4DC5C5C0F6662446A310CE7D2791C24D338C",
@@ -133,6 +136,8 @@
     "executed_deck_sha256": "1D72A98120AAFF2EAC657779C6F3477CDCCF3B22C3528E6CF2BB0E233EE4BC9C",
     "executed_deck_size_bytes": 17373692,
     "deck_status": "REGENERATED_PREFLIGHT_SYNTAX_REPAIR",
-    "syntax_repair_details": "Approved deck 8DDE4D8B contained defective *USER ELEMENT cards (all 4 UEL types mapped to displacement DOFs 1, 2 with IPROPERTY=1 and no UNSYMM). During preflight datacheck, run_case3_cycle2_state_transfer.py was corrected to restore Job-2 working syntax (U1/U3 phase DOF 3, U2/U4 disp DOFs 1, 2, UNSYMM on all 4 cards, IPROPERTY=1 removed) and regenerated to executed deck 1D72A981. Line diff is strictly 23 lines in header cards; all 746,928 initial-condition SVAR values are 100% bitwise identical."
+    "syntax_repair_details": "Approved candidate deck 8DDE4D8B contained defective *USER ELEMENT cards grouped at lines 39052-39063 (all 4 types mapped to DOFs 1, 2 with IPROPERTY=1 and no UNSYMM). Corrected by run_case3_cycle2_state_transfer.py (lines 443, 449, 460, 466) restoring working syntax matching run_case3_cycle1_state_transfer.py (lines 441-464): U1/U3 phase DOF 3, U2/U4 disp DOFs 1, 2, PROPERTIES=6, VARIABLES=18, UNSYMM, placed at lines 39054, 77358, 78375, 116679 in executed deck 1D72A981. Line diff is strictly 23 header lines; all 707,616 SVAR values across 39,312 physical element records (+ 39,312 element IDs = 746,928 total values) are 100% bitwise identical.",
+    "generating_script": "scripts/state_transfer/run_case3_cycle2_state_transfer.py",
+    "generating_script_sha256": "4C61BC4950EB7491E594F2CFD1768D187FE039521A9476B2E8ED00BAFAA10EF4"
   }
 }

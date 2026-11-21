@@ -42,7 +42,6 @@
   "zero_healing_verified": true,
   "inc11_milestone_surpassed": true,
   "smallest_converged_dt": 6.728e-14,
-  "walltime_s": 4602.0,
   "cpu_time_s": 2918.0,
   "exit_code": 1,
   "status": "CUTBACK_TERMINATION",
@@ -59,5 +58,8 @@
   "step1_damage_growth_classification": "GROWTH_UNDER_HOLD",
   "deck_status": "REGENERATED_PREFLIGHT_SYNTAX_REPAIR",
   "approved_deck_sha256": "8DDE4D8B4D441CEFFCE55979FBFB4DC5C5C0F6662446A310CE7D2791C24D338C",
-  "executed_deck_sha256": "1D72A98120AAFF2EAC657779C6F3477CDCCF3B22C3528E6CF2BB0E233EE4BC9C"
+  "executed_deck_sha256": "1D72A98120AAFF2EAC657779C6F3477CDCCF3B22C3528E6CF2BB0E233EE4BC9C",
+  "timestamp_source_notes": "Timestamps 2026-11-20 23:09:47Z to 2026-11-21 00:26:29Z (00:09:47 to 01:26:29 CET) represent the 4,602 s scheduler span; pbs_execution.log records compilation starting at 00:09:21 CET (23:09:21Z) and epilogue completion at 01:26:03 CET (00:26:03Z).",
+  "generating_script": "scripts/state_transfer/run_case3_cycle2_state_transfer.py",
+  "generating_script_sha256": "4C61BC4950EB7491E594F2CFD1768D187FE039521A9476B2E8ED00BAFAA10EF4"
 }
