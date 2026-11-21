@@ -4,7 +4,7 @@
 =================================================================
 Method C Case 3: Single-Job Multi-Cycle Adaptive Framework
 Host: mnode105.cluster
-Start time: Sa 21. Nov 12:27:21 CET 2026
+Start time: Sa 21. Nov 12:39:16 CET 2026
 Run directory: /scratch9/pr21vyci/runs/mode1_290_method_c_case3_single_job
 =================================================================
 =================================================================
@@ -13,17 +13,81 @@ Parameters: n_adaptive_steps=4, load_increment=0.0100 mm
 Run directory: /scratch9/pr21vyci/runs/mode1_290_method_c_case3_single_job
 =================================================================
 Cycle 0 Evaluation: {'status': 'CUTBACK_TERMINATED', 'can_continue': True, 'terminal_step': 2, 'terminal_increment': 12, 'terminal_step_time': 0.0169, 'terminal_dt': 5.431e-08, 'terminal_frame_label': 'Increment 12 (terminal converged state)', 'dt_min_floor_reached': True, 'no_further_dt_min_reduction': True}
+-----------------------------------------------------------------
+Starting Cycle 1: target u2 = 0.0600 mm (donor u2 = 0.0500 mm)
+[Cycle 1 - 1/4] Performing state transfer (convex_clamp)...
+[Cycle 1 - 2/4] Assembling 3-layer coupled deck: /scratch9/pr21vyci/runs/mode1_290_method_c_case3_single_job/PK_METHOD_C_CASE3_CYCLE1.inp...
+[Cycle 1 - 3/4] Executing Abaqus solver for PK_METHOD_C_CASE3_CYCLE1...
+[Orchestrator EXEC] Running: abaqus job=PK_METHOD_C_CASE3_CYCLE1 input=PK_METHOD_C_CASE3_CYCLE1 user=f42_mixed_uel.for cpus=16 interactive
+Analysis initiated from SIMULIA established products
+Abaqus JOB PK_METHOD_C_CASE3_CYCLE1
+Abaqus 2023
+Abaqus License Manager checked out the following licenses:
+Abaqus/Standard checked out 16 tokens from Flexnet server license4.imfd.tu-freiberg.de.
+<134 out of 300 licenses remain available>.
+Begin Compiling Abaqus/Standard User Subroutines
+Sat 21 Nov 2026 04:04:15 PM CET
+Intel(R) Fortran Intel(R) 64 Compiler Classic for applications running on Intel(R) 64, Version 2021.13.0 Build 20240602_000000
+Copyright (C) 1985-2024 Intel Corporation.  All rights reserved.
+
+ifort: remark #10448: Intel(R) Fortran Compiler Classic (ifort) is now deprecated and will be discontinued late 2024. Intel recommends that customers transition now to using the LLVM-based Intel(R) Fortran Compiler (ifx) for continued Windows* and Linux* support, new language support, new language features, and optimizations. Use '-diag-disable=10448' to disable this message.
+ifort: command line warning #10434: option '-extend_source' use with underscore is deprecated; use '-extend-source' instead
+ Intel(R) Fortran 2021.13.0-1693
+f42_mixed_uel.for(164): remark #15009: uel_ has been targeted for automatic cpu dispatch
+f42_mixed_uel.for(839): remark #15009: umat_ has been targeted for automatic cpu dispatch
+End Compiling Abaqus/Standard User Subroutines
+Begin Linking Abaqus/Standard User Subroutines
+Intel(R) Fortran Intel(R) 64 Compiler Classic for applications running on Intel(R) 64, Version 2021.13.0 Build 20240602_000000
+Copyright (C) 1985-2024 Intel Corporation.  All rights reserved.
+
+ifort: remark #10448: Intel(R) Fortran Compiler Classic (ifort) is now deprecated and will be discontinued late 2024. Intel recommends that customers transition now to using the LLVM-based Intel(R) Fortran Compiler (ifx) for continued Windows* and Linux* support, new language support, new language features, and optimizations. Use '-diag-disable=10448' to disable this message.
+GNU ld version 2.30-128.el8_10
+End Linking Abaqus/Standard User Subroutines
+Sat 21 Nov 2026 04:04:22 PM CET
+Begin Analysis Input File Processor
+Sat 21 Nov 2026 04:04:22 PM CET
+Run pre
+Sat 21 Nov 2026 04:08:59 PM CET
+End Analysis Input File Processor
+Begin Abaqus/Standard Analysis
+Sat 21 Nov 2026 04:08:59 PM CET
+Run standard
+Sat 21 Nov 2026 04:34:05 PM CET
+Abaqus Error: Abaqus/Standard Analysis exited with an error - Please see the 
+message file for possible error messages if the file exists.
+Begin SIM Wrap-up
+Sat 21 Nov 2026 04:34:05 PM CET
+Run SMASimUtility
+Sat 21 Nov 2026 04:34:31 PM CET
+End SIM Wrap-up
+Abaqus/Analysis exited with errors
+
+[Cycle 1 - 4/4] Cycle Evaluation: {'status': 'CUTBACK_TERMINATED', 'can_continue': True, 'terminal_step': 2, 'terminal_increment': 43, 'terminal_step_time': 0.106, 'terminal_dt': 4.984e-14, 'terminal_frame_label': 'Increment 43 (terminal converged state)', 'dt_min_floor_reached': True, 'no_further_dt_min_reduction': True}
+[Cycle 1 - State Advancement] Extracting cycle state for PK_METHOD_C_CASE3_CYCLE1...
+[Orchestrator] Extracting terminal state from /scratch9/pr21vyci/runs/mode1_290_method_c_case3_single_job/PK_METHOD_C_CASE3_CYCLE1.odb...
+[Orchestrator EXEC] Running: abaqus python /scratch9/pr21vyci/runs/mode1_290_method_c_case3_single_job/case3_single_job_orchestrator.py --extract-odb /scratch9/pr21vyci/runs/mode1_290_method_c_case3_single_job/PK_METHOD_C_CASE3_CYCLE1.odb --out-json /scratch9/pr21vyci/runs/mode1_290_method_c_case3_single_job/PK_METHOD_C_CASE3_CYCLE1_state.json
+Traceback (most recent call last):
+  File "/scratch9/pr21vyci/runs/mode1_290_method_c_case3_single_job/case3_single_job_orchestrator.py", line 1555, in <module>
+    main()
+  File "/scratch9/pr21vyci/runs/mode1_290_method_c_case3_single_job/case3_single_job_orchestrator.py", line 1530, in main
+    extract_state_from_odb(args.extract_odb, out_json)
+  File "/scratch9/pr21vyci/runs/mode1_290_method_c_case3_single_job/case3_single_job_orchestrator.py", line 778, in extract_state_from_odb
+    u_fo = last_frame.fieldOutputs.get("U", None)
+AttributeError: 'Repository' object has no attribute 'get'
+
+[Cycle 1 State Advanced] tip_x=10.0000 mm, terminal_rf2=4.2420 kN, peak_rf2=4.3318 kN
+-----------------------------------------------------------------
+Starting Cycle 2: target u2 = 0.0700 mm (donor u2 = 0.0600 mm)
+[Cycle 2 - 1/4] Performing state transfer (convex_clamp)...
 Traceback (most recent call last):
   File "/scratch9/pr21vyci/runs/mode1_290_method_c_case3_single_job/case3_single_job_orchestrator.py", line 1335, in <module>
-    main()
+    return {
   File "/scratch9/pr21vyci/runs/mode1_290_method_c_case3_single_job/case3_single_job_orchestrator.py", line 1331, in main
-    orch.execute()
-  File "/scratch9/pr21vyci/runs/mode1_290_method_c_case3_single_job/case3_single_job_orchestrator.py", line 1176, in execute
-    donor_state = self.extract_cycle_state(coarse_job)
-  File "/scratch9/pr21vyci/runs/mode1_290_method_c_case3_single_job/case3_single_job_orchestrator.py", line 1032, in extract_cycle_state
-    state = json.load(f)
-  File "/usr/lib64/python3.6/json/__init__.py", line 299, in load
-    parse_constant=parse_constant, object_pairs_hook=object_pairs_hook, **kw)
-  File "/usr/lib64/python3.6/json/__init__.py", line 344, in loads
-    s, 0)
-json.decoder.JSONDecodeError: Unexpected UTF-8 BOM (decode using utf-8-sig): line 1 column 1 (char 0)
+    
+  File "/scratch9/pr21vyci/runs/mode1_290_method_c_case3_single_job/case3_single_job_orchestrator.py", line 1222, in execute
+    return p.returncode, out_str
+  File "/scratch9/pr21vyci/runs/mode1_290_method_c_case3_single_job/case3_single_job_orchestrator.py", line 448, in transfer_nodal_fields
+    center_dist = (rx - cx)**2 + (ry - cy)**2
+  File "/scratch9/pr21vyci/runs/mode1_290_method_c_case3_single_job/case3_single_job_orchestrator.py", line 448, in <genexpr>
+    center_dist = (rx - cx)**2 + (ry - cy)**2
+KeyError: 5617

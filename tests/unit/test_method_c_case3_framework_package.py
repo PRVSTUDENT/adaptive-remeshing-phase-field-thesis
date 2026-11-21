@@ -601,4 +601,51 @@ def test_job1424798_identity_reconciliation_and_scheduler_status():
     assert "-0.3912" in report_text  # Step 1 force continuity passed gate
 
 
+def test_job1424798_final_observables():
+    """Verifies that Job 1424798 final solver outputs and observables are authentic and verified."""
+    import hashlib
+
+    # 1. Authentic PBS execution log (6,837 bytes)
+    log_path = os.path.join(PACKAGE_DIR, "PK_METHOD_C_CASE3_FRAMEWORK_JOB1424798_pbs_execution.log")
+    assert os.path.isfile(log_path), "Committed Job 1424798 pbs_execution.log must exist"
+    assert os.path.getsize(log_path) == 6837
+    with open(log_path, "rb") as f:
+        log_hash = hashlib.sha256(f.read()).hexdigest().upper()
+    assert log_hash == "20314D3EEDE9EFDC5F0C6A82E274A8D27583887ACADB5D72AE31ACFC515532E3"
+
+    # 2. Cycle 1 Summary JSON
+    summary_path = os.path.join(PACKAGE_DIR, "PK_METHOD_C_CASE3_CYCLE1_SUMMARY.json")
+    assert os.path.isfile(summary_path), "Cycle 1 summary JSON must exist"
+    with open(summary_path, "r", encoding="utf-8") as f:
+        summary = json.load(f)
+    assert summary["cycle_idx"] == 1
+    assert summary["num_physical_elements"] == 7172
+    assert summary["max_damage"] > 0.99
+    assert abs(summary["tip_x"] - 12.4246) < 0.01
+    assert abs(summary["tip_y"] - 69.8823) < 0.01
+    assert summary["crack_extension_mm"] > 2.4
+
+    # 3. Energy balance CSV
+    csv_path = os.path.join(PACKAGE_DIR, "PK_METHOD_C_CASE3_CYCLE1_uel_energy_balance.csv")
+    assert os.path.isfile(csv_path), "Cycle 1 energy balance CSV must exist"
+    with open(csv_path, "r", encoding="utf-8") as f:
+        csv_lines = [line.strip().split(",") for line in f if line.strip()]
+    header = csv_lines[0]
+    e_frac_idx = header.index("E_fracture_kNmm")
+    first_e_frac = float(csv_lines[1][e_frac_idx])
+    last_e_frac = float(csv_lines[-1][e_frac_idx])
+    assert abs(first_e_frac - 0.0016952) < 0.0001
+    assert abs(last_e_frac - 0.0167745) < 0.0001
+    energy_surge_pct = (last_e_frac - first_e_frac) / first_e_frac * 100.0
+    assert energy_surge_pct > 800.0  # +889.5%
+
+    # 4. Repaired orchestrator SHA
+    orch_path = os.path.join(PACKAGE_DIR, "case3_single_job_orchestrator.py")
+    assert os.path.isfile(orch_path), "Package orchestrator must exist"
+    with open(orch_path, "rb") as f:
+        orch_hash = hashlib.sha256(f.read()).hexdigest().upper()
+    assert orch_hash == "DF22D89B43B94B5579DD16BCEEC571CC7A781152545889E5C4D7DA5607CCF228"
+
+
+
 

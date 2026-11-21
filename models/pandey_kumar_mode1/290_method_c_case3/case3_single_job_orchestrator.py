@@ -775,7 +775,7 @@ def extract_state_from_odb(odb_path, out_json_path):
 
         last_frame = last_step.frames[-1]
 
-        u_fo = last_frame.fieldOutputs.get("U", None)
+        u_fo = last_frame.fieldOutputs["U"] if "U" in last_frame.fieldOutputs else None
         u_nodal = {}
         d_from_u = {}
         if u_fo is not None:
@@ -791,42 +791,61 @@ def extract_state_from_odb(odb_path, out_json_path):
                 else:
                     u_nodal[nid] = [float(u_data[0]), 0.0]
 
-        sdv1_fo = last_frame.fieldOutputs.get("SDV1", None)
-        sdv2_fo = last_frame.fieldOutputs.get("SDV2", None)
+        sdv1_fo = last_frame.fieldOutputs["SDV1"] if "SDV1" in last_frame.fieldOutputs else None
+        sdv2_fo = last_frame.fieldOutputs["SDV2"] if "SDV2" in last_frame.fieldOutputs else None
+
+        inst = list(odb.rootAssembly.instances.values())[0] if odb.rootAssembly.instances else None
+        num_elems = len(inst.elements) if inst else 0
+        num_phys = num_elems // 3 if (num_elems > 0 and num_elems % 3 == 0) else num_elems
 
         d_gp = {}
         h_gp = {}
         if sdv1_fo is not None:
             for val in sdv1_fo.values:
-                d_gp["%d_%d" % (val.elementLabel, val.integrationPoint)] = float(val.data)
+                eid = val.elementLabel
+                phys_eid = (eid - 1) % num_phys + 1 if num_phys > 0 else eid
+                d_gp["%d_%d" % (phys_eid, val.integrationPoint)] = float(val.data)
         if sdv2_fo is not None:
             for val in sdv2_fo.values:
-                h_gp["%d_%d" % (val.elementLabel, val.integrationPoint)] = float(val.data)
+                eid = val.elementLabel
+                phys_eid = (eid - 1) % num_phys + 1 if num_phys > 0 else eid
+                h_gp["%d_%d" % (phys_eid, val.integrationPoint)] = float(val.data)
 
         d_nodal = {}
         if d_from_u and max(d_from_u.values()) > 0.0:
             d_nodal = d_from_u
-        elif d_gp:
-            inst = list(odb.rootAssembly.instances.values())[0] if odb.rootAssembly.instances else None
-            if inst:
-                node_elem_d = {}
-                for elem in inst.elements:
-                    gp_d_vals = [d_gp.get("%d_%d" % (elem.label, g), 0.0) for g in range(1, 5) if "%d_%d" % (elem.label, g) in d_gp]
-                    if gp_d_vals:
-                        elem_avg = sum(gp_d_vals) / float(len(gp_d_vals))
-                        for n in elem.connectivity:
-                            if n not in node_elem_d:
-                                node_elem_d[n] = []
-                            node_elem_d[n].append(elem_avg)
-                for nid in u_nodal.keys():
-                    if nid in node_elem_d and node_elem_d[nid]:
-                        d_nodal[nid] = max(0.0, min(1.0, sum(node_elem_d[nid]) / float(len(node_elem_d[nid]))))
-                    else:
-                        d_nodal[nid] = 0.0
+        elif d_gp and inst:
+            node_elem_d = {}
+            for elem in inst.elements:
+                phys_eid = (elem.label - 1) % num_phys + 1 if num_phys > 0 else elem.label
+                gp_d_vals = [d_gp.get("%d_%d" % (phys_eid, g), 0.0) for g in range(1, 5) if "%d_%d" % (phys_eid, g) in d_gp]
+                if gp_d_vals:
+                    elem_avg = sum(gp_d_vals) / float(len(gp_d_vals))
+                    for n in elem.connectivity:
+                        if n not in node_elem_d:
+                            node_elem_d[n] = []
+                        node_elem_d[n].append(elem_avg)
+            for nid in u_nodal.keys():
+                if nid in node_elem_d and node_elem_d[nid]:
+                    d_nodal[nid] = max(0.0, min(1.0, sum(node_elem_d[nid]) / float(len(node_elem_d[nid]))))
+                else:
+                    d_nodal[nid] = 0.0
 
         max_d = max(d_nodal.values()) if d_nodal else (max(d_gp.values()) if d_gp else 0.0)
         max_h = max(h_gp.values()) if h_gp else 0.0
 
+        tip_x = 10.0
+        tip_y = 70.0
+        if inst:
+            broken_coords = []
+            for node in inst.nodes:
+                nid = node.label
+                if d_nodal.get(nid, 0.0) >= 0.95:
+                    broken_coords.append((node.coordinates[0], node.coordinates[1]))
+            if broken_coords:
+                broken_coords.sort(key=lambda c: c[0], reverse=True)
+                tip_x = float(broken_coords[0][0])
+                tip_y = float(broken_coords[0][1])
         out_data = {
             "source_odb": odb_path,
             "step_name": last_step.name,
@@ -835,8 +854,8 @@ def extract_state_from_odb(odb_path, out_json_path):
             "num_nodes": len(u_nodal),
             "max_damage": float(max_d),
             "max_history_MPa": float(max_h),
-            "tip_x": 10.0,
-            "tip_y": 70.0,
+            "tip_x": float(tip_x),
+            "tip_y": float(tip_y),
             "u_nodal": u_nodal,
             "d_nodal": d_nodal,
             "h_gp": h_gp
@@ -1271,15 +1290,21 @@ class Case3SingleJobOrchestrator(object):
             if os.path.isfile(out_json):
                 return self.extract_cycle_state(job_name)
 
-        # 3. Check for pre-existing donor files (derived dynamically, zero hardcoded Job-1 literals)
-        donor_candidates = [
-            os.path.join(self.run_dir, job_name + "_state.json"),
-            os.path.join(REPO_ROOT, "models", "pandey_kumar_mode1", "290_method_c_case3", job_name + "_state.json"),
-            os.path.join(self.run_dir, "PK_METHOD_C_CASE3_COARSE_JOB1_state.json"),
-            os.path.join(REPO_ROOT, "models", "pandey_kumar_mode1", "290_method_c_case3", "PK_METHOD_C_CASE3_COARSE_JOB1_state.json"),
-            os.path.join(self.run_dir, "donor_case3_step1_state.json"),
-            os.path.join(REPO_ROOT, "models", "pandey_kumar_mode1", "290_method_c_case3", "donor_case3_step1_state.json")
-        ]
+        # 3. Check for pre-existing donor files (Cycle 0 only falls back to coarse donor; Cycle k >= 1 requires own state)
+        if "COARSE" in job_name or "CYCLE0" in job_name:
+            donor_candidates = [
+                os.path.join(self.run_dir, job_name + "_state.json"),
+                os.path.join(REPO_ROOT, "models", "pandey_kumar_mode1", "290_method_c_case3", job_name + "_state.json"),
+                os.path.join(self.run_dir, "PK_METHOD_C_CASE3_COARSE_JOB1_state.json"),
+                os.path.join(REPO_ROOT, "models", "pandey_kumar_mode1", "290_method_c_case3", "PK_METHOD_C_CASE3_COARSE_JOB1_state.json"),
+                os.path.join(self.run_dir, "donor_case3_step1_state.json"),
+                os.path.join(REPO_ROOT, "models", "pandey_kumar_mode1", "290_method_c_case3", "donor_case3_step1_state.json")
+            ]
+        else:
+            donor_candidates = [
+                os.path.join(self.run_dir, job_name + "_state.json"),
+                os.path.join(REPO_ROOT, "models", "pandey_kumar_mode1", "290_method_c_case3", job_name + "_state.json")
+            ]
         for dc in donor_candidates:
             if os.path.isfile(dc):
                 with open(dc, "r", encoding="utf-8-sig") as f:
