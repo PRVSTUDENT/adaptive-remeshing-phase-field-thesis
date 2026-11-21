@@ -232,9 +232,13 @@ def reserve(command,root=ROOT):
         for key,record in data['batches'].items():
             path=Path(record['manifest_path'])
             if not path.is_file() or digest(path.read_bytes())!=key:continue  # Superseded frozen revision, audit retained.
-            batch,livekey,_=validate_manifest(record['manifest_path'],root)
-            matches=[j for j in batch['jobs'] if canonical(j['command'])==canonical(command)]
+            try:
+                candidate_batch=load(path)
+            except Exception:
+                continue
+            matches=[j for j in candidate_batch.get('jobs',[]) if canonical(j.get('command',''))==canonical(command)]
             if not matches:continue
+            batch,livekey,_=validate_manifest(record['manifest_path'],root)
             require(livekey==key,'Manifest changed; refresh technical preflight')
             require(len(matches)==1,'Ambiguous job command')
             job=matches[0]

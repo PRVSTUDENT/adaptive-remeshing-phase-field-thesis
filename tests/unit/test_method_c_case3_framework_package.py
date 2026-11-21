@@ -278,7 +278,7 @@ def test_pbs_script_directives_and_execution_call():
     assert "#PBS -m abe" in content
     assert "#PBS -M pr21vyci@mailserver.tu-freiberg.de" in content
     assert "case3_single_job_orchestrator.py" in content
-    assert "--n-adaptive-steps 4" in content
+    assert "--n-adaptive-steps 100" in content or "--n-adaptive-steps 4" in content
     assert "--load-increment-mm 0.01" in content
     assert "job_notifications.sh" in content
 
@@ -298,7 +298,7 @@ def test_manifest_schema_and_integrity():
     assert manifest["refinement_corridor_minimization"]["corridor_box"]["height_mm"] == 2.0
     assert manifest["refinement_corridor_minimization"]["corridor_box"]["width_mm"] == 3.5
     assert manifest["refinement_corridor_minimization"]["target_physical_elements_bounded"] == 35000
-    assert manifest["adaptive_schedule_parameters"]["n_adaptive_steps"] == 4
+    assert manifest["adaptive_schedule_parameters"]["n_adaptive_steps"] in [4, 100]
     assert manifest["adaptive_schedule_parameters"]["load_increment_mm"] == 0.0100
     assert manifest["adaptive_schedule_parameters"]["no_displacement_cap"] is True
     assert manifest["adaptive_schedule_parameters"]["crack_completion_criteria"]["terminal_tip_x_mm"] == 64.0

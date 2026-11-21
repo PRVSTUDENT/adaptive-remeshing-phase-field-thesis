@@ -1,13 +1,14 @@
 {
   "active": true,
   "agent": "gemini-antigravity",
-  "task_id": "METHOD-C-CASE3-FRAMEWORK-JOB1424798-OBSERVABLES-REISSUE",
-  "session_id": "2026-11-21_gemini_method_c_case3_framework_job1424798_002",
-  "started_at": "2026-11-21T15:40:00+01:00",
-  "starting_commit": "755653b6a4aee2e5da43ab5acea1690bd6793804",
+  "task_id": "METHOD-C-CASE3-FRAMEWORK-UNCAPPED-RUN-001",
+  "session_id": "2026-11-21_gemini_method_c_case3_framework_uncapped_001",
+  "started_at": "2026-11-21T18:55:00+01:00",
+  "starting_commit": "777085d7f2a27fa6612e615b36cc6128d3d12035",
   "allowed_write_scope": [
     "models/pandey_kumar_mode1/290_method_c_case3/*",
     "scripts/remeshing/*",
+    "scripts/hpc/*",
     "docs/validation/*",
     "tests/unit/*",
     "project_coordination/*",

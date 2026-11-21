@@ -24,7 +24,7 @@ This report provides the complete, final forensic and numerical documentation fo
 2. **Cycle 0 Evaluation:** Evaluated coarse donor state cleanly from `PK_METHOD_C_CASE3_COARSE_JOB1_state.json` (BOM resilience verified).
 3. **Cycle 1 State Transfer:** Ran in Python using gradient-preserving isoparametric bilinear interpolation with `convex_clamp` from 12:39 to 16:03 CET ($\approx 3\,\text{h } 24\,\text{m}$ CPU time), assembling `PK_METHOD_C_CYCLE1.inp` (10,786,135 B, 7,172 physical elements, 21,516 layered elements).
 4. **Cycle 1 Abaqus Standard Solve:** Launched at 16:04:15 CET.
-   - **Step 1 (Hold Re-Equilibration at $u_2 = 0.0500\,\text{mm}$):** Solved in 1 increment and 2 Newton iterations. Reaction force $RF_2 = 3.9134287\,\text{kN}$ vs donor $3.928812\,\text{kN}$ ($\Delta RF_2 = -0.3912\%$, passing the $\le 5.0\%$ gate with flying colors).
+   - **Step 1 (Hold Re-Equilibration at $u_2 = 0.0500\,\text{mm}$):** Solved in 1 increment and 2 Newton iterations. Reaction force $RF_2 = 3.9134287\,\text{kN}$ vs donor $3.928812\,\text{kN}$ ($\Delta RF_2 = -0.3916\%$, passing the $\le 5.0\%$ gate with flying colors).
    - **Step 2 (Forward Crack Propagation to $u_2 \to 0.0600\,\text{mm}$):** Converged 43 increments cleanly, resolving cutbacks down to $dt = 4.984 \times 10^{-14}$ at Increment 43 before terminating at the $dt_{\min} = 1.0 \times 10^{-14}$ floor at Increment 44 attempt 3.
    - **Structural Softening & Monotonic Energy Growth:** Captured peak load $F_{\max} = 3.908579\,\text{kN}$ at Increment 1 followed by $-13.17\%$ post-peak softening to terminal $RF_2 = 3.393954\,\text{kN}$ at $u_2 = 0.051057\,\text{mm}$. Dissipated fracture energy surged monotonically from $0.0016952 \to 0.0167745\,\text{kN}\cdot\text{mm}$ ($+889.51\%$, nearly $10\times$ expansion, verifying strict non-healing).
    - **Substantial Forward Crack Extension:** The macroscopic crack tip ($d \ge 0.95$) advanced forward by $\Delta a_x = +2.4246\,\text{mm}$ from the initial notch root $(10.0, 70.0)\,\text{mm}$ to $(12.4246, 69.8823)\,\text{mm}$, with peak damage reaching $d_{\max} = 0.990549$.
@@ -48,7 +48,8 @@ $$\Delta RF_2 = \frac{RF_{2,\text{re-equilibrated}} - RF_{2,\text{donor}}}{RF_{2
 - **Re-Equilibrated Reaction Force:** $RF_2 = 3.9134287\,\text{kN}$.
 - **Donor Reaction Force:** $RF_{2,\text{donor}} = 3.928812\,\text{kN}$ (from coarse solve Step 1 end).
 - **Discrepancy:**
-  $$\Delta RF_2 = \frac{3.9134287 - 3.928812}{3.928812} \times 100\% = -0.3912\% \quad (\le 5.0\%\text{ Acceptance Gate: PASS})$$
+  $$\Delta RF_2 = \frac{3.9134287 - 3.928812}{3.928812} \times 100\% = -0.3916\% \quad (\le 5.0\%\text{ Acceptance Gate: PASS})$$
+  *(Note: rounded donor $3.9288\,\text{kN}$ gives $-0.3912\%$; both satisfy the $\le 5.0\%$ gate.)*
 - **Step-1 Energy Partitioning:**
   - Stored elastic strain energy: $E_{\text{elastic}} = 0.0978357\,\text{kN}\cdot\text{mm}$.
   - Absorbed fracture energy: $E_{\text{fracture}} = 0.0016952\,\text{kN}\cdot\text{mm}$.
@@ -88,6 +89,7 @@ In Step 2, the displacement boundary condition advanced monotonically from $u_2 
 - **Deflection:** $\Delta y = -0.1177\,\text{mm}$ downward deflection, heading directly toward the central circular void centered at $(26.5, 51.0)\,\text{mm}$ as required by Pandey & Kumar (2025) Section 4.3 benchmark mechanics.
 - **Maximum Damage:** $d_{\max} = 0.990549$ (macroscopic fracture fully formed).
 - **Maximum History:** $H_{\max} = 14.9658\,\text{MPa}$.
+- **Node Count Clarification (ODB Total vs Physical Mesh):** Note that `PK_METHOD_C_CASE3_CYCLE1_SUMMARY.json` reports `num_nodes: 24739`. This represents the total ODB instance node count across the 3-layer UEL model, distinct from the 7,261 single-layer physical mesh nodes in `PK_METHOD_C_CASE3_CYCLE1_PHYS.inp`.
 
 ---
 
