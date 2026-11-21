@@ -225,6 +225,4 @@ if ($CheckOnly) {
     return
 }
 
-$bridgeTarget = "C:\Users\pruth\OpenClawPAD\ChatGPTBridge\bridge_request.ready"
-
-Invoke-ChatGPTBridge -Prompt $prompt -Target $bridgeTarget -DryRun:$DryRun
+Invoke-ChatGPTBridge -PromptText $prompt -HandoffId $handoffId -DryRun:$DryRun
