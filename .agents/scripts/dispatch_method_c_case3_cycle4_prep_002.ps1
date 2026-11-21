@@ -225,4 +225,5 @@ if ($CheckOnly) {
     return
 }
 
-Invoke-ChatGPTBridge -PromptText $prompt -HandoffId $handoffId -DryRun:$DryRun
+Write-Output "Dispatching review request $handoffId via Invoke-ChatGPTBridge..."
+Invoke-ChatGPTBridge -PromptText $prompt -HandoffId $handoffId -TaskId $taskId -DryRun:$DryRun
