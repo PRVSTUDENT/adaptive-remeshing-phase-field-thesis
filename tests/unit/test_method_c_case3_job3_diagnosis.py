@@ -140,4 +140,4 @@ def test_governance_and_task_accounting():
     assert task["max_new_pbs_submissions"] == 0
     assert task["cumulative_pbs_submissions"] == 65
     assert task["frozen_uel_sha256"] == "CE8D5EDCD2911DCB018BB15275271F874E7EA62B8FB48CF4A8297469A83ACDD6"
-    assert task["correlation_id"] in ("HND-METHOD-C-CASE3-JOB3-DIAG-001", "HND-METHOD-C-CASE3-JOB3-DIAG-002", "HND-METHOD-C-CASE3-CYCLE3-PREP-001")
+    assert task["correlation_id"] in ("HND-METHOD-C-CASE3-JOB3-DIAG-001", "HND-METHOD-C-CASE3-JOB3-DIAG-002", "HND-METHOD-C-CASE3-CYCLE3-PREP-001", "HND-METHOD-C-CASE3-CYCLE3-PREP-002")

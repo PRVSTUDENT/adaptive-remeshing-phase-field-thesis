@@ -1,8 +1,8 @@
-# Method C Case 3: Cycle-3 Refinement Package Report
+# Method C Case 3: Cycle-3 Refinement Package Report (Re-Issue 2)
 
 **Task ID:** `METHOD-C-CASE3-CYCLE3-REFINEMENT-PACKAGE`  
-**Correlation ID:** `HND-METHOD-C-CASE3-CYCLE3-PREP-001`  
-**Predecessor Review:** `HND-METHOD-C-CASE3-JOB3-DIAG-002` (Verdict: `APPROVE`)  
+**Correlation ID:** `HND-METHOD-C-CASE3-CYCLE3-PREP-002`  
+**Predecessor Review:** `HND-METHOD-C-CASE3-CYCLE3-PREP-001` (Verdict: `REJECT`)  
 **Predecessor Task:** `METHOD-C-CASE3-JOB3-DIAGNOSIS`  
 **Goal ID:** `METHOD_C_INCREMENTAL_ADAPTIVE_REMESHING_V1` (Status: `OPEN`)  
 **Date:** 2026-11-21  
@@ -13,7 +13,13 @@
 
 ## 1. Executive Summary
 
-Following independent structured review approval of `HND-METHOD-C-CASE3-JOB3-DIAG-002` (Verdict: `APPROVE`), this report presents the complete **Case 3 Cycle-3 Refinement Package** prepared under `HND-METHOD-C-CASE3-CYCLE3-PREP-001`.
+Following independent structured review of `HND-METHOD-C-CASE3-CYCLE3-PREP-001` (Verdict: `REJECT`), this report presents the complete **Case 3 Cycle-3 Refinement Package Re-Issue** prepared under `HND-METHOD-C-CASE3-CYCLE3-PREP-002`.
+
+This re-issue directly resolves all review gaps identified in PREP-001:
+- **GAP-MC-C3C3P-01 Resolved:** Committed both technical datacheck outputs (`PK_METHOD_C_CASE3_CYCLE3_REFINED_JOB4_DC.dat` [13,235 B, SHA `F7FF2AC1...`] and `.msg` [1,423 B, SHA `BCBF5CA2...`]) under `models/pandey_kumar_mode1/290_method_c_case3/` using `git add -f`, ensuring the Exit 0 claim is 100% verifiable from the repository on a clean clone.
+- **GAP-MC-C3C3P-02 Resolved:** Corrected §8 artifact inventory table to match the manifest values for all three generation/audit/transfer scripts (generator script 9,042 B / SHA `09767838...`, audit script 7,628 B / SHA `1F2CD3BC...`, transfer script 33,942 B / SHA `4B936354...`) and removed the self-referential report entry.
+- **GAP-MC-C3C3P-03 Resolved:** Corrected damage preservation gloss to 99.69% (ratio 0.99686) in §1.3 and §4, plainly stating the $\ge 0.90 \times d_{\max}^{\text{donor}}$ gate threshold.
+- **NOTE-MC-C3C3P-02 Addressed:** Updated `project_coordination/HPC_JOB_LEDGER.csv` for Job 3 (`1424778.mmaster02`) from `SUBMITTED` to `CUTBACK_TERMINATED`.
 
 The package transitions the adaptive simulation from the Cycle-2 terminal state (Job 3) to the Cycle-3 adapted discretization (Job 4), extending the refinement corridor to reach the central hole perimeter and track forward crack growth, while strictly adhering to finite element quality gates, thermodynamic transfer conservation, and PBS budget constraints.
 
@@ -38,7 +44,7 @@ Strictly **0 new PBS jobs** were consumed in this task. Cumulative PBS submissio
 3. **State & History Transfer Fidelity:** Transferred nodal damage $d$ and GP strain energy history $H$ via qualified `isoparametric_gp_transfer.py` (`convex_clamp`):
    - Strict non-negativity: transferred GP history minimum is $1.112049\times 10^{-11}\,\text{MPa} \ge 0.0$; deck SVAR history minimum is $0.0\,\text{MPa} \ge 0.0$ (0 violations).
    - Phase-field bounds: $0.0 \le d \le 1.0$ everywhere (nodal max $0.989946$, matching donor peak $0.993061$).
-   - Non-healing verified: receiver nodal $d_{\max} = 0.989946$ (100.0% preserved).
+   - Non-healing verified: receiver nodal $d_{\max} = 0.989946$ (99.69% preserved, ratio 0.99686; satisfies $\ge 0.90 \times d_{\max}^{\text{donor}}$ gate threshold).
    - Notch slit flank isolation at $y = 70.0\,\text{mm}$ ($x \le 10.0\,\text{mm}$) strictly maintained.
 4. **3-Layer Production Deck Assembly with Diagnosed Mitigations:** Assembled `PK_METHOD_C_CASE3_CYCLE3_REFINED_JOB4.inp` (185,064 layered elements: Phase UEL, Disp UEL, Companion CPE4/CPE3) incorporating all mitigations identified in DIAG-001/002:
    - Verified UEL form from start: `PROPERTIES=6, COORDINATES=2, VARIABLES=18, UNSYMM` (U1/U3 data `3`, U2/U4 data `1, 2`).
@@ -122,7 +128,7 @@ State and history transfer were performed using `scripts/state_transfer/run_case
 |---|---|---|---|---|
 | **Gate 01: Non-Negativity** | $H \ge 0.0\,\text{MPa}$ | $9.8003\times 10^{-12}\,\text{MPa}$ | Transferred GP: $1.1120\times 10^{-11}\,\text{MPa}$, Deck SVAR: $0.0\,\text{MPa}$ | **PASS** |
 | **Gate 02: Phase Bounds** | $0.0 \le d \le 1.0$ | $[0.0, 0.993061]$ | $[0.0, 0.989946]$ | **PASS** |
-| **Gate 03: Non-Healing** | $d_{\max}^{\text{recip}} \ge 0.90 \times d_{\max}^{\text{donor}}$ | $0.993061$ | $0.989946$ (100.0% preserved) | **PASS** |
+| **Gate 03: Non-Healing** | $d_{\max}^{\text{recip}} \ge 0.90 \times d_{\max}^{\text{donor}}$ ($0.893755$) | $0.993061$ | $0.989946$ (99.69% preserved, ratio 0.99686) | **PASS** |
 | **Gate 04: Slit Isolation** | Discontinuity across $y = 70.0\,\text{mm}$ ($x \le 10.0\,\text{mm}$) | Isolated | Isolated ($y > 70$ vs $y < 70$) | **PASS** |
 | **Gate 05: Deck Integrity** | Valid UEL layers, properties, SVARS | Complete | 185,064 layered elements | **PASS** |
 
@@ -218,11 +224,10 @@ The package was validated via dedicated pytest suite `tests/unit/test_method_c_c
 | `models/pandey_kumar_mode1/290_method_c_case3/PK_METHOD_C_CASE3_CYCLE3_REFINED_JOB4_DC.dat` | 13,235 | `F7FF2AC12B14388A40D82B1E657940B8A3FD3198BEA2138E9D7392D0F43E0360` | Technical datacheck dat output |
 | `models/pandey_kumar_mode1/290_method_c_case3/PK_METHOD_C_CASE3_CYCLE3_REFINED_JOB4_DC.msg` | 1,423 | `BCBF5CA27E608672DBCAA29C3D3271CA50927D1F0793E4C94D72EF23283621BD` | Technical datacheck msg output |
 | `models/pandey_kumar_mode1/f42_mixed_uel.for` | 29,722 | `CE8D5EDCD2911DCB018BB15275271F874E7EA62B8FB48CF4A8297469A83ACDD6` | Frozen UEL Fortran source |
-| `scripts/remeshing/generate_method_c_case3_cycle3_mesh.py` | 6,368 | `BF472E8F87B570DFB527E53B026F920DF7A9B9356AE9565DC354D4958319DE16` | Cycle-3 CAE mesh generation script |
-| `scripts/remeshing/audit_method_c_case3_cycle3_mesh.py` | 5,471 | `1F2CD3BC85E87DEDD81AEB83D3D005E18A7EA0A5FEB90B7406C08AE96BE1E634` | Cycle-3 mesh audit script |
-| `scripts/state_transfer/run_case3_cycle3_state_transfer.py` | 26,458 | `4B9363544E6669006896A269369252CDB8AA60D7B85538E5691F2019602EBA82` | Cycle-3 state transfer script |
+| `scripts/remeshing/generate_method_c_case3_cycle3_mesh.py` | 9,042 | `09767838460478E9AD81145B05D29E263912036BB96C2F985A6EC4C34DCE4168` | Cycle-3 CAE mesh generation script |
+| `scripts/remeshing/audit_method_c_case3_cycle3_mesh.py` | 7,628 | `1F2CD3BC85E87DEDD81AEB83D3D005E18A7EA0A5FEB90B7406C08AE96BE1E634` | Cycle-3 mesh audit script |
+| `scripts/state_transfer/run_case3_cycle3_state_transfer.py` | 33,942 | `4B9363544E6669006896A269369252CDB8AA60D7B85538E5691F2019602EBA82` | Cycle-3 state transfer script |
 | `tests/unit/test_method_c_case3_cycle3_package.py` | 9,097 | `0EFEBBE53967EC1979A61230AF3A5A13C16B5E6BE6148CBCADB53228812F2C98` | Dedicated pytest unit test suite |
-| `docs/validation/METHOD_C_CASE3_CYCLE3_PREPARATION_REPORT.md` | 21,973 | — | This preparation report |
 
 ---
 
@@ -230,7 +235,7 @@ The package was validated via dedicated pytest suite `tests/unit/test_method_c_c
 
 The **Case 3 Cycle-3 Refinement Package** is fully assembled, verified against all finite element and thermodynamic transfer quality gates, validated by cluster technical datacheck (Exit 0), and staged for execution.
 
-Upon review and approval of this report (`HND-METHOD-C-CASE3-CYCLE3-PREP-001`), the next authorized step is:
+Upon review and approval of this re-issued report (`HND-METHOD-C-CASE3-CYCLE3-PREP-002`), the next authorized step is:
 1. Transition task to `METHOD-C-CASE3-CYCLE3-JOB4-SOLVE`.
 2. Submit Job 4 (`M1_MC_C3_JOB4`) to cluster queue `entry_imfdfkmq` via `submit_case3_cycle3_job4.pbs` (advancing cumulative PBS from 65 to 66).
 3. Monitor Job 4 execution through Step-1 re-equilibration hold ($u_2 = 0.056073\,\text{mm}$) and Step-2 forward propagation toward the central hole ($u_2 = 0.4125\,\text{mm}$).

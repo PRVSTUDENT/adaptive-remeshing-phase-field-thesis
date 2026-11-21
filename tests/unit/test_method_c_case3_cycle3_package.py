@@ -30,12 +30,15 @@ TRANSFER_RECEIPT_JSON = os.path.join(CASE_DIR, "PK_METHOD_C_CASE3_CYCLE3_TRANSFE
 FROZEN_UEL = os.path.join(REPO_ROOT, "models", "pandey_kumar_mode1", "f42_mixed_uel.for")
 SUBMIT_PBS = os.path.join(CASE_DIR, "submit_case3_cycle3_job4.pbs")
 DATACHECK_SH = os.path.join(CASE_DIR, "run_case3_cycle3_datacheck.sh")
+DATACHECK_DAT = os.path.join(CASE_DIR, "PK_METHOD_C_CASE3_CYCLE3_REFINED_JOB4_DC.dat")
 DATACHECK_MSG = os.path.join(CASE_DIR, "PK_METHOD_C_CASE3_CYCLE3_REFINED_JOB4_DC.msg")
 ACTIVE_TASK_JSON = os.path.join(REPO_ROOT, "project_coordination", "ACTIVE_TASK.json")
 
 EXPECTED_FROZEN_UEL_SHA = "CE8D5EDCD2911DCB018BB15275271F874E7EA62B8FB48CF4A8297469A83ACDD6"
 EXPECTED_PHYS_MESH_SHA = "305EF98842EA94DDC3A83F22D1CD7658B7A6BE22C99DD0758CF8F4537220B679"
 EXPECTED_DECK_SHA = "6D5411A694C9AFCFE00422CECAB3B3EE292EEAB829D4303E650254EDFB94EF1F"
+EXPECTED_DATACHECK_DAT_SHA = "F7FF2AC12B14388A40D82B1E657940B8A3FD3198BEA2138E9D7392D0F43E0360"
+EXPECTED_DATACHECK_MSG_SHA = "BCBF5CA27E608672DBCAA29C3D3271CA50927D1F0793E4C94D72EF23283621BD"
 
 def compute_sha256(path):
     h = hashlib.sha256()
@@ -163,7 +166,10 @@ def test_cycle3_governance_and_pbs_accounting():
 
     assert os.path.isfile(SUBMIT_PBS), "Submit script missing: %s" % SUBMIT_PBS
     assert os.path.isfile(DATACHECK_SH), "Datacheck script missing: %s" % DATACHECK_SH
+    assert os.path.isfile(DATACHECK_DAT), "Datacheck dat missing: %s" % DATACHECK_DAT
+    assert compute_sha256(DATACHECK_DAT) == EXPECTED_DATACHECK_DAT_SHA, "Datacheck dat SHA mismatch"
     assert os.path.isfile(DATACHECK_MSG), "Datacheck msg missing: %s" % DATACHECK_MSG
+    assert compute_sha256(DATACHECK_MSG) == EXPECTED_DATACHECK_MSG_SHA, "Datacheck msg SHA mismatch"
 
     # Verify datacheck msg completed without errors
     with open(DATACHECK_MSG, "r") as f:
