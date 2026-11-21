@@ -1,0 +1,40 @@
+{
+  "batch_name": "MODE1_METHOD_C_CASE3_FRAMEWORK",
+  "max_submissions": 1,
+  "hours_valid": 72,
+  "automatic_retry": false,
+  "files": {
+    "PK_METHOD_C_CASE3_COARSE_JOB1.inp": "1b3c9a62a9644e1e9fd6e8f4ad4b2dc734d69688d80e2655b0a11f8a7a7bddc2",
+    "PK_METHOD_C_CASE3_ADAPTIVE_PHYS.inp": "da09caed4d9ba57c0edf451ebf75afca28341440dd6b53f2a3fb8cc1d9f87ed8",
+    "f42_mixed_uel.for": "ce8d5edcd2911dcb018bb15275271f874e7ea62b8fb48cf4a8297469a83acdd6",
+    "case3_single_job_orchestrator.py": "1a9eaba318dd7aafbf5905ac849de6ff699904fe9b4073105ee819cc49a13eff",
+    "generate_case3_adaptive_corridor_mesh.py": "e74053077f297e9700b1d560e12eaad88e5cbf9a51edef0e76155705af9fc7de",
+    "submit_case3_single_job_framework.pbs": "579711d87e0de885a916cb0d19f594115594a9b1d1745c41e433ef6170a73814",
+    "job_notifications.sh": "96756a681d2d36c11b36b89288f631f8ecc9537543c2c745a4bae1b425984b47"
+  },
+  "jobs": [
+    {
+      "id": "case3_single_job_framework",
+      "pbs": "submit_case3_single_job_framework.pbs",
+      "command": "powershell -NoProfile -ExecutionPolicy Bypass -File .\\.agents\\scripts\\Invoke-GuardedSsh.ps1 -RemoteCommand \"qsub -q entry_imfdfkmq /scratch9/pr21vyci/runs/mode1_290_method_c_case3_single_job/submit_case3_single_job_framework.pbs\"",
+      "command_sha256": "c731e8ac2cc2c03bb6d563707706b8105cf4af4000f4b86211b8476975ba6cec",
+      "max_submissions": 1,
+      "depends_on": [],
+      "purpose": "Method C Case 3 Single-Job Multi-Cycle Adaptive Remeshing Framework test run (1 allocation, coarse solve plus 4 adaptive cycles with equal load division, no displacement cap)",
+      "cpus": 16,
+      "memory_gb": 48,
+      "walltime_hours": 72,
+      "queue": "entry_imfdfkmq",
+      "execution": "16-cpu shared-memory SMP",
+      "input": "PK_METHOD_C_CASE3_COARSE_JOB1.inp",
+      "datacheck": "PK_METHOD_C_CASE3_COARSE_JOB1_DC.dat"
+    }
+  ],
+  "adapter": "mode1-qualified-batch-v2",
+  "scientific_scope": "MODE1",
+  "technical_stage": "C1-0",
+  "remote_run_dir": "/scratch9/pr21vyci/runs/mode1_290_method_c_case3_single_job",
+  "acceptance": {
+    "case3_single_job_framework": "Method C Case 3 Single-Job Multi-Cycle Adaptive Framework executes in-allocation, completes coarse solve at u2=0.05 mm, and drives multi-cycle adaptive remeshing across equal load increments (0.01 mm/cycle) with fixed-load re-equilibration force continuity <= 5%, until crack completion criteria (x_tip >= 64 mm or RF2 < 5% peak) or walltime limit."
+  }
+}

@@ -31,7 +31,7 @@ fi
 
 if ! type module >/dev/null 2>&1; then source /etc/profile.d/lmod.sh; fi
 module purge
-module load gcc/11.4.0 intel/2024.2.0 abaqus/2023 python/3.10.8 || module load gcc/11.4.0 intel/2024.2.0 abaqus/2023
+module load gcc/11.4.0 intel/2024.2.0 abaqus/2023
 command -v ifort
 command -v abaqus
 command -v python3
@@ -43,8 +43,13 @@ echo "Start time: $(date)"
 echo "Run directory: ${RUN_DIR}"
 echo "================================================================="
 
-# Execute in-allocation Python orchestrator
-python3 "${RUN_DIR}/case3_single_job_orchestrator.py" --run-dir "${RUN_DIR}"
+# Execute in-allocation Python orchestrator (live execution loop)
+python3 "${RUN_DIR}/case3_single_job_orchestrator.py" \
+    --run-dir "${RUN_DIR}" \
+    --n-adaptive-steps 4 \
+    --load-increment-mm 0.01 \
+    --coarse-u2-mm 0.05 \
+    --cpus 16
 EXIT_CODE=$?
 
 echo "================================================================="

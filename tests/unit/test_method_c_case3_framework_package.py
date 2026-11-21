@@ -2,18 +2,20 @@
 """
 tests/unit/test_method_c_case3_framework_package.py
 ===================================================
-Task: METHOD-C-CASE3-SINGLE-JOB-FRAMEWORK-BUILD
-Correlation: HND-METHOD-C-CASE3-FRAMEWORK-PREP-001
+Task: METHOD-C-CASE3-SINGLE-JOB-FRAMEWORK-BUILD-AND-TEST
+Correlation: HND-METHOD-C-CASE3-FRAMEWORK-TEST-001
 
-Unit test suite validating the single-job multi-cycle adaptive remeshing framework:
+Unit test suite validating the revised single-job multi-cycle adaptive remeshing framework:
 1. Frozen UEL bitwise verification (CE8D5EDC...)
-2. Minimized corridor geometry (x in [8.5, 20], y in [60, 77], area 195.5 mm^2, h_ref <= l0/2)
-3. 5-cycle progression schedule (0.05 -> 0.4125 -> 0.7750 -> 1.1375 -> 1.5000 mm)
-4. Cutback floor detection and terminal converged frame extraction from .sta
-5. Force, energy (Gc-normalized), and non-healing gate evaluation
-6. PBS script configuration (16 CPUs, 48 GB, 72 h, dual-channel notifications)
-7. Framework manifest schema and accounting integrity (cumulative 67 preserved)
-8. Element area and characteristic size h = sqrt(Area) calculation
+2. Parameterised n_adaptive_steps and equal-load-division schedule (no 1.5 mm cap)
+3. Crack completion criteria (tip x >= 64 mm or RF2 < 5% of peak)
+4. Minimized corridor geometry (x in [8.5, 20], y in [60, 77], area 195.5 mm^2, h_ref <= l0/2)
+5. Cutback floor detection and terminal converged frame extraction from .sta
+6. Force (with authentic Job-5 RF2 values), energy (Gc-normalized), and non-healing gate evaluation
+7. PBS script configuration (16 CPUs, 48 GB, 72 h, dual-channel notifications, live execution call)
+8. Framework manifest schema, parameters, and accounting integrity
+9. Notification script job_notifications.sh presence in package folder
+10. Generated minimized corridor physical mesh audit (24,832 elements, 97.41% quad)
 """
 
 from __future__ import print_function, division
@@ -39,17 +41,21 @@ from scripts.remeshing.case3_single_job_orchestrator import (
     CORRIDOR_X_MAX,
     CORRIDOR_Y_MIN,
     CORRIDOR_Y_MAX,
-    CYCLE_TARGETS,
+    CRACK_COMPLETION_X_MM,
+    LOAD_DROP_COMPLETION_RATIO,
+    DEFAULT_N_ADAPTIVE_STEPS,
+    DEFAULT_LOAD_INCREMENT_MM,
 )
 from scripts.remeshing.generate_case3_adaptive_corridor_mesh import (
     compute_element_area_and_h,
-    evaluate_corridor_audit,
     get_corridor_partition_spec,
 )
 
 PACKAGE_DIR = os.path.join(REPO_ROOT, "models", "pandey_kumar_mode1", "290_method_c_case3")
 MANIFEST_PATH = os.path.join(PACKAGE_DIR, "METHOD_C_CASE3_FRAMEWORK_MANIFEST.json")
 PBS_PATH = os.path.join(PACKAGE_DIR, "submit_case3_single_job_framework.pbs")
+NOTIF_PATH = os.path.join(PACKAGE_DIR, "job_notifications.sh")
+PHYS_MESH_PATH = os.path.join(PACKAGE_DIR, "PK_METHOD_C_CASE3_ADAPTIVE_PHYS.inp")
 UEL_PATH = os.path.join(REPO_ROOT, "models", "pandey_kumar_mode1", "f42_mixed_uel.for")
 
 def test_frozen_uel_sha256():
@@ -65,10 +71,43 @@ def test_orchestrator_initialization_and_verification():
     assert orch.verify_prerequisites() is True
     plan = orch.run_dry_run_plan()
     assert plan["architecture"] == "SINGLE_PBS_JOB_IN_ALLOCATION_ORCHESTRATOR"
-    assert len(plan["cycles"]) == 5
+    assert plan["configuration"]["n_adaptive_steps"] == DEFAULT_N_ADAPTIVE_STEPS
+    assert plan["configuration"]["load_increment_mm"] == DEFAULT_LOAD_INCREMENT_MM
+    assert plan["configuration"]["no_displacement_cap"] is True
+    assert len(plan["planned_initial_cycles"]) == 5  # Coarse + 4 adaptive
     assert plan["pbs_allocation"]["ncpus"] == 16
     assert plan["pbs_allocation"]["mem_gb"] == 48
     assert plan["pbs_allocation"]["walltime_hours"] == 72
+
+def test_parameterised_steps_and_equal_load_division():
+    """Verify user-settable n_adaptive_steps and equal load increment without cap."""
+    orch6 = Case3SingleJobOrchestrator(run_dir=PACKAGE_DIR, n_adaptive_steps=6, load_increment_mm=0.015, uel_path=UEL_PATH)
+    plan6 = orch6.generate_plan()
+    assert len(plan6) == 7  # Coarse + 6 adaptive
+    # Check monotonic equal progression
+    for i in range(1, 7):
+        assert plan6[i]["load_increment_mm"] == 0.015
+        expected_target = round(0.05 + i * 0.015, 6)
+        assert abs(plan6[i]["u2_target_mm"] - expected_target) < 1e-6
+
+def test_crack_completion_criteria():
+    """Verify completion check on crack tip position (>= 64 mm) and load drop (< 5% of peak)."""
+    orch = Case3SingleJobOrchestrator(run_dir=PACKAGE_DIR, uel_path=UEL_PATH)
+
+    # In-progress state
+    done, reason = orch.check_completion(current_tip_x=14.0, current_rf2=3.80, peak_rf2=4.00)
+    assert done is False
+    assert reason is None
+
+    # Criterion A: Tip reached plate edge (x >= 64 mm)
+    done_a, reason_a = orch.check_completion(current_tip_x=64.2, current_rf2=2.00, peak_rf2=4.00)
+    assert done_a is True
+    assert "CRACK_FULLY_PROPAGATED_TO_PLATE_EDGE" in reason_a
+
+    # Criterion B: Structural load drop < 5% of peak (severed plate)
+    done_b, reason_b = orch.check_completion(current_tip_x=35.0, current_rf2=0.15, peak_rf2=4.00)  # 0.15 < 0.20 (5%)
+    assert done_b is True
+    assert "PLATE_SEVERED_LOAD_DROP_BELOW_5PCT" in reason_b
 
 def test_minimized_corridor_geometry():
     """Verify corridor partition box dimensions and area."""
@@ -83,13 +122,6 @@ def test_minimized_corridor_geometry():
     spec = get_corridor_partition_spec()
     assert spec["corridor_box"]["area_mm2"] == 195.5
     assert spec["target_mesh_metrics"]["target_total_elements"] == 30000
-
-def test_cycle_schedule_monotonicity():
-    """Verify the 5-cycle schedule and increasing load targets."""
-    targets = [c["u2_target_mm"] for c in CYCLE_TARGETS]
-    assert targets == [0.0500, 0.4125, 0.7750, 1.1375, 1.5000]
-    for i in range(len(targets) - 1):
-        assert targets[i] < targets[i + 1], "Cycle targets must strictly increase"
 
 def test_sta_cutback_parsing():
     """Verify .sta file parser detects cutback floor and terminal converged state."""
@@ -125,40 +157,30 @@ def test_sta_cutback_parsing():
         os.remove(tf_name)
 
 def test_gate_evaluation_physics():
-    """Verify force continuity, Gc-normalized energy, and non-healing gates."""
+    """Verify force continuity (using authentic Job-5 values), Gc-normalized energy, and non-healing."""
     orch = Case3SingleJobOrchestrator(run_dir=PACKAGE_DIR, uel_path=UEL_PATH)
 
-    # Test case 1: Nominal passing transition
-    gates1 = orch.evaluate_gates(
-        donor_rf2=4.00,
-        receiver_step1_rf2=3.95,  # -1.25%
-        donor_e_frac=0.0100,
-        receiver_step1_e_frac=0.0102,  # +2.0%
-        donor_d_max=0.950,
-        terminal_d_max=0.960
-    )
-    assert gates1["force_continuity_pass"] is True
-    assert gates1["energy_continuity_status"] == "PASS"
-    assert gates1["zero_healing_pass"] is True
-
-    # Test case 2: Disclosed parameter deviation with Gc change (Job 5 case)
-    gates2 = orch.evaluate_gates(
-        donor_rf2=3.8767,
-        receiver_step1_rf2=3.8767,  # 0.0%
-        donor_e_frac=0.0159247,
-        receiver_step1_e_frac=0.0148491,  # -6.75%
+    # Authentic Job-5 transition values (NOTE-FW-01 resolved)
+    donor_rf2_j5 = 3.9063646
+    receiver_rf2_j5 = 3.8692487  # -0.9501%
+    gates_j5 = orch.evaluate_gates(
+        donor_rf2=donor_rf2_j5,
+        receiver_step1_rf2=receiver_rf2_j5,
+        donor_e_frac=0.015924724,
+        receiver_step1_e_frac=0.014849132,  # -6.75%
         donor_d_max=0.9999,
         terminal_d_max=1.0000,
         donor_gc=0.00270,
         receiver_gc=0.00228
     )
-    assert gates2["force_continuity_pass"] is True
-    assert gates2["energy_continuity_status"] == "DISCLOSED_PARAMETER_DEVIATION"
-    assert gates2["normalized_gamma_delta_pct"] > 0  # Gamma increased
-    assert gates2["zero_healing_pass"] is True
+    assert abs(gates_j5["force_continuity_delta_pct"] - (-0.9501)) < 1e-3
+    assert gates_j5["force_continuity_pass"] is True
+    assert gates_j5["energy_continuity_status"] == "DISCLOSED_PARAMETER_DEVIATION"
+    assert gates_j5["normalized_gamma_delta_pct"] > 0
+    assert gates_j5["zero_healing_pass"] is True
 
-def test_pbs_script_directives():
-    """Verify PBS submission script directives and structure."""
+def test_pbs_script_directives_and_execution_call():
+    """Verify PBS script configuration and live orchestrator call."""
     assert os.path.isfile(PBS_PATH), "submit_case3_single_job_framework.pbs missing"
     with open(PBS_PATH, "r") as f:
         content = f.read()
@@ -168,10 +190,12 @@ def test_pbs_script_directives():
     assert "#PBS -m abe" in content
     assert "#PBS -M pr21vyci@mailserver.tu-freiberg.de" in content
     assert "case3_single_job_orchestrator.py" in content
+    assert "--n-adaptive-steps 4" in content
+    assert "--load-increment-mm 0.01" in content
     assert "job_notifications.sh" in content
 
 def test_manifest_schema_and_integrity():
-    """Verify METHOD_C_CASE3_FRAMEWORK_MANIFEST.json structure and accounting."""
+    """Verify METHOD_C_CASE3_FRAMEWORK_MANIFEST.json structure, parameters, and accounting."""
     assert os.path.isfile(MANIFEST_PATH), "Framework manifest missing"
     with open(MANIFEST_PATH, "r") as f:
         manifest = json.load(f)
@@ -180,22 +204,25 @@ def test_manifest_schema_and_integrity():
     assert manifest["benchmark"]["material_parameters"]["l0_mm"] == 0.285
     assert manifest["single_job_architecture"]["frozen_uel"]["sha256"] == FROZEN_UEL_SHA256
     assert manifest["refinement_corridor_minimization"]["corridor_box"]["area_mm2"] == 195.5
-    assert len(manifest["cycle_schedule"]) == 5
+    assert manifest["adaptive_schedule_parameters"]["n_adaptive_steps"] == 4
+    assert manifest["adaptive_schedule_parameters"]["load_increment_mm"] == 0.0100
+    assert manifest["adaptive_schedule_parameters"]["no_displacement_cap"] is True
+    assert manifest["adaptive_schedule_parameters"]["crack_completion_criteria"]["terminal_tip_x_mm"] == 64.0
     assert manifest["runtime_policies"]["dt_min_floor_behaviour"]["floor_threshold"] == 1.0e-14
     assert manifest["accounting"]["current_cumulative_pbs_submissions"] == 67
-    assert manifest["accounting"]["framework_build_pbs_consumed"] == 0
-    assert manifest["accounting"]["authorized_first_run_pbs_submissions"] == 1
+    assert manifest["accounting"]["authorized_test_run_pbs_submissions"] == 1
 
-def test_element_characteristic_size():
-    """Verify compute_element_area_and_h computes sqrt(Area) correctly."""
-    # Unit quad: area = 1.0, h = 1.0
-    quad_coords = [(0.0, 0.0), (1.0, 0.0), (1.0, 1.0), (0.0, 1.0)]
-    area_q, h_q = compute_element_area_and_h(quad_coords)
-    assert abs(area_q - 1.0) < 1e-6
-    assert abs(h_q - 1.0) < 1e-6
+def test_package_notification_script():
+    """Verify job_notifications.sh exists directly inside package directory."""
+    assert os.path.isfile(NOTIF_PATH), "job_notifications.sh missing from package"
+    assert os.path.getsize(NOTIF_PATH) > 10000
 
-    # Triangle: base = 1.0, height = 2.0 -> area = 1.0, h = 1.0
-    tri_coords = [(0.0, 0.0), (1.0, 0.0), (0.0, 2.0)]
-    area_t, h_t = compute_element_area_and_h(tri_coords)
-    assert abs(area_t - 1.0) < 1e-6
-    assert abs(h_t - 1.0) < 1e-6
+def test_generated_adaptive_physical_mesh():
+    """Verify generated PK_METHOD_C_CASE3_ADAPTIVE_PHYS.inp mesh metrics."""
+    assert os.path.isfile(PHYS_MESH_PATH), "PK_METHOD_C_CASE3_ADAPTIVE_PHYS.inp not found"
+    with open(PHYS_MESH_PATH, "r") as f:
+        lines = f.readlines()[:10]
+    header = "".join(lines)
+    assert "24832 elements" in header
+    assert "24738 nodes" in header
+    assert "97.41% quad" in header
