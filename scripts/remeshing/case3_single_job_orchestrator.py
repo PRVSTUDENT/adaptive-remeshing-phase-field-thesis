@@ -305,6 +305,20 @@ def point_in_triangle(tri_coords, px, py):
 
 def transfer_nodal_fields(donor_mesh, donor_u, donor_d, receiver_mesh, slit_y=70.0, slit_a0=10.0, bin_size=2.5):
     """Transfers nodal displacement (u1, u2) and damage (d) with slit flank isolation."""
+    donor_u_norm = {}
+    for k, v in donor_u.items():
+        try:
+            donor_u_norm[int(k)] = v
+        except (ValueError, TypeError):
+            donor_u_norm[k] = v
+
+    donor_d_norm = {}
+    for k, v in donor_d.items():
+        try:
+            donor_d_norm[int(k)] = float(v)
+        except (ValueError, TypeError):
+            donor_d_norm[k] = float(v)
+
     d_nodes = donor_mesh["nodes"]
     d_quads = donor_mesh.get("quads", {})
     d_tris = donor_mesh.get("tris", {})
@@ -431,17 +445,17 @@ def transfer_nodal_fields(donor_mesh, donor_u, donor_d, receiver_mesh, slit_y=70
                 clamped_xi = max(-1.0, min(1.0, best_xi))
                 clamped_eta = max(-1.0, min(1.0, best_eta))
                 N = quad_nodal_shape_functions(clamped_xi, clamped_eta)
-                ux = sum(N[i] * donor_u[best_conn[i]][0] for i in range(4))
-                uy = sum(N[i] * donor_u[best_conn[i]][1] for i in range(4))
-                d_val = sum(N[i] * donor_d[best_conn[i]] for i in range(4))
+                ux = sum(N[i] * donor_u_norm[best_conn[i]][0] for i in range(4))
+                uy = sum(N[i] * donor_u_norm[best_conn[i]][1] for i in range(4))
+                d_val = sum(N[i] * donor_d_norm[best_conn[i]] for i in range(4))
             else:
                 l_tot = best_l1 + best_l2 + best_l3
                 w1 = best_l1 / l_tot if l_tot > 0 else 1.0 / 3.0
                 w2 = best_l2 / l_tot if l_tot > 0 else 1.0 / 3.0
                 w3 = best_l3 / l_tot if l_tot > 0 else 1.0 / 3.0
-                ux = w1 * donor_u[best_conn[0]][0] + w2 * donor_u[best_conn[1]][0] + w3 * donor_u[best_conn[2]][0]
-                uy = w1 * donor_u[best_conn[0]][1] + w2 * donor_u[best_conn[1]][1] + w3 * donor_u[best_conn[2]][1]
-                d_val = w1 * donor_d[best_conn[0]] + w2 * donor_d[best_conn[1]] + w3 * donor_d[best_conn[2]]
+                ux = w1 * donor_u_norm[best_conn[0]][0] + w2 * donor_u_norm[best_conn[1]][0] + w3 * donor_u_norm[best_conn[2]][0]
+                uy = w1 * donor_u_norm[best_conn[0]][1] + w2 * donor_u_norm[best_conn[1]][1] + w3 * donor_u_norm[best_conn[2]][1]
+                d_val = w1 * donor_d_norm[best_conn[0]] + w2 * donor_d_norm[best_conn[1]] + w3 * donor_d_norm[best_conn[2]]
 
             recip_u[r_nid] = (ux, uy)
             recip_d[r_nid] = max(0.0, min(1.0, d_val))
@@ -455,11 +469,30 @@ def transfer_nodal_fields(donor_mesh, donor_u, donor_d, receiver_mesh, slit_y=70
 def transfer_gp_history(donor_mesh, donor_history_dict, receiver_mesh, limiter_mode="convex_clamp",
                         slit_y=70.0, slit_a0=10.0, bin_size=2.5):
     """Transfers Gauss-point strain energy history H via qualified isoparametric bilinear reconstruction with convex_clamp."""
+    donor_h_norm = {}
+    for k, v in donor_history_dict.items():
+        if isinstance(k, tuple):
+            donor_h_norm[(int(k[0]), int(k[1]))] = float(v)
+        elif isinstance(k, str):
+            if "_" in k:
+                parts = k.split("_")
+                donor_h_norm[(int(parts[0]), int(parts[1]))] = float(v)
+            elif "," in k:
+                parts = k.split(",")
+                donor_h_norm[(int(parts[0]), int(parts[1]))] = float(v)
+            else:
+                try:
+                    donor_h_norm[int(k)] = float(v)
+                except ValueError:
+                    donor_h_norm[k] = float(v)
+        else:
+            donor_h_norm[k] = float(v)
+
     try:
         from scripts.state_transfer.isoparametric_gp_transfer import transfer_isoparametric_gp_history
         res = transfer_isoparametric_gp_history(
             donor_mesh=donor_mesh,
-            donor_history_dict=donor_history_dict,
+            donor_history_dict=donor_h_norm,
             receiver_mesh=receiver_mesh,
             limiter_mode=limiter_mode,
             slit_y=slit_y,
@@ -491,7 +524,7 @@ def transfer_gp_history(donor_mesh, donor_history_dict, receiver_mesh, limiter_m
                     if len(dconn) == 4:
                         xi, eta, conv = inverse_isoparametric_quad(d_coords, gpx, gpy)
                         if conv and abs(xi) <= 1.0001 and abs(eta) <= 1.0001:
-                            gp_h = [donor_history_dict.get((deid, k), 0.0) for k in range(1, 5)]
+                            gp_h = [donor_h_norm.get((deid, k), 0.0) for k in range(1, 5)]
                             h_interp = 0.0
                             for k, (xik, etak) in enumerate(QUAD_GP_LOCAL):
                                 Mk = 0.25 * (1.0 + 3.0 * xik * xi) * (1.0 + 3.0 * etak * eta)
@@ -512,7 +545,7 @@ def transfer_gp_history(donor_mesh, donor_history_dict, receiver_mesh, limiter_m
                 if len(dconn) == 4:
                     xi, eta, conv = inverse_isoparametric_quad(d_coords, gpx, gpy)
                     if conv and abs(xi) <= 1.0001 and abs(eta) <= 1.0001:
-                        gp_h = [donor_history_dict.get((deid, k), 0.0) for k in range(1, 5)]
+                        gp_h = [donor_h_norm.get((deid, k), 0.0) for k in range(1, 5)]
                         h_val = max(0.0, sum(gp_h) / 4.0)
                         break
             transferred[(r_eid, 1)] = h_val
@@ -995,7 +1028,7 @@ class Case3SingleJobOrchestrator(object):
 
         # 1. If already extracted state JSON exists, load and return with dynamic derivation
         if os.path.isfile(out_json):
-            with open(out_json, "r") as f:
+            with open(out_json, "r", encoding="utf-8-sig") as f:
                 state = json.load(f)
             u_nodal = {int(k): v for k, v in state.get("u_nodal", {}).items()}
             d_nodal = {int(k): float(v) for k, v in state.get("d_nodal", {}).items()}
@@ -1049,7 +1082,7 @@ class Case3SingleJobOrchestrator(object):
         ]
         for dc in donor_candidates:
             if os.path.isfile(dc):
-                with open(dc, "r") as f:
+                with open(dc, "r", encoding="utf-8-sig") as f:
                     state = json.load(f)
                 u_nodal = {int(k): v for k, v in state.get("u_nodal", {}).items()}
                 d_nodal = {int(k): float(v) for k, v in state.get("d_nodal", {}).items()}
