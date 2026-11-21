@@ -33,6 +33,10 @@ from scripts.remeshing.case3_single_job_orchestrator import (
     Case3SingleJobOrchestrator,
     parse_sta_file,
     compute_sha256,
+    parse_physical_inp,
+    assemble_coupled_deck,
+    transfer_nodal_fields,
+    transfer_gp_history,
     FROZEN_UEL_SHA256,
     BENCHMARK_GC_KN_MM,
     BENCHMARK_L0_MM,
@@ -226,3 +230,81 @@ def test_generated_adaptive_physical_mesh():
     assert "24832 elements" in header
     assert "24738 nodes" in header
     assert "97.41% quad" in header
+
+def test_physical_mesh_parsing_and_deck_assembly():
+    """Verify parse_physical_inp and assemble_coupled_deck generate 3-layer UEL deck."""
+    mesh = parse_physical_inp(PHYS_MESH_PATH)
+    assert len(mesh["elements"]) == 24832
+    assert len(mesh["nodes"]) == 24738
+    assert len(mesh["quads"]) == 24189
+    assert len(mesh["tris"]) == 643
+
+    # Test assemble_coupled_deck on temporary file
+    with tempfile.NamedTemporaryFile(mode="w", delete=False, suffix=".inp") as tf:
+        tmp_deck = tf.name
+
+    try:
+        # Dummy field dictionaries
+        recip_d = {nid: 0.10 for nid in mesh["nodes"]}
+        recip_h_gp = {}
+        for eid in mesh["quads"]:
+            for gp in range(1, 5):
+                recip_h_gp[(eid, gp)] = 0.005
+        for eid in mesh["tris"]:
+            recip_h_gp[(eid, 1)] = 0.005
+
+        assemble_coupled_deck(
+            receiver_phys_inp=PHYS_MESH_PATH,
+            out_deck_path=tmp_deck,
+            recip_d=recip_d,
+            recip_h_gp=recip_h_gp,
+            donor_u2=0.0500,
+            target_u2=0.0600,
+            cycle_idx=1
+        )
+
+        assert os.path.isfile(tmp_deck)
+        with open(tmp_deck, "r") as f:
+            content = f.read()
+
+        assert "*USER ELEMENT, NODES=4, TYPE=U1" in content  # Phase UEL quad
+        assert "*USER ELEMENT, NODES=4, TYPE=U2" in content  # Disp UEL quad
+        assert "*USER ELEMENT, NODES=3, TYPE=U3" in content  # Phase UEL tri
+        assert "*USER ELEMENT, NODES=3, TYPE=U4" in content  # Disp UEL tri
+        assert "*INITIAL CONDITIONS, TYPE=SOLUTION" in content
+        assert "*EQUATION" in content
+        assert "Step-1-Hold" in content
+        assert "Step-2-Advance" in content
+        assert "0.0500" in content
+        assert "0.0600" in content
+    finally:
+        if os.path.exists(tmp_deck):
+            os.remove(tmp_deck)
+
+def test_transfer_routines_bounds():
+    """Verify transfer_nodal_fields and transfer_gp_history enforce physical bounds."""
+    donor_mesh = {
+        "nodes": {1: (0.0, 0.0), 2: (1.0, 0.0), 3: (1.0, 1.0), 4: (0.0, 1.0)},
+        "quads": {1: (1, 2, 3, 4)},
+        "tris": {},
+        "elements": {1: (1, 2, 3, 4)}
+    }
+    receiver_mesh = {
+        "nodes": {1: (0.5, 0.5)},
+        "quads": {1: (1, 1, 1, 1)},
+        "tris": {},
+        "elements": {1: (1, 1, 1, 1)}
+    }
+    donor_u = {1: (0.0, 0.0), 2: (0.01, 0.0), 3: (0.01, 0.02), 4: (0.0, 0.02)}
+    donor_d = {1: 0.1, 2: 0.2, 3: 0.3, 4: 0.2}
+
+    recip_u, recip_d = transfer_nodal_fields(donor_mesh, donor_u, donor_d, receiver_mesh, slit_y=70.0, slit_a0=10.0)
+    assert 1 in recip_d
+    assert 0.0 <= recip_d[1] <= 1.0
+    assert abs(recip_d[1] - 0.2) < 1e-3
+
+    donor_h = {(1, 1): 0.01, (1, 2): 0.02, (1, 3): 0.03, (1, 4): 0.02}
+    recip_h = transfer_gp_history(donor_mesh, donor_h, receiver_mesh, limiter_mode="convex_clamp")
+    for val in recip_h.values():
+        assert val >= 0.0
+
