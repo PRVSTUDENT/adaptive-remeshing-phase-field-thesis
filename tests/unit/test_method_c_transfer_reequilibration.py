@@ -110,5 +110,5 @@ def test_pbs_accounting_and_zero_submission_gate():
     with open(ACTIVE_TASK_JSON, "r", encoding="utf-8-sig") as f:
         task = json.load(f)
 
-    assert task["cumulative_pbs_submissions"] in (58, 59, 60, 61, 62, 63)
+    assert task["cumulative_pbs_submissions"] in (58, 59, 60, 61, 62, 63, 64, 65)
     assert task["max_new_pbs_submissions"] in (0, 1)

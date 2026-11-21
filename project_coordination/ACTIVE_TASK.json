@@ -1,9 +1,9 @@
 ﻿{
   "task_id": "METHOD-C-CASE3-CYCLE2-JOB3-SOLVE",
   "title": "Method C Case 3: Cycle-2 Job-3 Refined Re-Equilibration and Forward Crack Propagation Solve",
-  "task_status": "SUBMITTED_AND_RUNNING",
+  "task_status": "COMPLETED_READY_FOR_INDEPENDENT_REVIEW",
   "master_goal_status": "OPEN",
-  "status": "IN_PROGRESS",
+  "status": "COMPLETED_READY_FOR_INDEPENDENT_REVIEW",
   "review_verdict": null,
   "review_correlation_id": null,
   "classification": "METHOD_C_INCREMENTAL_ADAPTIVE_REMESHING",
@@ -12,7 +12,7 @@
   "last_successful_pbs_job_id": null,
   "last_failed_pbs_job_id": "1424772.mmaster02",
   "checkpoint_artifact": "docs/validation/METHOD_C_CASE3_JOB3_EXECUTION_REPORT.md",
-  "checkpoint_artifact_sha256": null,
+  "checkpoint_artifact_sha256": "843C48B1CDD8349D54499A65CE5436083671EFF4C12BC4D5BEA9124BB4029B0C",
   "review_directive": "Submit Job 3 (M1_MC_C3_JOB3) via scripts/hpc/Invoke-Mode1Execution.ps1 only — exactly 1 PBS job, cumulative 64 to 65, approved deck 8DDE4D8B762C3019C90D4876A9558AACCB7EF4150CB37E5002E9E0305D68A890 at commit 901747c875ca989b8b645c7bef5ce89844371da5, frozen UEL CE8D5EDC, staged submit script submit_case3_cycle2_job3.pbs (16 CPU / 48 GB / 72 h, entry_imfdfkmq). No direct qsub, no deck regeneration, no additional jobs. Mark ACTIVE_TASK completed-ready before submission. On completion, extract observables (Step-1 continuity vs donor RF2=4.0332960 kN at u2=0.052451 mm, no healing, Step-2 peak load, d>=0.95 crack-tip advance from x=10.1529 mm, measured corridor h distribution, and whether dt_min=1e-14 plus line search carried the solve past the Job-2 Inc-11 point) and issue as HND-METHOD-C-CASE3-JOB3-001 for review before any Cycle-3 work; if Job 3 fails, do not resubmit — diagnose from committed solver outputs. Loop while (goal <> achieved): AGY -> PAD -> C:\\Users\\pruth\\OpenClawPAD\\ChatGPTBridge\\bridge_request.ready -> ChatGPT -> C:\\Users\\pruth\\OpenClawPAD\\ChatGPTBridge\\bridge_response.ready -> AGY, end loop.",
   "predecessor_task": {
     "task_id": "METHOD-C-CASE3-CYCLE2-REFINEMENT-PACKAGE",
@@ -32,5 +32,5 @@
   "max_new_pbs_submissions": 1,
   "submissions_consumed": 1,
   "cumulative_pbs_submissions": 65,
-  "notes": "Job 3 solve authorized under Fix Option A 5-job allocation: 117,936 layered elements [39,312 physical]; Step-1 fixed hold at u2=0.052451 mm, Step-2 forward crack propagation to u2=0.4125 mm; dt_min=1.0E-14 and line search enabled; max_new_pbs=1, cumulative 64 -> 65; MASTER_GOAL_STATUS = OPEN."
+  "notes": "Job 3 solve verified & observables extracted: 29 increments converged; Step-1 fixed hold force continuity +0.375% (PASS <= 5.0%), energy continuity +0.963% (PASS <= 5.0%); Step-2 peak load 4.1010 kN with post-peak softening to 3.9475 kN (-3.74%); spatial crack tip advanced to x=12.5215 mm (+2.3686 mm past Job 2 donor tip, +2.5215 mm from notch root); damage envelope d>=0.50 advanced to x=13.0767 mm heading toward hole; fracture energy surged from 0.0034895 to 0.013756 kN*mm (+294.2%, zero healing verified); Inc-11 cutback floor milestone surpassed down to dt=6.728e-14; max_new_pbs=1, cumulative 64 -> 65; MASTER_GOAL_STATUS = OPEN."
 }

@@ -139,4 +139,4 @@ def test_governance_and_pbs_accounting_invariance():
     assert active_task["task_id"] in ("METHOD-C-CASE3-CYCLE1-REFINEMENT-PACKAGE", "METHOD-C-CASE3-CYCLE1-JOB2-SOLVE", "METHOD-C-CASE3-JOB2-DIAGNOSIS", "METHOD-C-CASE3-CYCLE2-REFINEMENT-PACKAGE", "METHOD-C-CASE3-CYCLE2-JOB3-SOLVE")
     assert active_task["master_goal_status"] == "OPEN"
     assert active_task["task_status"] in ("IN_PROGRESS", "SUBMITTED_AND_RUNNING", "COMPLETED_READY_FOR_INDEPENDENT_REVIEW", "REVIEWED_APPROVED")
-    assert active_task["cumulative_pbs_submissions"] in (63, 64)
+    assert active_task["cumulative_pbs_submissions"] in (63, 64, 65)
