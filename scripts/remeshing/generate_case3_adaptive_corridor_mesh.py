@@ -478,13 +478,52 @@ def generate_abaqus_cae_mesh(out_phys_inp, tip_x=10.0, tip_y=70.0):
             except Exception:
                 pass
 
+def parse_cli_args():
+    """Extracts target output path, tip_x, and tip_y from sys.argv, filtering Abaqus launcher flags."""
+    raw_args = sys.argv[1:]
+    user_args = []
+    skip_next = False
+    for a in raw_args:
+        if skip_next:
+            skip_next = False
+            continue
+        if a in ("-cae", "-noGUI"):
+            continue
+        if a in ("-tmpdir", "-lmlog"):
+            skip_next = True
+            continue
+        if a.endswith(".py"):
+            continue
+        user_args.append(a)
+
+    out_target = "models/pandey_kumar_mode1/290_method_c_case3/PK_METHOD_C_CASE3_ADAPTIVE_PHYS.inp"
+    tip_x = 10.0
+    tip_y = 70.0
+
+    if len(user_args) >= 1 and not user_args[0].startswith("-"):
+        out_target = user_args[0]
+    if len(user_args) >= 2:
+        try:
+            tip_x = float(user_args[1])
+        except ValueError:
+            pass
+    if len(user_args) >= 3:
+        try:
+            tip_y = float(user_args[2])
+        except ValueError:
+            pass
+
+    return out_target, tip_x, tip_y
+
+
 if __name__ == "__main__":
-    if "abaqus" in sys.argv[0].lower() or any("noGUI" in arg for arg in sys.argv):
-        out_target = "models/pandey_kumar_mode1/290_method_c_case3/PK_METHOD_C_CASE3_ADAPTIVE_PHYS.inp"
-        if len(sys.argv) > 1 and not sys.argv[-1].startswith("-"):
-            out_target = sys.argv[-1]
-        generate_abaqus_cae_mesh(out_target)
+    is_cae = any("noGUI" in arg for arg in sys.argv) or "abaqus" in sys.argv[0].lower() or "abqcaek" in sys.argv[0].lower()
+    out_target, tip_x, tip_y = parse_cli_args()
+
+    if is_cae:
+        print("Invoking Abaqus CAE mesh generator: target=%s, tip=(%.2f, %.2f)" % (out_target, tip_x, tip_y))
+        generate_abaqus_cae_mesh(out_phys_inp=out_target, tip_x=tip_x, tip_y=tip_y)
     else:
-        spec = get_corridor_partition_spec()
-        print("Case 3 Minimized Corridor Mesh Specification:")
+        spec = get_corridor_partition_spec(tip_x=tip_x, tip_y=tip_y)
+        print("Case 3 Minimized Corridor Mesh Specification (tip_x=%.2f, tip_y=%.2f):" % (tip_x, tip_y))
         print(json.dumps(spec, indent=2))

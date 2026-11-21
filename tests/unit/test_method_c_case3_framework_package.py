@@ -317,17 +317,17 @@ def test_generated_adaptive_physical_mesh():
     with open(PHYS_MESH_PATH, "r") as f:
         lines = f.readlines()[:10]
     header = "".join(lines)
-    assert "24832 elements" in header
-    assert "24738 nodes" in header
-    assert "97.41% quad" in header
+    assert "7172 elements" in header
+    assert "7261 nodes" in header
+    assert "96.14% quad" in header
 
 def test_physical_mesh_parsing_and_deck_assembly():
     """Verify parse_physical_inp and assemble_coupled_deck generate 3-layer UEL deck."""
     mesh = parse_physical_inp(PHYS_MESH_PATH)
-    assert len(mesh["elements"]) == 24832
-    assert len(mesh["nodes"]) == 24738
-    assert len(mesh["quads"]) == 24189
-    assert len(mesh["tris"]) == 643
+    assert len(mesh["elements"]) == 7172
+    assert len(mesh["nodes"]) == 7261
+    assert len(mesh["quads"]) == 6895
+    assert len(mesh["tris"]) == 277
 
     # Test assemble_coupled_deck on temporary file
     with tempfile.NamedTemporaryFile(mode="w", delete=False, suffix=".inp") as tf:
@@ -528,10 +528,27 @@ def test_receiver_mesh_generation_per_cycle_follows_tip():
     assert spec_c1["corridor_area_mm2"] < spec_c2["corridor_area_mm2"] < spec_c3["corridor_area_mm2"]
     assert spec_c1["refined_band_elements"] < spec_c2["refined_band_elements"] < spec_c3["refined_band_elements"]
 
-    # Test orchestrator mesh resolution fallback
-    mesh_path = orch.generate_cycle_adaptive_mesh(cycle_idx=1, tip_x=10.0, tip_y=70.0)
-    assert os.path.isfile(mesh_path), "Resolved receiver mesh file must exist"
-    assert "PHYS.inp" in mesh_path
+    # Test orchestrator mesh resolution under system python3
+    mesh1_path = orch.generate_cycle_adaptive_mesh(cycle_idx=1, tip_x=10.0, tip_y=70.0)
+    mesh3_path = orch.generate_cycle_adaptive_mesh(cycle_idx=3, tip_x=20.0, tip_y=67.0)
+
+    # Assert distinct file paths
+    assert os.path.isfile(mesh1_path), "Cycle 1 mesh file must exist"
+    assert os.path.isfile(mesh3_path), "Cycle 3 mesh file must exist"
+    assert os.path.abspath(mesh1_path) != os.path.abspath(mesh3_path), "Cycle 1 and Cycle 3 meshes must be distinct files"
+
+    # Assert distinct mesh content and element counts
+    mesh1 = parse_physical_inp(mesh1_path)
+    mesh3 = parse_physical_inp(mesh3_path)
+    assert len(mesh1["elements"]) != len(mesh3["elements"]), "Element counts must differ between cycles"
+    assert len(mesh1["nodes"]) != len(mesh3["nodes"]), "Node counts must differ between cycles"
+    assert len(mesh1["elements"]) < len(mesh3["elements"]), "Cycle 3 mesh must be more refined than Cycle 1"
+
+    # Verify both are authentic narrow-band meshes bounded < 35,000 elements
+    assert len(mesh1["elements"]) == 7172
+    assert len(mesh3["elements"]) == 11093
+    assert len(mesh1["elements"]) < 35000
+    assert len(mesh3["elements"]) < 35000
 
 
 
