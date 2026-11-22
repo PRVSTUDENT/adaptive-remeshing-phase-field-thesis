@@ -37,6 +37,7 @@ from scripts.remeshing.case3_single_job_orchestrator import (
     assemble_coupled_deck,
     transfer_nodal_fields,
     transfer_gp_history,
+    extract_robust_crack_tip,
     FROZEN_UEL_SHA256,
     BENCHMARK_GC_KN_MM,
     BENCHMARK_L0_MM,
@@ -644,7 +645,7 @@ def test_job1424798_final_observables():
     assert os.path.isfile(orch_path), "Package orchestrator must exist"
     with open(orch_path, "rb") as f:
         orch_hash = hashlib.sha256(f.read()).hexdigest().upper()
-    assert orch_hash == "227F620CC03D396490C9971CE165B77B015B231685A89CFBC835421E9BE6E69F"
+    assert orch_hash == "3CCEB29405F7ACDEE21F859944BD2A730E30FB67656D8CE04DBE02EE2971A00F"
 
 
 def test_transfer_gp_history_binned_performance_and_safeguards():
@@ -731,11 +732,17 @@ def test_orchestrator_stalled_cycle_resume_load():
             f.write("   2   11   3    0    2   1.00000000   0.00213793  0.00000001  0.00000001\n")
             f.write("   2   12   3U   0    4   1.00000000   0.00213793  0.00000001  0.00000001\n")
 
-        # State JSON with node 999999 (N_RP) at u2 = 0.1000213772 mm
+        # State JSON with node 999999 (N_RP) at u2 = 0.1000213772 mm and spurious tip (55.0889, 37.8341) mm
         state_data = {
-            "d_nodal": {"1": 0.99},
+            "d_nodal": {
+                "1029": 0.99,
+                "8260": 0.9508,
+                "7905": 0.9617,
+                "8257": 0.9717,
+                "999999": 0.0
+            },
             "u_nodal": {
-                "1": [0.0, 0.0],
+                "8260": [0.0, 0.0],
                 "999999": [0.0, 0.1000213772]
             },
             "h_gp": {"1_1": 15.0},
@@ -747,15 +754,25 @@ def test_orchestrator_stalled_cycle_resume_load():
         with open(os.path.join(tmpdir, "PK_METHOD_C_CASE3_CYCLE6_state.json"), "w") as f:
             json.dump(state_data, f)
 
+        # Physical mesh with spurious node 1029 and true crack corridor front nodes
         with open(os.path.join(tmpdir, "PK_METHOD_C_CASE3_CYCLE6_PHYS.inp"), "w") as f:
-            f.write("*NODE\n1, 0.0, 0.0\n999999, 20.0, 100.0\n*ELEMENT, TYPE=CPS4\n1, 1, 1, 1, 1\n")
+            f.write("*NODE\n"
+                    "1029, 55.088875, 37.834110\n"
+                    "8260, 30.5113, 66.7437\n"
+                    "7905, 30.3637, 66.9886\n"
+                    "8257, 30.3388, 66.7699\n"
+                    "999999, 20.0, 100.0\n"
+                    "*ELEMENT, TYPE=CPS4\n"
+                    "1, 8260, 7905, 8257, 1029\n")
 
         orch = Case3SingleJobOrchestrator(run_dir=tmpdir, n_adaptive_steps=100)
 
-        # 1. extract_cycle_state must extract terminal_u2 = 0.1000 mm
+        # 1. extract_cycle_state must extract terminal_u2 = 0.1000 mm and repair spurious tip to authentic front (30.5113, 66.7437) mm
         donor_state = orch.extract_cycle_state("PK_METHOD_C_CASE3_CYCLE6")
         assert "terminal_u2" in donor_state
         assert donor_state["terminal_u2"] == 0.1000, "Expected actual terminal u2 = 0.1000 mm, got %s" % donor_state["terminal_u2"]
+        assert donor_state["tip_x"] == pytest.approx(30.5113, abs=1e-3), "Expected repaired tip_x ~ 30.5113 mm, got %s" % donor_state["tip_x"]
+        assert donor_state["tip_y"] == pytest.approx(66.7437, abs=1e-3), "Expected repaired tip_y ~ 66.7437 mm, got %s" % donor_state["tip_y"]
 
         # 2. execute()'s resume branch logic must set donor_u2 = 0.1000 mm, NOT nominal 0.1100 mm
         actual_u2 = donor_state.get("terminal_u2")
@@ -771,6 +788,55 @@ def test_orchestrator_stalled_cycle_resume_load():
         actual_fallback = donor_state_no_u2.get("terminal_u2")
         fallback_donor_u2 = round(float(actual_fallback), 4) if (actual_fallback is not None and actual_fallback > 0.0) else nominal_u2
         assert fallback_donor_u2 == 0.1100, "Fallback must be nominal 0.1100 mm"
+
+
+def test_extract_robust_crack_tip_filters_spurious_node():
+    """Verifies GAP-MC-C3KFX-07: extract_robust_crack_tip ignores isolated far-field spurious node 1029 and selects leading corridor front node 8260."""
+    # Synthetic nodal damage field replicating Cycle 6
+    d_nodal = {
+        1029: 0.9900,  # Spurious node far below crack plane at (55.0889, 37.8341)
+        8260: 0.9508,  # Leading crack tip node in corridor at (30.5113, 66.7437)
+        7905: 0.9617,  # Behind leading tip at (30.3637, 66.9886)
+        8257: 0.9717,  # Behind leading tip at (30.3388, 66.7699)
+        500: 0.2000,   # Elastic far-field node
+    }
+    node_coords = {
+        1029: (55.088875, 37.834110),
+        8260: (30.5113, 66.7437),
+        7905: (30.3637, 66.9886),
+        8257: (30.3388, 66.7699),
+        500: (15.0, 70.0),
+    }
+
+    # 1. With spurious node present, must extract leading corridor front node 8260
+    tip_x, tip_y = extract_robust_crack_tip(d_nodal, node_coords, notch_x=10.0, notch_y=70.0, corridor_half_width=12.0)
+    assert tip_x == pytest.approx(30.5113, abs=1e-4), "Expected tip_x ~ 30.5113 mm, got %f" % tip_x
+    assert tip_y == pytest.approx(66.7437, abs=1e-4), "Expected tip_y ~ 66.7437 mm, got %f" % tip_y
+
+    # 2. Verify narrow band specification centered on robust crack tip covers the front exactly
+    spec = compute_narrow_band_spec(tip_x=tip_x, tip_y=tip_y)
+    assert spec["tip_x"] == pytest.approx(30.5113, abs=1e-4)
+    assert spec["tip_y"] == pytest.approx(66.7437, abs=1e-4)
+    # Local band y-range at front must cover [65.7437, 67.7437] mm (half-width = 1.0 mm)
+    band_y_min_at_front = spec["tip_y"] - spec["half_width_mm"]
+    band_y_max_at_front = spec["tip_y"] + spec["half_width_mm"]
+    assert band_y_min_at_front == pytest.approx(65.7437, abs=1e-3)
+    assert band_y_max_at_front == pytest.approx(67.7437, abs=1e-3)
+    assert spec["y_min"] <= band_y_min_at_front
+    assert spec["y_max"] >= band_y_max_at_front
+
+    # 3. Fallback behavior: if no broken nodes in corridor, falls back to global max-x broken node
+    d_nodal_only_spurious = {1029: 0.9900, 500: 0.2000}
+    fb_x, fb_y = extract_robust_crack_tip(d_nodal_only_spurious, node_coords, notch_x=10.0, notch_y=70.0, corridor_half_width=12.0)
+    assert fb_x == pytest.approx(55.088875, abs=1e-4)
+    assert fb_y == pytest.approx(37.834110, abs=1e-4)
+
+    # 4. Fallback behavior: if no broken nodes at all, returns notch root (10.0, 70.0)
+    d_nodal_none = {500: 0.2000}
+    def_x, def_y = extract_robust_crack_tip(d_nodal_none, node_coords, notch_x=10.0, notch_y=70.0, corridor_half_width=12.0)
+    assert def_x == 10.0
+    assert def_y == 70.0
+
 
 
 

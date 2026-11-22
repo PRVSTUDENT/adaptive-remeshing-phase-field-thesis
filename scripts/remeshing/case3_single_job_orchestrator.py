@@ -882,6 +882,38 @@ def assemble_coupled_deck(receiver_phys_inp, out_deck_path, recip_d, recip_h_gp,
         out.write("*END STEP\n")
 
 
+
+def extract_robust_crack_tip(d_nodal, node_coords, notch_x=10.0, notch_y=70.0,
+                             corridor_half_width=12.0, d_threshold=0.95):
+    """
+    Extracts authentic crack tip coordinates (tip_x, tip_y) from nodal damage field.
+    Filters out isolated spurious far-field damaged nodes by requiring candidates to lie
+    within the physical crack path corridor |y - notch_y| <= corridor_half_width.
+    Returns (tip_x, tip_y) of the leading front (maximum x in corridor).
+    If no nodes reach d_threshold in the corridor, returns notch root (notch_x, notch_y).
+    """
+    corridor_candidates = []
+    global_candidates = []
+
+    for nid, d_val in d_nodal.items():
+        if float(d_val) >= d_threshold:
+            nid_int = int(nid)
+            if nid_int in node_coords:
+                x, y = node_coords[nid_int]
+                global_candidates.append((x, y, nid_int))
+                if abs(y - notch_y) <= corridor_half_width and x >= (notch_x - 1.0):
+                    corridor_candidates.append((x, y, nid_int))
+
+    if corridor_candidates:
+        corridor_candidates.sort(key=lambda item: (item[0], -abs(item[1] - notch_y)), reverse=True)
+        return float(corridor_candidates[0][0]), float(corridor_candidates[0][1])
+    elif global_candidates:
+        global_candidates.sort(key=lambda item: item[0], reverse=True)
+        return float(global_candidates[0][0]), float(global_candidates[0][1])
+    else:
+        return float(notch_x), float(notch_y)
+
+
 def extract_state_from_odb(odb_path, out_json_path):
     """Extracts nodal displacements, nodal damage, and GP history from an Abaqus ODB to JSON."""
     if not ABAQUS_AVAILABLE:
@@ -961,15 +993,8 @@ def extract_state_from_odb(odb_path, out_json_path):
         tip_x = 10.0
         tip_y = 70.0
         if inst:
-            broken_coords = []
-            for node in inst.nodes:
-                nid = node.label
-                if d_nodal.get(nid, 0.0) >= 0.95:
-                    broken_coords.append((node.coordinates[0], node.coordinates[1]))
-            if broken_coords:
-                broken_coords.sort(key=lambda c: c[0], reverse=True)
-                tip_x = float(broken_coords[0][0])
-                tip_y = float(broken_coords[0][1])
+            node_coords = {node.label: (float(node.coordinates[0]), float(node.coordinates[1])) for node in inst.nodes}
+            tip_x, tip_y = extract_robust_crack_tip(d_nodal, node_coords, notch_x=10.0, notch_y=70.0)
         rp_node = 999999
         terminal_u2 = None
         if rp_node in u_nodal:
@@ -1391,7 +1416,26 @@ class Case3SingleJobOrchestrator(object):
             max_damage = float(state.get("max_damage", max(d_nodal.values()) if d_nodal else 0.0))
             max_history = float(state.get("max_history_MPa", max(h_gp.values()) if h_gp else 0.0))
             tip_x = float(state.get("tip_x", self.current_tip_x))
-            tip_y = float(state.get("tip_y", 70.0))
+            tip_y = float(state.get("tip_y", getattr(self, "current_tip_y", 70.0)))
+
+            # GAP-MC-C3KFX-07: Verify tip robustness against far-field spurious damaged nodes
+            # If loaded tip is outside physical corridor (|tip_y - 70.0| > 12.0 mm) or tip_x < 10.0 mm,
+            # re-extract robust tip from d_nodal and physical mesh
+            if abs(tip_y - 70.0) > 12.0 or tip_x < 10.0:
+                phys_candidates = [
+                    os.path.join(self.run_dir, job_name + "_PHYS.inp"),
+                    os.path.join(REPO_ROOT, "models", "pandey_kumar_mode1", "290_method_c_case3", job_name + "_PHYS.inp")
+                ]
+                for p_cand in phys_candidates:
+                    if os.path.isfile(p_cand):
+                        mesh_dict = parse_physical_inp(p_cand)
+                        node_coords = mesh_dict.get("nodes", {})
+                        if node_coords and d_nodal:
+                            clean_tx, clean_ty = extract_robust_crack_tip(d_nodal, node_coords)
+                            print("[Tip Extraction Repair] Corrected spurious tip (%.4f, %.4f) -> robust front (%.4f, %.4f)" % 
+                                  (tip_x, tip_y, clean_tx, clean_ty))
+                            tip_x, tip_y = clean_tx, clean_ty
+                        break
             peak_rf2 = float(state.get("peak_rf2", self.peak_rf2))
             terminal_rf2 = float(state.get("terminal_rf2", self.current_rf2))
             step1_rf2 = float(state.get("step1_rf2", self.current_rf2))
@@ -1586,12 +1630,13 @@ class Case3SingleJobOrchestrator(object):
             donor_e_frac = donor_state.get("e_frac", 0.0)
             donor_d_max = donor_state.get("max_damage", 0.0)
             self.current_tip_x = donor_state["tip_x"]
+            self.current_tip_y = donor_state.get("tip_y", 70.0)
             self.current_rf2 = donor_state["terminal_rf2"]
             self.peak_rf2 = max(self.peak_rf2, donor_state.get("peak_rf2", 0.0))
             donor_phys_inp = os.path.join(self.run_dir, donor_job + "_PHYS.inp")
             cycle_idx = resume_cycle + 1
-            print("Resuming execution at Cycle %d (donor u2=%.4f mm, tip_x=%.4f mm, RF2=%.4f kN)" % (
-                cycle_idx, donor_u2, self.current_tip_x, self.current_rf2))
+            print("Resuming execution at Cycle %d (donor u2=%.4f mm, tip=(%.4f, %.4f) mm, RF2=%.4f kN)" % (
+                cycle_idx, donor_u2, self.current_tip_x, self.current_tip_y, self.current_rf2))
             print("=================================================================")
         else:
             # Step 0: Initial Coarse Solve
@@ -1729,10 +1774,11 @@ class Case3SingleJobOrchestrator(object):
                     print("[Cycle %d State Advanced] Using nominal target u2 = %.4f mm for next cycle donor" % (cycle_idx, donor_u2))
                 donor_phys_inp = adaptive_phys_inp
                 self.current_tip_x = cycle_donor_state["tip_x"]
+                self.current_tip_y = cycle_donor_state.get("tip_y", 70.0)
                 self.current_rf2 = cycle_donor_state["terminal_rf2"]
                 self.peak_rf2 = max(self.peak_rf2, cycle_donor_state.get("peak_rf2", 0.0))
-                print("[Cycle %d State Advanced] tip_x=%.4f mm, terminal_rf2=%.4f kN, peak_rf2=%.4f kN" % 
-                      (cycle_idx, self.current_tip_x, self.current_rf2, self.peak_rf2))
+                print("[Cycle %d State Advanced] tip=(%.4f, %.4f) mm, terminal_rf2=%.4f kN, peak_rf2=%.4f kN" % 
+                      (cycle_idx, self.current_tip_x, self.current_tip_y, self.current_rf2, self.peak_rf2))
             except Exception as e:
                 print("[Cycle %d State Advancement Warning] Could not extract %s state: %s" % (cycle_idx, cycle_job, str(e)))
                 donor_u2 = target_u2

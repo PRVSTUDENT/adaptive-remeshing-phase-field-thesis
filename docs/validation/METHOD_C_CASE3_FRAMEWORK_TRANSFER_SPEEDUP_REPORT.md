@@ -1,11 +1,11 @@
-# Method C Case 3: Single-Job Framework Transfer Bottleneck Forensic Analysis, Speedup Implementation, and Cluster Verification Report (Re-Issue 2)
+# Method C Case 3: Single-Job Framework Transfer Bottleneck Forensic Analysis, Speedup Implementation, and Cluster Verification Report (Re-Issue 3)
 
 **Document ID**: `METHOD_C_CASE3_FRAMEWORK_TRANSFER_SPEEDUP_REPORT`  
 **Date**: 22 November 2026  
 **Author**: Gemini Antigravity  
 **Task ID**: `METHOD-C-CASE3-FRAMEWORK-KILL-1424881-AND-FIX-TRANSFER`  
-**Handoff Correlation ID**: `HND-METHOD-C-CASE3-FRAMEWORK-KILL-AND-FIX-002`  
-**Predecessor Handoff ID**: `HND-METHOD-C-CASE3-FRAMEWORK-KILL-AND-FIX-001`  
+**Handoff Correlation ID**: `HND-METHOD-C-CASE3-FRAMEWORK-KILL-AND-FIX-003`  
+**Predecessor Handoff ID**: `HND-METHOD-C-CASE3-FRAMEWORK-KILL-AND-FIX-002`  
 **Master Goal**: `METHOD_C_INCREMENTAL_ADAPTIVE_REMESHING_V1` (Status: **OPEN**)  
 
 ---
@@ -22,8 +22,10 @@
 | **Measured Post-Fix GP Transfer** | **28.45 s (0.47 min)** on authentic Cycle 5 -> Cycle 6 cluster meshes | **465.1x SPEEDUP MEASURED ON CLUSTER** |
 | **Field Accuracy** | 65,376 / 65,575 GPs (99.7%) bitwise identical; 199 boundary GPs improved | **VERIFIED** |
 | **GAP-MC-C3KFX-01 Resolved** | Actual terminal $u_2 = 0.1000$ mm extracted & used for Cycle 7 donor load | **VERIFIED ON REAL CLUSTER CHECKPOINT** |
+| **GAP-MC-C3KFX-07 Resolved** | Robust tip extraction ignores spurious node 1029; selects true front at $(30.51, 66.74)$ mm | **VERIFIED ON REAL CLUSTER CHECKPOINT** |
+| **Cycle 7 Band Coverage** | Distance to centreline 0.0000 mm, local range $[65.74, 67.74]$ mm (fine $h=0.140$ mm) | **VERIFIED: 100% FRONT ENCLOSED** |
 | **NOTE-MC-C3KFX-04 Resolved** | Receiver-tri branch sizes GP range by donor element type (quads 4, tris 3) | **VERIFIED** |
-| **Unit Test Suite** | `tests/unit/test_method_c_case3_framework_package.py` (27/27 PASS) | **100% PASS** |
+| **Unit Test Suite** | `tests/unit/test_method_c_case3_framework_package.py` (28/28 PASS) | **100% PASS** |
 | **Resumability of Checkpoints** | Cycles 1-6 fully converged; orchestrator auto-resumes at Cycle 7 ($u_2=0.1000$ mm) | **CONFIRMED RESUMABLE** |
 | **Cumulative PBS Submissions** | Exactly 0 new PBS jobs consumed; cumulative strictly 71 preserved | **GOVERNANCE PASS** |
 | **Bitwise Frozen UEL** | `CE8D5EDCD2911DCB018BB15275271F874E7EA62B8FB48CF4A8297469A83ACDD6` | **BITWISE PRESERVED** |
@@ -83,19 +85,29 @@ Profiling the isolated transfer sub-phases on the compute node revealed:
 
 ---
 
-## 5. Targeted Speedup Implementation
+## 5. Targeted Speedup and Robustness Implementation
 
-To eliminate external module dependency failures and achieve near-linear scaling, `transfer_gp_history` was completely refactored inside `case3_single_job_orchestrator.py`:
+To eliminate external module dependency failures, achieve near-linear scaling, and guarantee robust mesh adaptation, `case3_single_job_orchestrator.py` was enhanced:
+
 1. **Self-Contained 2D Spatial Binning**:
    - Elements are pre-split across the crack slit ($y = 70.0\text{ mm}$ for $x \le 10.0\text{ mm}$) to preserve topological discontinuity.
    - Spatial bins of dimension $\Delta x = \Delta y = 2.5\text{ mm}$ index candidate elements via bounding boxes $(x_{\min}, x_{\max}, y_{\min}, y_{\max})$.
    - Gauss points $(gpx, gpy)$ only query donor elements occupying the exact bin corresponding to $(gpx, gpy)$.
    - Candidate elements per Gauss point are reduced from $\approx 9,500$ down to $2\text{--}6$ elements.
+
 2. **Convex Clamping and Bounds Enforcement**:
    - Retained bilinear reconstruction: $M_k(\xi, \eta) = \frac{1}{4}(1 + 3\xi_k\xi)(1 + 3\eta_k\eta)$.
    - Enforced convex limiter: $H_{\text{interp}} = \max\left(\min(H_{GP}), \min\left(\max(H_{GP}), H_{\text{interp}}\right)\right)$ and non-negativity $H \ge 0$.
    - Sized donor GP lists dynamically by element type in the receiver-tri branch (`range(1, 5)` for quad donors, `range(1, 4)` for tri donors), resolving NOTE-MC-C3KFX-04.
-3. **Seamless Checkpoint Resumption with Stalled-Cycle Load Resolution (GAP-MC-C3KFX-01)**:
+
+3. **Robust Crack Tip Extraction (GAP-MC-C3KFX-07 Resolved)**:
+   - Added `extract_robust_crack_tip(d_nodal, node_coords, notch_x=10.0, notch_y=70.0, corridor_half_width=12.0, d_threshold=0.95)`.
+   - Prior logic selected the global maximum-x node with $d \ge 0.95$. In Cycle 6, that selected spurious far-field node 1029 at $(55.0889, 37.8341)$ mm instead of the true leading crack front at $(30.5113, 66.7437)$ mm.
+   - The robust extractor filters candidates to the physical corridor $|y - 70.0| \le 12.0$ mm and $x \ge 9.0$ mm, selecting leading front node 8260 at $(30.5113, 66.7437)$ mm.
+   - In `extract_cycle_state()`, an automatic repair check re-extracts the robust tip from `job_name + "_PHYS.inp"` if the loaded tip is spurious ($|y - 70.0| > 12.0$ mm).
+   - In `execute()`, both the resume branch and the main loop state advancement now update `self.current_tip_y = cycle_donor_state.get("tip_y", 70.0)` alongside `self.current_tip_x`.
+
+4. **Seamless Checkpoint Resumption with Stalled-Cycle Load Resolution (GAP-MC-C3KFX-01)**:
    - Implemented automatic checkpoint detection: if `PK_METHOD_C_CASE3_CYCLE<k>_state.json`, `.sta`, and `_PHYS.inp` exist with valid converged increments, the orchestrator detects the highest completed cycle $k$ and sets `cycle_idx = k + 1`.
    - **Load Correction**: Rather than calculating `donor_u2` using the nominal unachieved formula (`coarse_u2 + resume_cycle * load_increment = 0.05 + 6 * 0.01 = 0.11 mm`), `extract_cycle_state()` reads the actual terminal displacement reached by node 999999 ($N_{\text{RP}}$) or from `.dat`/`.sta`, extracting $u_2 = 0.1000$ mm.
    - The resume branch in `execute()` uses this actual terminal load, ensuring Cycle 7 performs a true fixed-load hold re-equilibration at $u_2 = 0.1000$ mm, preserving the $\le 5\%$ force-continuity gate.
@@ -136,7 +148,7 @@ Field Consistency Audit:
 
 An audit of the scratch directory `/scratch9/pr21vyci/runs/mode1_290_method_c_case3_single_job/` was performed:
 
-### 1. Authentic Cycle 6 Terminal State Citation (NOTE-MC-C3KFX-03)
+### 1. Authentic Cycle 6 Terminal State Citation & Spurious Tip Resolution (GAP-MC-C3KFX-07)
 From `PK_METHOD_C_CASE3_CYCLE6_state.json` and associated solver files:
 - **Source ODB**: `/scratch9/pr21vyci/runs/mode1_290_method_c_case3_single_job/PK_METHOD_C_CASE3_CYCLE6.odb`
 - **Step / Frame**: `"step_name": "Step-2-Advance"`, `"frame_idx": 3`, `"step_time": 0.002137931063771248`
@@ -146,37 +158,55 @@ From `PK_METHOD_C_CASE3_CYCLE6_state.json` and associated solver files:
   - `.dat` Table: `999999 1.0002138E-01 1.8744195E+00`
   - Exact terminal displacement: $u_2 = 0.100021\text{ mm}$ (rounded to **$0.1000\text{ mm}$**).
 - **Reaction Force**: Terminal $\text{RF}_2 = 1.8744\text{ kN}$ on $N_{\text{RP}}$ ($3.7488\text{ kN}$ full structural reaction).
-- **Crack Tip Citation**:
-  - `state.json` records `"tip_x": 55.088875 mm`, `"tip_y": 37.834110 mm` (extracted from node 1029, the global maximum-x broken coordinate).
-  - Main crack front: Nodes 8260, 7905, 8257 ahead of the central void ($x=26.5\text{ mm}$) at $x \approx 30.51\text{ mm}$, $y \approx 66.74\text{ mm}$ with $d \ge 0.95$.
-  - Disclosed discrepancy: The value $x_{\text{tip}} = 14.1848\text{ mm}$ in the prior report was an accidental transcription from manual Job 5. The actual y-coordinate in `state.json` is $37.8341\text{ mm}$ (or $66.7437\text{ mm}$ at the main crack tip front), which does not match Job 5's $69.7062\text{ mm}$.
+- **Crack Tip Resolution**:
+  - Raw `state.json` recorded `"tip_x": 55.088875 mm`, `"tip_y": 37.834110 mm` at isolated far-field node 1029.
+  - Cluster forensics confirmed node 1029 is the ONLY broken node outside the crack corridor. The other 296 broken nodes ($d \ge 0.95$) form a continuous crack path passing from notch root $(10.0, 70.0)$ through the central hole ($x=26.5$ mm) to leading front nodes:
+    - Node 8260: $x = 30.5113$ mm, $y = 66.7437$ mm, $d = 0.9508$
+    - Node 7905: $x = 30.3637$ mm, $y = 66.9886$ mm, $d = 0.9617$
+    - Node 8257: $x = 30.3388$ mm, $y = 66.7699$ mm, $d = 0.9717$
+  - The updated orchestrator parses `PK_METHOD_C_CASE3_CYCLE6_PHYS.inp`, auto-repairs the spurious tip, and extracts the authentic crack tip:
+    $$\mathbf{x}_{\text{tip}} = (30.5113, 66.7437)\text{ mm}$$
 
-### 2. Resolution of GAP-MC-C3KFX-01 (Stalled-Cycle Resume Load)
-Tested directly on the cluster using `Case3SingleJobOrchestrator` on the authentic scratch directory:
+### 2. Verified Cluster Extraction and Narrow Band Coverage
+Executed `test_cluster_c6_extraction.py` on cluster scratch using the updated orchestrator `3CCEB294...`:
 ```
+3cceb29405f7acdee21f859944bd2a730e30fb67656d8ce04dbe02ee2971a00f  /scratch9/pr21vyci/runs/mode1_290_method_c_case3_single_job/case3_single_job_orchestrator.py
+[Tip Extraction Repair] Corrected spurious tip (55.0889, 37.8341) -> robust front (30.5113, 66.7437)
 === REAL CLUSTER ORCHESTRATOR EXTRACTION: CYCLE 6 ===
 terminal_u2 : 0.1
-tip_x       : 55.08887481689453
-tip_y       : 37.834110260009766
+tip_x       : 30.5112801
+tip_y       : 66.7436523
 max_damage  : 1.0
 terminal_rf2: 1.8744195
 === RESUME CALCULATION ===
 Nominal donor u2 (old formula): 0.1100 mm
 Actual donor u2  (new formula): 0.1000 mm
 RESUME LOAD CHECK: PASS (donor_u2 == 0.1000 mm)
+ROBUST CRACK TIP CHECK: PASS (tip=(30.5113, 66.7437) mm)
+=== CYCLE 7 NARROW BAND COVERAGE ===
+Local band y-range at crack front: [65.7437, 67.7437] mm
+Overall bounding box y-range: [65.4261, 71.0000] mm
+Distance from crack front to centreline: 0.0000 mm
+CYCLE 7 NARROW BAND CHECK: PASS (crack front centered in fine mesh)
 ```
-The resume run will initiate Cycle 7 with a fixed hold at $u_2 = 0.1000\text{ mm}$, exactly matching the donor state, preventing any artificial force jump and strictly satisfying the $\le 5.0\%$ force-continuity gate.
+- **Crack Front Coverage**:
+  - Crack front location: $(30.5113, 66.7437)$ mm
+  - Narrow band centreline at $x = 30.5113$ mm: $y_c = 66.7437$ mm (distance to front = $0.0000$ mm)
+  - Refined band zone ($h = 0.140$ mm): $y \in [65.7437, 67.7437]$ mm
+  - Overall partition box: $x \in [8.5, 34.51]$ mm, $y \in [65.43, 71.00]$ mm
+  - The crack front is 100% enclosed within the refined mesh, avoiding the coarse background mesh ($h = 2.0$ mm) and preventing premature completion triggers.
 
 ---
 
-## 8. Governed Inventory & Cryptographic Hashes (NOTE-MC-C3KFX-02)
+## 8. Governed Inventory & Cryptographic Hashes (Re-Issue 3)
 
 | File | Size (Bytes) | SHA-256 Checksum | Description |
 | :--- | :---: | :--- | :--- |
-| `case3_single_job_orchestrator.py` (Repo) | 83,594 | `227F620CC03D396490C9971CE165B77B015B231685A89CFBC835421E9BE6E69F` | Spatially binned orchestrator with resume fix (models path) |
-| `case3_single_job_orchestrator.py` (Scripts) | 83,594 | `227F620CC03D396490C9971CE165B77B015B231685A89CFBC835421E9BE6E69F` | Bitwise identical copy (scripts path) |
-| `case3_single_job_orchestrator.py` (Cluster) | 83,594 | `227F620CC03D396490C9971CE165B77B015B231685A89CFBC835421E9BE6E69F` | Deployed and verified on cluster scratch |
-| `test_method_c_case3_framework_package.py` | 37,498 | `37FDEA29844A71766FB608FA63F05C9989B745993664B4A9121E94A726FFF416` | Expanded test suite with stalled resume test (27/27 PASS) |
+| `case3_single_job_orchestrator.py` (Repo) | 86,325 | `3CCEB29405F7ACDEE21F859944BD2A730E30FB67656D8CE04DBE02EE2971A00F` | Spatially binned orchestrator with robust tip extraction & resume load fix (models path) |
+| `case3_single_job_orchestrator.py` (Scripts) | 86,325 | `3CCEB29405F7ACDEE21F859944BD2A730E30FB67656D8CE04DBE02EE2971A00F` | Bitwise identical copy (scripts path) |
+| `case3_single_job_orchestrator.py` (Cluster) | 86,325 | `3CCEB29405F7ACDEE21F859944BD2A730E30FB67656D8CE04DBE02EE2971A00F` | Deployed and verified on cluster scratch |
+| `test_method_c_case3_framework_package.py` | 41,079 | `25B73115112E98F305A32CB00D8DF5A3CD4624D5093EAF78F24C275B91D48878` | Expanded test suite with robust tip & spurious node filter tests (28/28 PASS) |
+| `test_cluster_c6_extraction.py` | 2,287 | `547A72E866701587A6B2BBC843B3F1ACACCF8749EBB2755D883491B3670ED86E` | Cluster verification script for Cycle-6 extraction and band coverage |
 | `f42_mixed_uel.for` | 29,722 | `CE8D5EDCD2911DCB018BB15275271F874E7EA62B8FB48CF4A8297469A83ACDD6` | Bitwise frozen UEL subroutine |
 
 ---
