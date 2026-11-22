@@ -640,12 +640,12 @@ def test_job1424798_final_observables():
     energy_surge_pct = (last_e_frac - first_e_frac) / first_e_frac * 100.0
     assert energy_surge_pct > 800.0  # +889.5%
 
-    # 4. Spatially-binned speedup orchestrator SHA with stalled-cycle load correction
+    # 4. Spatially-binned speedup orchestrator SHA with dynamic tip corridor
     orch_path = os.path.join(PACKAGE_DIR, "case3_single_job_orchestrator.py")
     assert os.path.isfile(orch_path), "Package orchestrator must exist"
     with open(orch_path, "rb") as f:
         orch_hash = hashlib.sha256(f.read()).hexdigest().upper()
-    assert orch_hash == "3CCEB29405F7ACDEE21F859944BD2A730E30FB67656D8CE04DBE02EE2971A00F"
+    assert orch_hash == "AC56BA7D2BF877FD174DF375E8066DB17B90F61D0EAEB93CFC9854106710A79A"
 
 
 def test_transfer_gp_history_binned_performance_and_safeguards():
@@ -837,6 +837,61 @@ def test_extract_robust_crack_tip_filters_spurious_node():
     assert def_x == 10.0
     assert def_y == 70.0
 
+    # 5. Verify Cycle-10 tip (31.4604, 64.3322) is extracted correctly with dynamic corridor
+    d_nodal_c10 = {
+        1029: 0.9900,  # Spurious far-field node at (55.0889, 37.8341)
+        9991: 0.9650,  # Cycle 10 tip at (31.4604, 64.3322)
+        8260: 0.9990,  # Cycle 6 tip at (30.5113, 66.7437)
+    }
+    node_coords_c10 = {
+        1029: (55.088875, 37.834110),
+        9991: (31.4604, 64.3322),
+        8260: (30.5113, 66.7437),
+    }
+    c10_tx, c10_ty = extract_robust_crack_tip(d_nodal_c10, node_coords_c10, ref_y=65.0219)
+    assert c10_tx == pytest.approx(31.4604, abs=1e-4)
+    assert c10_ty == pytest.approx(64.3322, abs=1e-4)
+
+
+def test_dynamic_tip_corridor_below_y58():
+    """
+    Verifies NOTE-SR-10: Dynamic tip corridor follows authentic crack front as it drops below y = 58 mm
+    toward the central void at (36.5, 51.0) mm, where the static corridor (|y - 70| <= 12) fails.
+    """
+    d_nodal = {
+        1029: 0.9900,   # Far-field spurious node at (55.0889, 37.8341)
+        8260: 0.9990,   # Earlier crack mouth node at (30.5113, 66.7437) [y in static corridor]
+        9501: 0.9750,   # Authentic advanced crack front below static corridor floor at (35.0000, 55.0000) [y = 55.0 < 58.0]
+        500: 0.1500,    # Elastic node
+    }
+    node_coords = {
+        1029: (55.088875, 37.834110),
+        8260: (30.5113, 66.7437),
+        9501: (35.0000, 55.0000),
+        500: (15.0, 70.0),
+    }
+
+    # 1. Under static corridor (ref_y=None or ref_y=70.0):
+    # Node 9501 at y=55.0 mm has |55.0 - 70.0| = 15.0 > 12.0 mm, so static corridor FAILS
+    # and mistakenly selects the earlier mouth node 8260 at x=30.5113 mm!
+    static_tx, static_ty = extract_robust_crack_tip(d_nodal, node_coords, ref_y=70.0)
+    assert static_tx == pytest.approx(30.5113, abs=1e-4), "Static corridor incorrectly falls back to earlier node"
+    assert static_ty == pytest.approx(66.7437, abs=1e-4)
+
+    # 2. Under dynamic corridor tracking previous cycle tip_y (e.g. ref_y = 56.5 mm or 64.33 mm):
+    # With ref_y = 56.5 mm, |55.0 - 56.5| = 1.5 mm <= 12.0 mm (in corridor),
+    # while spurious node 1029 has |37.8341 - 56.5| = 18.6659 > 12.0 mm (filtered out).
+    # Since x=35.0 > x=30.5113, the dynamic corridor correctly selects the authentic leading front 9501!
+    dyn_tx, dyn_ty = extract_robust_crack_tip(d_nodal, node_coords, ref_y=56.5)
+    assert dyn_tx == pytest.approx(35.0000, abs=1e-4), "Dynamic corridor must extract leading front at x=35.0 mm"
+    assert dyn_ty == pytest.approx(55.0000, abs=1e-4), "Dynamic corridor must extract leading front at y=55.0 mm"
+
+    # Also works when transitioning from Cycle 10 tip_y = 64.3322 mm:
+    # |55.0 - 64.3322| = 9.3322 mm <= 12.0 mm
+    dyn_tx_c10, dyn_ty_c10 = extract_robust_crack_tip(d_nodal, node_coords, ref_y=64.3322)
+    assert dyn_tx_c10 == pytest.approx(35.0000, abs=1e-4)
+    assert dyn_ty_c10 == pytest.approx(55.0000, abs=1e-4)
+
 
 def test_short_resume_run_evaluation_metrics():
     """Verifies that the executed Short Resume Run (PBS Job 1424910, Cycles 7-10) satisfies all physical gates."""
@@ -871,7 +926,7 @@ def test_short_resume_run_evaluation_metrics():
     assert c6["tip_x_mm"] == pytest.approx(30.5113, abs=1e-3)
     assert c10["tip_x_mm"] == pytest.approx(31.4604, abs=1e-3)
     assert c10["tip_x_mm"] > c6["tip_x_mm"], "Crack front must advance in x"
-    assert c10["tip_y_mm"] < c6["tip_y_mm"], "Crack front must curve downward towards central void at (75, 50)"
+    assert c10["tip_y_mm"] < c6["tip_y_mm"], "Crack front must curve downward towards central void at (36.5, 51.0) mm"
 
     # 4. Transfer + deck timing acceleration: transfer and deck generation under 120s per cycle
     for entry in [c7, c8, c9, c10]:

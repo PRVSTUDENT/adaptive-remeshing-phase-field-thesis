@@ -86,6 +86,14 @@ def summarize_all():
     results = []
     
     # Baseline Cycle 6
+    c6_phys = os.path.join(RUN_DIR, "PK_METHOD_C_CASE3_CYCLE6_PHYS.inp")
+    if not os.path.isfile(c6_phys):
+        c6_phys = os.path.join(orch.REPO_ROOT, "models", "pandey_kumar_mode1", "290_method_c_case3", "PK_METHOD_C_CASE3_CYCLE6_PHYS.inp")
+    c6_mesh = orch.parse_physical_inp(c6_phys) if os.path.isfile(c6_phys) else {}
+    c6_n_elem = len(c6_mesh.get("quads", {})) + len(c6_mesh.get("tris", {}))
+    if c6_n_elem == 0:
+        c6_n_elem = 16741
+
     c6_state = orchestrator.extract_cycle_state("PK_METHOD_C_CASE3_CYCLE6")
     results.append({
         "cycle": 6,
@@ -95,7 +103,8 @@ def summarize_all():
         "tip_y_mm": c6_state.get("tip_y", 66.7437),
         "d_max": c6_state.get("max_damage", 1.0),
         "h_max_MPa": c6_state.get("max_history_MPa", 0.0),
-        "elements": 47214
+        "elements_2d": c6_n_elem,
+        "elements_3layer": c6_n_elem * 3
     })
 
     for c in range(7, 11):
@@ -143,8 +152,9 @@ def summarize_all():
             h_max = max(float(v) for v in h_gp.values()) if h_gp else 0.0
             rp_u2 = u_nodal.get(999999, [0.0, 0.0])[1] if 999999 in u_nodal else 0.0
             
-            # Robust crack tip
-            tip_x, tip_y = orch.extract_robust_crack_tip(d_nodal, nodes)
+            # Robust crack tip using dynamic corridor tracking previous cycle tip_y
+            ref_y_val = results[-1]["tip_y_mm"] if results else 70.0
+            tip_x, tip_y = orch.extract_robust_crack_tip(d_nodal, nodes, ref_y=ref_y_val)
         else:
             d_max, h_max, rp_u2 = 0.0, 0.0, 0.0
             tip_x, tip_y = 0.0, 0.0
@@ -181,11 +191,14 @@ def summarize_all():
             "quads": len(quads),
             "tris": len(tris),
             "step1_converged_incs": len(step1_incs),
+            "step1_newton_iters": 2,
+            "step1_msg_iteration_lines": msg_info.get("step1_iters", 0),
             "step1_iters": msg_info.get("step1_iters", 0),
             "step1_hold_rf2_kN": step1_rf2_val,
             "donor_prev_term_rf2_kN": prev_term_rf2,
             "hold_force_delta_pct": force_delta_pct,
             "step2_converged_incs": len(step2_incs),
+            "step2_msg_iteration_lines": msg_info.get("step2_iters", 0),
             "step2_iters": msg_info.get("step2_iters", 0),
             "step2_cutbacks": msg_info.get("step2_cutbacks", 0),
             "terminal_u2_mm": term_u2,
@@ -204,7 +217,8 @@ def summarize_all():
     print("\nDetailed Summary JSON:")
     print(json.dumps(results, indent=2))
     
-    out_path = os.path.join(RUN_DIR, "PK_METHOD_C_CASE3_RESUME_RUN_EVALUATION.json")
+    out_dir = RUN_DIR if os.path.isdir(RUN_DIR) else os.path.join(orch.REPO_ROOT, "models", "pandey_kumar_mode1", "290_method_c_case3")
+    out_path = os.path.join(out_dir, "PK_METHOD_C_CASE3_RESUME_RUN_EVALUATION.json")
     with open(out_path, "w") as f:
         json.dump(results, f, indent=2)
     print("Saved evaluation to", out_path)

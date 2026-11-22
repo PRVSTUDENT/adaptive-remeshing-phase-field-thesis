@@ -884,14 +884,16 @@ def assemble_coupled_deck(receiver_phys_inp, out_deck_path, recip_d, recip_h_gp,
 
 
 def extract_robust_crack_tip(d_nodal, node_coords, notch_x=10.0, notch_y=70.0,
-                             corridor_half_width=12.0, d_threshold=0.95):
+                             corridor_half_width=12.0, d_threshold=0.95, ref_y=None):
     """
     Extracts authentic crack tip coordinates (tip_x, tip_y) from nodal damage field.
     Filters out isolated spurious far-field damaged nodes by requiring candidates to lie
-    within the physical crack path corridor |y - notch_y| <= corridor_half_width.
+    within the physical crack path corridor |y - center_y| <= corridor_half_width,
+    where center_y = ref_y if ref_y is not None else notch_y.
     Returns (tip_x, tip_y) of the leading front (maximum x in corridor).
     If no nodes reach d_threshold in the corridor, returns notch root (notch_x, notch_y).
     """
+    center_y = float(ref_y) if ref_y is not None else float(notch_y)
     corridor_candidates = []
     global_candidates = []
 
@@ -901,11 +903,11 @@ def extract_robust_crack_tip(d_nodal, node_coords, notch_x=10.0, notch_y=70.0,
             if nid_int in node_coords:
                 x, y = node_coords[nid_int]
                 global_candidates.append((x, y, nid_int))
-                if abs(y - notch_y) <= corridor_half_width and x >= (notch_x - 1.0):
+                if abs(y - center_y) <= corridor_half_width and x >= (notch_x - 1.0):
                     corridor_candidates.append((x, y, nid_int))
 
     if corridor_candidates:
-        corridor_candidates.sort(key=lambda item: (item[0], -abs(item[1] - notch_y)), reverse=True)
+        corridor_candidates.sort(key=lambda item: (item[0], -abs(item[1] - center_y)), reverse=True)
         return float(corridor_candidates[0][0]), float(corridor_candidates[0][1])
     elif global_candidates:
         global_candidates.sort(key=lambda item: item[0], reverse=True)
@@ -914,7 +916,7 @@ def extract_robust_crack_tip(d_nodal, node_coords, notch_x=10.0, notch_y=70.0,
         return float(notch_x), float(notch_y)
 
 
-def extract_state_from_odb(odb_path, out_json_path):
+def extract_state_from_odb(odb_path, out_json_path, ref_y=None):
     """Extracts nodal displacements, nodal damage, and GP history from an Abaqus ODB to JSON."""
     if not ABAQUS_AVAILABLE:
         raise RuntimeError("odbAccess not available; must be executed under abaqus python.")
@@ -994,7 +996,7 @@ def extract_state_from_odb(odb_path, out_json_path):
         tip_y = 70.0
         if inst:
             node_coords = {node.label: (float(node.coordinates[0]), float(node.coordinates[1])) for node in inst.nodes}
-            tip_x, tip_y = extract_robust_crack_tip(d_nodal, node_coords, notch_x=10.0, notch_y=70.0)
+            tip_x, tip_y = extract_robust_crack_tip(d_nodal, node_coords, notch_x=10.0, notch_y=70.0, ref_y=ref_y)
         rp_node = 999999
         terminal_u2 = None
         if rp_node in u_nodal:
@@ -1418,10 +1420,10 @@ class Case3SingleJobOrchestrator(object):
             tip_x = float(state.get("tip_x", self.current_tip_x))
             tip_y = float(state.get("tip_y", getattr(self, "current_tip_y", 70.0)))
 
-            # GAP-MC-C3KFX-07: Verify tip robustness against far-field spurious damaged nodes
-            # If loaded tip is outside physical corridor (|tip_y - 70.0| > 12.0 mm) or tip_x < 10.0 mm,
-            # re-extract robust tip from d_nodal and physical mesh
-            if abs(tip_y - 70.0) > 12.0 or tip_x < 10.0:
+            # GAP-MC-C3KFX-07 / NOTE-SR-10: Verify tip robustness against far-field spurious damaged nodes
+            # using dynamic corridor centered on previous cycle tip_y / current band centerline
+            ref_y = getattr(self, "current_tip_y", 70.0)
+            if abs(tip_y - ref_y) > 12.0 or tip_x < 10.0:
                 phys_candidates = [
                     os.path.join(self.run_dir, job_name + "_PHYS.inp"),
                     os.path.join(REPO_ROOT, "models", "pandey_kumar_mode1", "290_method_c_case3", job_name + "_PHYS.inp")
@@ -1431,9 +1433,9 @@ class Case3SingleJobOrchestrator(object):
                         mesh_dict = parse_physical_inp(p_cand)
                         node_coords = mesh_dict.get("nodes", {})
                         if node_coords and d_nodal:
-                            clean_tx, clean_ty = extract_robust_crack_tip(d_nodal, node_coords)
-                            print("[Tip Extraction Repair] Corrected spurious tip (%.4f, %.4f) -> robust front (%.4f, %.4f)" % 
-                                  (tip_x, tip_y, clean_tx, clean_ty))
+                            clean_tx, clean_ty = extract_robust_crack_tip(d_nodal, node_coords, ref_y=ref_y)
+                            print("[Tip Extraction Repair] Corrected spurious tip (%.4f, %.4f) -> robust front (%.4f, %.4f) [ref_y=%.4f]" % 
+                                  (tip_x, tip_y, clean_tx, clean_ty, ref_y))
                             tip_x, tip_y = clean_tx, clean_ty
                         break
             peak_rf2 = float(state.get("peak_rf2", self.peak_rf2))
@@ -1499,11 +1501,12 @@ class Case3SingleJobOrchestrator(object):
 
         # 2. If ODB exists, perform extraction
         if os.path.isfile(odb_path):
-            print("[Orchestrator] Extracting terminal state from %s..." % odb_path)
+            ref_y = getattr(self, "current_tip_y", 70.0)
+            print("[Orchestrator] Extracting terminal state from %s (ref_y=%.4f)..." % (odb_path, ref_y))
             if ABAQUS_AVAILABLE:
-                extract_state_from_odb(odb_path, out_json)
+                extract_state_from_odb(odb_path, out_json, ref_y=ref_y)
             else:
-                cmd = ["abaqus", "python", os.path.abspath(__file__), "--extract-odb", odb_path, "--out-json", out_json]
+                cmd = ["abaqus", "python", os.path.abspath(__file__), "--extract-odb", odb_path, "--out-json", out_json, "--ref-y", str(ref_y)]
                 self.run_command(cmd, check=False)
             if os.path.isfile(out_json):
                 return self.extract_cycle_state(job_name)
@@ -1661,6 +1664,7 @@ class Case3SingleJobOrchestrator(object):
             donor_e_frac = donor_state["e_frac"]
             donor_d_max = donor_state["max_damage"]
             self.current_tip_x = donor_state["tip_x"]
+            self.current_tip_y = donor_state.get("tip_y", 70.0)
             self.current_rf2 = donor_state["terminal_rf2"]
             self.peak_rf2 = max(self.peak_rf2, donor_state["peak_rf2"])
 
@@ -1812,11 +1816,13 @@ def main():
                         help="Directly extract state from an ODB file")
     parser.add_argument("--out-json", default=None,
                         help="Output JSON path for extracted state")
+    parser.add_argument("--ref-y", type=float, default=None,
+                        help="Reference y-coordinate for dynamic crack tip corridor (default: notch_y=70.0)")
     args = parser.parse_args()
 
     if args.extract_odb:
         out_json = args.out_json or (os.path.splitext(args.extract_odb)[0] + "_state.json")
-        extract_state_from_odb(args.extract_odb, out_json)
+        extract_state_from_odb(args.extract_odb, out_json, ref_y=args.ref_y)
         return
 
     orch = Case3SingleJobOrchestrator(
