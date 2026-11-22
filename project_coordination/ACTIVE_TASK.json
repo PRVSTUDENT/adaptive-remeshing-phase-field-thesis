@@ -1,10 +1,10 @@
 ﻿{
   "task_id": "METHOD-C-CASE3-FRAMEWORK-KILL-1424881-AND-FIX-TRANSFER",
   "title": "Method C Case 3: Kill Run 1424881, Measure Phase Timings, Fix Transfer Bottleneck, and Resolve Robust Crack Tip Extraction (Re-Issue 3)",
-  "task_status": "COMPLETED_READY_FOR_INDEPENDENT_REVIEW",
+  "task_status": "REVIEWED_APPROVED",
   "master_goal_status": "OPEN",
-  "status": "COMPLETED_READY_FOR_INDEPENDENT_REVIEW",
-  "review_verdict": "PENDING",
+  "status": "REVIEWED_APPROVED",
+  "review_verdict": "APPROVED",
   "review_correlation_id": "HND-METHOD-C-CASE3-FRAMEWORK-KILL-AND-FIX-003",
   "classification": "METHOD_C_INCREMENTAL_ADAPTIVE_REMESHING",
   "assigned_agent": "gemini-antigravity",
@@ -13,7 +13,7 @@
   "last_failed_pbs_job_id": "1424881.mmaster02",
   "checkpoint_artifact": "docs/validation/METHOD_C_CASE3_FRAMEWORK_TRANSFER_SPEEDUP_REPORT.md",
   "checkpoint_artifact_sha256": "70265E41D9F8EBBB97F98B7F2FDF535269B52C25063459D11409002037ED1F91",
-  "review_directive": "Kill PBS job 1424881, pull run logs and per-phase timings from cluster, diagnose bottleneck with measured data, implement targeted transfer speedup, resolve GAP-MC-C3KFX-01 stalled-cycle donor load to actual 0.1000 mm, resolve GAP-MC-C3KFX-07 robust crack tip extraction to filter spurious node 1029 and verify Cycle 7 band coverage, verify on authentic donor/receiver pair and scratch checkpoints, and report in INDEPENDENT_STRUCTURED_REVIEW_V1 format. 0 new PBS jobs authorized.",
+  "review_directive": "Submit exactly 1 PBS job (cumulative 71 -> 72) for the SHORT resume test of the fixed framework: resume from Cycle 7 using the 003 orchestrator (SHA 3CCEB29405F7ACDEE21F859944BD2A730E30FB67656D8CE04DBE02EE2971A00F), donor Cycle 6 at actual terminal u2 = 0.1000 mm with robust tip (30.5113, 66.7437) mm, n_adaptive_steps = 10 (Cycles 7-10 only, 4 cycles), load_increment 0.01 mm, 16 CPU / 48 GB / 72 h in queue entry_imfdfkmq via scripts/hpc/Invoke-Mode1Execution.ps1 only.",
   "predecessor_task": {
     "task_id": "METHOD-C-CASE3-FRAMEWORK-UNCAPPED-RUN-001",
     "checkpoint_artifact": "models/pandey_kumar_mode1/290_method_c_case3/METHOD_C_CASE3_FRAMEWORK_MANIFEST.json",
@@ -32,5 +32,5 @@
   "max_new_pbs_submissions": 0,
   "submissions_consumed": 0,
   "cumulative_pbs_submissions": 71,
-  "notes": "Re-issue 3: GAP-MC-C3KFX-07 resolved (robust crack tip extraction ignores isolated far-field spurious node 1029, selects authentic crack front node 8260 at (30.5113, 66.7437) mm; verified Cycle 7 narrow band coverage on cluster scratch: distance to centreline 0.0000 mm, local range [65.74, 67.74] mm, crack front 100% enclosed in fine h=0.140 mm mesh); 28/28 unit tests PASS. Cumulative count strictly 71 preserved. MASTER_GOAL_STATUS strictly remains OPEN."
+  "notes": "Officially APPROVED under HND-METHOD-C-CASE3-FRAMEWORK-KILL-AND-FIX-003. GAP-MC-C3KFX-07 resolved: robust crack tip extraction ignores isolated far-field spurious node 1029, selects authentic front node 8260 at (30.5113, 66.7437) mm; verified Cycle 7 narrow band coverage on cluster scratch: distance to centreline 0.0000 mm, local range [65.74, 67.74] mm, crack front 100% enclosed in fine h=0.140 mm mesh; 28/28 unit tests PASS. Next operation authorized: 1 PBS job for short resume test (Cycles 7-10) with n_adaptive_steps=10 at 16 CPUs / 48 GB in entry_imfdfkmq. Cumulative count strictly 71 preserved. MASTER_GOAL_STATUS strictly remains OPEN."
 }
