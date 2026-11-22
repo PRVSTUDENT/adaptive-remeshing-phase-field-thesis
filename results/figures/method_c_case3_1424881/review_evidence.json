@@ -1,0 +1,196 @@
+{
+  "protocol": "INDEPENDENT_STRUCTURED_REVIEW_V1",
+  "goal": "METHOD-C-CASE3-RENDER-1424881-CYCLE-MESHES",
+  "master_goal_status": "OPEN",
+  "status": "BRANCH_EVIDENCE_READY_MERGE_PENDING_AGY_RELEASE",
+  "scientific_acceptance": "NOT_REQUESTED_OR_CLAIMED",
+  "counts_independently_verified": [
+    7043,
+    7699,
+    7809,
+    8477,
+    9468,
+    16741,
+    25900
+  ],
+  "user_provided_counts": [
+    7172,
+    9175,
+    9250,
+    9926,
+    9468,
+    16741,
+    24800
+  ],
+  "counts_match_user_list": [
+    false,
+    false,
+    false,
+    false,
+    true,
+    true,
+    false
+  ],
+  "rendered_full_views": 7,
+  "rendered_tip_zooms": 6,
+  "missing_tip_zooms": [
+    7
+  ],
+  "overview_panels": 7,
+  "image_files": [
+    {
+      "path": "results/figures/method_c_case3_1424881/cycle_01_full.png",
+      "sha256": "871010a21656f8e79513fa1802b8f0f53c08e3b33f107deb0683bec279ce013d",
+      "cycle": 1,
+      "element_count_in_source": 7043,
+      "view": "full",
+      "status": "RENDERED",
+      "note": "Full view draws every element edge; zoom clips the same mesh to the viewport."
+    },
+    {
+      "path": "results/figures/method_c_case3_1424881/cycle_01_tip_zoom.png",
+      "sha256": "ab883d2191159970154b196c4625ce941f92c1d5efa2c7756c20018e44c54d91",
+      "cycle": 1,
+      "element_count_in_source": 7043,
+      "view": "tip_zoom",
+      "status": "RENDERED",
+      "note": "Full view draws every element edge; zoom clips the same mesh to the viewport."
+    },
+    {
+      "path": "results/figures/method_c_case3_1424881/cycle_02_full.png",
+      "sha256": "a8ca0ee43962130e988a823f14b1ffe56838fadba6dde60eb04fc9654d42f8a2",
+      "cycle": 2,
+      "element_count_in_source": 7699,
+      "view": "full",
+      "status": "RENDERED",
+      "note": "Full view draws every element edge; zoom clips the same mesh to the viewport."
+    },
+    {
+      "path": "results/figures/method_c_case3_1424881/cycle_02_tip_zoom.png",
+      "sha256": "1a251bc960a1efb4140cfac580151c6cbeaeab70ba99d9e3a3c686ed665a6385",
+      "cycle": 2,
+      "element_count_in_source": 7699,
+      "view": "tip_zoom",
+      "status": "RENDERED",
+      "note": "Full view draws every element edge; zoom clips the same mesh to the viewport."
+    },
+    {
+      "path": "results/figures/method_c_case3_1424881/cycle_03_full.png",
+      "sha256": "3d8c6a1749b02c5f76da326fe811151877866c6b351b20a989c31bb3b69e1a97",
+      "cycle": 3,
+      "element_count_in_source": 7809,
+      "view": "full",
+      "status": "RENDERED",
+      "note": "Full view draws every element edge; zoom clips the same mesh to the viewport."
+    },
+    {
+      "path": "results/figures/method_c_case3_1424881/cycle_03_tip_zoom.png",
+      "sha256": "fb408efa98b19d0fa92024649cd2843246ae663a1ab494dac13f82efe225d30d",
+      "cycle": 3,
+      "element_count_in_source": 7809,
+      "view": "tip_zoom",
+      "status": "RENDERED",
+      "note": "Full view draws every element edge; zoom clips the same mesh to the viewport."
+    },
+    {
+      "path": "results/figures/method_c_case3_1424881/cycle_04_full.png",
+      "sha256": "f8e7a7b0a84cea421947b972fd2c389c3f8f7b8d5e000fa87ae496546d382f6d",
+      "cycle": 4,
+      "element_count_in_source": 8477,
+      "view": "full",
+      "status": "RENDERED",
+      "note": "Full view draws every element edge; zoom clips the same mesh to the viewport."
+    },
+    {
+      "path": "results/figures/method_c_case3_1424881/cycle_04_tip_zoom.png",
+      "sha256": "6bf5bac0919d3c52035970b90df0d720c4195566dbd2f80d84b338dcdb3dcb60",
+      "cycle": 4,
+      "element_count_in_source": 8477,
+      "view": "tip_zoom",
+      "status": "RENDERED",
+      "note": "Full view draws every element edge; zoom clips the same mesh to the viewport."
+    },
+    {
+      "path": "results/figures/method_c_case3_1424881/cycle_05_full.png",
+      "sha256": "2fe826b4f5ebd7ffad437aa793176c57c6e2c32ba0c01d088e642745d82816e3",
+      "cycle": 5,
+      "element_count_in_source": 9468,
+      "view": "full",
+      "status": "RENDERED",
+      "note": "Full view draws every element edge; zoom clips the same mesh to the viewport."
+    },
+    {
+      "path": "results/figures/method_c_case3_1424881/cycle_05_tip_zoom.png",
+      "sha256": "3c490ea96a293c8dc99d103abf684b7f7fb0401640c4a5a3a4515bf54b19a3f5",
+      "cycle": 5,
+      "element_count_in_source": 9468,
+      "view": "tip_zoom",
+      "status": "RENDERED",
+      "note": "Full view draws every element edge; zoom clips the same mesh to the viewport."
+    },
+    {
+      "path": "results/figures/method_c_case3_1424881/cycle_06_full.png",
+      "sha256": "50371abf5eb79d1d8a9b87f70f6001c6f176190b3d367b9d3908924a0eb1964e",
+      "cycle": 6,
+      "element_count_in_source": 16741,
+      "view": "full",
+      "status": "RENDERED",
+      "note": "Full view draws every element edge; zoom clips the same mesh to the viewport."
+    },
+    {
+      "path": "results/figures/method_c_case3_1424881/cycle_06_tip_zoom.png",
+      "sha256": "d487407ff176559426e78ddf60b5a51c710f14f4899a9c1c051cc59ad221024f",
+      "cycle": 6,
+      "element_count_in_source": 16741,
+      "view": "tip_zoom",
+      "status": "RENDERED",
+      "note": "Full view draws every element edge; zoom clips the same mesh to the viewport."
+    },
+    {
+      "path": "results/figures/method_c_case3_1424881/cycle_07_full.png",
+      "sha256": "9d93570e93ac1a11150a458467381d8ba9dbd4a8c9b026018cb3aad5bc9f3ccf",
+      "cycle": 7,
+      "element_count_in_source": 25900,
+      "view": "full",
+      "status": "RENDERED",
+      "note": "Full view draws every element edge; zoom clips the same mesh to the viewport."
+    },
+    {
+      "path": "results/figures/method_c_case3_1424881/cycle_07_tip_zoom.png",
+      "sha256": "3a189bb46ad868428e34e9bdbdbd79d54bc04d612063eb50597125da7ebbd093",
+      "cycle": 7,
+      "element_count_in_source": 25900,
+      "view": "tip_zoom",
+      "status": "MISSING_STATE_PLACEHOLDER",
+      "note": "Full view draws every element edge; zoom clips the same mesh to the viewport."
+    },
+    {
+      "path": "results/figures/method_c_case3_1424881/seven_cycle_overview.png",
+      "sha256": "16771e5361bfc5fbf33c3e78e19978d3d45e25fb1286795df89c39a8f95243d8",
+      "cycle": null,
+      "element_count_in_source": [
+        7043,
+        7699,
+        7809,
+        8477,
+        9468,
+        16741,
+        25900
+      ],
+      "view": "overview",
+      "status": "RENDERED",
+      "note": "Full view draws every element edge; zoom clips the same mesh to the viewport."
+    }
+  ],
+  "scratch_untouched": true,
+  "source_integrity_evidence": "source_integrity.json",
+  "agy_checkout_and_session_untouched": true,
+  "coordination_and_governance_files_changed": false,
+  "solver_runs": 0,
+  "new_pbs_jobs": 0,
+  "cumulative_pbs_submissions": 71,
+  "merge_to_main": "NOT_PERFORMED",
+  "uncertainty": "Cycle 7 current tip unavailable because matching state is missing; mismatched user counts unresolved. Mesh views establish geometry only.",
+  "measurable_result": "All seven deck counts independently agree with render source counts; all image hashes and PNG decoding verified.",
+  "benefit": "Comparable authentic cycle mesh evidence without numerical execution."
+}
