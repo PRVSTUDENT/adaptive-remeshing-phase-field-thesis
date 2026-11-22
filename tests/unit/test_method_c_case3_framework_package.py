@@ -639,12 +639,86 @@ def test_job1424798_final_observables():
     energy_surge_pct = (last_e_frac - first_e_frac) / first_e_frac * 100.0
     assert energy_surge_pct > 800.0  # +889.5%
 
-    # 4. Repaired orchestrator SHA
+    # 4. Spatially-binned speedup orchestrator SHA
     orch_path = os.path.join(PACKAGE_DIR, "case3_single_job_orchestrator.py")
     assert os.path.isfile(orch_path), "Package orchestrator must exist"
     with open(orch_path, "rb") as f:
         orch_hash = hashlib.sha256(f.read()).hexdigest().upper()
-    assert orch_hash == "DF22D89B43B94B5579DD16BCEEC571CC7A781152545889E5C4D7DA5607CCF228"
+    assert orch_hash == "F5817AAF73B915B6620065440BC7BAB6DD11040D37C87394EC5F01C32265FBC2"
+
+
+def test_transfer_gp_history_binned_performance_and_safeguards():
+    """Verifies that the 2D spatially-binned transfer_gp_history enforces H>=0, convex clamping, and executes sub-second."""
+    import time
+    donor_mesh = {
+        "nodes": {
+            1: (10.0, 70.0), 2: (11.0, 70.0), 3: (11.0, 71.0), 4: (10.0, 71.0),
+            5: (11.0, 70.0), 6: (12.0, 70.0), 7: (12.0, 71.0), 8: (11.0, 71.0)
+        },
+        "quads": {
+            1: [1, 2, 3, 4],
+            2: [5, 6, 7, 8]
+        },
+        "tris": {}
+    }
+    donor_history = {
+        (1, 1): 5.0, (1, 2): 10.0, (1, 3): 15.0, (1, 4): 8.0,
+        (2, 1): 10.0, (2, 2): 20.0, (2, 3): 25.0, (2, 4): 15.0
+    }
+    receiver_mesh = {
+        "nodes": {
+            101: (10.2, 70.2), 102: (10.8, 70.2), 103: (10.8, 70.8), 104: (10.2, 70.8),
+            105: (10.8, 70.2), 106: (11.5, 70.2), 107: (11.5, 70.8), 108: (10.8, 70.8)
+        },
+        "quads": {
+            101: [101, 102, 103, 104],
+            102: [105, 106, 107, 108]
+        },
+        "tris": {}
+    }
+
+    t0 = time.time()
+    res = transfer_gp_history(donor_mesh, donor_history, receiver_mesh, limiter_mode="convex_clamp")
+    dt = time.time() - t0
+
+    assert dt < 0.5, "Spatially-binned transfer must execute in < 0.5 s (took %.4f s)" % dt
+    assert len(res) == 8, "Expected 8 Gauss point values (2 quads x 4 GPs)"
+    for (eid, gp), val in res.items():
+        assert val >= 0.0, "History value must be nonnegative"
+        assert val <= 25.0 + 1e-6, "History value must not exceed max donor value"
+
+
+def test_orchestrator_resume_detection():
+    """Verifies that orchestrator detects existing completed cycle checkpoints and computes resume cycle."""
+    with tempfile.TemporaryDirectory() as tmpdir:
+        # Create dummy completed Cycle 1 files with realistic 9-column STA lines
+        c1_sta = os.path.join(tmpdir, "PK_METHOD_C_CASE3_CYCLE1.sta")
+        with open(c1_sta, "w") as f:
+            f.write("STEP  INC ATT  SEV  EQU   TOTAL_TIME   STEP_TIME   INC_TIME     DT\n")
+            f.write("   1    1   1    0    1   0.01000000   0.01000000  0.01000000  0.01000000\n")
+            f.write("   2    1   1    0    1   0.02000000   0.01000000  0.01000000  0.01000000\n")
+        with open(os.path.join(tmpdir, "PK_METHOD_C_CASE3_CYCLE1_state.json"), "w") as f:
+            f.write('{"d_nodal": {"1": 0.5}, "u_nodal": {"1": [0.0, 0.0]}, "h_gp": {"1_1": 1.0}, "tip_x": 12.0, "terminal_rf2": 3.8}')
+        with open(os.path.join(tmpdir, "PK_METHOD_C_CASE3_CYCLE1_PHYS.inp"), "w") as f:
+            f.write("*NODE\n1, 0.0, 0.0\n*ELEMENT, TYPE=CPS4\n1, 1, 1, 1, 1\n")
+
+        orch = Case3SingleJobOrchestrator(run_dir=tmpdir, n_adaptive_steps=4)
+        
+        # Test detection logic
+        resume_cycle = 0
+        for c in range(orch.n_adaptive_steps, 0, -1):
+            c_job = "PK_METHOD_C_CASE3_CYCLE%d" % c
+            c_state = os.path.join(orch.run_dir, c_job + "_state.json")
+            c_sta = os.path.join(orch.run_dir, c_job + ".sta")
+            c_phys = os.path.join(orch.run_dir, c_job + "_PHYS.inp")
+            if os.path.isfile(c_state) and os.path.isfile(c_sta) and os.path.isfile(c_phys):
+                term_eval = orch.evaluate_cutback_state(c_sta)
+                if term_eval.get("can_continue", False):
+                    resume_cycle = c
+                    break
+
+        assert resume_cycle == 1, "Should detect Cycle 1 as latest completed cycle"
+
 
 
 

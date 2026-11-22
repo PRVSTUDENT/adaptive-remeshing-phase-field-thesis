@@ -483,7 +483,18 @@ def transfer_nodal_fields(donor_mesh, donor_u, donor_d, receiver_mesh, slit_y=70
 
 def transfer_gp_history(donor_mesh, donor_history_dict, receiver_mesh, limiter_mode="convex_clamp",
                         slit_y=70.0, slit_a0=10.0, bin_size=2.5):
-    """Transfers Gauss-point strain energy history H via qualified isoparametric bilinear reconstruction with convex_clamp."""
+    """Transfers Gauss-point strain energy history H via qualified isoparametric bilinear reconstruction with convex_clamp
+    using 2D spatial binning and bounding box pre-filtering for O(N_receiver) complexity."""
+    d_nodes = donor_mesh["nodes"]
+    d_quads = donor_mesh.get("quads", {})
+    d_tris = donor_mesh.get("tris", {})
+    d_all_donor = dict(d_quads)
+    d_all_donor.update(d_tris)
+
+    r_nodes = receiver_mesh["nodes"]
+    r_quads = receiver_mesh.get("quads", {})
+    r_tris = receiver_mesh.get("tris", {})
+
     donor_h_norm = {}
     for k, v in donor_history_dict.items():
         if isinstance(k, tuple):
@@ -503,69 +514,180 @@ def transfer_gp_history(donor_mesh, donor_history_dict, receiver_mesh, limiter_m
         else:
             donor_h_norm[k] = float(v)
 
-    try:
-        from scripts.state_transfer.isoparametric_gp_transfer import transfer_isoparametric_gp_history
-        res = transfer_isoparametric_gp_history(
-            donor_mesh=donor_mesh,
-            donor_history_dict=donor_h_norm,
-            receiver_mesh=receiver_mesh,
-            limiter_mode=limiter_mode,
-            slit_y=slit_y,
-            slit_a0=slit_a0,
-            bin_size=bin_size,
-            bypass_same_mesh_shortcut=True
-        )
-        return res["transferred_history_dict"]
-    except ImportError:
-        # Fallback inline isoparametric transfer implementation
-        d_nodes = donor_mesh["nodes"]
-        d_quads = donor_mesh.get("quads", {})
-        d_tris = donor_mesh.get("tris", {})
-        d_all_donor = dict(d_quads)
-        d_all_donor.update(d_tris)
-        r_nodes = receiver_mesh["nodes"]
-        r_quads = receiver_mesh.get("quads", {})
-        r_tris = receiver_mesh.get("tris", {})
+    upper_elems = {}
+    lower_elems = {}
+    for eid, conn in d_all_donor.items():
+        cy = sum(d_nodes[n][1] for n in conn) / float(len(conn))
+        if cy >= slit_y - 1e-7:
+            upper_elems[eid] = conn
+        else:
+            lower_elems[eid] = conn
 
-        transferred = {}
-        for r_eid, conn in r_quads.items():
-            for gp_idx, (lxi, leta) in enumerate(QUAD_GP_LOCAL, start=1):
-                N = quad_nodal_shape_functions(lxi, leta)
-                gpx = sum(N[i] * r_nodes[conn[i]][0] for i in range(4))
-                gpy = sum(N[i] * r_nodes[conn[i]][1] for i in range(4))
-                h_val = 0.0
-                for deid, dconn in d_all_donor.items():
-                    d_coords = [d_nodes[n] for n in dconn]
-                    if len(dconn) == 4:
-                        xi, eta, conv = inverse_isoparametric_quad(d_coords, gpx, gpy)
-                        if conv and abs(xi) <= 1.0001 and abs(eta) <= 1.0001:
-                            gp_h = [donor_h_norm.get((deid, k), 0.0) for k in range(1, 5)]
-                            h_interp = 0.0
-                            for k, (xik, etak) in enumerate(QUAD_GP_LOCAL):
-                                Mk = 0.25 * (1.0 + 3.0 * xik * xi) * (1.0 + 3.0 * etak * eta)
-                                h_interp += Mk * gp_h[k]
-                            if limiter_mode == "convex_clamp":
-                                h_interp = max(min(gp_h), min(max(gp_h), h_interp))
-                            h_val = max(0.0, h_interp)
-                            break
-                transferred[(r_eid, gp_idx)] = h_val
+    def build_bins(elem_dict):
+        bboxes = []
+        for eid, conn in elem_dict.items():
+            xs = [d_nodes[n][0] for n in conn]
+            ys = [d_nodes[n][1] for n in conn]
+            cx = sum(xs) / float(len(conn))
+            cy = sum(ys) / float(len(conn))
+            bboxes.append((eid, min(xs), max(xs), min(ys), max(ys), cx, cy, conn))
+        bins = defaultdict(list)
+        for item in bboxes:
+            eid, xmin, xmax, ymin, ymax, cx, cy, conn = item
+            bx0 = max(0, int(xmin / bin_size))
+            bx1 = int(math.ceil(xmax / bin_size))
+            by0 = max(0, int(ymin / bin_size))
+            by1 = int(math.ceil(ymax / bin_size))
+            for bx in range(bx0, bx1 + 1):
+                for by in range(by0, by1 + 1):
+                    bins[(bx, by)].append(item)
+        return bins, bboxes
 
-        for r_eid, conn in r_tris.items():
-            (x1, y1), (x2, y2), (x3, y3) = [r_nodes[n] for n in conn]
-            gpx = (x1 + x2 + x3) / 3.0
-            gpy = (y1 + y2 + y3) / 3.0
-            h_val = 0.0
-            for deid, dconn in d_all_donor.items():
-                d_coords = [d_nodes[n] for n in dconn]
+    bins_upper, bboxes_upper = build_bins(upper_elems)
+    bins_lower, bboxes_lower = build_bins(lower_elems)
+
+    transferred = {}
+
+    for r_eid, conn in r_quads.items():
+        r_coords = [r_nodes[n] for n in conn]
+
+        for gp_idx, (lxi, leta) in enumerate(QUAD_GP_LOCAL, start=1):
+            N = quad_nodal_shape_functions(lxi, leta)
+            gpx = sum(N[i] * r_coords[i][0] for i in range(4))
+            gpy = sum(N[i] * r_coords[i][1] for i in range(4))
+
+            is_in_slit = (gpx <= slit_a0 + 1e-5)
+            if is_in_slit:
+                is_upper = (gpy >= slit_y - 1e-7)
+                target_bins_list = [bins_upper if is_upper else bins_lower]
+                target_fallback_list = [bboxes_upper if is_upper else bboxes_lower]
+            else:
+                target_bins_list = [bins_upper, bins_lower]
+                target_fallback_list = [bboxes_upper, bboxes_lower]
+
+            bx = max(0, int(gpx / bin_size))
+            by = max(0, int(gpy / bin_size))
+
+            candidate_items = []
+            seen_eids = set()
+            for t_bins in target_bins_list:
+                for dbx in (-1, 0, 1):
+                    for dby in (-1, 0, 1):
+                        for item in t_bins.get((bx + dbx, by + dby), []):
+                            if item[0] not in seen_eids:
+                                seen_eids.add(item[0])
+                                candidate_items.append(item)
+
+            best_eid = None
+            best_conn = None
+            best_xi, best_eta = 0.0, 0.0
+            best_c_dist = float("inf")
+            best_center_dist = float("inf")
+
+            for deid, xmin, xmax, ymin, ymax, cx, cy, dconn in candidate_items:
+                if not ((xmin - 1e-5 <= gpx <= xmax + 1e-5) and (ymin - 1e-5 <= gpy <= ymax + 1e-5)):
+                    continue
+                d_vertices = [d_nodes[n] for n in dconn]
                 if len(dconn) == 4:
-                    xi, eta, conv = inverse_isoparametric_quad(d_coords, gpx, gpy)
-                    if conv and abs(xi) <= 1.0001 and abs(eta) <= 1.0001:
-                        gp_h = [donor_h_norm.get((deid, k), 0.0) for k in range(1, 5)]
-                        h_val = max(0.0, sum(gp_h) / 4.0)
-                        break
-            transferred[(r_eid, 1)] = h_val
+                    xi_c, eta_c, conv = inverse_isoparametric_quad(d_vertices, gpx, gpy)
+                    if not conv:
+                        continue
+                    c_dist = max(0.0, abs(xi_c) - 1.0, abs(eta_c) - 1.0)
+                else:
+                    l1_c, l2_c, l3_c, c_dist = point_in_triangle(d_vertices, gpx, gpy)
+                    xi_c, eta_c = 0.0, 0.0
 
-        return transferred
+                center_dist = (gpx - cx)**2 + (gpy - cy)**2
+                if c_dist <= 1e-5:
+                    if (c_dist < best_c_dist - 1e-12) or (abs(c_dist - best_c_dist) <= 1e-12 and center_dist < best_center_dist):
+                        best_c_dist = c_dist
+                        best_center_dist = center_dist
+                        best_eid = deid
+                        best_conn = dconn
+                        best_xi = xi_c
+                        best_eta = eta_c
+                        if c_dist < 1e-10:
+                            break
+
+            if best_eid is None:
+                for f_bboxes in target_fallback_list:
+                    for deid, xmin, xmax, ymin, ymax, cx, cy, dconn in f_bboxes:
+                        if not ((xmin - 1e-5 <= gpx <= xmax + 1e-5) and (ymin - 1e-5 <= gpy <= ymax + 1e-5)):
+                            continue
+                        d_vertices = [d_nodes[n] for n in dconn]
+                        if len(dconn) == 4:
+                            xi_c, eta_c, conv = inverse_isoparametric_quad(d_vertices, gpx, gpy)
+                            if not conv:
+                                continue
+                            c_dist = max(0.0, abs(xi_c) - 1.0, abs(eta_c) - 1.0)
+                        else:
+                            l1_c, l2_c, l3_c, c_dist = point_in_triangle(d_vertices, gpx, gpy)
+                            xi_c, eta_c = 0.0, 0.0
+
+                        center_dist = (gpx - cx)**2 + (gpy - cy)**2
+                        if c_dist < best_c_dist:
+                            best_c_dist = c_dist
+                            best_center_dist = center_dist
+                            best_eid = deid
+                            best_conn = dconn
+                            best_xi = xi_c
+                            best_eta = eta_c
+
+            h_val = 0.0
+            if best_eid is not None:
+                if len(best_conn) == 4:
+                    gp_h = [donor_h_norm.get((best_eid, k), 0.0) for k in range(1, 5)]
+                    h_interp = 0.0
+                    for k, (xik, etak) in enumerate(QUAD_GP_LOCAL):
+                        Mk = 0.25 * (1.0 + 3.0 * xik * best_xi) * (1.0 + 3.0 * etak * best_eta)
+                        h_interp += Mk * gp_h[k]
+                    if limiter_mode == "convex_clamp":
+                        h_interp = max(min(gp_h), min(max(gp_h), h_interp))
+                    h_val = max(0.0, h_interp)
+                else:
+                    gp_h = [donor_h_norm.get((best_eid, k), 0.0) for k in range(1, 4)]
+                    h_val = max(0.0, sum(gp_h) / max(1, len(gp_h)))
+
+            transferred[(r_eid, gp_idx)] = h_val
+
+    for r_eid, conn in r_tris.items():
+        (x1, y1), (x2, y2), (x3, y3) = [r_nodes[n] for n in conn]
+        gpx = (x1 + x2 + x3) / 3.0
+        gpy = (y1 + y2 + y3) / 3.0
+        bx = max(0, int(gpx / bin_size))
+        by = max(0, int(gpy / bin_size))
+
+        target_bins_list = [bins_upper if gpy >= slit_y else bins_lower]
+        candidate_items = []
+        for t_bins in target_bins_list:
+            for dbx in (-1, 0, 1):
+                for dby in (-1, 0, 1):
+                    candidate_items.extend(t_bins.get((bx + dbx, by + dby), []))
+
+        best_eid = None
+        best_c_dist = float("inf")
+        for deid, xmin, xmax, ymin, ymax, cx, cy, dconn in candidate_items:
+            if not ((xmin - 1e-5 <= gpx <= xmax + 1e-5) and (ymin - 1e-5 <= gpy <= ymax + 1e-5)):
+                continue
+            d_vertices = [d_nodes[n] for n in dconn]
+            if len(dconn) == 4:
+                xi_c, eta_c, conv = inverse_isoparametric_quad(d_vertices, gpx, gpy)
+                c_dist = max(0.0, abs(xi_c) - 1.0, abs(eta_c) - 1.0) if conv else float("inf")
+            else:
+                l1_c, l2_c, l3_c, c_dist = point_in_triangle(d_vertices, gpx, gpy)
+            if c_dist < best_c_dist:
+                best_c_dist = c_dist
+                best_eid = deid
+                if c_dist < 1e-10:
+                    break
+
+        h_val = 0.0
+        if best_eid is not None:
+            gp_h = [donor_h_norm.get((best_eid, k), 0.0) for k in range(1, 5)]
+            h_val = max(0.0, sum(gp_h) / max(1, len(gp_h)))
+        transferred[(r_eid, 1)] = h_val
+
+    return transferred
 
 
 def assemble_coupled_deck(receiver_phys_inp, out_deck_path, recip_d, recip_h_gp, donor_u2, target_u2,
@@ -1382,40 +1504,71 @@ class Case3SingleJobOrchestrator(object):
         print("Run directory: %s" % self.run_dir)
         print("=================================================================")
 
-        # Step 0: Initial Coarse Solve
-        coarse_job = "PK_METHOD_C_CASE3_COARSE_JOB1"
-        coarse_inp = os.path.join(self.run_dir, coarse_job + ".inp")
-        coarse_sta = os.path.join(self.run_dir, coarse_job + ".sta")
+        # Check for existing completed cycles to enable seamless checkpoint resumption
+        resume_cycle = 0
+        for c in range(self.n_adaptive_steps, 0, -1):
+            c_job = "PK_METHOD_C_CASE3_CYCLE%d" % c
+            c_state = os.path.join(self.run_dir, c_job + "_state.json")
+            c_sta = os.path.join(self.run_dir, c_job + ".sta")
+            c_phys = os.path.join(self.run_dir, c_job + "_PHYS.inp")
+            if os.path.isfile(c_state) and os.path.isfile(c_sta) and os.path.isfile(c_phys):
+                term_eval = self.evaluate_cutback_state(c_sta)
+                if term_eval.get("can_continue", False):
+                    resume_cycle = c
+                    break
 
-        if not os.path.isfile(coarse_sta):
-            print("Executing Cycle 0: Initial Coarse Solve...")
-            cmd = ["abaqus", "job=" + coarse_job, "input=" + coarse_job, "user=" + os.path.basename(self.uel_path),
-                   "cpus=" + str(self.cpus), "interactive"]
-            ret, _ = self.run_command(cmd, check=False)
-            print("Cycle 0 exited with code: %d" % ret)
+        if resume_cycle > 0:
+            print("=================================================================")
+            print("RESUME DETECTED: Found completed Cycle %d checkpoints on scratch" % resume_cycle)
+            donor_job = "PK_METHOD_C_CASE3_CYCLE%d" % resume_cycle
+            donor_state = self.extract_cycle_state(donor_job)
+            donor_u2 = round(self.coarse_u2_mm + resume_cycle * self.load_increment_mm, 6)
+            donor_rf2 = donor_state.get("terminal_rf2", donor_state.get("step1_rf2", 0.0))
+            donor_e_frac = donor_state.get("e_frac", 0.0)
+            donor_d_max = donor_state.get("max_damage", 0.0)
+            self.current_tip_x = donor_state["tip_x"]
+            self.current_rf2 = donor_state["terminal_rf2"]
+            self.peak_rf2 = max(self.peak_rf2, donor_state.get("peak_rf2", 0.0))
+            donor_phys_inp = os.path.join(self.run_dir, donor_job + "_PHYS.inp")
+            cycle_idx = resume_cycle + 1
+            print("Resuming execution at Cycle %d (donor u2=%.4f mm, tip_x=%.4f mm, RF2=%.4f kN)" % (
+                cycle_idx, donor_u2, self.current_tip_x, self.current_rf2))
+            print("=================================================================")
+        else:
+            # Step 0: Initial Coarse Solve
+            coarse_job = "PK_METHOD_C_CASE3_COARSE_JOB1"
+            coarse_inp = os.path.join(self.run_dir, coarse_job + ".inp")
+            coarse_sta = os.path.join(self.run_dir, coarse_job + ".sta")
 
-        cutback_eval = self.evaluate_cutback_state(coarse_sta)
-        print("Cycle 0 Evaluation:", cutback_eval)
+            if not os.path.isfile(coarse_sta):
+                print("Executing Cycle 0: Initial Coarse Solve...")
+                cmd = ["abaqus", "job=" + coarse_job, "input=" + coarse_job, "user=" + os.path.basename(self.uel_path),
+                       "cpus=" + str(self.cpus), "interactive"]
+                ret, _ = self.run_command(cmd, check=False)
+                print("Cycle 0 exited with code: %d" % ret)
 
-        # Extract Cycle 0 Donor State
-        donor_state = self.extract_cycle_state(coarse_job)
-        donor_u2 = self.coarse_u2_mm
-        donor_rf2 = donor_state["step1_rf2"]
-        donor_e_frac = donor_state["e_frac"]
-        donor_d_max = donor_state["max_damage"]
-        self.current_tip_x = donor_state["tip_x"]
-        self.current_rf2 = donor_state["terminal_rf2"]
-        self.peak_rf2 = max(self.peak_rf2, donor_state["peak_rf2"])
+            cutback_eval = self.evaluate_cutback_state(coarse_sta)
+            print("Cycle 0 Evaluation:", cutback_eval)
 
-        donor_phys_inp = os.path.join(self.run_dir, "PK_METHOD_C_CASE3_COARSE_PHYS.inp")
-        if not os.path.isfile(donor_phys_inp):
-            # Check package dir
-            candidate_phys = os.path.join(REPO_ROOT, "models", "pandey_kumar_mode1", "290_method_c_case3", "PK_METHOD_C_CASE3_COARSE_PHYS.inp")
-            if os.path.isfile(candidate_phys):
-                donor_phys_inp = candidate_phys
+            # Extract Cycle 0 Donor State
+            donor_state = self.extract_cycle_state(coarse_job)
+            donor_u2 = self.coarse_u2_mm
+            donor_rf2 = donor_state["step1_rf2"]
+            donor_e_frac = donor_state["e_frac"]
+            donor_d_max = donor_state["max_damage"]
+            self.current_tip_x = donor_state["tip_x"]
+            self.current_rf2 = donor_state["terminal_rf2"]
+            self.peak_rf2 = max(self.peak_rf2, donor_state["peak_rf2"])
 
-        # Adaptive Multi-Cycle Loop
-        cycle_idx = 1
+            donor_phys_inp = os.path.join(self.run_dir, "PK_METHOD_C_CASE3_COARSE_PHYS.inp")
+            if not os.path.isfile(donor_phys_inp):
+                # Check package dir
+                candidate_phys = os.path.join(REPO_ROOT, "models", "pandey_kumar_mode1", "290_method_c_case3", "PK_METHOD_C_CASE3_COARSE_PHYS.inp")
+                if os.path.isfile(candidate_phys):
+                    donor_phys_inp = candidate_phys
+
+            cycle_idx = 1
+
         adaptive_phys_inp = os.path.join(self.run_dir, "PK_METHOD_C_CASE3_ADAPTIVE_PHYS.inp")
         if not os.path.isfile(adaptive_phys_inp):
             candidate_adapt = os.path.join(REPO_ROOT, "models", "pandey_kumar_mode1", "290_method_c_case3", "PK_METHOD_C_CASE3_ADAPTIVE_PHYS.inp")
