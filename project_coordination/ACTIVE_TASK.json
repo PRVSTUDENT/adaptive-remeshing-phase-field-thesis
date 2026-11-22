@@ -1,18 +1,18 @@
 ﻿{
   "task_id": "METHOD-C-CASE3-FRAMEWORK-SHORT-RESUME-RUN",
   "title": "Method C Case 3: Short Resume Test Run (Cycles 7-10) with Vectorized/Binned Transfer, Terminal Load Recovery, and Robust Crack Tip Extraction",
-  "task_status": "SUBMITTED_AND_EXECUTING",
+  "task_status": "COMPLETED_READY_FOR_INDEPENDENT_REVIEW",
   "master_goal_status": "OPEN",
-  "status": "SUBMITTED_AND_EXECUTING",
-  "review_verdict": "PENDING_EXECUTION",
-  "review_correlation_id": null,
+  "status": "COMPLETED_READY_FOR_INDEPENDENT_REVIEW",
+  "review_verdict": "PENDING_INDEPENDENT_REVIEW",
+  "review_correlation_id": "HND-METHOD-C-CASE3-FRAMEWORK-SHORT-RESUME-001",
   "classification": "METHOD_C_INCREMENTAL_ADAPTIVE_REMESHING",
   "assigned_agent": "gemini-antigravity",
-  "active_pbs_job_id": "1424910.mmaster02",
-  "last_successful_pbs_job_id": "1424798.mmaster02",
+  "active_pbs_job_id": null,
+  "last_successful_pbs_job_id": "1424910.mmaster02",
   "last_failed_pbs_job_id": "1424881.mmaster02",
-  "checkpoint_artifact": "models/pandey_kumar_mode1/290_method_c_case3/METHOD_C_CASE3_FRAMEWORK_MANIFEST.json",
-  "checkpoint_artifact_sha256": "DB42B29227B6D19DDBB4B129459981BFBE515617AE5D1295BAAD2A9534C01DC9",
+  "checkpoint_artifact": "docs/validation/METHOD_C_CASE3_FRAMEWORK_SHORT_RESUME_REPORT.md",
+  "checkpoint_artifact_sha256": "516C31091E6A1D80185FB6AD97D52EF78F8F5D9BD2E557C53D838D3B98C63CB4",
   "review_directive": "Submit exactly 1 PBS job (cumulative 71 -> 72) for the SHORT resume test of the fixed framework: resume from Cycle 7 using the 003 orchestrator (SHA 3CCEB29405F7ACDEE21F859944BD2A730E30FB67656D8CE04DBE02EE2971A00F), donor Cycle 6 at actual terminal u2 = 0.1000 mm with robust tip (30.5113, 66.7437) mm, n_adaptive_steps = 10 (Cycles 7-10 only, 4 cycles), load_increment 0.01 mm, 16 CPU / 48 GB / 72 h in queue entry_imfdfkmq via scripts/hpc/Invoke-Mode1Execution.ps1 only.",
   "predecessor_task": {
     "task_id": "METHOD-C-CASE3-FRAMEWORK-KILL-1424881-AND-FIX-TRANSFER",
@@ -32,5 +32,5 @@
   "max_new_pbs_submissions": 1,
   "submissions_consumed": 1,
   "cumulative_pbs_submissions": 72,
-  "notes": "Short resume test run submitted as PBS Job 1424910.mmaster02. Resumes in-allocation from Cycle 6 checkpoint (actual terminal u2 = 0.1000 mm, robust tip [30.5113, 66.7437] mm, narrow band y in [65.74, 67.74] mm) for Cycles 7 through 10 (n_adaptive_steps=10). 16 CPUs SMP / 48 GB / 72 h in normal_imfdfkmq (transferred from entry_imfdfkmq). Exactly 1 PBS job consumed, advancing cumulative submissions strictly from 71 to 72. MASTER_GOAL_STATUS strictly remains OPEN."
+  "notes": "Short resume test run (Cycles 7-10) completed successfully as PBS Job 1424910.mmaster02. All 4 resume cycles pass the hold force continuity gate (Cycle 7: -4.375%, Cycle 8: -2.788%, Cycle 9: -2.249%, Cycle 10: -2.131%, all <= 5.0%), non-healing strictly maintained (d_max=1.0), crack tip advances to x=31.46 mm and curves toward the void, and state transfer acceleration (~190x-240x speedup) is verified in production. Cumulative PBS submissions strictly 72. Ready for independent review."
 }

@@ -838,6 +838,47 @@ def test_extract_robust_crack_tip_filters_spurious_node():
     assert def_y == 70.0
 
 
+def test_short_resume_run_evaluation_metrics():
+    """Verifies that the executed Short Resume Run (PBS Job 1424910, Cycles 7-10) satisfies all physical gates."""
+    eval_path = os.path.join(REPO_ROOT, "models", "pandey_kumar_mode1", "290_method_c_case3", "PK_METHOD_C_CASE3_RESUME_RUN_EVALUATION.json")
+    assert os.path.isfile(eval_path), "Evaluation JSON must exist"
+
+    with open(eval_path, "r") as f:
+        data = json.load(f)
+
+    assert len(data) == 5, "Expected 5 cycle entries (Cycle 6 through 10)"
+    c6, c7, c8, c9, c10 = data[0], data[1], data[2], data[3], data[4]
+
+    # 1. Step 1 hold re-equilibration force continuity gate: |delta RF2| <= 5% across all resume cycles
+    for entry in [c7, c8, c9, c10]:
+        c_num = entry["cycle"]
+        delta_pct = entry["hold_force_delta_pct"]
+        assert delta_pct is not None, "Cycle %d must have hold_force_delta_pct" % c_num
+        assert abs(delta_pct) <= 5.0, "Cycle %d hold force jump %.3f%% exceeds 5.0%% threshold" % (c_num, delta_pct)
+        assert entry["step1_converged_incs"] == 1, "Cycle %d Step 1 hold must converge in 1 increment" % c_num
+
+    # Explicit continuity values:
+    assert c7["hold_force_delta_pct"] == pytest.approx(-4.375, abs=0.01)  # Cycle 7 vs C6 donor (1.792 kN vs 1.874 kN)
+    assert c8["hold_force_delta_pct"] == pytest.approx(-2.788, abs=0.01)  # Cycle 8 vs C7 donor (1.502 kN vs 1.545 kN)
+    assert c9["hold_force_delta_pct"] == pytest.approx(-2.249, abs=0.01)  # Cycle 9 vs C8 donor (1.355 kN vs 1.386 kN)
+    assert c10["hold_force_delta_pct"] == pytest.approx(-2.131, abs=0.01) # Cycle 10 vs C9 donor (1.282 kN vs 1.310 kN)
+
+    # 2. Damage irreversibility and non-healing: d_max == 1.0 strictly maintained
+    for entry in [c7, c8, c9, c10]:
+        assert entry["d_max"] == 1.0, "Cycle %d d_max must equal 1.0" % entry["cycle"]
+
+    # 3. Crack propagation towards the void: x_tip advances and y_tip curves downward
+    assert c6["tip_x_mm"] == pytest.approx(30.5113, abs=1e-3)
+    assert c10["tip_x_mm"] == pytest.approx(31.4604, abs=1e-3)
+    assert c10["tip_x_mm"] > c6["tip_x_mm"], "Crack front must advance in x"
+    assert c10["tip_y_mm"] < c6["tip_y_mm"], "Crack front must curve downward towards central void at (75, 50)"
+
+    # 4. Transfer + deck timing acceleration: transfer and deck generation under 120s per cycle
+    for entry in [c7, c8, c9, c10]:
+        assert entry["timing_transfer_deck_s"] <= 120.0, "Cycle %d transfer + deck generation time exceeded 120s" % entry["cycle"]
+
+
+
 
 
 
