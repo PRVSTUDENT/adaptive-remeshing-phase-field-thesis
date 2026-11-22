@@ -8,9 +8,9 @@
     "PK_METHOD_C_CASE3_COARSE_PHYS.inp": "29af8622a20c006f31b488cced8e0c054749cb243acb0f2b2d9cbef35067ccdd",
     "PK_METHOD_C_CASE3_ADAPTIVE_PHYS.inp": "e16bedde15efb4e29d24b7417515fb0e7e0fa967103feb1a60144595260dbdc4",
     "f42_mixed_uel.for": "ce8d5edcd2911dcb018bb15275271f874e7ea62b8fb48cf4a8297469a83acdd6",
-    "case3_single_job_orchestrator.py": "df22d89b43b94b5579dd16bceec571cc7a781152545889e5c4d7da5607ccf228",
+    "case3_single_job_orchestrator.py": "3cceb29405f7acdee21f859944bd2a730e30fb67656d8ce04dbe02ee2971a00f",
     "generate_case3_adaptive_corridor_mesh.py": "d68519d28d9f44ef28b034d1165b45a8f2764763d38016dbac6e062391dbef55",
-    "submit_case3_single_job_framework.pbs": "98f256fddb4e54f80af480a1adf5d4af3ad57925ae62efa63e2960751e1ca7c6",
+    "submit_case3_single_job_framework.pbs": "766e840b4425486ffb4c961339f607a2d9ebd51c26a4385c55f8bdc5a15b1778",
     "job_notifications.sh": "96756a681d2d36c11b36b89288f631f8ecc9537543c2c745a4bae1b425984b47"
   },
   "jobs": [
@@ -21,7 +21,7 @@
       "command_sha256": "c731e8ac2cc2c03bb6d563707706b8105cf4af4000f4b86211b8476975ba6cec",
       "max_submissions": 1,
       "depends_on": [],
-      "purpose": "Method C Case 3 Single-Job Multi-Cycle Adaptive Remeshing Framework production run (1 allocation, coarse solve plus uncapped adaptive cycles with equal load division, n=100 safety cap)",
+      "purpose": "Method C Case 3 Single-Job Multi-Cycle Adaptive Remeshing Framework short resume run (Cycles 7-10, n=10 safety cap, load_increment=0.01 mm, 16 CPUs, 48 GB, entry_imfdfkmq)",
       "cpus": 16,
       "memory_gb": 48,
       "walltime_hours": 72,
@@ -36,6 +36,6 @@
   "technical_stage": "C1-0",
   "remote_run_dir": "/scratch9/pr21vyci/runs/mode1_290_method_c_case3_single_job",
   "acceptance": {
-    "case3_single_job_framework": "Method C Case 3 Single-Job Multi-Cycle Adaptive Framework executes in-allocation, completes coarse solve at u2=0.05 mm, and drives multi-cycle adaptive remeshing across equal load increments (0.01 mm/cycle) with fixed-load re-equilibration force continuity <= 5%, until crack completion criteria (x_tip >= 64 mm or RF2 < 5% peak) or walltime limit."
+    "case3_single_job_framework": "Method C Case 3 Single-Job Multi-Cycle Adaptive Framework executes in-allocation, resumes from Cycle 6 checkpoint at actual terminal u2=0.1000 mm, executes Cycles 7-10 with 465x binned transfer, robust crack tip extraction, and fixed-load re-equilibration force continuity <= 5%, until n=10 cap or completion."
   }
 }

@@ -46,7 +46,7 @@ echo "================================================================="
 # Execute in-allocation Python orchestrator (live execution loop)
 python3 "${RUN_DIR}/case3_single_job_orchestrator.py" \
     --run-dir "${RUN_DIR}" \
-    --n-adaptive-steps 100 \
+    --n-adaptive-steps 10 \
     --load-increment-mm 0.01 \
     --coarse-u2-mm 0.05 \
     --cpus 16
