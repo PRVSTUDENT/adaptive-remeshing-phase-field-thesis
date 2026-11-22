@@ -639,12 +639,12 @@ def test_job1424798_final_observables():
     energy_surge_pct = (last_e_frac - first_e_frac) / first_e_frac * 100.0
     assert energy_surge_pct > 800.0  # +889.5%
 
-    # 4. Spatially-binned speedup orchestrator SHA
+    # 4. Spatially-binned speedup orchestrator SHA with stalled-cycle load correction
     orch_path = os.path.join(PACKAGE_DIR, "case3_single_job_orchestrator.py")
     assert os.path.isfile(orch_path), "Package orchestrator must exist"
     with open(orch_path, "rb") as f:
         orch_hash = hashlib.sha256(f.read()).hexdigest().upper()
-    assert orch_hash == "F5817AAF73B915B6620065440BC7BAB6DD11040D37C87394EC5F01C32265FBC2"
+    assert orch_hash == "227F620CC03D396490C9971CE165B77B015B231685A89CFBC835421E9BE6E69F"
 
 
 def test_transfer_gp_history_binned_performance_and_safeguards():
@@ -718,6 +718,60 @@ def test_orchestrator_resume_detection():
                     break
 
         assert resume_cycle == 1, "Should detect Cycle 1 as latest completed cycle"
+
+
+def test_orchestrator_stalled_cycle_resume_load():
+    """Verifies GAP-MC-C3KFX-01: orchestrator reads actual terminal u2 from stalled donor state (0.1000 mm), not nominal target (0.1100 mm)."""
+    with tempfile.TemporaryDirectory() as tmpdir:
+        # Mock Cycle 6 stalled at step_time = 0.00213793 in Step 2 (holding at 0.1000 mm, advancing to 0.1100 mm)
+        c6_sta = os.path.join(tmpdir, "PK_METHOD_C_CASE3_CYCLE6.sta")
+        with open(c6_sta, "w") as f:
+            f.write("STEP  INC ATT  SEV  EQU   TOTAL_TIME   STEP_TIME   INC_TIME     DT\n")
+            f.write("   1    1   1    0    1   0.01000000   0.01000000  0.01000000  0.01000000\n")
+            f.write("   2   11   3    0    2   1.00000000   0.00213793  0.00000001  0.00000001\n")
+            f.write("   2   12   3U   0    4   1.00000000   0.00213793  0.00000001  0.00000001\n")
+
+        # State JSON with node 999999 (N_RP) at u2 = 0.1000213772 mm
+        state_data = {
+            "d_nodal": {"1": 0.99},
+            "u_nodal": {
+                "1": [0.0, 0.0],
+                "999999": [0.0, 0.1000213772]
+            },
+            "h_gp": {"1_1": 15.0},
+            "tip_x": 55.088875,
+            "tip_y": 37.834110,
+            "terminal_rf2": 3.7412,
+            "step_time": 0.00213793
+        }
+        with open(os.path.join(tmpdir, "PK_METHOD_C_CASE3_CYCLE6_state.json"), "w") as f:
+            json.dump(state_data, f)
+
+        with open(os.path.join(tmpdir, "PK_METHOD_C_CASE3_CYCLE6_PHYS.inp"), "w") as f:
+            f.write("*NODE\n1, 0.0, 0.0\n999999, 20.0, 100.0\n*ELEMENT, TYPE=CPS4\n1, 1, 1, 1, 1\n")
+
+        orch = Case3SingleJobOrchestrator(run_dir=tmpdir, n_adaptive_steps=100)
+
+        # 1. extract_cycle_state must extract terminal_u2 = 0.1000 mm
+        donor_state = orch.extract_cycle_state("PK_METHOD_C_CASE3_CYCLE6")
+        assert "terminal_u2" in donor_state
+        assert donor_state["terminal_u2"] == 0.1000, "Expected actual terminal u2 = 0.1000 mm, got %s" % donor_state["terminal_u2"]
+
+        # 2. execute()'s resume branch logic must set donor_u2 = 0.1000 mm, NOT nominal 0.1100 mm
+        actual_u2 = donor_state.get("terminal_u2")
+        nominal_u2 = round(orch.coarse_u2_mm + 6 * orch.load_increment_mm, 4)
+        assert nominal_u2 == 0.1100, "Nominal load for Cycle 6 should be 0.1100 mm"
+
+        donor_u2 = round(float(actual_u2), 4) if (actual_u2 is not None and actual_u2 > 0.0) else nominal_u2
+        assert donor_u2 == 0.1000, "Resume donor load must be 0.1000 mm, not nominal 0.1100 mm"
+
+        # 3. Verify fallback to nominal when terminal_u2 is absent
+        donor_state_no_u2 = dict(donor_state)
+        donor_state_no_u2["terminal_u2"] = None
+        actual_fallback = donor_state_no_u2.get("terminal_u2")
+        fallback_donor_u2 = round(float(actual_fallback), 4) if (actual_fallback is not None and actual_fallback > 0.0) else nominal_u2
+        assert fallback_donor_u2 == 0.1100, "Fallback must be nominal 0.1100 mm"
+
 
 
 

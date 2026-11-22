@@ -683,7 +683,9 @@ def transfer_gp_history(donor_mesh, donor_history_dict, receiver_mesh, limiter_m
 
         h_val = 0.0
         if best_eid is not None:
-            gp_h = [donor_h_norm.get((best_eid, k), 0.0) for k in range(1, 5)]
+            dconn = d_all_donor.get(best_eid, [])
+            gp_range = range(1, 5) if len(dconn) == 4 else range(1, 4)
+            gp_h = [donor_h_norm.get((best_eid, k), 0.0) for k in gp_range]
             h_val = max(0.0, sum(gp_h) / max(1, len(gp_h)))
         transferred[(r_eid, 1)] = h_val
 
@@ -968,6 +970,13 @@ def extract_state_from_odb(odb_path, out_json_path):
                 broken_coords.sort(key=lambda c: c[0], reverse=True)
                 tip_x = float(broken_coords[0][0])
                 tip_y = float(broken_coords[0][1])
+        rp_node = 999999
+        terminal_u2 = None
+        if rp_node in u_nodal:
+            terminal_u2 = float(u_nodal[rp_node][1])
+        elif str(rp_node) in u_nodal:
+            terminal_u2 = float(u_nodal[str(rp_node)][1])
+
         out_data = {
             "source_odb": odb_path,
             "step_name": last_step.name,
@@ -978,6 +987,7 @@ def extract_state_from_odb(odb_path, out_json_path):
             "max_history_MPa": float(max_h),
             "tip_x": float(tip_x),
             "tip_y": float(tip_y),
+            "terminal_u2": round(float(terminal_u2), 6) if terminal_u2 is not None else None,
             "u_nodal": u_nodal,
             "d_nodal": d_nodal,
             "h_gp": h_gp
@@ -1387,6 +1397,47 @@ class Case3SingleJobOrchestrator(object):
             step1_rf2 = float(state.get("step1_rf2", self.current_rf2))
             e_frac = float(state.get("e_frac", 0.0))
 
+            terminal_u2 = state.get("terminal_u2")
+            if terminal_u2 is None:
+                if 999999 in u_nodal:
+                    terminal_u2 = float(u_nodal[999999][1])
+                elif "999999" in state.get("u_nodal", {}):
+                    terminal_u2 = float(state["u_nodal"]["999999"][1])
+            if (terminal_u2 is None or terminal_rf2 <= 0.0):
+                dat_path = os.path.join(self.run_dir, job_name + ".dat")
+                if os.path.isfile(dat_path):
+                    try:
+                        with open(dat_path, "r", errors="replace") as f:
+                            lines = f.readlines()
+                        for line in reversed(lines):
+                            if "999999" in line:
+                                parts = line.strip().split()
+                                if len(parts) >= 3 and parts[0] == "999999":
+                                    try:
+                                        if terminal_u2 is None:
+                                            terminal_u2 = float(parts[1])
+                                        if terminal_rf2 <= 0.0:
+                                            terminal_rf2 = float(parts[2])
+                                        break
+                                    except ValueError:
+                                        pass
+                    except Exception:
+                        pass
+            if terminal_u2 is None:
+                sta_path = os.path.join(self.run_dir, job_name + ".sta")
+                if os.path.isfile(sta_path):
+                    term_eval = self.evaluate_cutback_state(sta_path)
+                    step_time = term_eval.get("terminal_step_time")
+                    step_num = term_eval.get("terminal_step", 2)
+                    m = re.search(r"CYCLE(\d+)", job_name)
+                    c_num = int(m.group(1)) if m else 0
+                    if c_num > 0 and step_time is not None:
+                        hold_u2 = self.coarse_u2_mm + (c_num - 1) * self.load_increment_mm
+                        if step_num == 1:
+                            terminal_u2 = hold_u2
+                        else:
+                            terminal_u2 = hold_u2 + float(step_time) * self.load_increment_mm
+
             return {
                 "u_nodal": u_nodal,
                 "d_nodal": d_nodal,
@@ -1398,7 +1449,8 @@ class Case3SingleJobOrchestrator(object):
                 "peak_rf2": peak_rf2,
                 "terminal_rf2": terminal_rf2,
                 "step1_rf2": step1_rf2,
-                "e_frac": e_frac
+                "e_frac": e_frac,
+                "terminal_u2": round(float(terminal_u2), 4) if terminal_u2 is not None else None
             }
 
         # 2. If ODB exists, perform extraction
@@ -1522,7 +1574,14 @@ class Case3SingleJobOrchestrator(object):
             print("RESUME DETECTED: Found completed Cycle %d checkpoints on scratch" % resume_cycle)
             donor_job = "PK_METHOD_C_CASE3_CYCLE%d" % resume_cycle
             donor_state = self.extract_cycle_state(donor_job)
-            donor_u2 = round(self.coarse_u2_mm + resume_cycle * self.load_increment_mm, 6)
+            actual_u2 = donor_state.get("terminal_u2")
+            nominal_u2 = round(self.coarse_u2_mm + resume_cycle * self.load_increment_mm, 4)
+            if actual_u2 is not None and actual_u2 > 0.0:
+                donor_u2 = round(float(actual_u2), 4)
+                print("[Resume Load] Using actual donor terminal u2 = %.4f mm (nominal was %.4f mm)" % (donor_u2, nominal_u2))
+            else:
+                donor_u2 = nominal_u2
+                print("[Resume Load] Actual terminal u2 unavailable; using nominal donor u2 = %.4f mm" % donor_u2)
             donor_rf2 = donor_state.get("terminal_rf2", donor_state.get("step1_rf2", 0.0))
             donor_e_frac = donor_state.get("e_frac", 0.0)
             donor_d_max = donor_state.get("max_damage", 0.0)
@@ -1661,7 +1720,13 @@ class Case3SingleJobOrchestrator(object):
             try:
                 cycle_donor_state = self.extract_cycle_state(cycle_job)
                 donor_state = cycle_donor_state
-                donor_u2 = target_u2
+                actual_term_u2 = cycle_donor_state.get("terminal_u2")
+                if actual_term_u2 is not None and actual_term_u2 > 0.0:
+                    donor_u2 = round(float(actual_term_u2), 4)
+                    print("[Cycle %d State Advanced] Using actual terminal u2 = %.4f mm for next cycle donor" % (cycle_idx, donor_u2))
+                else:
+                    donor_u2 = target_u2
+                    print("[Cycle %d State Advanced] Using nominal target u2 = %.4f mm for next cycle donor" % (cycle_idx, donor_u2))
                 donor_phys_inp = adaptive_phys_inp
                 self.current_tip_x = cycle_donor_state["tip_x"]
                 self.current_rf2 = cycle_donor_state["terminal_rf2"]
