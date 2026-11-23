@@ -5,7 +5,7 @@ param(
 . 'C:\Users\pruth\OpenClawPAD\ChatGPTBridge\Bridge-ResearchContract.ps1'
 . 'C:\Users\pruth\OpenClawPAD\ChatGPTBridge\Invoke-ChatGPTBridge.ps1'
 
-$commitSha = "6cc0e958c"
+$commitSha = "7a37ef106"
 
 $prompt = @"
 [BRIDGE_HANDOFF_ID=HND-METHOD-C-CASE3-FRAMEWORK-LOCAL-SMOKE-001]
