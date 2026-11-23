@@ -1,0 +1,31 @@
+{
+  "cycle_idx": 35,
+  "job_name": "PK_METHOD_C_CASE3_CYCLE35",
+  "nominal_target_u2": 0.4,
+  "actual_terminal_u2": 0.1594,
+  "tip_x": 37.8673,
+  "tip_y": 61.3725,
+  "dist_to_hole_boundary_mm": 0.4622,
+  "d_max": 1.0,
+  "h_max_MPa": 171.8055,
+  "far_side_d_max": 0.1198,
+  "far_side_node": [
+    16,
+    46.5,
+    51.0
+  ],
+  "step1_rf2_kN": 1.56969,
+  "step1_hold_jump_pct": -0.019,
+  "peak_rf2_kN": 1.657353,
+  "peak_u2_mm": 0.1594,
+  "terminal_rf2_kN": 1.657353,
+  "step1_incs": 1,
+  "step1_iters": 2,
+  "step2_incs": 215,
+  "step2_iters": 640,
+  "total_iters": 642,
+  "total_incs": 216,
+  "cutbacks": 2,
+  "solver_completed": true,
+  "cutback_terminated": false
+}

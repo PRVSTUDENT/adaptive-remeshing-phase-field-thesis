@@ -1,0 +1,31 @@
+{
+  "cycle_idx": 0,
+  "job_name": "PK_METHOD_C_CASE3_COARSE_JOB1",
+  "nominal_target_u2": 0.05,
+  "actual_terminal_u2": 0.05611,
+  "tip_x": 10.5146,
+  "tip_y": 69.9509,
+  "dist_to_hole_boundary_mm": 22.1617,
+  "d_max": 0.989293,
+  "h_max_MPa": 4.75,
+  "far_side_d_max": 0.0101,
+  "far_side_node": [
+    26,
+    46.5,
+    51.0
+  ],
+  "step1_rf2_kN": 3.928812,
+  "step1_hold_jump_pct": 0.0,
+  "peak_rf2_kN": 4.331822,
+  "peak_u2_mm": 0.056095,
+  "terminal_rf2_kN": 4.241979,
+  "step1_incs": 50,
+  "step1_iters": 160,
+  "step2_incs": 13,
+  "step2_iters": 96,
+  "total_iters": 256,
+  "total_incs": 63,
+  "cutbacks": 5,
+  "solver_completed": false,
+  "cutback_terminated": true
+}
