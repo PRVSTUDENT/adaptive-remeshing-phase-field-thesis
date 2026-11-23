@@ -5,29 +5,29 @@ param(
 . 'C:\Users\pruth\OpenClawPAD\ChatGPTBridge\Bridge-ResearchContract.ps1'
 . 'C:\Users\pruth\OpenClawPAD\ChatGPTBridge\Invoke-ChatGPTBridge.ps1'
 
-$commitSha = "5d52a998f"
+$commitSha = "1e34809aa"
 
 $prompt = @"
-[BRIDGE_HANDOFF_ID=HND-METHOD-C-CASE3-FRAMEWORK-LOCAL-SMOKE-001]
+[BRIDGE_HANDOFF_ID=HND-METHOD-C-CASE3-FRAMEWORK-LOCAL-SMOKE-002]
 INDEPENDENT_STRUCTURED_REVIEW_V1
 
 {
   "protocol": "INDEPENDENT_STRUCTURED_REVIEW_V1",
-  "correlation_id": "HND-METHOD-C-CASE3-FRAMEWORK-LOCAL-SMOKE-001",
-  "predecessor_correlation_id": "HND-METHOD-C-CASE3-FRAMEWORK-DYNAMIC-CORRIDOR-001",
+  "correlation_id": "HND-METHOD-C-CASE3-FRAMEWORK-LOCAL-SMOKE-002",
+  "predecessor_correlation_id": "HND-METHOD-C-CASE3-FRAMEWORK-LOCAL-SMOKE-001",
   "task_id": "METHOD-C-CASE3-FRAMEWORK-LOCAL-WINDOWS-SMOKE-TEST",
-  "title": "Method C Case 3: Local Windows Smoke Test (Cycle-0 Coarse Solve)",
+  "title": "Method C Case 3: Local Windows Smoke Test (Cycle-0 Coarse Solve) Re-Issue 2",
   "goal_id": "METHOD_C_INCREMENTAL_ADAPTIVE_REMESHING_V1",
   "canonical_rules_sha256": "E7B62C984B2468025F9F8184BFD54D55BE0512F3FCEB78A31BF590376D48138B",
   "artifact_commit": "$commitSha",
   "checkpoint_artifact": "docs/validation/METHOD_C_CASE3_LOCAL_WINDOWS_SMOKE_TEST_REPORT.md",
-  "checkpoint_artifact_sha256": "F3BA81AC6946A43E731023F708426F5C6D87E77857272E1F276FC5B0573F5368",
+  "checkpoint_artifact_sha256": "98ED43D76096B69C2091F97C92075A751774FB9964599A4181AEF5C3EFE2E72E",
   "research_contract": {
     "goal_id": "METHOD_C_INCREMENTAL_ADAPTIVE_REMESHING_V1",
     "method": "METHOD_C",
-    "operation": "method_c_case3_framework_local_windows_smoke_test",
-    "numerical_uncertainty": "Can the frozen thesis UEL compile, link, and run cleanly under Abaqus 2024 and Intel Fortran 2026 on the user's Windows PC through the approved dynamic-corridor orchestrator (AC56BA7D), reproducing all Cycle-0 coarse solve observables vs the approved HPC benchmark?",
-    "expected_numerical_result": "Cycle 0 solves with Exit 0; Step-1 RF2 ~ 3.9288 kN (observed 3.928812 kN); peak force ~ 4.3318 kN at u2 ~ 0.05610 mm (observed 4.331821 kN at 0.056095 mm); terminal tip ~ (10.6727, 69.9342) mm (observed (10.672747, 69.934227) mm, extension 0.675954 mm); 256 total equilibrium iterations (160 Step 1, 96 Step 2); extracted state file written in run dir; 36/36 unit tests PASS; 0 PBS submissions consumed, cumulative count strictly 73 preserved; HPC job 1424916 untouched; MASTER_GOAL_STATUS = OPEN.",
+    "operation": "method_c_case3_framework_local_smoke_test_evidence_correction",
+    "numerical_uncertainty": "Can all 3 blocking review gaps and notes from HND-METHOD-C-CASE3-FRAMEWORK-LOCAL-SMOKE-001 be resolved by committing all 7 solver artifacts (.sta, .msg, .dat, .json, .csv), reconciling the Abaqus Standard solver Exit 1 cutback termination vs orchestrator Exit 0, updating job_id to LOCAL_PC_SMOKE_RUN, and verifying 36/36 unit tests PASS?",
+    "expected_numerical_result": "Committed .sta [2D80AA22...], .msg [3B46E1F8...], and .dat [28F88AC5...] to local_windows_smoke_test/ via .gitignore un-ignore rules (GAP-SMOKE-01 resolved); 36/36 unit tests pass (GAP-SMOKE-02 resolved); Abaqus Standard solver exit 1 cutback termination at Inc 13 stated as authentic expected outcome matching HPC Job 1424711/1424786 and evaluated gracefully with Exit 0 by orchestrator (GAP-SMOKE-03 resolved); job_id updated to LOCAL_PC_SMOKE_RUN with local provenance note (GAP-SMOKE-04 resolved); unsubstantiated HPC claims removed (GAP-SMOKE-05 resolved); intermediate state.json tip (10.5146, 69.9509) mm [Step-2 Frame 7] vs terminal tip (10.6727, 69.9342) mm [Inc 12] clarified (NOTE-SMOKE-06 resolved); uel_energy_balance.csv added to manifest (NOTE-SMOKE-07 resolved); 0 PBS submissions consumed, cumulative count strictly 73 preserved; MASTER_GOAL_STATUS = OPEN.",
     "indicator_type": "F1852_MEASURED_DRIVER",
     "indicator_role": "METHOD_C_DRIVER",
     "causal_evidence_status": "PLANNED"
@@ -35,14 +35,14 @@ INDEPENDENT_STRUCTURED_REVIEW_V1
   "evidence_manifest": {
     "smoke_report": {
       "path": "docs/validation/METHOD_C_CASE3_LOCAL_WINDOWS_SMOKE_TEST_REPORT.md",
-      "sha256": "F3BA81AC6946A43E731023F708426F5C6D87E77857272E1F276FC5B0573F5368",
-      "size_bytes": 7826,
+      "sha256": "98ED43D76096B69C2091F97C92075A751774FB9964599A4181AEF5C3EFE2E72E",
+      "size_bytes": 10270,
       "github_url": "https://github.com/PRVSTUDENT/adaptive-remeshing-phase-field-thesis/blob/$commitSha/docs/validation/METHOD_C_CASE3_LOCAL_WINDOWS_SMOKE_TEST_REPORT.md"
     },
     "summary_json": {
       "path": "models/pandey_kumar_mode1/290_method_c_case3/local_windows_smoke_test/PK_METHOD_C_CASE3_COARSE_JOB1_SUMMARY.json",
-      "sha256": "AFF9F133618D07F4817DAEBD4669421EB176AE27925776DF690CD8DF1046F5BD",
-      "size_bytes": 13758,
+      "sha256": "34BFDAFCA03D5CE7BCCC561F733FE32C54EBC96E8431CC2C54B0B947D3AB40BF",
+      "size_bytes": 13853,
       "github_url": "https://github.com/PRVSTUDENT/adaptive-remeshing-phase-field-thesis/blob/$commitSha/models/pandey_kumar_mode1/290_method_c_case3/local_windows_smoke_test/PK_METHOD_C_CASE3_COARSE_JOB1_SUMMARY.json"
     },
     "state_json": {
@@ -53,8 +53,8 @@ INDEPENDENT_STRUCTURED_REVIEW_V1
     },
     "receipt_json": {
       "path": "models/pandey_kumar_mode1/290_method_c_case3/local_windows_smoke_test/PK_METHOD_C_CASE3_COARSE_JOB1_RECEIPT.json",
-      "sha256": "33EE8062EF44D6DEC122838A976B068BBF58B2EC964402BA4CEAAAFE095EC4BB",
-      "size_bytes": 1537,
+      "sha256": "B3BDA358D7731BAEF3FFE85B7F7EAFAE5CC5691B65C49C64F3FB8D4CB6DFA076",
+      "size_bytes": 1632,
       "github_url": "https://github.com/PRVSTUDENT/adaptive-remeshing-phase-field-thesis/blob/$commitSha/models/pandey_kumar_mode1/290_method_c_case3/local_windows_smoke_test/PK_METHOD_C_CASE3_COARSE_JOB1_RECEIPT.json"
     },
     "solver_status": {
@@ -62,6 +62,24 @@ INDEPENDENT_STRUCTURED_REVIEW_V1
       "sha256": "2D80AA228C63D66976363E55FFB6E70D71888B079976AC1FAA0057F4FF6E90EA",
       "size_bytes": 5471,
       "github_url": "https://github.com/PRVSTUDENT/adaptive-remeshing-phase-field-thesis/blob/$commitSha/models/pandey_kumar_mode1/290_method_c_case3/local_windows_smoke_test/PK_METHOD_C_CASE3_COARSE_JOB1.sta"
+    },
+    "solver_msg": {
+      "path": "models/pandey_kumar_mode1/290_method_c_case3/local_windows_smoke_test/PK_METHOD_C_CASE3_COARSE_JOB1.msg",
+      "sha256": "3B46E1F8A4D4E1D90837E05EA68D16F6541D62810F59E6CF4222F1B47139AB64",
+      "size_bytes": 232870,
+      "github_url": "https://github.com/PRVSTUDENT/adaptive-remeshing-phase-field-thesis/blob/$commitSha/models/pandey_kumar_mode1/290_method_c_case3/local_windows_smoke_test/PK_METHOD_C_CASE3_COARSE_JOB1.msg"
+    },
+    "solver_dat": {
+      "path": "models/pandey_kumar_mode1/290_method_c_case3/local_windows_smoke_test/PK_METHOD_C_CASE3_COARSE_JOB1.dat",
+      "sha256": "28F88AC5A71752A46AAA8E0C04605057D7A1FB564A5337B4EE0924F6778E8B6C",
+      "size_bytes": 62232,
+      "github_url": "https://github.com/PRVSTUDENT/adaptive-remeshing-phase-field-thesis/blob/$commitSha/models/pandey_kumar_mode1/290_method_c_case3/local_windows_smoke_test/PK_METHOD_C_CASE3_COARSE_JOB1.dat"
+    },
+    "energy_balance": {
+      "path": "models/pandey_kumar_mode1/290_method_c_case3/local_windows_smoke_test/uel_energy_balance.csv",
+      "sha256": "8EFF657656C1B94F67E5365236CCD7F6068E415524DF746A8DC96D13C7431CC2",
+      "size_bytes": 6155,
+      "github_url": "https://github.com/PRVSTUDENT/adaptive-remeshing-phase-field-thesis/blob/$commitSha/models/pandey_kumar_mode1/290_method_c_case3/local_windows_smoke_test/uel_energy_balance.csv"
     },
     "test_suite": {
       "path": "tests/unit/test_method_c_case3_local_smoke_test.py",
@@ -86,8 +104,8 @@ INDEPENDENT_STRUCTURED_REVIEW_V1
 "@
 
 if ($Publish) {
-    Write-Host "[Bridge] Publishing guarded request for HND-METHOD-C-CASE3-FRAMEWORK-LOCAL-SMOKE-001..." -ForegroundColor Cyan
-    $res = Invoke-ChatGPTBridge -PromptText $prompt -HandoffId 'HND-METHOD-C-CASE3-FRAMEWORK-LOCAL-SMOKE-001' -TaskId 'METHOD-C-CASE3-FRAMEWORK-LOCAL-WINDOWS-SMOKE-TEST' -LaunchPad
+    Write-Host "[Bridge] Publishing guarded request for HND-METHOD-C-CASE3-FRAMEWORK-LOCAL-SMOKE-002..." -ForegroundColor Cyan
+    $res = Invoke-ChatGPTBridge -PromptText $prompt -HandoffId 'HND-METHOD-C-CASE3-FRAMEWORK-LOCAL-SMOKE-002' -TaskId 'METHOD-C-CASE3-FRAMEWORK-LOCAL-WINDOWS-SMOKE-TEST' -LaunchPad
     Write-Host "[Bridge] Handshake completed successfully. Response length: $($res.Length)" -ForegroundColor Green
     return $res
 } else {
