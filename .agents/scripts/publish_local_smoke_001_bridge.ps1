@@ -30,7 +30,7 @@ INDEPENDENT_STRUCTURED_REVIEW_V1
     "expected_numerical_result": "Cycle 0 solves with Exit 0; Step-1 RF2 ~ 3.9288 kN (observed 3.928812 kN); peak force ~ 4.3318 kN at u2 ~ 0.05610 mm (observed 4.331821 kN at 0.056095 mm); terminal tip ~ (10.6727, 69.9342) mm (observed (10.672747, 69.934227) mm, extension 0.675954 mm); 256 total equilibrium iterations (160 Step 1, 96 Step 2); extracted state file written in run dir; 36/36 unit tests PASS; 0 PBS submissions consumed, cumulative count strictly 73 preserved; HPC job 1424916 untouched; MASTER_GOAL_STATUS = OPEN.",
     "indicator_type": "F1852_MEASURED_DRIVER",
     "indicator_role": "METHOD_C_DRIVER",
-    "causal_evidence_status": "VERIFIED"
+    "causal_evidence_status": "PLANNED"
   },
   "evidence_manifest": {
     "smoke_report": {
