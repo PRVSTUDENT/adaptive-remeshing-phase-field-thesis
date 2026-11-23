@@ -57,7 +57,7 @@ def test_crack_advancement_toward_hole(full_run_data):
 
 
 def test_crack_arrest_near_hole_boundary(full_run_data):
-    """Verifies crack arrests ~0.29-0.58 mm outside hole boundary during Cycles 50-56."""
+    """Verifies crack arrests ~0.13-0.75 mm outside hole boundary during Cycles 50-56."""
     for c in range(50, 57):
         rec = full_run_data[c]
         assert abs(rec["tip_x"] - 38.0) < 0.3
@@ -91,5 +91,6 @@ def test_report_artifact_integrity():
     assert "Cycles 0 to 56" in content
     assert "0.297421" in content
     assert "38.0342" in content
+    assert "37.9110" in content
     assert "0.8288" in content
-    assert "HND-METHOD-C-CASE3-FRAMEWORK-LOCAL-FULL-002" in content
+    assert "HND-METHOD-C-CASE3-FRAMEWORK-LOCAL-FULL-003" in content
