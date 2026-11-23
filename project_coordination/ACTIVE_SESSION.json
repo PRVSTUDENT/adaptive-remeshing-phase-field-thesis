@@ -2,13 +2,15 @@
   "active": false,
   "agent": "gemini-antigravity",
   "task_id": "METHOD-C-CASE3-FRAMEWORK-LOCAL-WINDOWS-FULL-RUN",
-  "session_id": "2026-11-23_gemini_method_c_case3_local_full_run_001",
-  "started_at": "2026-11-23T14:15:49+01:00",
-  "starting_commit": "4e79727e8",
+  "session_id": "2026-11-23_gemini_method_c_case3_local_full_run_002",
+  "started_at": "2026-11-23T18:58:00+01:00",
+  "completed_at": "2026-11-23T19:05:00+01:00",
+  "starting_commit": "bd3c81d00",
   "allowed_write_scope": [
     "models/pandey_kumar_mode1/290_method_c_case3/*",
     "docs/validation/*",
     "tests/unit/*",
-    "project_coordination/*"
+    "project_coordination/*",
+    ".agents/scripts/*"
   ]
 }

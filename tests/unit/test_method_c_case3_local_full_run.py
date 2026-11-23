@@ -76,8 +76,8 @@ def test_far_side_renucleation_damage_growth(full_run_data):
     c56 = full_run_data[56]
 
     assert c40["far_side_d_max"] < 0.25
-    assert c41["far_side_d_max"] >= 0.22  # Nucleates ~0.24 (0.2435)
-    assert c49["far_side_d_max"] > 0.60
+    assert c41["far_side_d_max"] >= 0.22  # Nucleates ~0.24 (actual: 0.2398)
+    assert c49["far_side_d_max"] > 0.60  # Actual: 0.6241
     assert c56["far_side_d_max"] >= 0.80  # Reaches 0.8288
     assert abs(c56["far_side_d_max"] - 0.8288) < 0.01
 
@@ -92,4 +92,4 @@ def test_report_artifact_integrity():
     assert "0.297421" in content
     assert "38.0342" in content
     assert "0.8288" in content
-    assert "HND-METHOD-C-CASE3-FRAMEWORK-LOCAL-FULL-001" in content
+    assert "HND-METHOD-C-CASE3-FRAMEWORK-LOCAL-FULL-002" in content
