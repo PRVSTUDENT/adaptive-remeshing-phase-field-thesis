@@ -130,11 +130,16 @@ Evaluating cumulative crack arc length $s$ on the authentic Phase 1(b) wake-pres
 
 | Cycle | Nominal $u_2$ (mm) | $x_{\text{tip}}$ (mm) | $y_{\text{tip}}$ (mm) | Cumulative Arc Length $s$ (mm) | Segment $\Delta s$ (mm) | Terminal $RF_2$ (kN) | Completion Status |
 | :---: | :---: | :---: | :---: | :---: | :---: | :---: | :--- |
-| **48** | $0.2894$ | $37.9452$ | $61.3786$ | $33.4942$ | — | $2.3174$ | Donor Checkpoint |
-| **49** | $0.3002$ | $53.0489$ | $51.6553$ | **$51.4570$** | $+17.9629$ | $2.3113$ | In Progress (Snap-Through Jump) |
-| **50** | $0.3102$ | $58.4189$ | $51.7840$ | **$56.8286$** | $+5.3715$ | $1.6318$ | In Progress |
-| **51** | $0.3202$ | $62.2385$ | $51.9188$ | **$60.6506$** | $+3.8220$ | $1.1578$ | In Progress |
-| **52** | $0.3443$ | $63.9531$ | $51.9182$ | **$62.3652$** | $+1.7146$ | $0.7383$ | **COMPLETED** ($s \ge 62.0\,\text{mm}$) |
+| **48** | $0.2894$ | $37.9452$ | $61.3786$ | $33.4942$ | — | $2.3118$ | Donor Checkpoint (Approved) |
+| **49** | $0.3002$ | $53.0489$ | $51.6553$ | **$51.4570$** | $+17.9629$ | $1.6195$ | In Progress (Snap-Through Jump) |
+| **50** | $0.3102$ | $58.4189$ | $51.7840$ | **$56.8286$** | $+5.3715$ | $1.2540$ | In Progress |
+| **51** | $0.3202$ | $62.2385$ | $51.9188$ | **$60.6506$** | $+3.8220$ | $1.0403$ | In Progress |
+| **52** | $0.3443$ | $63.9531$ | $51.9182$ | **$62.3652$** | $+1.7146$ | $0.7366$ | **COMPLETED** ($s \ge 62.0\,\text{mm}$) |
+
+> [!NOTE]
+> **GAP-P1C-01 & GAP-P1C-02 Resolution**:
+> 1. **Terminal $RF_2$ Realignment**: Table 3.2 lists the exact committed terminal $RF_2$ values from the Phase 1(b) wake-preserving validation summaries ($1.6195, 1.2540, 1.0403, 0.7366\,\text{kN}$ for Cycles 49–52, and approved donor terminal $2.3118\,\text{kN}$ at Cycle 48), replacing an earlier column misalignment.
+> 2. **Benchmark-Specific Calibration of Completion Arc Length**: The $s \ge 62.0\,\text{mm}$ primary completion threshold is calibrated specifically for Case 3 geometry ($65 \times 120\,\text{mm}$ plate, notch at $x=10.0\,\text{mm}$, central void, terminal ligament at $x=64.0\,\text{mm}$ where $s = 62.37\,\text{mm}$). Cases 1, 2, and 5 possess distinct geometries, notch locations, and crack paths, and will each specify geometry-specific arc-length thresholds (e.g. derived from ligament length from notch root to opposite free boundary) rather than reusing the Case 3 threshold.
 
 #### Key Observations:
 1. **Strict Monotonicity**: $s_{49} < s_{50} < s_{51} < s_{52}$ holds without exception ($51.46 \to 56.83 \to 60.65 \to 62.37\,\text{mm}$).

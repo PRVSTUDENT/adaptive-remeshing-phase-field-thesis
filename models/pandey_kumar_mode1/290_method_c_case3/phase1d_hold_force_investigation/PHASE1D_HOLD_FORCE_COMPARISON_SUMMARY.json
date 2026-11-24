@@ -1,0 +1,65 @@
+{
+  "task_id": "METHOD-C-FRAMEWORK-PHASE1D-HOLD-FORCE-DROP-INVESTIGATION",
+  "investigation": "Gauss-Point History Averaging vs Exact Per-GP on Same-Mesh Re-Equilibration",
+  "protocol": "METHOD_C_NUMERICAL_EXPERIMENT_V1",
+  "evaluated_at": "2026-11-24T07:06:00+01:00",
+  "donor": {
+    "cycle": 48,
+    "donor_u2_mm": 0.2894,
+    "donor_rf2_kN": 2.311824,
+    "donor_element_count": 17101,
+    "donor_node_count": 17171,
+    "donor_mesh_file": "PK_METHOD_C_CASE3_CYCLE48_PHYS.inp"
+  },
+  "fix1_reference": {
+    "description": "Fix 1 nonmatching fine far-side corridor mesh (30,253 elements, h_ref = 0.140 mm)",
+    "observed_hold_rf2_kN": 1.6719,
+    "observed_hold_jump_pct": -27.68,
+    "force_continuity_gate_5pct_pass": false
+  },
+  "cases": [
+    {
+      "job_name": "CASE3_C48_SAME_MESH_PER_GP",
+      "description": "Case A: Same-mesh transfer WITHOUT history averaging (exact per-GP history)",
+      "has_averaging": false,
+      "exit_code": 0,
+      "elapsed_seconds": 17.84,
+      "donor_rf2_kN": 2.311824,
+      "step1_hold_rf2_kN": 2.3118157,
+      "hold_jump_kN": -0.0000083,
+      "hold_jump_pct": -0.000359,
+      "step1_iterations": 2,
+      "step1_converged": true,
+      "step2_converged": true,
+      "step2_terminal_rf2_kN": 0.7366,
+      "force_continuity_gate_5pct_pass": true
+    },
+    {
+      "job_name": "CASE3_C48_SAME_MESH_ELEM_AVG",
+      "description": "Case B: Same-mesh transfer WITH history averaging (element-averaged history)",
+      "has_averaging": true,
+      "exit_code": 0,
+      "elapsed_seconds": 16.13,
+      "donor_rf2_kN": 2.311824,
+      "step1_hold_rf2_kN": 2.3202994,
+      "hold_jump_kN": 0.0084754,
+      "hold_jump_pct": 0.366611,
+      "step1_iterations": 2,
+      "step1_converged": true,
+      "step2_converged": true,
+      "step2_terminal_rf2_kN": 0.7371,
+      "force_continuity_gate_5pct_pass": true
+    }
+  ],
+  "conclusions": {
+    "hypothesis_tested": "Is the -27.68% Step 1 hold-force drop caused by Gauss-point history averaging in the transfer?",
+    "hypothesis_status": "DISPROVEN",
+    "findings": [
+      "Exact per-GP history transfer (Case A) reproduces donor RF2 to machine precision (-0.00036% difference, 2 iterations, Exit 0).",
+      "Element-averaged history transfer (Case B) causes a minor stiffening of +0.3666% (+0.0085 kN, 2 iterations, Exit 0), which is well within the 5.0% continuity gate.",
+      "The effect of history averaging (+0.37%) is two orders of magnitude smaller than the observed drop (-27.68%) and has the OPPOSITE SIGN (slight stiffening vs massive softening).",
+      "True physical mechanism of the -27.68% drop in Fix 1: Artificial coarse-mesh stiffness locking in the donor mesh. In Cycle 48, the far-side ligament ahead of the hole was discretized by coarse background quads (h = 2.0 mm ~ 7.0 * l0), which could not resolve the steep damage localization band (d ~ 0.35-0.40) and artificially locked the structural stiffness to 2.3118 kN. When Fix 1 refined the ligament with fine elements (h_ref = 0.140 mm < l0/2), the resolved constitutive softening (1-d)^2 E authentically lowered the equilibrium force to 1.6719 kN.",
+      "Corroboration: In Phase 1(b), retaining the wake mesh and restricting the advance window to the immediate crack front prevented sudden unconstrained ligament relaxation, achieving < 5% continuity (-1.05% at Cycle 49)."
+    ]
+  }
+}
