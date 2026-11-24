@@ -212,6 +212,16 @@ def run_cycle(c, run_dir=DEFAULT_RUN_DIR, cpus=6, skip_solve=False, push=True):
     print("=================================================================")
 
     if not skip_solve:
+        # Clean stale artifacts for this cycle before running to avoid ingesting historical outputs
+        stale_exts = ["_state.json", ".sta", ".dat", ".msg", ".odb", ".prt", ".com", ".env"]
+        for ext in stale_exts:
+            stale_f = os.path.join(run_dir, job_name + ext)
+            if os.path.isfile(stale_f):
+                try:
+                    os.remove(stale_f)
+                except OSError:
+                    pass
+
         cmd = [
             sys.executable,
             ORCH_SCRIPT,
@@ -223,6 +233,8 @@ def run_cycle(c, run_dir=DEFAULT_RUN_DIR, cpus=6, skip_solve=False, push=True):
         print("[Runner EXEC] %s" % " ".join(cmd))
         ret = subprocess.call(cmd, cwd=REPO_ROOT)
         print("[Runner] Orchestrator exited with code: %d" % ret)
+        if ret != 0:
+            raise RuntimeError("Orchestrator failed with exit code %d for Cycle %d" % (ret, c))
 
     # 1. Mesh inspection
     phys_inp = os.path.join(run_dir, "%s_PHYS.inp" % job_name)
@@ -233,6 +245,9 @@ def run_cycle(c, run_dir=DEFAULT_RUN_DIR, cpus=6, skip_solve=False, push=True):
     sta_path = os.path.join(run_dir, job_name + ".sta")
     dat_path = os.path.join(run_dir, job_name + ".dat")
     state_path = os.path.join(run_dir, job_name + "_state.json")
+
+    if not os.path.isfile(state_path):
+        raise RuntimeError("Cycle %d extraction failed: state file '%s' not found." % (c, state_path))
 
     sta_data = parse_sta(sta_path)
     dat_data = parse_dat_rf2(dat_path)
