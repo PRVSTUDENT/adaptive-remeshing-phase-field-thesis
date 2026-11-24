@@ -24,7 +24,7 @@ Benchmark:
 Stopping Criteria Calibrated for Case 5:
   1. Primary load drop: Reaction force RF2 < 5% of Case 5's peak force (RF2 < 0.05 * peak_rf2) with tip_x > 0.60 mm
   2. Secondary arc length: Cumulative arc length along crack path s >= 0.8500 mm
-     (Total trajectory through 5 active voids and outer ligaments is ~1.14 mm; 0.85 mm threshold is >90% path severance)
+     (Total trajectory through 5 active voids and outer ligaments is ~1.14 mm; 0.85 mm threshold is 74.6% of full void path s_tot)
   3. Secondary geometric: Leading crack tip x_tip >= 0.9500 mm (reaching final ligament to right boundary)
 
 Improved Framework Features:
@@ -686,7 +686,7 @@ class MethodCCase5Orchestrator(object):
         Evaluates crack completion stopping conditions calibrated for Case 5:
         1. Primary load drop: reaction force RF2 < 0.05 * peak_rf2 (>95% load drop) with tip_x > 0.60 mm and d_max >= 0.95
         2. Secondary geometric / arc length: cumulative arc length s >= 0.8500 mm OR tip_x >= 0.9500 mm
-           STRICTLY requiring post-peak severance: current_rf2 < 0.20 * peak_rf2 and current_d_max >= 0.95
+           STRICTLY requiring post-peak severance: current_rf2 < 0.05 * peak_rf2 and current_d_max >= 0.95
         """
         if peak_rf2 > 0 and current_rf2 < LOAD_DROP_COMPLETION_RATIO * peak_rf2 and current_tip_x > 0.6000 and current_d_max >= 0.95:
             return True, "PLATE_SEVERED_LOAD_DROP_BELOW_5PCT (RF2 = %.4f kN < %.4f kN [5%% of peak %.4f kN], s = %s, xtip = %.4f mm, d_max = %.4f)" % (
