@@ -115,14 +115,22 @@ def parse_sta(sta_path):
                 cutback_terminated = True
 
             parts = line.split()
-            if len(parts) >= 9:
+            if len(parts) >= 8:
                 try:
                     step = int(parts[0])
                     inc = int(parts[1])
                     att = int(parts[2])
                     equil_iters = int(parts[4])
-                    step_time = float(parts[7])
-                    dt = float(parts[8])
+                    is_riks = (parts[-1].strip().upper() == "R")
+                    if is_riks:
+                        step_time = float(parts[6])
+                        dt = float(parts[7])
+                    elif len(parts) >= 9:
+                        step_time = float(parts[7])
+                        dt = float(parts[8])
+                    else:
+                        step_time = float(parts[6])
+                        dt = float(parts[7])
 
                     if att > 1:
                         cutback_count += 1

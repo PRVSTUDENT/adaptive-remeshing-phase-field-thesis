@@ -60,11 +60,11 @@ BAND_HEIGHT_MM = 2.0       # Total height 2 * half_width (a few mm, not 17-30 mm
 BAND_WAKE_MARGIN_MM = 1.5  # Wake extension behind notch (x_min = 10.0 - 1.5 = 8.5 mm)
 BAND_AHEAD_MARGIN_MM = 2.0 # Forward extension ahead of tip
 
-# Far-side secondary refinement zone parameters (Node 16 damage band around void)
+# Far-side secondary refinement zone parameters (Node 16 damage band around void to completion point)
 FAR_SIDE_BAND_X_MIN = 44.0
-FAR_SIDE_BAND_X_MAX = 54.0
-FAR_SIDE_BAND_Y_MIN = 44.0
-FAR_SIDE_BAND_Y_MAX = 58.0
+FAR_SIDE_BAND_X_MAX = 64.0
+FAR_SIDE_BAND_Y_MIN = 48.0
+FAR_SIDE_BAND_Y_MAX = 55.0
 FAR_SIDE_CENTER_X = 46.5
 FAR_SIDE_CENTER_Y = 51.0
 FAR_SIDE_H_REF_MM = 0.140

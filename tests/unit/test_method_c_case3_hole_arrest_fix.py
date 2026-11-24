@@ -47,7 +47,7 @@ UEL_PATH = os.path.join(REPO_ROOT, "models", "pandey_kumar_mode1", "f42_mixed_ue
 
 
 def test_far_side_band_covers_observed_damage_coordinates():
-    """Verify that the secondary refinement zone strictly encloses the observed far-side damage band."""
+    """Verify that the secondary refinement zone strictly encloses the observed far-side damage band to completion x=64 mm."""
     # Cycle 48 crack tip position at hole arrival
     tip_x = 37.9452
     tip_y = 61.3786
@@ -57,11 +57,11 @@ def test_far_side_band_covers_observed_damage_coordinates():
     fs = spec["far_side_band"]
     assert fs is not None
 
-    # Check box bounds
+    # Check box bounds (extended to completion point x=64 mm, narrowed in y to [48, 55] mm)
     assert fs["x_min_mm"] == 44.0
-    assert fs["x_max_mm"] == 54.0
-    assert fs["y_min_mm"] == 44.0
-    assert fs["y_max_mm"] == 58.0
+    assert fs["x_max_mm"] == 64.0
+    assert fs["y_min_mm"] == 48.0
+    assert fs["y_max_mm"] == 55.0
 
     # Node 16 (dominant far-side damage peak at hole right edge)
     node16_x = 46.50
@@ -79,17 +79,17 @@ def test_far_side_band_covers_observed_damage_coordinates():
     band_x_start = 46.5
     band_x_end = 50.6
     assert fs["x_min_mm"] < band_x_start
-    assert fs["x_max_mm"] > band_x_end
+    assert fs["x_max_mm"] >= 64.0  # Extends to completion point
 
     # Margin check
     margin_x_left = band_x_start - fs["x_min_mm"]  # 2.5 mm
-    margin_x_right = fs["x_max_mm"] - band_x_end   # 3.4 mm
+    margin_x_right = fs["x_max_mm"] - band_x_end   # 13.4 mm ahead
     assert margin_x_left >= 2.0
-    assert margin_x_right >= 2.0
+    assert margin_x_right >= 10.0
 
 
 def test_far_side_band_refinement_size_and_center():
-    """Verify that the far-side refinement size is h_ref = 0.140 mm and centered on Node 16."""
+    """Verify that the far-side refinement size is h_ref = 0.140 mm, centered on Node 16, and area is 140 mm^2."""
     spec = compute_narrow_band_spec(tip_x=37.9452, tip_y=61.3786, enable_far_side_band=True)
     fs = spec["far_side_band"]
     assert fs is not None
@@ -103,9 +103,9 @@ def test_far_side_band_refinement_size_and_center():
     assert fs["center_x_mm"] == 46.5
     assert fs["center_y_mm"] == 51.0
 
-    # Dimensions
-    assert fs["width_mm"] == 10.0
-    assert fs["height_mm"] == 14.0
+    # Dimensions: 20 mm x 7 mm = 140 mm^2 (keeps total element count under 35,000)
+    assert fs["width_mm"] == 20.0
+    assert fs["height_mm"] == 7.0
     assert fs["area_mm2"] == 140.0
 
 
@@ -179,3 +179,86 @@ def test_mesh_generator_partition_spec_integration():
     assert spec["far_side_band"]["h_ref_mm"] == 0.140
     assert spec["far_side_band"]["center_x_mm"] == 46.5
     assert spec["far_side_band"]["center_y_mm"] == 51.0
+    assert spec["far_side_band"]["x_max_mm"] == 64.0
+    assert spec["far_side_band"]["y_min_mm"] == 48.0
+    assert spec["far_side_band"]["y_max_mm"] == 55.0
+
+
+def test_riks_step_definition_in_coupled_deck(tmp_path):
+    """Verify assemble_coupled_deck writes *STATIC, RIKS with arc-length parameters for Step 2."""
+    from scripts.remeshing.case3_single_job_orchestrator import assemble_coupled_deck
+    
+    # Create minimal physical mesh
+    phys_inp = tmp_path / "test_phys.inp"
+    phys_inp.write_text(
+        "*NODE\n"
+        "1, 0.0, 0.0\n"
+        "2, 10.0, 0.0\n"
+        "3, 10.0, 10.0\n"
+        "4, 0.0, 10.0\n"
+        "999999, 20.0, 100.0\n"
+        "*ELEMENT, TYPE=CPE4, ELSET=PLATE\n"
+        "1, 1, 2, 3, 4\n"
+        "*NSET, NSET=N_LOWER_HOLE\n"
+        "1\n"
+        "*NSET, NSET=N_UPPER_HOLE\n"
+        "4\n"
+        "*NSET, NSET=N_RP\n"
+        "999999\n"
+    )
+    
+    coupled_inp = tmp_path / "test_coupled.inp"
+    d_nodal = {1: 0.0, 2: 0.0, 3: 0.0, 4: 0.0, 999999: 0.0}
+    h_gp = {1: [0.0, 0.0, 0.0, 0.0]}
+    
+    assemble_coupled_deck(
+        str(phys_inp),
+        str(coupled_inp),
+        d_nodal,
+        h_gp,
+        donor_u2=0.2894,
+        target_u2=0.2994
+    )
+    
+    content = coupled_inp.read_text()
+    assert "*STEP, NAME=Step-2-Advance, NLGEOM=NO, INC=5000" in content
+    assert "*STATIC, RIKS" in content
+    assert "0.002, 1.0, 1.0E-14, 0.05, 1.0" in content
+    assert "*BOUNDARY, OP=MOD" in content
+    assert "N_RP, 2, 2, 0.2994" in content
+
+
+def test_riks_sta_file_parsing(tmp_path):
+    """Verify parse_sta_file correctly parses RIKS .sta lines with 'R' column."""
+    from scripts.remeshing.case3_single_job_orchestrator import parse_sta_file
+    
+    sta_file = tmp_path / "test_riks.sta"
+    sta_file.write_text(
+        " SUMMARY OF JOB INFORMATION:\n"
+        " STEP  INC ATT SEVERE EQUIL TOTAL  TOTAL      STEP       INC OF       DOF    IF\n"
+        "               DISCON ITERS ITERS  TIME/    TIME/LPF    TIME/LPF    MONITOR RIKS\n"
+        "               ITERS               FREQ\n"
+        "   1     1   1     0     2     2  1.00       1.00       1.000     \n"
+        "   2     1   1     0     3     3             0.00200    0.002000              R\n"
+        "   2     2   1     0     3     3            -0.129     -0.1311                R\n"
+        "   2     3   1     0     3     3             0.258      0.1965                R\n"
+        "   2     4   1     0     3     3             1.140      0.2300                R\n"
+        "\n"
+        " THE ANALYSIS HAS COMPLETED SUCCESSFULLY\n"
+    )
+    
+    res = parse_sta_file(str(sta_file))
+    assert res["cutback_floor_reached"] is False
+    incs = res["increments"]
+    assert len(incs) == 5  # Step 1 inc 1 + Step 2 incs 1..4
+    
+    # Step 1
+    assert incs[0]["step"] == 1
+    assert incs[0]["step_time"] == 1.0
+    
+    # Step 2 RIKS incs
+    assert incs[1]["step"] == 2
+    assert incs[1]["step_time"] == 0.002
+    assert incs[2]["step_time"] == -0.129
+    assert incs[3]["step_time"] == 0.258
+    assert incs[4]["step_time"] == 1.140

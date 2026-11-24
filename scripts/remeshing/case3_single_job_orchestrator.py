@@ -87,11 +87,11 @@ BAND_HEIGHT_MM = 2.0       # Total height 2 * half_width (a few mm, not 17-30 mm
 BAND_WAKE_MARGIN_MM = 1.5  # Wake extension behind notch root (8.5 mm)
 BAND_AHEAD_MARGIN_MM = 2.0 # Forward extension ahead of tip
 
-# Far-side secondary refinement zone parameters (Node 16 damage band around void)
+# Far-side secondary refinement zone parameters (Node 16 damage band around void to completion point)
 FAR_SIDE_BAND_X_MIN = 44.0
-FAR_SIDE_BAND_X_MAX = 54.0
-FAR_SIDE_BAND_Y_MIN = 44.0
-FAR_SIDE_BAND_Y_MAX = 58.0
+FAR_SIDE_BAND_X_MAX = 64.0
+FAR_SIDE_BAND_Y_MIN = 48.0
+FAR_SIDE_BAND_Y_MAX = 55.0
 FAR_SIDE_CENTER_X = 46.5
 FAR_SIDE_CENTER_Y = 51.0
 FAR_SIDE_H_REF_MM = 0.140
@@ -159,7 +159,11 @@ def parse_sta_file(sta_path):
                     att_str = parts[2]
                     is_unconverged = "U" in att_str.upper()
                     att = int(att_str.upper().replace("U", ""))
-                    if len(parts) >= 9:
+                    is_riks = (parts[-1].strip().upper() == "R")
+                    if is_riks:
+                        step_time = float(parts[6])
+                        dt = float(parts[7])
+                    elif len(parts) >= 9:
                         step_time = float(parts[7])
                         dt = float(parts[8])
                     else:
@@ -877,9 +881,9 @@ def assemble_coupled_deck(receiver_phys_inp, out_deck_path, recip_d, recip_h_gp,
         out.write("*NODE PRINT, FREQ=1, NSET=N_RP\nU2, RF2\n")
         out.write("*END STEP\n")
 
-        # STEP 2: Forward crack propagation advance
+        # STEP 2: Forward crack propagation advance with arc-length (RIKS) control
         out.write("*STEP, NAME=Step-2-Advance, NLGEOM=NO, INC=5000\n")
-        out.write("*STATIC\n0.002, 1.0, 1.0E-14, 0.005\n")
+        out.write("*STATIC, RIKS\n0.002, 1.0, 1.0E-14, 0.05, 1.0\n")
         out.write("*BOUNDARY, OP=MOD\n")
         out.write("N_RP, 2, 2, %.4f\n" % target_u2)
         out.write("*OUTPUT, FIELD, FREQUENCY=5\n")

@@ -61,6 +61,7 @@ def test_orchestrator_sha256():
     approved_shas = (
         ORCHESTRATOR_SHA256,
         "E8CD974D79540779FBC1AF8B291F6FF7A8EA3C2FAAA42185AC3D92F14B74DADC",  # Fix 1: Far-side secondary refinement zone
+        "E1448DC847625E51E911874C2FB1BD0170CB53CDA30BDE7FF306E1BDF7BFC06A",  # Fix 3: Arc-length RIKS Step 2 & extended far-side band
     )
     assert actual_sha in approved_shas, "Orchestrator SHA mismatch: got %s, expected one of %s" % (actual_sha, approved_shas)
 

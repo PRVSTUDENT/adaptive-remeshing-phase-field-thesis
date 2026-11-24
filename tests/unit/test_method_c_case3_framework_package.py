@@ -648,6 +648,7 @@ def test_job1424798_final_observables():
     approved_orchestrator_shas = (
         "AC56BA7D2BF877FD174DF375E8066DB17B90F61D0EAEB93CFC9854106710A79A",  # Baseline approved dynamic-corridor
         "E8CD974D79540779FBC1AF8B291F6FF7A8EA3C2FAAA42185AC3D92F14B74DADC",  # Fix 1: Far-side secondary refinement zone
+        "E1448DC847625E51E911874C2FB1BD0170CB53CDA30BDE7FF306E1BDF7BFC06A",  # Fix 3: Arc-length RIKS Step 2 & extended far-side band
     )
     assert orch_hash in approved_orchestrator_shas, "Unexpected orchestrator SHA: %s" % orch_hash
 
