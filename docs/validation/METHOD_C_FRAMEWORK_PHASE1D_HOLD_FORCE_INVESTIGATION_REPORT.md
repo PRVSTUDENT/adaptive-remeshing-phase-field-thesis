@@ -64,7 +64,7 @@ To eliminate confounding geometric and discretization factors, the experiment wa
 ### Experimental Matrix
 | Case Identifier | Discretization | History Transfer Mode | Displacement $u_2$ | Expected Continuity |
 | :--- | :--- | :--- | :--- | :--- |
-| **Case A** | Same mesh (17,101 el) | Exact per-GP: $H(\text{eid}, k) = H_{\text{donor}}(\text{eid}, k)$ | $0.2894\,\text{mm}$ | Machine precision ($\le 0.01\%$) |
+| **Case A** | Same mesh (17,101 el) | Exact per-GP: $H(\text{eid}, k) = H_{\text{donor}}(\text{eid}, k)$ | $0.2894\,\text{mm}$ | Within 0.01% (solver convergence residual) |
 | **Case B** | Same mesh (17,101 el) | Element-averaged: $H(\text{eid}, k) = \frac{1}{4} \sum_j H_j$ | $0.2894\,\text{mm}$ | Test averaging effect |
 | **Fix 1 Reference** | Nonmatching (30,253 el) | Refined far-side band ($h_{\text{ref}} = 0.140\,\text{mm}$) | $0.2894\,\text{mm}$ | $-27.68\%$ (Historical trial) |
 
