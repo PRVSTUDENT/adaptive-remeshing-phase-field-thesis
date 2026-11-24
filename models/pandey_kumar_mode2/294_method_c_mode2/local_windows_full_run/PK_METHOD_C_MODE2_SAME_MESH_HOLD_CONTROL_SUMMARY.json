@@ -1,0 +1,32 @@
+{
+  "job": "PK_METHOD_C_MODE2_SAME_MESH_HOLD_CONTROL",
+  "control_status": "FAIL",
+  "interpretation": "Same-mesh control FAILED (Delta RF1 = -28.86%, hold max damage = 0.899613 vs donor 0.350769). The failure occurs even on the IDENTICAL mesh, proving the root cause is the state-transfer / initialization gap (lack of interior displacement field and/or phase DOF 3 initialization), not the remesh.",
+  "donor_u1_mm": 0.009499999694526196,
+  "hold_u1_mm": 0.009499999694526196,
+  "donor_rf1_kn": 0.3980390131473541,
+  "hold_rf1_kn": 0.28318068385124207,
+  "force_continuity_delta_pct": -28.85604815163972,
+  "force_continuity_pass": false,
+  "donor_max_damage": 0.35076945275068283,
+  "hold_max_damage": 0.8996130724747976,
+  "damage_jump": 0.5488436197241148,
+  "damage_nonhealing_pass": true,
+  "hold_energies": {
+    "SDV17": 0.0011362494825357893,
+    "SDV18": 0.0013451082413788941
+  },
+  "donor_energies": {
+    "SDV17": 0.00010397289541151878,
+    "SDV18": 0.001890673496761969
+  },
+  "elapsed_seconds": 30.0108859539032,
+  "mesh_elements": 2960,
+  "mesh_nodes": 3036,
+  "input_sha256": "CE9D193CBDF44C00973706F357A1616E88A850250326CE3A581BD18A394448AC",
+  "mesh_sha256": "271D3928BA672ED9DB7DA55002A0026C035A1E02247AE59B4C95CCCE9F2254A8",
+  "source_sha256": "CE8D5EDCD2911DCB018BB15275271F874E7EA62B8FB48CF4A8297469A83ACDD6",
+  "donor_checkpoint_sha256": "424129D9EA1FD4A9C989A9E1069A4296DF4017F055D2504C51D3414DE976ED88",
+  "pbs_submissions": 0,
+  "cumulative_pbs_submissions": 73
+}
