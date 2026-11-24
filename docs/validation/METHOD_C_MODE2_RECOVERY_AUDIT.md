@@ -215,3 +215,47 @@ under failed_preparation/boundary_operation_cycle1_r1; no R1 cycle solve
 started. R2 is a distinct freshly scoped datacheck/solve candidate, not an
 identical rerun; input errors do not consume a PBS submission or imply a
 numerical transfer result.
+
+## Scientific failure: Cycle 1 R2 (solver completed; transfer rejected)
+
+R2 passed datacheck and completed both steps. At exactly the donor displacement
+U1=0.009499999694526196 mm, hold RF1=0.2695576548576355 kN compared with donor
+0.3980390131473541 kN: -32.278584%, failing the unchanged 5% gate. Maximum
+averaged damage increased from .35076945 to .98688815 during the HOLD.
+The subsequent forward step ended at U1=.0110132983 mm and RF1=.31248456 kN.
+Its solver success does not confer scientific acceptance: this cycle is
+TRANSFER_GATE_FAILED, cannot become a donor, and no Cycle 2 was started.
+The observed tip detector (0.535703,0.512373) does not demonstrate the requested
+down-right path. A diffuse damaged region is visible; no successful deflected
+crack-path reproduction is claimed. The after-job gate timing is disclosed:
+the forward step did run, but its result is rejected, not silently accepted.
+
+Hold fracture energy = .0013201164 kN mm versus donor .0001039729;
+hold elastic energy = .0012803989 versus donor .0018906735. These are measured
+continuity diagnostics, not passing energy gates. Paired terminal image and
+numerical artifacts are pushed through 6dc4d7193; a separate actual hold image
+and full text checkpoints are also prepared for publication/review.
+
+Offline audit recomputed the unchanged transfer using coarse fields ONLY:
+integrated H +.8756616%, integrated averaged damage +.0223481%; maxima exactly
+preserved (Hmax=.27687779, dmax=.35076945). Hold displacement equals donor.
+Thus gross bulk-field injection is not shown, but this does NOT rule out
+local interpolation effects, initialization defects or refinement-induced
+instability. The causal source stops at coarse Step-1 increment 200/time 1.0;
+later cycle fields are evaluation only. No new numerical hypothesis is treated
+as established. See cycle1_offline_transfer_audit.json and audit_cycle1_transfer.py.
+
+A distinct identical-mesh, fixed-load HOLD-ONLY control is prepared, NOT run:
+PK_METHOD_C_MODE2_SAME_MESH_HOLD_CONTROL.inp, SHA256
+CE9D193CBDF44C00973706F357A1616E88A850250326CE3A581BD18A394448AC.
+It uses the authentic coarse checkpoint, original 2960-element mesh and frozen
+source, U1=.0095 mm, one CPU, maximum one datacheck/one solve, no forward step,
+no retries or PBS. Hypothesis: distinguish same-mesh initialization/recovery
+from nonmatching-remesh effects before changing transfer assumptions. The
+existing 5% force and global maximum-damage gate remain unchanged. Independent
+review is required before this control or another solver action.
+
+Local accounting so far: five datachecks (three passed, two rejected); three
+solver starts (invalid-input coarse R0 cleanly stopped, corrected coarse R1
+completed, Cycle1 R2 completed but failed scientific gate). Zero PBS. All
+failed evidence preserved. Master goal OPEN; L-panel has not started.

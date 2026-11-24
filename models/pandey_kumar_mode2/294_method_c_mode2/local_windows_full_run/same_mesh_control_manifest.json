@@ -1,0 +1,19 @@
+{
+  "status": "PREPARED_NOT_EXECUTED_REVIEW_REQUIRED",
+  "hypothesis": "An identical-mesh fixed-load reconstruction separates initialization/recovery errors from nonmatching remesh effects.",
+  "expected_benefit": "Determine whether the -32.28 percent force loss already appears without changing the mesh.",
+  "job": "PK_METHOD_C_MODE2_SAME_MESH_HOLD_CONTROL",
+  "input_sha256": "CE9D193CBDF44C00973706F357A1616E88A850250326CE3A581BD18A394448AC",
+  "mesh_sha256": "271D3928BA672ED9DB7DA55002A0026C035A1E02247AE59B4C95CCCE9F2254A8",
+  "donor_checkpoint_sha256": "424129D9EA1FD4A9C989A9E1069A4296DF4017F055D2504C51D3414DE976ED88",
+  "source_sha256": "CE8D5EDCD2911DCB018BB15275271F874E7EA62B8FB48CF4A8297469A83ACDD6",
+  "donor_u1_mm": 0.009499999694526196,
+  "acceptance_force_continuity_pct": 5.0,
+  "acceptance_damage_gate": "global maximum damage nonhealing, unchanged",
+  "max_local_solves": 1,
+  "max_datachecks": 1,
+  "cpus": 1,
+  "automatic_retry": false,
+  "forward_step": false,
+  "pbs_submissions": 0
+}

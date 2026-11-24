@@ -1,0 +1,33 @@
+{
+  "classification": "OFFLINE_CAUSAL_TRANSFER_AUDIT_NO_NEW_SOLVE",
+  "donor_checkpoint_sha256": "424129D9EA1FD4A9C989A9E1069A4296DF4017F055D2504C51D3414DE976ED88",
+  "recipient_mesh_sha256": "1244478A1513EFE31EB702798956DD935DF5B4DCA9536DCD25118A5A452D11E7",
+  "donor": {
+    "area_mm2": 1.0000000000000013,
+    "integral_H_kn": 0.0020362987601158285,
+    "integral_averaged_damage_mm2": 0.021292885634097567
+  },
+  "transferred_initial_fields": {
+    "area_mm2": 1.0000000000000004,
+    "integral_H_kn": 0.002054129845415018,
+    "integral_averaged_damage_mm2": 0.021297644199022633
+  },
+  "H_integral_change_pct": 0.8756615506741783,
+  "damage_integral_change_pct": 0.022348144853823193,
+  "donor_max_damage": 0.35076945275068283,
+  "transferred_max_damage": 0.35076945275068283,
+  "donor_max_H": 0.2768777906894684,
+  "transferred_max_H": 0.2768777906894684,
+  "donor_u1_mm": 0.009499999694526196,
+  "hold_u1_mm": 0.009499999694526196,
+  "donor_rf1_kn": 0.3980390131473541,
+  "hold_rf1_kn": 0.2695576548576355,
+  "hold_max_damage": 0.9868881503740946,
+  "terminal_max_damage": 0.9868881503740946,
+  "causal_cutoff": "Coarse Step-1, increment 200, time 1.0; cycle fields are held-out evaluation only",
+  "limitations": [
+    "Areal integration of averaged fields is a diagnostic, not a new acceptance threshold.",
+    "This audit does not establish whether history interpolation or refinement-induced instability caused the force loss.",
+    "Global max-damage nonhealing does not establish pointwise irreversibility."
+  ]
+}
