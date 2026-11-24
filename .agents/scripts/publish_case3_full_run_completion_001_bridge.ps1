@@ -35,7 +35,7 @@ INDEPENDENT_STRUCTURED_REVIEW_V1
     "expected_numerical_result": "Full production run (Cycles 0 to 56) reached complete specimen severance. Cycle 49 traversed snap-through in 17 incs with 0 cutbacks, advancing terminal u2 to 0.300226 mm (past 0.297421 mm block) and tip to (53.96, 51.85) mm. Cycles 50-51 advanced crack to (59.18, 51.71) mm and (62.66, 51.84) mm under CONV. Termination criterion 1 reached at Cycle 52 (tip x = 64.1383 mm >= 64.0 mm, CONV, u2 = 0.345514 mm, RF2 = 0.6377 kN). Termination criterion 2 reached at Cycle 53 (tip x = 65.0000 mm, d_max = 1.0000, RF2 = 0.001694 kN = 0.039% of peak force 4.3318 kN < 5% threshold 0.2166 kN). Cycles 54-56 maintain severed state (tip x = 65.0 mm, RF2 ~ 1.6 N). Mesh element count bounded between 28,310 and 29,084 with 97.7-98.3% quads. 56/56 unit tests PASS. Exactly 0 PBS submissions consumed, cumulative count strictly 73 preserved. HPC job 1424916 untouched. Frozen UEL CE8D5EDC... maintained. MASTER_GOAL_STATUS = OPEN.",
     "indicator_type": "F1852_MEASURED_DRIVER",
     "indicator_role": "METHOD_C_DRIVER",
-    "causal_evidence_status": "AUTHENTIC"
+    "causal_evidence_status": "PLANNED"
   },
   "evidence_manifest": {
     "validation_report": {
