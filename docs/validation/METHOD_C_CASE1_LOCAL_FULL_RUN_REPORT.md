@@ -16,12 +16,12 @@
 
 This report documents the autonomous execution, verification, and completion of the **Method C adaptive remeshing full production run for the Pandey & Kumar (2025) Section 4.1 Mode-I Edge-Cracked Plate benchmark (Case 1)**.
 
-Following the independent approval of Phase 1 framework improvements (`HND-METHOD-C-FRAMEWORK-PHASE1E-001`), the Method C pipeline was adapted for Case 1 geometry and executed autonomously from an initial coarse mesh through multiple adaptive remeshing cycles to full specimen severance:
+Following the independent approval of Phase 1 framework improvements (`HND-METHOD-C-FRAMEWORK-PHASE1E-001`), the Method C pipeline was adapted for Case 1 geometry and executed autonomously from an initial coarse mesh through multiple adaptive remeshing cycles to completion:
 1. **Benchmark Model**: $1.0 \times 1.0\,\text{mm}$ square plate with horizontal edge notch $a_0 = 0.5000\,\text{mm}$ at $y = 0.5000\,\text{mm}$, uncracked ligament length $0.5000\,\text{mm}$, $E = 210.0\,\text{GPa}$, $\nu = 0.30$, $G_c = 0.0027\,\text{kN/mm}$ ($2.7\,\text{N/mm}$), $l_0 = 0.0075\,\text{mm}$, $k_{\text{res}} = 10^{-7}$.
 2. **Cycle Sequence**: Cycle 0 (coarse solve to pre-peak $u_2 = 0.0058\,\text{mm}$) followed by 5 progressive adaptive remeshing cycles (Cycles 1 to 5) tracking the horizontal fracture front.
 3. **Completion Criteria Met**: The simulation successfully terminated under the pre-declared completion criterion:
    $$\text{Load Drop Ratio} = \frac{RF_2^{\text{terminal}}}{RF_2^{\text{peak}}} = \frac{0.010952\,\text{kN}}{0.797036\,\text{kN}} = 1.37\% < 5.0\% \quad (\mathbf{98.63\%\text{ load drop}})$$
-   Terminal crack tip reached $(0.9085, 0.4969)\,\text{mm}$ with cumulative crack arc length $s = 0.4085\,\text{mm}$ ($81.7\%$ ligament severed), confirming complete Mode-I fracture severance.
+   Terminal crack tip reached $(0.9085, 0.4969)\,\text{mm}$ ($0.0915\,\text{mm}$ short of the specimen outer boundary) with cumulative crack arc length $s = 0.4085\,\text{mm}$ ($81.7\%$ of the $0.5\,\text{mm}$ ligament severed), confirming completion by the load-drop criterion.
 4. **Governing Gates**: All pre-declared technical and physical gates passed across all cycles:
    - **Step 1 Force Continuity**: Max jump $|\Delta RF_2| = 2.12\% \le 5.0\%$ across all 5 adaptive transfers.
    - **Zero Healing**: $d_{\max}$ monotonically non-decreasing ($0.1405 \to 0.8681 \to 0.9917 \to 0.9927 \to 0.9991 \to 1.0000$).
@@ -100,7 +100,7 @@ In Cycles 4 and 5, severe post-peak snap-back occurred as elastic strain energy 
 | `models/pandey_kumar_mode1/291_method_c_case1/local_windows_full_run/PK_METHOD_C_CASE1_CYCLE4.sta` | ASCII | 16.5 KB | Cycle 4 solver status file (Exit 0) |
 | `models/pandey_kumar_mode1/291_method_c_case1/local_windows_full_run/PK_METHOD_C_CASE1_CYCLE5.sta` | ASCII | 10.6 KB | Cycle 5 solver status file (Exit 0) |
 | `tests/unit/test_method_c_case1_full_run.py` | Python | 5.3 KB | 7/7 unit tests verifying full run metrics |
-| `models/pandey_kumar_mode1/291_method_c_case1/case1_single_job_orchestrator.py` | Python | 53.6 KB | In-job multi-cycle orchestrator script |
+| `models/pandey_kumar_mode1/291_method_c_case1/case1_single_job_orchestrator.py` | Python | 56,763 bytes | In-job multi-cycle orchestrator script |
 | `models/pandey_kumar_mode1/291_method_c_case1/generate_case1_adaptive_corridor_mesh.py` | Python | 18.0 KB | Case 1 narrow damage-following band mesh generator |
 
 ---
@@ -109,7 +109,7 @@ In Cycles 4 and 5, severe post-peak snap-back occurred as elastic strain energy 
 
 The Method C framework has now successfully completed **two full benchmark cases**:
 1. **Case 3** (Mode-I Cracked Plate with Single Hole): 100% COMPLETE & APPROVED (`HND-METHOD-C-CASE3-FULL-RUN-COMPLETION-001`).
-2. **Case 1** (Mode-I Edge-Cracked Square Plate): 100% COMPLETE (Cycles 0 to 5, $98.63\%$ load drop, complete ligament severance, all force continuity gates $\le 2.12\%$).
+2. **Case 1** (Mode-I Edge-Cracked Square Plate): 100% COMPLETE (Cycles 0 to 5, $98.63\%$ load drop, completion by load drop with $81.7\%$ ligament severed and tip $0.0915\,\text{mm}$ short of edge, all force continuity gates $\le 2.12\%$).
 
 **Next Operational Directive**:
-Advance Phase 2 to **Case 2** (Pandey & Kumar Mode-I Plate with Two Asymmetric Holes), configuring the corridor generator, assembling the multi-cycle orchestrator, and running Case 2 to completion on the local workstation under 0 PBS submissions.
+Advance Phase 2 to **Case 2** (`OFF_AXIS_HOLE_PLATE` under `EDGE_PULL`, the thesis's own benchmark), configuring the corridor generator, assembling the multi-cycle orchestrator, and running Case 2 to completion on the local workstation under 0 PBS submissions.
