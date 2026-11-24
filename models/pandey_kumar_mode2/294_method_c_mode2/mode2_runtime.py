@@ -99,6 +99,23 @@ def write_json(path, value):
     os.replace(temp, path)
 
 
+def ensure_fortran_env():
+    """Ensure Intel oneAPI Fortran compiler (ifx) and MSVC are in PATH on Windows."""
+    if shutil.which('ifx'):
+        return
+    vcvars = Path(r"C:\Program Files (x86)\Microsoft Visual Studio\2022\BuildTools\VC\Auxiliary\Build\vcvars64.bat")
+    setvars = Path(r"C:\Program Files (x86)\Intel\oneAPI\setvars.bat")
+    if not vcvars.exists() or not setvars.exists():
+        return
+    cmd = f'call "{vcvars}" >nul 2>&1 && call "{setvars}" intel64 >nul 2>&1 && set'
+    proc = subprocess.run(cmd, shell=True, capture_output=True, text=True, stdin=subprocess.DEVNULL)
+    if proc.returncode == 0:
+        for line in proc.stdout.splitlines():
+            if '=' in line:
+                k, v = line.split('=', 1)
+                os.environ[k] = v
+
+
 class LocalRunner:
     def __init__(self, api, run_dir, cpus=1, max_cycles=7, donor_checkpoint=None):
         self.api = api
@@ -106,6 +123,7 @@ class LocalRunner:
         self.run.mkdir(parents=True, exist_ok=True)
         self.cpus = cpus
         self.max_cycles = max_cycles
+        ensure_fortran_env()
         self.abaqus = shutil.which('abaqus') or r'C:\SIMULIA\Commands\abaqus.bat'
         self.transfer = load_transfer()
         self.watch = api.StallWatchdog()
