@@ -538,8 +538,8 @@ def main(argv=None):
         return 0
     if not args.run:
         parser.exit(2, 'L-Panel execution requires explicit --run and --run-dir. No solver started.\n')
-    if not args.run_dir or not 0 <= args.max_cycles <= 12 or args.cpus not in (1, 2, 4, 6):
-        parser.error('Scope is local PC (1-6 CPUs), at most 12 adaptive cycles, and a fresh --run-dir.')
+    if not args.run_dir or not 0 <= args.max_cycles <= 25 or args.cpus not in (1, 2, 4, 6):
+        parser.error('Scope is local PC (1-6 CPUs), at most 25 adaptive cycles, and a fresh --run-dir.')
 
     import lpanel_runtime
     runner = lpanel_runtime.LocalRunner(sys.modules[__name__], args.run_dir, args.cpus,
