@@ -79,6 +79,7 @@ INIT_ORIGIN_Y_MM = 0.4000
 CRACK_COMPLETION_ARC_LENGTH_MM = 0.8500  # Cumulative arc length >= 0.8500 mm
 CRACK_COMPLETION_X_MM = 0.9500           # Leading crack tip x_tip >= 0.9500 mm
 LOAD_DROP_COMPLETION_RATIO = 0.05        # Reaction force RF2 < 5% of peak RF2
+SEVERANCE_RF_RATIO = 0.20                # Reaction force RF2 < 20% of peak RF2 for geometric severance
 
 # Load schedule defaults
 DEFAULT_COARSE_U2_MM = 0.0050
@@ -686,24 +687,24 @@ class MethodCCase5Orchestrator(object):
         Evaluates crack completion stopping conditions calibrated for Case 5:
         1. Primary load drop: reaction force RF2 < 0.05 * peak_rf2 (>95% load drop) with tip_x > 0.60 mm and d_max >= 0.95
         2. Secondary geometric / arc length: cumulative arc length s >= 0.8500 mm OR tip_x >= 0.9500 mm
-           STRICTLY requiring post-peak severance: current_rf2 < 0.05 * peak_rf2 and current_d_max >= 0.95
+           STRICTLY requiring post-peak severance: current_rf2 < 0.20 * peak_rf2 and current_d_max >= 0.95
         """
         if peak_rf2 > 0 and current_rf2 < LOAD_DROP_COMPLETION_RATIO * peak_rf2 and current_tip_x > 0.6000 and current_d_max >= 0.95:
             return True, "PLATE_SEVERED_LOAD_DROP_BELOW_5PCT (RF2 = %.4f kN < %.4f kN [5%% of peak %.4f kN], s = %s, xtip = %.4f mm, d_max = %.4f)" % (
                 current_rf2, LOAD_DROP_COMPLETION_RATIO * peak_rf2, peak_rf2,
                 ("%.4f mm" % current_arc_length) if current_arc_length else "N/A", current_tip_x, current_d_max
             )
-        if current_d_max >= 0.95 and peak_rf2 > 0 and current_rf2 < LOAD_DROP_COMPLETION_RATIO * peak_rf2:
+        if current_d_max >= 0.95 and peak_rf2 > 0 and current_rf2 < SEVERANCE_RF_RATIO * peak_rf2:
             if current_arc_length is not None and current_arc_length >= CRACK_COMPLETION_ARC_LENGTH_MM:
-                return True, "CUMULATIVE_ARC_LENGTH_REACHED (s = %.4f mm >= %.4f mm threshold, xtip = %.4f mm, RF2 = %.4f kN < %.4f kN [5%% of peak], d_max = %.4f)" % (
+                return True, "CUMULATIVE_ARC_LENGTH_REACHED (s = %.4f mm >= %.4f mm threshold, xtip = %.4f mm, RF2 = %.4f kN < %.4f kN [20%% of peak], d_max = %.4f)" % (
                     current_arc_length, CRACK_COMPLETION_ARC_LENGTH_MM, current_tip_x, current_rf2,
-                    LOAD_DROP_COMPLETION_RATIO * peak_rf2, current_d_max
+                    SEVERANCE_RF_RATIO * peak_rf2, current_d_max
                 )
             if current_tip_x >= CRACK_COMPLETION_X_MM:
-                return True, "CRACK_SEVERED_TO_FAR_BOUNDARY (tip_x = %.4f mm >= %.4f mm boundary, s = %s, RF2 = %.4f kN < %.4f kN [5%% of peak], d_max = %.4f)" % (
+                return True, "CRACK_SEVERED_TO_FAR_BOUNDARY (tip_x = %.4f mm >= %.4f mm boundary, s = %s, RF2 = %.4f kN < %.4f kN [20%% of peak], d_max = %.4f)" % (
                     current_tip_x, CRACK_COMPLETION_X_MM,
                     ("%.4f mm" % current_arc_length) if current_arc_length else "N/A", current_rf2,
-                    LOAD_DROP_COMPLETION_RATIO * peak_rf2, current_d_max
+                    SEVERANCE_RF_RATIO * peak_rf2, current_d_max
                 )
         return False, None
 

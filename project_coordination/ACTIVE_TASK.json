@@ -1,19 +1,19 @@
 {
-  "task_id": "METHOD-C-FOUR-BENCHMARK-CLOSURE-SYNTHESIS",
-  "title": "Method C Four-Benchmark Master Goal Closure Synthesis and Supervisor Meeting Materials",
+  "task_id": "METHOD-C-CASE5-STOPPING-LOGIC-REPAIR",
+  "title": "Method C Case 5 Stopping Logic Repair and Multi-Case Orchestrator Audit",
   "task_status": "COMPLETED",
   "master_goal_status": "OPEN",
   "status": "COMPLETED",
   "review_verdict": "PENDING_REVIEW",
-  "review_correlation_id": "HND-METHOD-C-MASTER-CLOSURE-001",
+  "review_correlation_id": "HND-METHOD-C-CASE5-STOPPING-LOGIC-001",
   "classification": "METHOD_C_INCREMENTAL_ADAPTIVE_REMESHING",
   "assigned_agent": "gemini-antigravity",
   "active_pbs_job_id": null,
   "last_successful_pbs_job_id": "1424910.mmaster02",
   "last_failed_pbs_job_id": "1424881.mmaster02",
-  "checkpoint_artifact": "docs/validation/METHOD_C_FOUR_BENCHMARK_MASTER_GOAL_CLOSURE_REPORT.md",
-  "checkpoint_artifact_sha256": "A98C9E736CD8F47914CC1F841FC4FE4B01CCEAA412D84D7B5236E155183D728C",
-  "review_directive": "Four-Benchmark Closure Synthesis: Following independent structured review approval of all four benchmark cases (Case 3 HND-METHOD-C-CASE3-FULL-RUN-COMPLETION-001, Case 1 HND-METHOD-C-PHASE2-CASE1-001, Case 2 HND-METHOD-C-PHASE2-CASE2-002, and Case 5 HND-METHOD-C-PHASE2-CASE5-001), resolve all seven review notes in re-issued Case 5 report, generate publication plots (load-displacement, crack progression, element bounding, force continuity, fracture composite) across all 4 cases, author supervisor meeting materials for 2 Dec 2026 meeting (13:00), author master-goal closure report, and dispatch for master goal closure review under HND-METHOD-C-MASTER-CLOSURE-001. Local PC only, 0 PBS. Bitwise frozen UEL CE8D5EDC preserved; HPC job 1424916 untouched; MASTER_GOAL_STATUS = OPEN pending closure review.",
+  "checkpoint_artifact": "models/pandey_kumar_mode1/293_method_c_case5/case5_single_job_orchestrator.py",
+  "checkpoint_artifact_sha256": null,
+  "review_directive": "Fix Case 5 stopping logic bug: Add SEVERANCE_RF_RATIO = 0.20 next to LOAD_DROP_COMPLETION_RATIO in case5_single_job_orchestrator.py; replace LOAD_DROP_COMPLETION_RATIO with SEVERANCE_RF_RATIO in branch 2 so it fires when d_max >= 0.95 AND RF2 < 0.20 * peak AND (s >= 0.85 OR tip_x >= 0.95); update reason string to [20% of peak]; add unit test asserting False at Cycle 3 and True at Cycle 4; verify full Method C test suite passes (57/57); audit Cases 1, 2, 3 orchestrators for branch-2 gating pattern. Local PC only, 0 PBS. Bitwise frozen UEL CE8D5EDC preserved; HPC job 1424916 untouched; MASTER_GOAL_STATUS = OPEN.",
   "predecessor_task": {
     "task_id": "METHOD-C-PHASE2-CASE5-FULL-RUN",
     "checkpoint_artifact": "docs/validation/METHOD_C_CASE5_LOCAL_FULL_RUN_REPORT.md",
@@ -21,10 +21,10 @@
     "review_verdict": "APPROVE",
     "correlation_id": "HND-METHOD-C-PHASE2-CASE5-001"
   },
-  "correlation_id": "HND-METHOD-C-MASTER-CLOSURE-001",
+  "correlation_id": "HND-METHOD-C-CASE5-STOPPING-LOGIC-001",
   "predecessor_correlation_id": "HND-METHOD-C-PHASE2-CASE5-001",
-  "scientific_operation": "method_c_phase2_case5_report_correction_and_master_closure_synthesis",
-  "scientific_operation_id": "method_c_phase2_case5_report_correction_and_master_closure_synthesis",
+  "scientific_operation": "method_c_case5_stopping_logic_repair",
+  "scientific_operation_id": "method_c_case5_stopping_logic_repair",
   "scientific_checkpoint_required": true,
   "frozen_uel_sha256": "CE8D5EDCD2911DCB018BB15275271F874E7EA62B8FB48CF4A8297469A83ACDD6",
   "native_interface_sha256": "E5C98B6F601B1CD586571F8E24F357D15ABBD1C5D5487B52903BA249734279B2",
@@ -33,5 +33,5 @@
   "max_new_pbs_submissions": 0,
   "submissions_consumed": 0,
   "cumulative_pbs_submissions": 73,
-  "notes": "Completed Method C Four-Benchmark Closure Synthesis: Re-issued Case 5 report resolving all 7 notes (GAP-P2C5-01 through 07), generated all 5 publication synthesis plots in PNG and vector PDF, authored 2 Dec 2026 supervisor meeting materials and 8-slide presentation deck, authored comprehensive four-benchmark closure synthesis report. Combined Method C test suite 56/56 PASS (100%). Ready for master goal closure review under HND-METHOD-C-MASTER-CLOSURE-001."
+  "notes": "Fixed Case 5 stopping logic bug: Added SEVERANCE_RF_RATIO = 0.20 and updated check_completion branch 2 to require RF2 < 0.20 * peak_rf2 with [20% of peak] in reason strings. Added unit test in test_method_c_case5_full_run.py asserting False at Cycle 3 (34.7% > 20%) and True at Cycle 4 (19.1% < 20%). Audited Cases 1, 2, 3 orchestrators (all evaluate geometric branches without force gating; bug was unique to Case 5). All 57 tests pass."
 }

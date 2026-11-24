@@ -4070,4 +4070,27 @@ Gemini Antigravity executed the comprehensive controller repair:
   - All figures, meshes, snapshots, and gate ratios remain invariant.
   - Test suite `tests/unit/test_f1856_lpanel_damage_envelope_remesh.py` (4/4 PASS) and predecessor tests (4/4 PASS) recomputed and verified by reviewer.
 - **L-Panel Thread Status**: Officially declared **CLOSED** across all four stages (F1854, F1855, F1856, F1857).
-- **Active Task**: `F1858-WAIT-NEXT-DIRECTION` (`WAIT` state awaiting user direction; 0 new PBS jobs; `MASTER_GOAL_STATUS = OPEN`).
+- **Active Task**: `METHOD-C-CASE5-STOPPING-LOGIC-REPAIR` (`COMPLETED`, pending review; 0 new PBS jobs; `MASTER_GOAL_STATUS = OPEN`).
+
+### Method C Benchmark Task: Case 5 Stopping Logic Repair & Multi-Case Orchestrator Audit (2026-11-24)
+- **Task ID**: `METHOD-C-CASE5-STOPPING-LOGIC-REPAIR`
+- **Correlation ID**: `HND-METHOD-C-CASE5-STOPPING-LOGIC-001`
+- **Status**: `COMPLETED` (Ready for Independent Review)
+- **Classification**: `METHOD_C_INCREMENTAL_ADAPTIVE_REMESHING`
+- **Scope & Code Repair**:
+  - In `models/pandey_kumar_mode1/293_method_c_case5/case5_single_job_orchestrator.py`:
+    - Added constant `SEVERANCE_RF_RATIO = 0.20` next to `LOAD_DROP_COMPLETION_RATIO = 0.05`.
+    - In `check_completion` branch 2 (geometric / arc length), replaced `LOAD_DROP_COMPLETION_RATIO` with `SEVERANCE_RF_RATIO`, so it fires when `d_max >= 0.95 AND peak_rf2 > 0 AND current_rf2 < 0.20 * peak_rf2 AND (current_arc_length >= 0.8500 OR current_tip_x >= 0.9500)`.
+    - Updated branch 2 reason strings to report `[20% of peak]`.
+    - Docstring and implementation are now in full agreement.
+- **Unit Verification**:
+  - Added `test_case5_check_completion_branch2_severance_rf_ratio` in `tests/unit/test_method_c_case5_full_run.py`.
+  - At Cycle 3: $RF_2 = 0.259146$ kN ($34.74\% > 20\%$) -> returns `False, None` (run continues).
+  - At Cycle 4: $RF_2 = 0.142298$ kN ($19.08\% < 20\%$) -> returns `True, reason` (stops run cleanly after Cycle 4).
+  - Full Method C test suite: **57/57 tests PASS** in 14.63s.
+- **Multi-Case Orchestrator Audit Findings**:
+  - **Case 1** (`case1_single_job_orchestrator.py`): Geometric branch checks `s >= 0.48` or `tip_x >= 0.98` directly without reaction force gating.
+  - **Case 2** (`case2_single_job_orchestrator.py`): Geometric branch checks `s >= 0.52` or `tip_x >= 0.98` directly without reaction force gating.
+  - **Case 3** (`case3_single_job_orchestrator.py`): Geometric branch checks `s >= 62.0` or `tip_x >= 64.0` directly without reaction force gating.
+  - **Conclusion**: Bug was isolated strictly to Case 5 due to an intentional post-peak severance gate wrapping the geometric check that mistakenly referenced the 5% load drop ratio instead of the 20% severance ratio.
+- **Execution Constraints**: Local PC only, 0 PBS submissions, cumulative count strictly 73 preserved, frozen UEL `CE8D5EDC...` bitwise preserved, `MASTER_GOAL_STATUS = OPEN`.

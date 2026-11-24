@@ -143,3 +143,48 @@ def test_case5_peak_load_agreement_with_reference():
     assert 0.60 <= peak_rf2 <= 0.85, (
         "Peak force %.4f kN outside expected range [0.60, 0.85] kN (ref = %.4f kN)" % (peak_rf2, ref_peak)
     )
+
+
+def test_case5_check_completion_branch2_severance_rf_ratio():
+    """
+    Verifies the fixed stopping logic in check_completion (branch 2 geometric severance):
+    - At Cycle 3: RF2 = 0.259146 kN, peak = 0.74582511 kN, tip_x = 1.0 mm, s = 1.0050 mm, d_max = 0.9984
+      Ratio = 0.259146 / 0.74582511 = 34.74% > 20% (SEVERANCE_RF_RATIO = 0.20).
+      Returns False (run continues).
+    - At Cycle 4: RF2 = 0.142298 kN, peak = 0.74582511 kN, tip_x = 1.0 mm, s = 1.0050 mm, d_max = 0.9993
+      Ratio = 0.142298 / 0.74582511 = 19.08% < 20%.
+      Returns True with reason string containing '[20% of peak]' (run stops after Cycle 4).
+    """
+    import sys
+    case5_dir = os.path.join(REPO_ROOT, "models", "pandey_kumar_mode1", "293_method_c_case5")
+    if case5_dir not in sys.path:
+        sys.path.insert(0, case5_dir)
+    from case5_single_job_orchestrator import MethodCCase5Orchestrator
+
+    orch = MethodCCase5Orchestrator.__new__(MethodCCase5Orchestrator)
+    peak_rf2 = 0.74582511
+
+    # Cycle 3 check
+    c3_rf2 = 0.259146
+    c3_tip_x = 1.0000
+    c3_s = 1.0050
+    c3_d_max = 0.9984
+    c3_stop, c3_reason = orch.check_completion(
+        c3_tip_x, c3_rf2, peak_rf2, current_arc_length=c3_s, current_d_max=c3_d_max
+    )
+    assert c3_stop is False, "Cycle 3 should not stop because RF2 ratio (34.7%) > 20%"
+    assert c3_reason is None
+
+    # Cycle 4 check
+    c4_rf2 = 0.142298
+    c4_tip_x = 1.0000
+    c4_s = 1.0050
+    c4_d_max = 0.9993
+    c4_stop, c4_reason = orch.check_completion(
+        c4_tip_x, c4_rf2, peak_rf2, current_arc_length=c4_s, current_d_max=c4_d_max
+    )
+    assert c4_stop is True, "Cycle 4 must stop because RF2 ratio (19.1%) < 20% with s >= 0.85 and tip_x >= 0.95"
+    assert c4_reason is not None
+    assert "[20% of peak]" in c4_reason
+    assert "CUMULATIVE_ARC_LENGTH_REACHED" in c4_reason or "CRACK_SEVERED_TO_FAR_BOUNDARY" in c4_reason
+
