@@ -30,6 +30,7 @@ def test_initial_state_contains_18_values_per_element(tmp_path):
     assert tokens[17:19] == [0., 0.]
     assert '*AMPLITUDE, NAME=CONST_HOLD' in text
     assert '*BOUNDARY, AMPLITUDE=CONST_HOLD' in text
+    assert '*DEPVAR\n20\n' in text
 
 
 def test_cli_cannot_silently_succeed_without_running():

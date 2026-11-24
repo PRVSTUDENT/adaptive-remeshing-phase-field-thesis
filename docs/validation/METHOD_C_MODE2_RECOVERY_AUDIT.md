@@ -187,3 +187,20 @@ no automatic retry, zero PBS. Test measurable force continuity <=5% and the
 unchanged global-maximum-damage gate; record energies, actual target/response,
 connected damage geometry, cost and hashes. Failure preserves evidence and
 blocks further cycles for independent review. Latest offline suite: 18 passed.
+
+## First remesh preparation and technical datacheck correction
+
+Cycle 1 R0 generated 5028 physical elements (4848 quads, 180 tris; 96.42%
+quads), minimum quadrature Jacobian 2.9596e-8, maximum edge-length ratio 3.05,
+median refined h=.006462 mm. Datacheck rejected TYPE=SOLUTION continuation
+records with INVALID INTEGER VALUE; no Cycle 1 solver was started.
+The companion material incorrectly declared DEPVAR30. Its global continuation
+count consumed the next element label as state data, then interpreted a
+continuation float as an integer label. Corrected DEPVAR to 20, matching the
+validated Case 1 builder and frozen visualizer's STATEV1–20 layout. The 18 UEL
+variables remain unchanged; the last two companion slots default to zero.
+Rejected diagnostics and mesh audit are preserved under failed_preparation/
+depvar30_cycle1_r0; the full rejected deck remains in its original scratch.
+A distinct bounded R1 candidate uses a fresh scratch folder and scope; no
+identical retry or reset accounting. The material/order correction and this
+continuation correction change no frozen source or declared physical inputs.

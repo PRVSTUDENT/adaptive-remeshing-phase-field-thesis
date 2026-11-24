@@ -1,0 +1,51 @@
+{
+  "corridor_spec": {
+    "x_min": 0.45,
+    "x_max": 0.65,
+    "y_min": 0.35,
+    "y_max": 0.55,
+    "area_mm2": 0.040000000000000015,
+    "h_ref_mm": 0.007,
+    "h_bg_mm": 0.025,
+    "l0_mm": 0.015,
+    "l0_half_mm": 0.0075,
+    "estimated_refined_elements": 816,
+    "estimated_total_elements": 2351,
+    "polygon_vertices": [
+      [
+        0.45,
+        0.35
+      ],
+      [
+        0.65,
+        0.35
+      ],
+      [
+        0.65,
+        0.55
+      ],
+      [
+        0.45,
+        0.55
+      ]
+    ]
+  },
+  "total_elements": 5028,
+  "total_quads": 4848,
+  "total_tris": 180,
+  "quad_fraction_pct": 96.4200477326969,
+  "corridor_elements_count": 967,
+  "median_h_corridor_mm": 0.006462215937186937,
+  "max_h_corridor_mm": 0.008476567698643888,
+  "h_ref_limit_mm": 0.0075,
+  "gates": {
+    "gate01_positive_jacobian": true,
+    "gate02_quad_fraction_ge_85": true,
+    "gate04_size_le_l0_half": true,
+    "gate05_bounded_under_35k": true
+  },
+  "minimum_quadrature_jacobian": 2.9596161152818545e-08,
+  "max_edge_length_ratio": 3.0496333478764366,
+  "positive_jacobians_pass": true,
+  "edge_ratio_le_5_pass": true
+}

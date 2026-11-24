@@ -426,7 +426,9 @@ def assemble_mode2_coupled_deck(out_deck_path,
         out.write("*SOLID SECTION, ELSET=All_elem, MATERIAL=M_COMPANION\n1.0\n")
         out.write("*MATERIAL, NAME=M_COMPANION\n*USER MATERIAL, CONSTANTS=3\n")
         out.write("%.1f, %.2f, %.1f\n" % (E_GPa, nu, num_phys_f))
-        out.write("*DEPVAR\n30\n")
+        # Match the validated Case 1 companion layout. TYPE=SOLUTION's input
+        # reader uses this count for continuation cards, including UEL labels.
+        out.write("*DEPVAR\n20\n")
 
         # Kinematic Coupling Equations: Top nodes ux coupled to N_RP ux
         out.write("** Top boundary horizontal shear coupled to Reference Point N_RP\n")
