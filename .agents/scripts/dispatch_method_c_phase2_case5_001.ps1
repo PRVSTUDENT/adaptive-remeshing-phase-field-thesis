@@ -130,19 +130,18 @@ $payload = [ordered]@{
     }
 }
 
-$jsonPayload = $payload | ConvertTo-Json -Depth 10
+$payloadJson = $payload | ConvertTo-Json -Depth 10
+
+$promptText = @"
+INDEPENDENT_STRUCTURED_REVIEW_V1
+
+$payloadJson
+"@
 
 if ($CheckOnly) {
-    Write-Host "[CheckOnly] Payload serialized successfully ($($jsonPayload.Length) chars). SHA256 of report: $reportSha"
-    exit 0
+    Write-Host "Validation check passed for $handoffId ($($payloadJson.Length) chars)" -ForegroundColor Green
+    return
 }
 
-if ($DryRun) {
-    Write-Host "[DryRun] Would dispatch handoff $handoffId to bridge with payload:"
-    Write-Host $jsonPayload
-    exit 0
-}
-
-Write-Host "Publishing $handoffId across OpenClaw PAD Bridge..."
-Invoke-ChatGPTBridge -Payload $jsonPayload -HandoffId $handoffId
-Write-Host "Handoff $handoffId successfully published to bridge_request.ready."
+Invoke-ChatGPTBridge -PromptText $promptText -HandoffId $handoffId -DryRun:$DryRun -LaunchPad:(-not $DryRun) -TaskId $taskId
+Write-Host "Handoff $handoffId successfully dispatched." -ForegroundColor Green
