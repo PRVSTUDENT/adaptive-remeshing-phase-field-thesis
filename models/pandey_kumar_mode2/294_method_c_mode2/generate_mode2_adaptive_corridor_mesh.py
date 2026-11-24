@@ -182,7 +182,7 @@ def generate_mode2_physical_mesh(out_phys_inp, tip_x=0.5000, tip_y=0.5000):
     try:
         import abaqus
         from abaqus import mdb
-        from abaqusConstants import TWO_D_PLANAR, DEFORMABLE_BODY, QUAD_DOMINATED, FREE, CPE4, CPE3, STANDARD, OFF, ON
+        from abaqusConstants import TWO_D_PLANAR, DEFORMABLE_BODY, QUAD_DOMINATED, FREE, CPE4, CPE3, STANDARD, OFF, ON, ANALYSIS
         import regionToolset
         import mesh
     except ImportError:
@@ -383,14 +383,7 @@ def generate_mode2_physical_mesh(out_phys_inp, tip_x=0.5000, tip_y=0.5000):
 
     print("Written Mode-II physical mesh: %s (%d nodes, %d elements)" % (out_phys_inp, len(new_nodes), len(new_elements)))
 
-    # Clean up temp files
-    for ext in [".inp", ".cae", ".jnl", ".log"]:
-        fn = job_name + ext
-        if os.path.exists(fn):
-            try:
-                os.remove(fn)
-            except Exception:
-                pass
+    # Preserve generated CAE/input/log evidence, including failed preparations.
 
 
 def parse_cli_args():
@@ -441,3 +434,4 @@ if __name__ == "__main__":
         print("Corridor specification evaluated:")
         spec = compute_corridor_spec(tip_x=tip_x, tip_y=tip_y)
         print(json.dumps(spec, indent=2))
+        raise

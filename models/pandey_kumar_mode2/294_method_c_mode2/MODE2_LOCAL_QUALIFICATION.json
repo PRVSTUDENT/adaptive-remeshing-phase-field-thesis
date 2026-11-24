@@ -1,0 +1,30 @@
+{
+    "operation_id":  "METHOD-C-MODE2-COARSE-QUALIFICATION-001",
+    "goal_id":  "METHOD_C_MODE2_LPANEL_V1",
+    "formulation":  "Unchanged frozen UEL; shear demonstration with disclosed difference from Miehe",
+    "platform":  "local_windows_only",
+    "job":  "PK_METHOD_C_MODE2_COARSE_JOB1",
+    "datacheck_job":  "PK_METHOD_C_MODE2_COARSE_JOB1_DATACHECK",
+    "cpus":  1,
+    "max_solver_runs":  1,
+    "max_datachecks":  1,
+    "automatic_retry":  false,
+    "adaptive_cycles_this_stage":  0,
+    "coarse_target_u1_mm":  0.0095,
+    "run_dir":  "D:\\mc3_local\\mode2_qualification_20261124_1558",
+    "walltime_stall_limits_hours":  {
+                                        "cycle":  8,
+                                        "agent_progress":  4,
+                                        "increment_inactivity":  2
+                                    },
+    "source_path":  "models/pandey_kumar_mode1/f42_mixed_uel.for",
+    "source_sha256":  "CE8D5EDCD2911DCB018BB15275271F874E7EA62B8FB48CF4A8297469A83ACDD6",
+    "input_path":  "models/pandey_kumar_mode2/294_method_c_mode2/PK_METHOD_C_MODE2_COARSE_JOB1.inp",
+    "input_sha256":  "2EB17D86D28BEC26B9E57196FE5376ED8563BE8F1DA8645B095CDBDF2A57D1E7",
+    "mesh_sha256":  "271D3928BA672ED9DB7DA55002A0026C035A1E02247AE59B4C95CCCE9F2254A8",
+    "numerical_uncertainty":  "Does the frozen formulation converge under shear and yield an authentic pre-adaptive checkpoint?",
+    "measurable_test":  "Abaqus successful completion; actual U1/RF1, SDV damage/history, mesh QA and paired image recorded.",
+    "expected_benefit":  "Provide a verified causal coarse donor before any transfer experiment.",
+    "pbs_submissions":  0,
+    "cumulative_pbs_submissions":  73
+}

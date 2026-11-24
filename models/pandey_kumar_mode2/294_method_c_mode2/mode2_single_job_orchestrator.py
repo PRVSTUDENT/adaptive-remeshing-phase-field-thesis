@@ -44,8 +44,10 @@ Key architectural specifications:
 from __future__ import print_function, division
 import os
 import sys
+import re
 import json
 import math
+import shutil
 import subprocess
 import hashlib
 import time
@@ -66,6 +68,10 @@ except NameError:
 
 if REPO_ROOT not in sys.path:
     sys.path.insert(0, REPO_ROOT)
+
+SCRIPT_DIR = os.path.dirname(os.path.abspath(__file__)) if "__file__" in locals() else os.getcwd()
+if SCRIPT_DIR not in sys.path:
+    sys.path.insert(0, SCRIPT_DIR)
 
 # Import stall watchdog
 from stall_watchdog import StallWatchdog
@@ -129,14 +135,93 @@ def quad_shape_funcs(xi, eta):
     )
 
 
-def compute_quad_gp_coords(elem_node_coords):
-    gp_coords = []
-    for xi, eta in QUAD_GP_LOCAL:
-        N = quad_shape_funcs(xi, eta)
-        gx = sum(N[i] * elem_node_coords[i][0] for i in range(4))
-        gy = sum(N[i] * elem_node_coords[i][1] for i in range(4))
-        gp_coords.append((gx, gy))
-    return gp_coords
+def compute_quad_gp_coords(elem_conn_or_coords, node_coords=None):
+    if node_coords is not None:
+        coords = [node_coords[n] for n in elem_conn_or_coords]
+        gps = []
+        for gp_idx, (xi, eta) in enumerate(QUAD_GP_LOCAL, start=1):
+            N = quad_shape_funcs(xi, eta)
+            gx = sum(N[i] * coords[i][0] for i in range(4))
+            gy = sum(N[i] * coords[i][1] for i in range(4))
+            gps.append((gp_idx, gx, gy))
+        return gps
+    else:
+        elem_node_coords = elem_conn_or_coords
+        gp_coords = []
+        for xi, eta in QUAD_GP_LOCAL:
+            N = quad_shape_funcs(xi, eta)
+            gx = sum(N[i] * elem_node_coords[i][0] for i in range(4))
+            gy = sum(N[i] * elem_node_coords[i][1] for i in range(4))
+            gp_coords.append((gx, gy))
+        return gp_coords
+
+
+def compute_tri_gp_coords(elem_conn, node_coords):
+    coords = [node_coords[n] for n in elem_conn]
+    gx = (coords[0][0] + coords[1][0] + coords[2][0]) / 3.0
+    gy = (coords[0][1] + coords[1][1] + coords[2][1]) / 3.0
+    return [(1, gx, gy)]
+
+
+def compute_sha256(path):
+    h = hashlib.sha256()
+    with open(path, "rb") as f:
+        while True:
+            chunk = f.read(65536)
+            if not chunk:
+                break
+            h.update(chunk)
+    return h.hexdigest().upper()
+
+
+def parse_sta_file(sta_path):
+    """Parses Abaqus .sta file to determine completed increments, terminal converged state, and cutback status."""
+    converged_increments = []
+    cutback_hit = False
+    with open(sta_path, "r") as f:
+        for line in f:
+            line_str = line.strip()
+            if not line_str or line_str.startswith("SUMMARY") or line_str.startswith("ODB") or line_str.startswith("STEP") or line_str.startswith("DISCON"):
+                continue
+            parts = line_str.split()
+            if len(parts) >= 8:
+                try:
+                    step = int(parts[0])
+                    inc = int(parts[1])
+                    att_str = parts[2]
+                    is_unconverged = "U" in att_str.upper()
+                    att = int(att_str.upper().replace("U", ""))
+                    is_riks = (parts[-1].strip().upper() == "R")
+                    if is_riks:
+                        step_time = float(parts[6])
+                        dt = float(parts[7])
+                    elif len(parts) >= 9:
+                        step_time = float(parts[7])
+                        dt = float(parts[8])
+                    else:
+                        step_time = float(parts[6])
+                        dt = float(parts[7])
+
+                    if not is_unconverged:
+                        converged_increments.append({
+                            "step": step,
+                            "increment": inc,
+                            "attempt": att,
+                            "step_time": step_time,
+                            "dt": dt
+                        })
+                except (ValueError, IndexError):
+                    pass
+            if "THE ANALYSIS HAS NOT BEEN COMPLETED" in line_str or "TIME INCREMENT REQUIRED IS LESS THAN" in line_str:
+                cutback_hit = True
+
+    terminal_converged_inc = converged_increments[-1] if converged_increments else None
+    return {
+        "increments": converged_increments,
+        "total_converged_increments": len(converged_increments),
+        "terminal_converged": terminal_converged_inc,
+        "cutback_floor_reached": cutback_hit
+    }
 
 
 def write_wrapped_nset(f, nset_name, node_list, max_per_line=16):
@@ -351,37 +436,23 @@ def assemble_mode2_coupled_deck(out_deck_path,
         # Initial Conditions: Transferred phase d and history H on Layer 1
         out.write("** Transferred State: Initial Conditions (SVARS 1..18 on Layer 1)\n")
         out.write("*INITIAL CONDITIONS, TYPE=SOLUTION\n")
-        for eid in sorted(r_quads.keys()):
-            d_val = float(transferred_damage.get(eid, 0.0))
-            h_val = float(transferred_history.get(eid, 0.0))
-            deg = (1.0 - d_val)**2 + k_res
-            # Format: elem, sv1, sv2, sv3, sv4, sv5, sv6, sv7, sv8
-            out.write("%d, %.6e, %.6e, %.6e, %.6e, %.6e, %.6e, %.6e, %.6e\n" % (
-                eid, d_val, d_val, d_val, d_val, h_val, h_val, h_val, h_val
-            ))
-            # Format: elem, sv9, sv10, sv11, sv12, sv13, sv14, sv15, sv16
-            out.write("%d, %.6e, %.6e, %.6e, %.6e, %.6e, %.6e, %.6e, %.6e\n" % (
-                eid, h_val, h_val, h_val, h_val, d_val, d_val, deg, h_val
-            ))
+        # Match the frozen UEL restart layout. Continuation rows contain no
+        # repeated element label; uninitialized mechanical state defaults to zero.
+        for elements, ngp in ((r_quads, 4), (r_tris, 3)):
+            for eid, conn in sorted(elements.items()):
+                d = sum(transferred_damage.get(n, 0.0) for n in conn) / len(conn)
+                h = [transferred_history.get((eid, gp), transferred_history.get(eid, 0.0))
+                     for gp in range(1, ngp + 1)]
+                deg = (1.0 - d)**2 + k_res
+                if ngp == 4:
+                    sv = [d]*4 + h + h + [d, d, deg, h[0], 0.0, 0.0]
+                else:
+                    sv = [d, d, d, 0.0] + [h[0]]*5 + [0.0]*3 + [d, d, deg, h[0], 0.0, 0.0]
+                out.write(str(eid) + ", " + ", ".join("%.6e" % v for v in sv[:7]) + "\n")
+                out.write("  " + ", ".join("%.6e" % v for v in sv[7:15]) + "\n")
+                out.write("  " + ", ".join("%.6e" % v for v in sv[15:]) + "\n")
 
-        for eid in sorted(r_tris.keys()):
-            d_val = float(transferred_damage.get(eid, 0.0))
-            h_val = float(transferred_history.get(eid, 0.0))
-            deg = (1.0 - d_val)**2 + k_res
-            out.write("%d, %.6e, %.6e, %.6e, %.6e, %.6e, %.6e, %.6e, %.6e\n" % (
-                eid, d_val, d_val, d_val, d_val, h_val, h_val, h_val, h_val
-            ))
-            out.write("%d, %.6e, %.6e, %.6e, %.6e, %.6e, %.6e, %.6e, %.6e\n" % (
-                eid, h_val, h_val, h_val, h_val, d_val, d_val, deg, h_val
-            ))
-
-        # Initial conditions on Layer 2 and Layer 3 (zeros)
-        for eid in sorted(r_quads.keys()):
-            out.write("%d, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0\n" % (eid + offset_disp))
-            out.write("%d, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0\n" % (eid + offset_disp))
-        for eid in sorted(r_tris.keys()):
-            out.write("%d, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0\n" % (eid + offset_disp))
-            out.write("%d, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0\n" % (eid + offset_disp))
+        out.write("*AMPLITUDE, NAME=CONST_HOLD\n0.0, 1.0, 1.0, 1.0\n")
 
         # ==========================================================
         # STEP 1: Fixed-Load Re-equilibration Hold at donor_ux
@@ -395,6 +466,7 @@ def assemble_mode2_coupled_deck(out_deck_path,
         out.write("*BOUNDARY, OP=NEW\n")
         out.write("N_BOTTOM, 1, 2, 0.0\n")
         out.write("N_TOP, 2, 2, 0.0\n")
+        out.write("*BOUNDARY, AMPLITUDE=CONST_HOLD\n")
         out.write("N_RP, 1, 1, %.8e\n" % donor_ux)
         out.write("*OUTPUT, FIELD, FREQUENCY=1\n")
         out.write("*NODE OUTPUT, NSET=N_RP\nU, RF\n")
@@ -467,3 +539,53 @@ def check_mode2_completion(current_cycle,
             return is_complete, reason
 
     return is_complete, reason
+
+
+def preparation_audit():
+    """Offline readiness audit; never claims a numerical solve or submission."""
+    source = os.path.join(REPO_ROOT, 'models', 'pandey_kumar_mode1', 'f42_mixed_uel.for')
+    return {
+        'status': 'PREPARATION_INCOMPLETE',
+        'execution_qualified': False,
+        'frozen_uel_match': compute_sha256(source) == FROZEN_UEL_SHA256,
+        'blockers': [
+            'New bounded runtime requires real coarse/transfer qualification; offline tests are insufficient.',
+            'Frozen formulation deviation is disclosed and accepted by user; no Miehe reproduction claim.',
+            'An interrupted run requires exact checkpoint reconciliation; no automatic resume or retry.'
+        ],
+        'pbs_submissions': 0,
+        'numerical_uncertainty': 'Unverified nonmatching transfer under shear with an unknown deflected path.',
+        'next_measurable_test': 'Review and qualify one exact coarse/transfer experiment with input and source hashes.'
+    }
+
+
+def main(argv=None):
+    parser = argparse.ArgumentParser(description='Bounded frozen-UEL Method C shear demonstration.')
+    parser.add_argument('--dry-run', action='store_true', help='Print offline readiness without Abaqus execution.')
+    parser.add_argument('--run', action='store_true', help='Execute the bounded local experiment.')
+    parser.add_argument('--coarse-only', action='store_true', help='Stop after authentic Cycle 0 qualification.')
+    parser.add_argument('--run-dir', help='Fresh local scratch directory; existing runs are preserved.')
+    parser.add_argument('--max-cycles', type=int, default=7)
+    parser.add_argument('--cpus', type=int, default=1)
+    args = parser.parse_args(argv)
+    if args.dry_run:
+        print(json.dumps(preparation_audit(), indent=2))
+        return 0
+    if not args.run:
+        parser.exit(2, 'Mode-II execution loop requires explicit --run and --run-dir. No solver started.\n')
+    if not args.run_dir or not 0 <= args.max_cycles <= 7 or args.cpus != 1:
+        parser.error('Scope is one local CPU, at most seven adaptive cycles, and a fresh --run-dir.')
+    import mode2_runtime
+    runner = mode2_runtime.LocalRunner(sys.modules[__name__], args.run_dir, args.cpus,
+                                     0 if args.coarse_only else args.max_cycles)
+    try:
+        runner.execute()
+    except Exception as error:
+        mode2_runtime.write_json(runner.run/'diagnosed_blocker.json',
+            {'blocker':str(error),'retry':False,'master_goal_status':'OPEN','time':time.time()})
+        raise
+    return 0
+
+
+if __name__ == '__main__':
+    sys.exit(main())

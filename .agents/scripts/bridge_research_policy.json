@@ -1,58 +1,60 @@
 {
-  "version": 3,
-  "goal_id": "METHOD_C_INCREMENTAL_ADAPTIVE_REMESHING_V1",
-  "method": "METHOD_C",
-  "regression_cases": [
-    "demo_plate_hole_notch"
-  ],
-  "allowed_operations": [
-    "method_c_phase1_demo_and_skeleton",
-    "method_c_phase1_kickoff_correction",
-    "method_c_phase2_transfer_reequilibration",
-    "method_c_phase2_transfer_blocker",
-    "method_c_phase2_job1_submit",
-    "method_c_phase2_job1_monitor",
-    "method_c_phase2_job1_extract",
-    "method_c_phase3_forward_propagation",
-    "method_c_phase4_demo_outputs",
-    "demo_geometry_confirmation",
-    "coarse_donor_generation",
-    "loop_driver_skeleton",
-    "transfer_reequilibration_diagnosis",
-    "forward_increment_continuation",
-    "independent_review",
-    "coupled_fracture_validation",
-    "state_transfer_investigation",
-    "wait",
-    "method_c_incremental_loop",
-    "method_c_demo_validation",
-    "method_c_meeting_outputs",
-    "method_c_phase2_case1_full_run",
-    "method_c_phase2_case2_full_run",
-    "method_c_phase2_case5_full_run"
-  ],
-  "native_indicator": "NATIVE_ABAQUS_STRESS_RECOVERY_ERROR",
-  "paused_task_pattern": "(?i)\\bTHESIS(?:[\\s_-]+WRITING)?\\b|\\bFINAL[\\s_-]+PRESENTATION\\b|\\bLPANEL\\b|\\bL[\\s_-]+PANEL\\b",
-  "prohibited_successors": [
-    "THESIS_WRITING_BEFORE_RESEARCH_FREEZE",
-    "FINAL_PRESENTATION",
-    "METHOD_A_OPTIMIZATION",
-    "LPANEL",
-    "NEW_BENCHMARK",
-    "COUPLED_VALIDATION_BEYOND_DEMO",
-    "UNIFORM_5_PERCENT_ERROR_TARGET"
-  ],
-  "note": "19 Nov 2026 user Method C plan supersedes Method A priority. Existing generic validation/transfer operation aliases apply only to the single demonstration and its C5->C6 blocker. Meeting slides/plots/animations are in scope; thesis writing follows 13 Dec freeze. No unspecified PBS budget. Preserve pending packet context and hashes.",
-  "historical_method_a_cases": [
-    1,
-    2,
-    3,
-    5
-  ],
-  "master_success_criteria": [
-    "Fixed-load transfer re-equilibration meeting preserved force/energy and no-healing thresholds",
-    "Forward crack propagation after transfer toward the hole",
-    "Multiple load increments and multiple remesh/transfer cycles",
-    "Authentic state-specific images, response, crack progression, mesh quality and measured computational cost independently reviewed"
-  ]
+    "version":  4,
+    "goal_id":  "METHOD_C_MODE2_LPANEL_V1",
+    "method":  "METHOD_C",
+    "regression_cases":  [
+                             "demo_plate_hole_notch"
+                         ],
+    "allowed_operations":  [
+                               "method_c_phase1_demo_and_skeleton",
+                               "method_c_phase1_kickoff_correction",
+                               "method_c_phase2_transfer_reequilibration",
+                               "method_c_phase2_transfer_blocker",
+                               "method_c_phase2_job1_submit",
+                               "method_c_phase2_job1_monitor",
+                               "method_c_phase2_job1_extract",
+                               "method_c_phase3_forward_propagation",
+                               "method_c_phase4_demo_outputs",
+                               "demo_geometry_confirmation",
+                               "coarse_donor_generation",
+                               "loop_driver_skeleton",
+                               "transfer_reequilibration_diagnosis",
+                               "forward_increment_continuation",
+                               "independent_review",
+                               "coupled_fracture_validation",
+                               "state_transfer_investigation",
+                               "wait",
+                               "method_c_incremental_loop",
+                               "method_c_demo_validation",
+                               "method_c_meeting_outputs",
+                               "method_c_phase2_case1_full_run",
+                               "method_c_phase2_case2_full_run",
+                               "method_c_phase2_case5_full_run",
+                               "method_c_mode2_lpanel_setup_and_validation",
+                               "method_c_mode2_local_qualification",
+                               "method_c_lpanel_setup_and_validation"
+                           ],
+    "native_indicator":  "NATIVE_ABAQUS_STRESS_RECOVERY_ERROR",
+    "paused_task_pattern":  "(?i)\\bTHESIS(?:[\\s_-]+WRITING)?\\b|\\bFINAL[\\s_-]+PRESENTATION\\b",
+    "prohibited_successors":  [
+                                  "THESIS_WRITING_BEFORE_RESEARCH_FREEZE",
+                                  "FINAL_PRESENTATION",
+                                  "METHOD_A_OPTIMIZATION",
+                                  "UNREQUESTED_NOVEL_COMPLEX_PROBLEM",
+                                  "UNIFORM_5_PERCENT_ERROR_TARGET"
+                              ],
+    "note":  "User supplied 24 Nov campaign dispatch HND-METHOD-C-MODE2-LPANEL-001 and amendment -002, then explicitly chose frozen UEL shear demonstration with disclosed deviation from Miehe. Mode II first; review before L-panel; local PC only, zero PBS, cumulative 73 and HPC 1424916 untouched. Preserve original packet rules for archived transactions.",
+    "historical_method_a_cases":  [
+                                      1,
+                                      2,
+                                      3,
+                                      5
+                                  ],
+    "master_success_criteria":  [
+                                    "Mode-II fixed-load transfer force continuity \u003c=5 percent, unchanged global maximum damage gate, forward growth and multiple adaptive cycles",
+                                    "Broad causal refinement and a measured deflected crack path; disclose frozen constitutive difference rather than claim Miehe reproduction",
+                                    "Per-cycle committed/pushed authentic mesh/damage images, solver status, cost and input/source hashes; independent per-case review",
+                                    "L-panel follows Mode-II review and uses its supplied case material/geometry; no unrequested novel problem",
+                                    "Mandatory 2-hour increment inactivity, 8-hour cycle and 4-hour agent progress checks; preserve failures"
+                                ]
 }

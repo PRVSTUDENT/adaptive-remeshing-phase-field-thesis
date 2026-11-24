@@ -64,7 +64,7 @@ def test_mode2_coupled_deck_assembly():
     }
     r_tris = {}
 
-    transferred_damage = {1: 0.25}
+    transferred_damage = {n: 0.25 for n in r_nodes}
     transferred_history = {1: 1.5e-4}
 
     with tempfile.NamedTemporaryFile("w", delete=False, suffix=".inp") as f:
