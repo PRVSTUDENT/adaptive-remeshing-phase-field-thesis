@@ -1,4 +1,19 @@
-## Codex continuation — formulation resolved, coarse qualification ready
+## Codex closeout — Mode II first transfer failed; review dispatch blocked
+
+Corrected coarse R1 completed: U1=.0095 mm, RF1=.398039 kN, dmax=.350769,
+2960 elements, 180 seconds. Cycle1 R2 completed but its fixed-load hold force
+changed -32.278584 percent, failing the preserved 5 percent gate. No Cycle2.
+Offline transfer integrals: H +.875662 percent, averaged damage +.022348
+percent; maxima preserved, but hold damage grew to .986888. Cause unproven.
+Same-mesh hold-only control prepared, NOT executed. Automatic approval review
+rejected review-packet assembly with `blocked by policy`; no review sent,
+no approval claimed. Frozen UEL unchanged; 18 tests pass; zero PBS, cumulative
+73; HPC 1424916 untouched. No solver active. Goal METHOD_C_MODE2_LPANEL_V1
+OPEN; resume by safely routing authentic failure/control review, then applying
+its instruction. L-panel has not started. Details in
+docs/validation/METHOD_C_MODE2_RECOVERY_AUDIT.md. Earlier entries are history.
+
+## Earlier Codex continuation — formulation resolved, coarse qualification ready
 
 User chose frozen-UEL shear demonstration with disclosed deviation from Miehe. 14 affected tests pass; runtime and guarded bridge scope prepared. Exact stage: one coarse datacheck and solve on one CPU, no adaptive cycles, no PBS; manifest models/pandey_kumar_mode2/294_method_c_mode2/MODE2_LOCAL_QUALIFICATION.json. Previous pending-decision entries below are historical. Goal OPEN.
 

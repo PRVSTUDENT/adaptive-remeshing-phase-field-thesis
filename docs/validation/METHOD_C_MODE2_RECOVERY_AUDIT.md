@@ -259,3 +259,29 @@ Local accounting so far: five datachecks (three passed, two rejected); three
 solver starts (invalid-input coarse R0 cleanly stopped, corrected coarse R1
 completed, Cycle1 R2 completed but failed scientific gate). Zero PBS. All
 failed evidence preserved. Master goal OPEN; L-panel has not started.
+
+## Review preparation transport block — not sent
+
+The existing review adapter lacked the guarded wire's top-level protocol,
+task, goal and research-contract fields and instructed fabricated message/URL
+placeholders. Its draft repair supplies those fields and explicitly requires
+actual provenance, without weakening receipt verification or touching keys.
+No fake identity, signature, review decision or approval was created.
+
+Automatic approval review then rejected the shell action that would assemble
+the candidate evidence packet and append the hold image manifest entry,
+returning only `blocked by policy`. A smaller attempt was also rejected;
+neither command executed. The candidate definition does not exist, no ready
+file was published and no matching review response is pending. The draft
+metadata preparer `.agents/scripts/prepare_mode2_failure_review.py` is saved
+but unexecuted. Its adapter dry-run was not reached or claimed passed.
+
+The authentic hold image is already committed at 6ebc669c6, although it was
+not appended to the earlier two-image manifest due to that blocked action.
+Resume condition: safely assemble and validate the immutable failure/control
+packet, route it through the guarded independent review dispatcher, obtain
+and validate authentic matching review, then apply its scientific instruction.
+Do not run the prepared control or repeat the failed cycle before that review.
+This is an approval-tool/dispatch block on top of an actual scientific failure,
+not a human PBS permit requirement. Master goal remains OPEN. All solver
+processes had ended; no background numerical continuation was left running.
