@@ -275,10 +275,13 @@ def test_lpanel_cycle11_cutback_diagnosis():
     Step 1 re-equilibrated in 1 increment, Step 2 advanced 145 RIKS increments reaching
     uy = 0.4152 mm with RF2 = 0.02695 kN (83.1% load drop) before cutback termination.
     """
-    cont_dir = os.path.join(REPO_ROOT, "models", "mode_II_or_l_panel", "295_method_c_lpanel", "run_campaign_continuation")
-    sta_path = os.path.join(cont_dir, "PK_METHOD_C_LPANEL_CYCLE11.sta")
-    msg_path = os.path.join(cont_dir, "PK_METHOD_C_LPANEL_CYCLE11.msg")
-    dat_path = os.path.join(cont_dir, "PK_METHOD_C_LPANEL_CYCLE11.dat")
+    run_dir = os.path.join(REPO_ROOT, "models", "mode_II_or_l_panel", "295_method_c_lpanel", "local_windows_full_run")
+    if not os.path.isfile(os.path.join(run_dir, "PK_METHOD_C_LPANEL_CYCLE11.sta")):
+        run_dir = os.path.join(REPO_ROOT, "models", "mode_II_or_l_panel", "295_method_c_lpanel", "run_campaign_continuation")
+
+    sta_path = os.path.join(run_dir, "PK_METHOD_C_LPANEL_CYCLE11.sta")
+    msg_path = os.path.join(run_dir, "PK_METHOD_C_LPANEL_CYCLE11.msg")
+    dat_path = os.path.join(run_dir, "PK_METHOD_C_LPANEL_CYCLE11.dat")
 
     assert os.path.isfile(sta_path), "Cycle 11 .sta must be preserved"
     assert os.path.isfile(msg_path), "Cycle 11 .msg must be preserved"
