@@ -1,0 +1,47 @@
+{
+  "cycle": 3,
+  "job_name": "PK_METHOD_C_MODE2_CYCLE3",
+  "status": "CONVERGED_AUDITED",
+  "formulation": "Frozen UEL shear demonstration; not Miehe spectral reproduction",
+  "donor_u1_mm": 0.012565677985548973,
+  "terminal_u1_mm": 0.014617100358009338,
+  "terminal_rf1_kn": 0.002190115861594677,
+  "peak_rf1_kn": 0.3980390131473541,
+  "tip_mm": [
+    0.828448474,
+    0.420860112
+  ],
+  "tip_history_chord_sum_mm": 0.338014,
+  "max_damage": 0.9974626779556275,
+  "mesh_elements": 5170,
+  "mesh_nodes": 5216,
+  "gate_results": {
+    "force_continuity_delta_pct": -1.290918169507653,
+    "force_continuity_pass": true,
+    "global_max_damage_nonhealing_pass": true,
+    "evaluation_timing": "after two-step job; failure forbids donor acceptance and further cycles",
+    "hold_energies": {
+      "SDV17": 0.0009230431018141743,
+      "SDV18": 0.0021180172847662174
+    },
+    "donor_energies": {
+      "SDV17": 0.0008974093967203056,
+      "SDV18": 0.00214571666082163
+    }
+  },
+  "elapsed_seconds": 155.0273940563202,
+  "completion": true,
+  "completion_reason": "REACTION_FORCE_BELOW_5PCT_PEAK",
+  "input_sha256": "CB1F20A9E8AB332ADA68E4C3205A75B256AE1197A13F9970CAA7C922BA65950E",
+  "mesh_sha256": "FF0CA53E45D189B066257F24CCB2BC9339A01406E67B2AFF88C182C8180C8C50",
+  "source_sha256": "CE8D5EDCD2911DCB018BB15275271F874E7EA62B8FB48CF4A8297469A83ACDD6",
+  "donor_cutoff": {
+    "frame": 31,
+    "time": 1.3089061975479126
+  },
+  "pbs_submissions": 0,
+  "cumulative_pbs_submissions": 73,
+  "transfer_implementation_sha256": "CCFE33814C6ADE6D8EAF6DE9DFD17C98E622497AAF3B16A6BFFC267F9F532621",
+  "transfer_implementation": "Unchanged Case 1 spatial nearest-neighbour damage/history transfer",
+  "donor_checkpoint_sha256": "B2BF28D9A7EB06860074BDBF194DB49E97EB3D6A5BED29D5B944C1E98EF21090"
+}
