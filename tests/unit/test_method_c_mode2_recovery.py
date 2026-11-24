@@ -65,3 +65,19 @@ def test_geometry_audit_rejects_inverted_element():
     nodes={1:(0,0),2:(1,0),3:(1,1),4:(0,1)}
     assert geometry_audit(nodes,{1:[1,2,3,4]})['positive_jacobians_pass']
     assert not geometry_audit(nodes,{1:[4,3,2,1]})['positive_jacobians_pass']
+
+
+def test_legacy_material_order_is_rejected(tmp_path):
+    import pytest
+    from mode2_runtime import validate_uel_properties
+    deck=tmp_path/'legacy.inp'
+    deck.write_text('*UEL PROPERTY, ELSET=PHASE\n210., .3, .0027, .015, 1e-7, 2960.\n')
+    with pytest.raises(ValueError,match='frozen source order'):
+        validate_uel_properties(deck,2960)
+    deck.write_text('*UEL PROPERTY, ELSET=PHASE\n.015, .0027, 210., .3, 1e-7, 2960.\n')
+    validate_uel_properties(deck,2960)
+
+
+def test_committed_coarse_deck_matches_actual_frozen_material_interface():
+    from mode2_runtime import validate_uel_properties
+    validate_uel_properties(MODULE.parent/'PK_METHOD_C_MODE2_COARSE_JOB1.inp',2960)

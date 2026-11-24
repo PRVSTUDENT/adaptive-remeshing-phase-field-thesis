@@ -583,6 +583,11 @@ def main(argv=None):
     except Exception as error:
         mode2_runtime.write_json(runner.run/'diagnosed_blocker.json',
             {'blocker':str(error),'retry':False,'master_goal_status':'OPEN','time':time.time()})
+        state_path=runner.run/'execution_state.json'
+        if state_path.exists():
+            state=json.loads(state_path.read_text())
+            state.update(active=False,completed=False,blocker=str(error),ended_at=time.time())
+            mode2_runtime.write_json(state_path,state)
         raise
     return 0
 

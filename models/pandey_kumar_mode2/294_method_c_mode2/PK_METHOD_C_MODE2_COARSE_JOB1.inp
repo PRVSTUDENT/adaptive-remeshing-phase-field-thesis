@@ -11983,9 +11983,9 @@
 ** PROPERTIES & MATERIALS
 ** ----------------------------------------------------------
 *UEL Property, elset=PHASE_ELEM
-210.0, 0.3, 0.0027, 0.015, 1.0e-7, 2960.
+0.015, 0.0027, 210.0, 0.3, 1.0e-7, 2960.
 *UEL Property, elset=MECH_ELEM
-210.0, 0.3, 0.0027, 0.015, 1.0e-7, 2960.
+0.015, 0.0027, 210.0, 0.3, 1.0e-7, 2960.
 *Solid Section, elset=All_elem, material=UMAT_MAT
 1.0,
 *Material, name=UMAT_MAT
@@ -12161,7 +12161,7 @@ N_BOTTOM, 1, 2, 0.0
 N_TOP, 2, 2, 0.0
 N_RP, 1, 1, 0.0095
 *Restart, write, frequency=0
-*Output, field, time interval=0.001
+*Output, field, time interval=0.005
 *Node Output, nset=N_RP
 U, RF
 *Element Output, elset=All_elem, directions=YES

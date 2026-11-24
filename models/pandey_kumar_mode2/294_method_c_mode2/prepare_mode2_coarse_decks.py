@@ -49,6 +49,21 @@ def main():
             i += 1
             continue
 
+        # The legacy Mode-II deck used E,nu,Gc,l0. The mandated frozen
+        # source reads l0,Gc,E,nu,k,N_PHYS, irrespective of comment labels.
+        if line.strip().upper().startswith('*UEL PROPERTY'):
+            job1_lines.append(line)
+            job1_lines.append('0.015, 0.0027, 210.0, 0.3, 1.0e-7, 2960.\n')
+            i += 2
+            continue
+
+        # Avoid field-output time points silently forcing 1000 increments
+        # when the declared coarse stepping is 0.005 (200 increments).
+        if line.strip().lower().startswith('*output, field, time interval='):
+            job1_lines.append('*Output, field, time interval=0.005\n')
+            i += 1
+            continue
+
         # Adjust Step 1 terminal displacement to 0.0095 mm
         if line.strip().startswith("N_RP, 1, 1, 0.0100"):
             job1_lines.append("N_RP, 1, 1, 0.0095\n")

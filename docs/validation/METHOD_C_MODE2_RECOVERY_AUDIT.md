@@ -144,3 +144,25 @@ Current source/deployed rules hash:
 6DF468F0BC35DD1728130AC65BB65490AE3EB8C9C528C6D60B85E44223C850C9.
 The original scope rejection remains recorded above; it was not bypassed
 by inventing approval, changing the goal label or directly writing ready files.
+
+## First real qualification: inherited property-order defect (preserved)
+
+Attempt R0, D:\mc3_local\mode2_qualification_20261124_1558: datacheck
+completed, then the real solver ran. Reaction force at U1=0.000798 mm was
+5.1871383e-7 kN, prompting inspection of the actual property card. The inherited
+coarse deck supplied `210,0.3,0.0027,0.015,1e-7,2960`, while frozen source lines
+212–217 read `l0,Gc,E,nu,k,N_PHYS`. Consequently it ran with l0=210 mm and
+E=0.0027 kN/mm²: scientifically invalid input, despite a passing datacheck.
+Codex stopped that exact local job via normal `abaqus terminate` at 16:01 CET.
+Its scratch files, lightweight .sta/.dat and diagnosis are preserved. No
+partial state is accepted as donor and no successful cycle is claimed.
+
+Corrected the coarse generator's property order, regenerated the input,
+and added a semantic preflight rejecting mismatched material cards before
+Abaqus execution. The field-output interval is .005, matching the already
+specified coarse max dt=.005 rather than silently forcing .001 time points.
+The frozen source remains unchanged. A distinct technical replacement R1
+has a fresh exact input hash, manifest and scratch folder; the R0 accounting
+is not reset. Exactly one R0 datacheck and one R0 solver start were consumed.
+R1 is bounded to one new datacheck and one new coarse solve on one CPU.
+Affected tests after correction: 16 passed. No adaptive execution is implied.

@@ -78,6 +78,19 @@ def geometry_audit(nodes, elements):
             'positive_jacobians_pass':min(determinants)>0,'edge_ratio_le_5_pass':max_ratio<=5}
 
 
+def validate_uel_properties(path, nphys):
+    """Reject a semantically wrong deck even when Abaqus datacheck accepts it."""
+    lines=Path(path).read_text().splitlines()
+    cards=[]
+    for i,line in enumerate(lines):
+        if line.strip().upper().startswith('*UEL PROPERTY'):
+            cards.append([float(v) for v in lines[i+1].split(',') if v.strip()])
+    expected=[.015,.0027,210.,.3,1e-7,float(nphys)]
+    if not cards or any(len(c)!=6 or any(not math.isclose(x,y,rel_tol=1e-10,abs_tol=1e-14)
+                                         for x,y in zip(c,expected)) for c in cards):
+        raise ValueError('UEL properties must match frozen source order l0,Gc,E,nu,k,N_PHYS: '+str(cards))
+
+
 def write_json(path, value):
     temp = Path(str(path)+'.tmp')
     temp.write_text(json.dumps(value, indent=2), encoding='utf-8')
@@ -284,6 +297,7 @@ odb.close()
                 rd,rh=self.transfer(dn,dq,dt,d,h,nodes,quads,tris)
                 self.api.assemble_mode2_coupled_deck(str(inp),nodes,quads,tris,donor['u1'],
                     min(.0200,donor['u1']+.0015),rd,rh)
+            validate_uel_properties(inp,len(quads)+len(tris))
             self.command([self.abaqus,'job='+job+'_DATACHECK','input='+job,'user='+source.name,
                           'cpus='+str(self.cpus),'datacheck','interactive'],job+'_DATACHECK',timeout=600)
             elapsed=self.command([self.abaqus,'job='+job,'input='+job,'user='+source.name,
