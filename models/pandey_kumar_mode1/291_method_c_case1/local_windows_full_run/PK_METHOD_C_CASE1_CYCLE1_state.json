@@ -1,0 +1,236 @@
+{
+  "job_prefix": "PK_METHOD_C_CASE1_CYCLE1",
+  "tip_x": 0.506189,
+  "tip_y": 0.499514,
+  "step1_rf2": 0.759178,
+  "terminal_rf2": 0.797036,
+  "terminal_u2": 0.006317,
+  "peak_rf2": 0.797036,
+  "max_damage": 0.868083,
+  "e_frac": 0.0,
+  "cutback_eval": {
+    "increments": [
+      {
+        "step": 1,
+        "increment": 1,
+        "attempt": 1,
+        "step_time": 1.0,
+        "dt": 1.0
+      },
+      {
+        "step": 2,
+        "increment": 1,
+        "attempt": 1,
+        "step_time": 0.002,
+        "dt": 0.002
+      },
+      {
+        "step": 2,
+        "increment": 2,
+        "attempt": 1,
+        "step_time": 0.000505,
+        "dt": -0.001495
+      },
+      {
+        "step": 2,
+        "increment": 3,
+        "attempt": 1,
+        "step_time": 0.00133,
+        "dt": 0.0008242
+      },
+      {
+        "step": 2,
+        "increment": 4,
+        "attempt": 1,
+        "step_time": 0.00434,
+        "dt": 0.003013
+      },
+      {
+        "step": 2,
+        "increment": 5,
+        "attempt": 1,
+        "step_time": 0.01,
+        "dt": 0.005667
+      },
+      {
+        "step": 2,
+        "increment": 6,
+        "attempt": 1,
+        "step_time": 0.0193,
+        "dt": 0.009245
+      },
+      {
+        "step": 2,
+        "increment": 7,
+        "attempt": 1,
+        "step_time": 0.0337,
+        "dt": 0.01444
+      },
+      {
+        "step": 2,
+        "increment": 8,
+        "attempt": 1,
+        "step_time": 0.0558,
+        "dt": 0.02207
+      },
+      {
+        "step": 2,
+        "increment": 9,
+        "attempt": 1,
+        "step_time": 0.0892,
+        "dt": 0.0334
+      },
+      {
+        "step": 2,
+        "increment": 10,
+        "attempt": 1,
+        "step_time": 0.138,
+        "dt": 0.04906
+      },
+      {
+        "step": 2,
+        "increment": 11,
+        "attempt": 1,
+        "step_time": 0.187,
+        "dt": 0.04898
+      },
+      {
+        "step": 2,
+        "increment": 12,
+        "attempt": 1,
+        "step_time": 0.236,
+        "dt": 0.0489
+      },
+      {
+        "step": 2,
+        "increment": 13,
+        "attempt": 1,
+        "step_time": 0.285,
+        "dt": 0.04882
+      },
+      {
+        "step": 2,
+        "increment": 14,
+        "attempt": 1,
+        "step_time": 0.334,
+        "dt": 0.04873
+      },
+      {
+        "step": 2,
+        "increment": 15,
+        "attempt": 1,
+        "step_time": 0.382,
+        "dt": 0.04864
+      },
+      {
+        "step": 2,
+        "increment": 16,
+        "attempt": 1,
+        "step_time": 0.431,
+        "dt": 0.04854
+      },
+      {
+        "step": 2,
+        "increment": 17,
+        "attempt": 1,
+        "step_time": 0.479,
+        "dt": 0.04841
+      },
+      {
+        "step": 2,
+        "increment": 18,
+        "attempt": 1,
+        "step_time": 0.528,
+        "dt": 0.04827
+      },
+      {
+        "step": 2,
+        "increment": 19,
+        "attempt": 1,
+        "step_time": 0.576,
+        "dt": 0.04811
+      },
+      {
+        "step": 2,
+        "increment": 20,
+        "attempt": 1,
+        "step_time": 0.624,
+        "dt": 0.04791
+      },
+      {
+        "step": 2,
+        "increment": 21,
+        "attempt": 1,
+        "step_time": 0.671,
+        "dt": 0.04767
+      },
+      {
+        "step": 2,
+        "increment": 22,
+        "attempt": 1,
+        "step_time": 0.719,
+        "dt": 0.04737
+      },
+      {
+        "step": 2,
+        "increment": 23,
+        "attempt": 1,
+        "step_time": 0.766,
+        "dt": 0.04701
+      },
+      {
+        "step": 2,
+        "increment": 24,
+        "attempt": 1,
+        "step_time": 0.812,
+        "dt": 0.04657
+      },
+      {
+        "step": 2,
+        "increment": 25,
+        "attempt": 1,
+        "step_time": 0.858,
+        "dt": 0.04602
+      },
+      {
+        "step": 2,
+        "increment": 26,
+        "attempt": 1,
+        "step_time": 0.904,
+        "dt": 0.04537
+      },
+      {
+        "step": 2,
+        "increment": 27,
+        "attempt": 1,
+        "step_time": 0.948,
+        "dt": 0.04459
+      },
+      {
+        "step": 2,
+        "increment": 28,
+        "attempt": 1,
+        "step_time": 0.992,
+        "dt": 0.04373
+      },
+      {
+        "step": 2,
+        "increment": 29,
+        "attempt": 1,
+        "step_time": 1.03,
+        "dt": 0.04285
+      }
+    ],
+    "total_converged_increments": 30,
+    "terminal_converged": {
+      "step": 2,
+      "increment": 29,
+      "attempt": 1,
+      "step_time": 1.03,
+      "dt": 0.04285
+    },
+    "cutback_floor_reached": false
+  },
+  "nodal_damage_count": 5441,
+  "gp_history_count": 21184
+}

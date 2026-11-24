@@ -1,0 +1,26 @@
+{
+  "cycle": 4,
+  "job_name": "PK_METHOD_C_CASE1_CYCLE4",
+  "status": "CONVERGED_TO_TARGET",
+  "donor_u2_mm": 0.007336,
+  "terminal_u2_mm": 0.007837,
+  "step1_rf2_kn": 0.525145,
+  "terminal_rf2_kn": 0.368467,
+  "peak_rf2_kn": 0.797036,
+  "tip_x_mm": 0.784287,
+  "tip_y_mm": 0.498153,
+  "cumulative_arc_length_mm": 0.284347,
+  "max_damage": 0.999088,
+  "mesh_elements": 7922,
+  "mesh_nodes": 7927,
+  "gate_results": {
+    "force_continuity_delta_pct": 2.122,
+    "force_continuity_pass": true,
+    "donor_rf2_kn": 0.514233,
+    "receiver_step1_rf2_kn": 0.525145,
+    "donor_d_max": 0.992669,
+    "terminal_d_max": 0.999088,
+    "zero_healing_pass": true
+  },
+  "elapsed_seconds": 218.0
+}
