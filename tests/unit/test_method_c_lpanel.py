@@ -214,3 +214,57 @@ def test_lpanel_stall_watchdog():
 
     stalled, reason, details = watch.check_agent_stall()
     assert not stalled
+
+
+def test_lpanel_collar_run_evidence_and_gates():
+    """
+    Verifies that the steel collar run evidence across Cycles 0 to 7
+    satisfies all physical transfer gates, zero-healing, and authentic tip propagation.
+    """
+    run_dir = os.path.join(REPO_ROOT, "models", "mode_II_or_l_panel", "295_method_c_lpanel", "local_windows_full_run")
+    assert os.path.isdir(run_dir), "Run directory must exist"
+
+    manifest_path = os.path.join(run_dir, "image_manifest.json")
+    assert os.path.isfile(manifest_path), "Image manifest must exist"
+    with open(manifest_path, "r") as f:
+        manifest = json.load(f)
+    assert len(manifest) == 8, f"Must have 8 cycles recorded, found {len(manifest)}"
+
+    # Audit every cycle
+    prev_dmax = 0.0
+    for entry in manifest:
+        cycle = entry["cycle"]
+        job = "PK_METHOD_C_LPANEL_COARSE_JOB1" if cycle == 0 else f"PK_METHOD_C_LPANEL_CYCLE{cycle}"
+        sum_path = os.path.join(run_dir, f"{job}_SUMMARY.json")
+        assert os.path.isfile(sum_path)
+        with open(sum_path, "r") as f:
+            summary = json.load(f)
+
+        assert summary["status"] == "CONVERGED_AUDITED"
+        assert summary["source_sha256"] == orch.FROZEN_UEL_SHA256
+        assert summary["mesh_elements"] < 35000
+
+        # Monotonic damage (zero healing)
+        assert summary["max_damage"] >= prev_dmax - 1e-4
+        prev_dmax = summary["max_damage"]
+
+        # Transfer gates for adaptive cycles
+        if cycle > 0:
+            gates = summary["gate_results"]
+            assert gates["force_continuity_pass"] is True
+            assert abs(gates["force_continuity_delta_pct"]) <= 5.0
+            assert gates["global_max_damage_nonhealing_pass"] is True
+
+        # Commit-pinned URL verification
+        assert entry["commit"] in entry["url"]
+        assert entry["image_sha256"] is not None
+
+    # Final cycle check: authentic tip advance into vertical column
+    c7_sum_path = os.path.join(run_dir, "PK_METHOD_C_LPANEL_CYCLE7_SUMMARY.json")
+    with open(c7_sum_path, "r") as f:
+        c7 = json.load(f)
+    assert c7["tip_mm"][0] < 200.0  # tip traversed from 250 mm to < 200 mm
+    assert c7["tip_mm"][1] > 265.0  # tip curved upward above y = 265 mm
+    assert c7["tip_history_chord_sum_mm"] > 50.0  # cumulative chord > 50 mm
+    assert c7["peak_rf2_kn"] > 0.158  # peak reaction force ~ 0.159 kN
+
