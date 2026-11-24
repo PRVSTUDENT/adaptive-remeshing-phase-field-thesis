@@ -81,3 +81,30 @@ def test_legacy_material_order_is_rejected(tmp_path):
 def test_committed_coarse_deck_matches_actual_frozen_material_interface():
     from mode2_runtime import validate_uel_properties
     validate_uel_properties(MODULE.parent/'PK_METHOD_C_MODE2_COARSE_JOB1.inp',2960)
+
+
+def test_empty_existing_sta_cannot_evade_two_hour_stall_guard(tmp_path):
+    from stall_watchdog import StallWatchdog
+    watchdog=StallWatchdog()
+    watchdog.start_cycle()
+    sta=tmp_path/'empty.sta'
+    sta.write_text('SUMMARY OF JOB INFORMATION\n')
+    assert watchdog.check_simulation_stall(sta,current_time=watchdog.last_increment_time+7200)[0]
+
+
+def test_resume_rejects_mismatched_donor_before_any_solver_command(tmp_path):
+    import json
+    import pytest
+    from mode2_runtime import LocalRunner
+    donor_mesh=tmp_path/'donor.inp'
+    donor_mesh.write_text('modified mesh')
+    checkpoint=tmp_path/'checkpoint.json'
+    checkpoint.write_text(json.dumps({'summary':{
+        'source_sha256':mode2.FROZEN_UEL_SHA256,'status':'CONVERGED_AUDITED',
+        'mesh_sha256':'0'*64},'mesh_path':str(donor_mesh),'odb_path':str(tmp_path/'donor.odb')}))
+    runner=LocalRunner(mode2,tmp_path/'resume',donor_checkpoint=checkpoint)
+    def forbidden(*args,**kwargs):
+        pytest.fail('Solver/preparation command must not run with a corrupted donor')
+    runner.command=forbidden
+    with pytest.raises(RuntimeError,match='Donor evidence, hash or convergence mismatch'):
+        runner.execute()

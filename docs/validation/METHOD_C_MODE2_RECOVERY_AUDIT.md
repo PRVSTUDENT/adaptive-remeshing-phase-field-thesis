@@ -166,3 +166,24 @@ has a fresh exact input hash, manifest and scratch folder; the R0 accounting
 is not reset. Exactly one R0 datacheck and one R0 solver start were consumed.
 R1 is bounded to one new datacheck and one new coarse solve on one CPU.
 Affected tests after correction: 16 passed. No adaptive execution is implied.
+
+## Corrected coarse qualification R1 — authentic result
+
+The one-CPU corrected coarse job completed successfully, .sta increment 200,
+U1=0.009499999694526196 mm, RF1=0.3980390131473541 kN, averaged companion
+maximum damage=0.35076945275068283, tip detector remains at (0.5,0.5) mm,
+2960 elements / 3036 nodes. Measured solve elapsed 180.04 seconds.
+This is a pre-adaptive donor, not forward-growth or transfer evidence.
+Source remains CE8D5EDC. Input SHA256 3349F60B04C8FBF849A83D8028ECAED5BEC09DA25B50995C0B5D0C595CD05207.
+Image and solver artifacts committed, with pinned manifest, and pushed through
+89fcbacd7. Scratch checkpoint:
+D:\mc3_local\mode2_qualification_r1_20261124_1602\PK_METHOD_C_MODE2_COARSE_JOB1_checkpoint.json.
+
+Next bounded numerical operation: exactly one adaptive cycle from this donor,
+using a fresh scratch folder, existing nearest-neighbour transfer unchanged,
+actual donor data only, broad tip-controlled refinement h_ref=.007 mm,
+fixed-load hold and target donor U1+0.0015 mm. One CPU, one datacheck, one solve,
+no automatic retry, zero PBS. Test measurable force continuity <=5% and the
+unchanged global-maximum-damage gate; record energies, actual target/response,
+connected damage geometry, cost and hashes. Failure preserves evidence and
+blocks further cycles for independent review. Latest offline suite: 18 passed.

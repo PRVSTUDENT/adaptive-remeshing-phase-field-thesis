@@ -1,9 +1,9 @@
 {
     "task_id":  "METHOD-C-MODE2-LPANEL-STALL-CHECK-AMENDMENT",
     "title":  "Stall-Check Clause Amendment to the Mode-II and L-Panel Campaign",
-    "task_status":  "LOCAL_COARSE_QUALIFICATION_READY",
+    "task_status":  "MODE2_COARSE_VERIFIED_CYCLE1_READY",
     "master_goal_status":  "OPEN",
-    "status":  "LOCAL_COARSE_QUALIFICATION_READY",
+    "status":  "MODE2_COARSE_VERIFIED_CYCLE1_READY",
     "review_verdict":  "GOAL_AMENDMENT",
     "review_correlation_id":  "HND-METHOD-C-MODE2-LPANEL-002",
     "classification":  "METHOD_C_INCREMENTAL_ADAPTIVE_REMESHING",
@@ -33,5 +33,5 @@
     "max_new_pbs_submissions":  0,
     "submissions_consumed":  0,
     "cumulative_pbs_submissions":  73,
-    "notes":  "User accepted unchanged frozen UEL shear demonstration with disclosed formulation difference. Bounded local runtime implemented; 14 offline tests pass. Guarded bridge scope synchronized and dry-run passes. Exact first stage one coarse datacheck/solve on one CPU, no adaptive cycles yet. MASTER_GOAL_STATUS OPEN."
+    "notes":  "Corrected coarse R1 completed successfully, U1=.0095 mm RF1=.398039 kN dmax=.350769, 2960 elements, 180s. Published/pushed evidence through 89fcbacd7. R0 wrong input preserved. Preparing exactly one adaptive transfer cycle, source frozen, 18 tests pass. MASTER_GOAL_STATUS OPEN."
 }

@@ -567,6 +567,7 @@ def main(argv=None):
     parser.add_argument('--run-dir', help='Fresh local scratch directory; existing runs are preserved.')
     parser.add_argument('--max-cycles', type=int, default=7)
     parser.add_argument('--cpus', type=int, default=1)
+    parser.add_argument('--donor-checkpoint', help='Explicit authentic checkpoint; new scratch folder required.')
     args = parser.parse_args(argv)
     if args.dry_run:
         print(json.dumps(preparation_audit(), indent=2))
@@ -577,7 +578,8 @@ def main(argv=None):
         parser.error('Scope is one local CPU, at most seven adaptive cycles, and a fresh --run-dir.')
     import mode2_runtime
     runner = mode2_runtime.LocalRunner(sys.modules[__name__], args.run_dir, args.cpus,
-                                     0 if args.coarse_only else args.max_cycles)
+                                     0 if args.coarse_only else args.max_cycles,
+                                     donor_checkpoint=args.donor_checkpoint)
     try:
         runner.execute()
     except Exception as error:

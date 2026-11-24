@@ -98,7 +98,7 @@ def write_json(path, value):
 
 
 class LocalRunner:
-    def __init__(self, api, run_dir, cpus=1, max_cycles=7):
+    def __init__(self, api, run_dir, cpus=1, max_cycles=7, donor_checkpoint=None):
         self.api = api
         self.run = Path(run_dir).resolve()
         self.run.mkdir(parents=True, exist_ok=True)
@@ -110,6 +110,7 @@ class LocalRunner:
         self.published = []
         self.peak = 0.
         self.tips = []
+        self.donor_checkpoint = Path(donor_checkpoint).resolve() if donor_checkpoint else None
 
     def command(self, args, name, solver=False, timeout=300):
         log = self.run/(name+'_command.log')
@@ -230,6 +231,9 @@ odb.close()
                 raise RuntimeError('Preserving existing published evidence: '+str(dest))
             shutil.copy2(path,dest)
             files.append(str(dest.relative_to(ROOT)))
+        index=subprocess.run(['git','diff','--cached','--quiet'],cwd=ROOT,stdin=subprocess.DEVNULL)
+        if index.returncode:
+            raise RuntimeError('Pre-existing staged changes preserved; reconcile before evidence commit')
         subprocess.run(['git','add','-f','--']+files,cwd=ROOT,stdin=subprocess.DEVNULL,check=True)
         subprocess.run(['git','commit','-m','feat(mode2): record audited shear demonstration cycle '+str(summary['cycle'])],
                        cwd=ROOT,stdin=subprocess.DEVNULL,check=True)
@@ -261,7 +265,35 @@ odb.close()
         shutil.copy2(source,self.run/source.name)
         donor=None
         donor_mesh=None
-        for cycle in range(self.max_cycles+1):
+        first_cycle=0
+        if self.donor_checkpoint:
+            checkpoint=json.loads(self.donor_checkpoint.read_text())
+            previous=checkpoint['summary']
+            phys=Path(checkpoint['mesh_path'])
+            previous_input=Path(checkpoint['odb_path']).with_suffix('.inp')
+            sta=Path(checkpoint['odb_path']).with_suffix('.sta')
+            if (previous['source_sha256'] != self.api.FROZEN_UEL_SHA256 or
+                previous['status'] != 'CONVERGED_AUDITED' or
+                self.api.compute_sha256(phys) != previous['mesh_sha256'] or
+                self.api.compute_sha256(previous_input) != previous['input_sha256'] or
+                'THE ANALYSIS HAS COMPLETED SUCCESSFULLY' not in sta.read_text(errors='replace')):
+                raise RuntimeError('Donor evidence, hash or convergence mismatch; refusing resume')
+            donor=checkpoint['fields']['terminal']
+            donor_mesh=self.api.parse_physical_mesh(str(phys))
+            self.peak=previous['peak_rf1_kn']
+            self.tips=checkpoint.get('tip_history', [previous['tip_mm']] if previous['cycle']==0 else [])
+            if not self.tips:
+                raise RuntimeError('Historical tip path missing; cannot invent resumed arc length')
+            first_cycle=previous['cycle']+1
+            write_json(self.run/'donor_receipt.json',{'checkpoint':str(self.donor_checkpoint),
+                'sha256':self.api.compute_sha256(self.donor_checkpoint),'cycle':previous['cycle'],
+                'cutoff':{'increment':donor['step_frame'],'frame_time':donor['frame_time']}})
+        if first_cycle>self.max_cycles:
+            raise ValueError('Cycle cap precedes the supplied donor; no run started')
+        for cycle in range(first_cycle,self.max_cycles+1):
+            stalled,reason,details=self.watch.check_agent_stall()
+            if stalled:
+                raise RuntimeError('Agent progress guard: '+reason+'; '+details)
             job='PK_METHOD_C_MODE2_COARSE_JOB1' if cycle==0 else 'PK_METHOD_C_MODE2_CYCLE%d'%cycle
             inp=self.run/(job+'.inp')
             phys=self.run/(job+'_PHYS.inp')
@@ -334,9 +366,14 @@ odb.close()
                      'source_sha256':self.api.FROZEN_UEL_SHA256,'donor_cutoff':
                      {'frame':donor['step_frame'],'time':donor['frame_time']} if cycle else None,
                      'pbs_submissions':0,'cumulative_pbs_submissions':73}
+            summary['transfer_implementation_sha256']=self.api.compute_sha256(
+                ROOT/'models/pandey_kumar_mode1/291_method_c_case1/case1_single_job_orchestrator.py')
+            summary['transfer_implementation']='Unchanged Case 1 spatial nearest-neighbour damage/history transfer'
+            summary['donor_checkpoint_sha256']=self.api.compute_sha256(self.donor_checkpoint) if self.donor_checkpoint else None
             write_json(self.run/(job+'_SUMMARY.json'),summary)
             write_json(self.run/(job+'_checkpoint.json'),{'summary':summary,'fields':fields,
-                       'mesh_path':str(phys),'odb_path':str(self.run/(job+'.odb'))})
+                       'mesh_path':str(phys),'odb_path':str(self.run/(job+'.odb')),
+                       'tip_history':self.tips})
             image=self.plot(job,mesh,terminal,summary)
             self.publish(job,summary,phys,image)
             if not accepted:

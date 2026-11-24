@@ -98,7 +98,7 @@ class StallWatchdog(object):
         # Check (b): cycle runtime exceeded 8 hours
         if self.cycle_start_time is not None:
             cycle_elapsed = current_time - self.cycle_start_time
-            if cycle_elapsed > self.max_cycle_seconds:
+            if cycle_elapsed >= self.max_cycle_seconds:
                 hours = cycle_elapsed / 3600.0
                 return (True, "CYCLE_TIMEOUT_EXCEEDED_8_HOURS",
                         "Cycle has been running for %.2f hours without completion (max 8.0 hr)" % hours)
@@ -112,6 +112,10 @@ class StallWatchdog(object):
             return (False, "NORMAL", "Waiting for .sta creation")
 
         latest_inc = self.parse_sta_last_increment(sta_path)
+        if latest_inc is None and self.last_increment_time is not None:
+            if current_time - self.last_increment_time >= self.max_sta_stall_seconds:
+                return (True, "SIMULATION_STALL_NO_INCREMENT_FOR_2_HOURS",
+                        "Existing .sta contains no valid converged increment after 2 hours")
         if latest_inc is not None:
             inc_id = (latest_inc[0], latest_inc[1], latest_inc[2])
             if inc_id != self.last_increment_seen:
@@ -123,7 +127,7 @@ class StallWatchdog(object):
                 # Same increment as before: check elapsed time since advance
                 if self.last_increment_time is not None:
                     idle_seconds = current_time - self.last_increment_time
-                    if idle_seconds > self.max_sta_stall_seconds:
+                    if idle_seconds >= self.max_sta_stall_seconds:
                         hours = idle_seconds / 3600.0
                         return (True, "SIMULATION_STALL_NO_INCREMENT_FOR_2_HOURS",
                                 "No new increment record in .sta for %.2f hours (stalled on step %d inc %d)" %
@@ -140,7 +144,7 @@ class StallWatchdog(object):
             current_time = time.time()
 
         elapsed = current_time - self.last_agent_progress_time
-        if elapsed > self.max_agent_seconds:
+        if elapsed >= self.max_agent_seconds:
             hours = elapsed / 3600.0
             return (True, "AGENT_STALL_NO_PROGRESS_FOR_4_HOURS",
                     "AGY has not committed/pushed progress or issued a handoff for %.2f hours" % hours)
