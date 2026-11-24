@@ -204,11 +204,11 @@ def parse_dat_rf2(dat_path):
     }
 
 
-def run_cycle(c, run_dir=DEFAULT_RUN_DIR, cpus=6, skip_solve=False, push=True):
+def run_cycle(c, run_dir=DEFAULT_RUN_DIR, cpus=6, skip_solve=False, push=True, load_increment_mm=0.0100):
     job_name = "PK_METHOD_C_CASE3_CYCLE%d" % c
     donor_c = c - 1
     print("\n=================================================================")
-    print("Executing Cycle %d (Donor: Cycle %d)" % (c, donor_c))
+    print("Executing Cycle %d (Donor: Cycle %d, Delta_u2: %.4f mm)" % (c, donor_c, load_increment_mm))
     print("=================================================================")
 
     if not skip_solve:
@@ -228,6 +228,7 @@ def run_cycle(c, run_dir=DEFAULT_RUN_DIR, cpus=6, skip_solve=False, push=True):
             "--run-dir", run_dir,
             "--resume-cycle", str(donor_c),
             "--n-adaptive-steps", str(c),
+            "--load-increment-mm", str(load_increment_mm),
             "--cpus", str(cpus)
         ]
         print("[Runner EXEC] %s" % " ".join(cmd))
@@ -372,6 +373,7 @@ def main():
     parser.add_argument("--start-cycle", type=int, default=49)
     parser.add_argument("--end-cycle", type=int, default=56)
     parser.add_argument("--run-dir", default=DEFAULT_RUN_DIR)
+    parser.add_argument("--load-increment-mm", type=float, default=0.0100)
     parser.add_argument("--cpus", type=int, default=6)
     parser.add_argument("--skip-solve", action="store_true")
     parser.add_argument("--no-push", action="store_true")
@@ -384,7 +386,8 @@ def main():
             run_dir=args.run_dir,
             cpus=args.cpus,
             skip_solve=args.skip_solve,
-            push=(not args.no_push)
+            push=(not args.no_push),
+            load_increment_mm=args.load_increment_mm
         )
         results.append(rec)
         term_u2 = rec.get("actual_terminal_u2")
