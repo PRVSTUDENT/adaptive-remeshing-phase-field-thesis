@@ -1,0 +1,1698 @@
+1
+
+   Abaqus 2024                                  Date 24-Nov-2026   Time 11:43:44
+   For use by Supplied by Team-SolidSQUAD under license from Dassault Systemes or its subsidiary.
+
+
+
+                         The Abaqus Software is a product of:
+
+                           Dassault Systemes SIMULIA Corp.
+                           1301 Atwood Avenue, Suite 101W
+                              Johnston, RI 02919, USA
+ 
+
+
+                   The Abaqus Software is available only under license
+                   from Dassault Systemes or its subsidiary and may be
+                   used or reproduced only in accordance with the terms
+                   of such license.
+ 
+                          On machine PRUTHVI 
+                          you are authorized to run
+                          Abaqus/Standard until 31-Dec-2055
+
+                          Your site id is:  
+
+
+ 
+                    For assistance or any other information you may
+                    obtain contact information for your local office
+                    from the world wide web at:
+
+                      https://www.3ds.com/products-services/simulia/services-support/
+
+ 
+                * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * 
+                *                                                         * 
+                *                   *****************                     * 
+                *                   *  N O T I C E  *                     * 
+                *                   *****************                     * 
+                *                                                         * 
+                *                                                         * 
+                *                       Abaqus 2024                       * 
+                *                                                         * 
+                *       BUILD ID: 2023_09_21-14.55.25 RELr426 190762      * 
+                *                                                         * 
+                *                                                         * 
+                *  Please make sure you are using                         * 
+                *  release Abaqus 2024 manuals                            * 
+                *  plus the notes accompanying this release.              * 
+                *                                                         * 
+                *                                                         * 
+                *                                                         * 
+                *                                                         * 
+                * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * 
+
+
+ 
+
+
+
+     PROCESSING PART, INSTANCE, AND ASSEMBLY INFORMATION
+   *******************************************************
+
+
+     END PROCESSING PART, INSTANCE, AND ASSEMBLY INFORMATION
+   ***********************************************************
+
+
+
+
+     OPTIONS BEING PROCESSED
+   ***************************
+
+
+  *USER ELEMENT, TYPE=U1, NODES=4, COORDINATES=2, PROPERTIES=6, VARIABLES=18, UNSYMM
+  *USER ELEMENT, TYPE=U2, NODES=4, COORDINATES=2, PROPERTIES=6, VARIABLES=18, UNSYMM
+  *USER ELEMENT, TYPE=U3, NODES=3, COORDINATES=2, PROPERTIES=6, VARIABLES=18, UNSYMM
+  *USER ELEMENT, TYPE=U4, NODES=3, COORDINATES=2, PROPERTIES=6, VARIABLES=18, UNSYMM
+  *HEADING
+          Method C Case 5 Coarse Model: PK_METHOD_C_CASE5_COARSE_JOB1                                                                                                                                                                                                                                                                                                                                                                                                                                                                     
+  *ELEMENT, TYPE=U1, ELSET=PHASE_QUAD
+  *ELEMENT, TYPE=U3, ELSET=PHASE_TRI
+  *ELEMENT, TYPE=U2, ELSET=DISP_QUAD
+  *ELEMENT, TYPE=U4, ELSET=DISP_TRI
+  *ELEMENT, TYPE=CPE4, ELSET=UMAT_QUADS
+  *ELEMENT, TYPE=CPE3, ELSET=UMAT_TRIS
+  *ELSET, ELSET=PHASE_ELEM
+  *ELSET, ELSET=MECH_ELEM
+  *ELSET, ELSET=All_elem
+  *ELSET, ELSET=umatelem
+  *MATERIAL, NAME=UMAT_MAT
+  *USER MATERIAL, CONSTANTS=4
+  *DEPVAR
+  *SOLID SECTION, ELSET=umatelem, MATERIAL=UMAT_MAT
+  *USER ELEMENT, TYPE=U1, NODES=4, COORDINATES=2, PROPERTIES=6, VARIABLES=18, UNSYMM
+  *USER ELEMENT, TYPE=U2, NODES=4, COORDINATES=2, PROPERTIES=6, VARIABLES=18, UNSYMM
+  *USER ELEMENT, TYPE=U3, NODES=3, COORDINATES=2, PROPERTIES=6, VARIABLES=18, UNSYMM
+  *USER ELEMENT, TYPE=U4, NODES=3, COORDINATES=2, PROPERTIES=6, VARIABLES=18, UNSYMM
+  *SOLID SECTION, ELSET=umatelem, MATERIAL=UMAT_MAT
+  *BOUNDARY
+  *BOUNDARY
+  *EQUATION
+  *EQUATION
+  *EQUATION
+  *EQUATION
+  *EQUATION
+  *EQUATION
+  *EQUATION
+  *EQUATION
+  *EQUATION
+  *EQUATION
+  *EQUATION
+  *EQUATION
+  *EQUATION
+  *EQUATION
+  *EQUATION
+  *EQUATION
+  *EQUATION
+  *EQUATION
+  *EQUATION
+  *EQUATION
+  *EQUATION
+  *EQUATION
+  *EQUATION
+  *EQUATION
+  *EQUATION
+  *EQUATION
+  *EQUATION
+  *EQUATION
+  *EQUATION
+  *EQUATION
+  *EQUATION
+  *EQUATION
+  *EQUATION
+  *EQUATION
+  *EQUATION
+  *EQUATION
+  *EQUATION
+  *EQUATION
+  *EQUATION
+  *EQUATION
+  *EQUATION
+  *EQUATION
+  *EQUATION
+  *EQUATION
+  *EQUATION
+  *EQUATION
+  *EQUATION
+  *EQUATION
+  *EQUATION
+  *EQUATION
+
+ ***NOTE: DUE TO EXCESSIVE REPORTING, THE ECHO OF THE *MPC and *EQUATION 
+          OPTIONS IS BEING SUPPRESSED.
+  *UEL PROPERTY, ELSET=PHASE_ELEM
+  *UEL PROPERTY, ELSET=MECH_ELEM
+  *OUTPUT, FIELD, FREQUENCY=5
+  *ELEMENT OUTPUT, ELSET=umatelem
+  *OUTPUT, FIELD, FREQUENCY=5
+  *ELEMENT OUTPUT, ELSET=umatelem
+  *OUTPUT, FIELD, FREQUENCY=5
+  *ELEMENT OUTPUT, ELSET=umatelem
+  *OUTPUT, FIELD, FREQUENCY=5
+  *ELEMENT OUTPUT, ELSET=umatelem
+
+ ***NOTE: MPCS (EXTERNAL or INTERNAL, including those generated from rigid body 
+          definitions), KINEMATIC COUPLINGS, AND/OR EQUATIONS WILL ACTIVATE 
+          ADDITIONAL DEGREES OF FREEDOM
+  *STEP, NAME=Step-1, NLGEOM=NO, INC=1000
+  *OUTPUT, FIELD, FREQUENCY=5
+  *STEP, NAME=Step-1, NLGEOM=NO, INC=1000
+  *STEP, NAME=Step-1, NLGEOM=NO, INC=1000
+  *STATIC
+  *BOUNDARY
+  *OUTPUT, FIELD, FREQUENCY=5
+  *NODE OUTPUT, NSET=N_RP
+  *NODE OUTPUT, NSET=N_BOTTOM
+  *NODE OUTPUT
+  *ELEMENT OUTPUT, ELSET=umatelem
+  *NODE PRINT, FREQ=1, NSET=N_RP
+  *END STEP
+
+ ***WARNING: THE *ELEMENT OUTPUT OPTION IS NOT SUPPORTED FOR USER ELEMENTS
+
+ ***WARNING: THE *ELEMENT OUTPUT OPTION IS NOT SUPPORTED FOR USER ELEMENTS
+
+ ***WARNING: THE *ELEMENT OUTPUT OPTION IS NOT SUPPORTED FOR USER ELEMENTS
+
+ ***WARNING: THE *ELEMENT OUTPUT OPTION IS NOT SUPPORTED FOR USER ELEMENTS
+  *STEP, NAME=Step-1, NLGEOM=NO, INC=1000
+  *STATIC
+  *BOUNDARY
+  *END STEP
+
+ ***WARNING: Boundary conditions are specified on inactive dof 1 at 1 nodes. 
+             The nodes have been identified in node set WarnNodeBCInactiveDof1.
+
+
+
+                            P R O B L E M   S I Z E
+
+
+          NUMBER OF ELEMENTS IS                                  7698
+          NUMBER OF NODES IS                                     2689
+          NUMBER OF NODES DEFINED BY THE USER                    2689
+          TOTAL NUMBER OF VARIABLES IN THE MODEL                 8065
+          (DEGREES OF FREEDOM PLUS MAX NO. OF ANY LAGRANGE MULTIPLIER
+           VARIABLES. INCLUDE *PRINT,SOLVE=YES TO GET THE ACTUAL NUMBER.)
+
+
+
+                              END OF USER INPUT PROCESSING
+
+
+
+     JOB TIME SUMMARY
+       USER TIME (SEC)      =     0.30    
+       SYSTEM TIME (SEC)    =     0.10    
+       TOTAL CPU TIME (SEC) =     0.40    
+       WALLCLOCK TIME (SEC) =            0
+1
+
+   Abaqus 2024                                  Date 24-Nov-2026   Time 11:43:59
+   For use by Supplied by Team-SolidSQUAD under license from Dassault Systemes or its subsidiary.
+
+     Method C Case 5 Coarse Model: PK_METHOD_C_CASE5_COARSE_JOB1                               STEP    1  INCREMENT    1
+                                                                                          TIME COMPLETED IN THIS STEP   0.00    
+
+
+                        S T E P       1     S T A T I C   A N A L Y S I S
+
+
+                                                                                          
+
+     AUTOMATIC TIME CONTROL WITH -
+          A SUGGESTED INITIAL TIME INCREMENT OF                2.000E-02
+          AND A TOTAL TIME PERIOD OF                            1.00    
+          THE MINIMUM TIME INCREMENT ALLOWED IS                1.000E-07
+          THE MAXIMUM TIME INCREMENT ALLOWED IS                2.000E-02
+
+     LINEAR EQUATION SOLVER TYPE         DIRECT SPARSE
+
+          UNSYMMETRIC MATRIX STORAGE AND SOLUTION WILL BE USED
+  
+                   M E M O R Y   E S T I M A T E
+  
+ PROCESS      FLOATING PT       MINIMUM MEMORY        MEMORY TO
+              OPERATIONS           REQUIRED          MINIMIZE I/O
+             PER ITERATION           (MB)               (MB)
+  
+     1          8.66E+07               22                 41
+  
+ NOTE:
+      (1) SINCE ABAQUS DOES NOT PRE-ALLOCATE MEMORY AND ONLY ALLOCATES MEMORY AS NEEDED DURING THE ANALYSIS,
+          THE MEMORY REQUIREMENT PRINTED HERE CAN ONLY BE VIEWED AS A GENERAL GUIDELINE BASED ON THE BEST
+          KNOWLEDGE AVAILABLE AT THE BEGINNING OF A STEP BEFORE THE SOLUTION PROCESS HAS BEGUN.
+      (2) THE ESTIMATE IS NORMALLY UPDATED AT THE BEGINNING OF EVERY STEP. IT IS THE MAXIMUM VALUE OF THE
+          ESTIMATE FROM THE CURRENT STEP TO THE LAST STEP OF THE ANALYSIS, WITH UNSYMMETRIC SOLUTION TAKEN
+          INTO ACCOUNT IF APPLICABLE. 
+      (3) SINCE THE ESTIMATE IS BASED ON THE ACTIVE DEGREES OF FREEDOM IN THE FIRST ITERATION OF THE 
+          CURRENT STEP, THE MEMORY ESTIMATE MIGHT BE SIGNIFICANTLY DIFFERENT THAN ACTUAL USAGE FOR 
+          PROBLEMS WITH SUBSTANTIAL CHANGES IN ACTIVE DEGREES OF FREEDOM BETWEEN STEPS (OR EVEN WITHIN
+          THE SAME STEP). EXAMPLES ARE: PROBLEMS WITH SIGNIFICANT CONTACT CHANGES, PROBLEMS WITH MODEL
+          CHANGE, PROBLEMS WITH BOTH STATIC STEP AND STEADY STATE DYNAMIC PROCEDURES WHERE ACOUSTIC 
+          ELEMENTS WILL ONLY BE ACTIVATED IN THE STEADY STATE DYNAMIC STEPS.
+      (4) FOR MULTI-PROCESS EXECUTION, THE ESTIMATED VALUE OF FLOATING POINT OPERATIONS FOR EACH PROCESS
+          IS BASED ON AN INITIAL SCHEDULING OF OPERATIONS AND MIGHT NOT REFLECT THE ACTUAL FLOATING 
+          POINT OPERATIONS COMPLETED ON EACH PROCESS. OPERATIONS ARE DYNAMICALLY BALANCED DURING EXECUTION, 
+          SO THE ACTUAL BALANCE OF OPERATIONS BETWEEN PROCESSES IS EXPECTED TO BE BETTER THAN THE ESTIMATE
+          PRINTED HERE.
+      (5) THE UPPER LIMIT OF MEMORY THAT CAN BE ALLOCATED BY ABAQUS WILL IN GENERAL DEPEND ON THE VALUE OF
+          THE "MEMORY" PARAMETER AND THE AMOUNT OF PHYSICAL MEMORY AVAILABLE ON THE MACHINE. PLEASE SEE
+          THE "ABAQUS ANALYSIS USER'S MANUAL" FOR MORE DETAILS. THE ACTUAL USAGE OF MEMORY AND OF DISK
+          SPACE FOR SCRATCH DATA WILL DEPEND ON THIS UPPER LIMIT AS WELL AS THE MEMORY REQUIRED TO MINIMIZE
+          I/O. IF THE MEMORY UPPER LIMIT IS GREATER THAN THE MEMORY REQUIRED TO MINIMIZE I/O, THEN THE ACTUAL
+          MEMORY USAGE WILL BE CLOSE TO THE ESTIMATED "MEMORY TO MINIMIZE I/O" VALUE, AND THE SCRATCH DISK
+          USAGE WILL BE CLOSE-TO-ZERO; OTHERWISE, THE ACTUAL MEMORY USED WILL BE CLOSE TO THE PREVIOUSLY
+          MENTIONED MEMORY LIMIT, AND THE SCRATCH DISK USAGE WILL BE ROUGHLY PROPORTIONAL TO THE DIFFERENCE
+          BETWEEN THE ESTIMATED "MEMORY TO MINIMIZE I/O" AND THE MEMORY UPPER LIMIT. HOWEVER ACCURATE
+          ESTIMATE OF THE SCRATCH DISK SPACE IS NOT POSSIBLE.
+      (6) USING "*RESTART, WRITE" CAN GENERATE A LARGE AMOUNT OF DATA WRITTEN IN THE WORK DIRECTORY.
+
+
+                                INCREMENT     1 SUMMARY
+
+
+ TIME INCREMENT COMPLETED  2.000E-02,  FRACTION OF STEP COMPLETED  2.000E-02
+ STEP TIME COMPLETED       2.000E-02,  TOTAL TIME COMPLETED        2.000E-02
+  
+  
+  
+  
+                                       N O D E   O U T P U T
+  
+  
+  
+  
+   THE FOLLOWING TABLE IS PRINTED FOR NODES BELONGING TO NODE SET N_RP
+  
+       NODE FOOT-  U2             RF2          
+            NOTE
+  
+     999999      1.0000000E-04  1.4354575E-02
+
+ MAXIMUM         1.0000E-04  1.4355E-02
+ AT NODE            999999      999999
+
+ MINIMUM         1.0000E-04  1.4355E-02
+ AT NODE            999999      999999
+
+
+                                INCREMENT     2 SUMMARY
+
+
+ TIME INCREMENT COMPLETED  2.000E-02,  FRACTION OF STEP COMPLETED  4.000E-02
+ STEP TIME COMPLETED       4.000E-02,  TOTAL TIME COMPLETED        4.000E-02
+  
+  
+  
+  
+                                       N O D E   O U T P U T
+  
+  
+  
+  
+   THE FOLLOWING TABLE IS PRINTED FOR NODES BELONGING TO NODE SET N_RP
+  
+       NODE FOOT-  U2             RF2          
+            NOTE
+  
+     999999      2.0000000E-04  2.8706426E-02
+
+ MAXIMUM         2.0000E-04  2.8706E-02
+ AT NODE            999999      999999
+
+ MINIMUM         2.0000E-04  2.8706E-02
+ AT NODE            999999      999999
+
+
+                                INCREMENT     3 SUMMARY
+
+
+ TIME INCREMENT COMPLETED  2.000E-02,  FRACTION OF STEP COMPLETED  6.000E-02
+ STEP TIME COMPLETED       6.000E-02,  TOTAL TIME COMPLETED        6.000E-02
+  
+  
+  
+  
+                                       N O D E   O U T P U T
+  
+  
+  
+  
+   THE FOLLOWING TABLE IS PRINTED FOR NODES BELONGING TO NODE SET N_RP
+  
+       NODE FOOT-  U2             RF2          
+            NOTE
+  
+     999999      3.0000000E-04  4.3054532E-02
+
+ MAXIMUM         3.0000E-04  4.3055E-02
+ AT NODE            999999      999999
+
+ MINIMUM         3.0000E-04  4.3055E-02
+ AT NODE            999999      999999
+
+
+                                INCREMENT     4 SUMMARY
+
+
+ TIME INCREMENT COMPLETED  2.000E-02,  FRACTION OF STEP COMPLETED  8.000E-02
+ STEP TIME COMPLETED       8.000E-02,  TOTAL TIME COMPLETED        8.000E-02
+  
+  
+  
+  
+                                       N O D E   O U T P U T
+  
+  
+  
+  
+   THE FOLLOWING TABLE IS PRINTED FOR NODES BELONGING TO NODE SET N_RP
+  
+       NODE FOOT-  U2             RF2          
+            NOTE
+  
+     999999      4.0000000E-04  5.7396506E-02
+
+ MAXIMUM         4.0000E-04  5.7397E-02
+ AT NODE            999999      999999
+
+ MINIMUM         4.0000E-04  5.7397E-02
+ AT NODE            999999      999999
+
+
+                                INCREMENT     5 SUMMARY
+
+
+ TIME INCREMENT COMPLETED  2.000E-02,  FRACTION OF STEP COMPLETED  0.100    
+ STEP TIME COMPLETED       0.100    ,  TOTAL TIME COMPLETED        0.100    
+  
+  
+  
+  
+                                       N O D E   O U T P U T
+  
+  
+  
+  
+   THE FOLLOWING TABLE IS PRINTED FOR NODES BELONGING TO NODE SET N_RP
+  
+       NODE FOOT-  U2             RF2          
+            NOTE
+  
+     999999      5.0000000E-04  7.1730302E-02
+
+ MAXIMUM         5.0000E-04  7.1730E-02
+ AT NODE            999999      999999
+
+ MINIMUM         5.0000E-04  7.1730E-02
+ AT NODE            999999      999999
+
+
+                                INCREMENT     6 SUMMARY
+
+
+ TIME INCREMENT COMPLETED  2.000E-02,  FRACTION OF STEP COMPLETED  0.120    
+ STEP TIME COMPLETED       0.120    ,  TOTAL TIME COMPLETED        0.120    
+  
+  
+  
+  
+                                       N O D E   O U T P U T
+  
+  
+  
+  
+   THE FOLLOWING TABLE IS PRINTED FOR NODES BELONGING TO NODE SET N_RP
+  
+       NODE FOOT-  U2             RF2          
+            NOTE
+  
+     999999      6.0000000E-04  8.6053867E-02
+
+ MAXIMUM         6.0000E-04  8.6054E-02
+ AT NODE            999999      999999
+
+ MINIMUM         6.0000E-04  8.6054E-02
+ AT NODE            999999      999999
+
+
+                                INCREMENT     7 SUMMARY
+
+
+ TIME INCREMENT COMPLETED  2.000E-02,  FRACTION OF STEP COMPLETED  0.140    
+ STEP TIME COMPLETED       0.140    ,  TOTAL TIME COMPLETED        0.140    
+  
+  
+  
+  
+                                       N O D E   O U T P U T
+  
+  
+  
+  
+   THE FOLLOWING TABLE IS PRINTED FOR NODES BELONGING TO NODE SET N_RP
+  
+       NODE FOOT-  U2             RF2          
+            NOTE
+  
+     999999      7.0000000E-04  1.0036515E-01
+
+ MAXIMUM         7.0000E-04  0.1004    
+ AT NODE            999999      999999
+
+ MINIMUM         7.0000E-04  0.1004    
+ AT NODE            999999      999999
+
+
+                                INCREMENT     8 SUMMARY
+
+
+ TIME INCREMENT COMPLETED  2.000E-02,  FRACTION OF STEP COMPLETED  0.160    
+ STEP TIME COMPLETED       0.160    ,  TOTAL TIME COMPLETED        0.160    
+  
+  
+  
+  
+                                       N O D E   O U T P U T
+  
+  
+  
+  
+   THE FOLLOWING TABLE IS PRINTED FOR NODES BELONGING TO NODE SET N_RP
+  
+       NODE FOOT-  U2             RF2          
+            NOTE
+  
+     999999      8.0000000E-04  1.1466208E-01
+
+ MAXIMUM         8.0000E-04  0.1147    
+ AT NODE            999999      999999
+
+ MINIMUM         8.0000E-04  0.1147    
+ AT NODE            999999      999999
+
+
+                                INCREMENT     9 SUMMARY
+
+
+ TIME INCREMENT COMPLETED  2.000E-02,  FRACTION OF STEP COMPLETED  0.180    
+ STEP TIME COMPLETED       0.180    ,  TOTAL TIME COMPLETED        0.180    
+  
+  
+  
+  
+                                       N O D E   O U T P U T
+  
+  
+  
+  
+   THE FOLLOWING TABLE IS PRINTED FOR NODES BELONGING TO NODE SET N_RP
+  
+       NODE FOOT-  U2             RF2          
+            NOTE
+  
+     999999      9.0000000E-04  1.2894260E-01
+
+ MAXIMUM         9.0000E-04  0.1289    
+ AT NODE            999999      999999
+
+ MINIMUM         9.0000E-04  0.1289    
+ AT NODE            999999      999999
+
+
+                                INCREMENT    10 SUMMARY
+
+
+ TIME INCREMENT COMPLETED  2.000E-02,  FRACTION OF STEP COMPLETED  0.200    
+ STEP TIME COMPLETED       0.200    ,  TOTAL TIME COMPLETED        0.200    
+  
+  
+  
+  
+                                       N O D E   O U T P U T
+  
+  
+  
+  
+   THE FOLLOWING TABLE IS PRINTED FOR NODES BELONGING TO NODE SET N_RP
+  
+       NODE FOOT-  U2             RF2          
+            NOTE
+  
+     999999      1.0000000E-03  1.4320463E-01
+
+ MAXIMUM         1.0000E-03  0.1432    
+ AT NODE            999999      999999
+
+ MINIMUM         1.0000E-03  0.1432    
+ AT NODE            999999      999999
+
+
+                                INCREMENT    11 SUMMARY
+
+
+ TIME INCREMENT COMPLETED  2.000E-02,  FRACTION OF STEP COMPLETED  0.220    
+ STEP TIME COMPLETED       0.220    ,  TOTAL TIME COMPLETED        0.220    
+  
+  
+  
+  
+                                       N O D E   O U T P U T
+  
+  
+  
+  
+   THE FOLLOWING TABLE IS PRINTED FOR NODES BELONGING TO NODE SET N_RP
+  
+       NODE FOOT-  U2             RF2          
+            NOTE
+  
+     999999      1.1000000E-03  1.5744609E-01
+
+ MAXIMUM         1.1000E-03  0.1574    
+ AT NODE            999999      999999
+
+ MINIMUM         1.1000E-03  0.1574    
+ AT NODE            999999      999999
+
+
+                                INCREMENT    12 SUMMARY
+
+
+ TIME INCREMENT COMPLETED  2.000E-02,  FRACTION OF STEP COMPLETED  0.240    
+ STEP TIME COMPLETED       0.240    ,  TOTAL TIME COMPLETED        0.240    
+  
+  
+  
+  
+                                       N O D E   O U T P U T
+  
+  
+  
+  
+   THE FOLLOWING TABLE IS PRINTED FOR NODES BELONGING TO NODE SET N_RP
+  
+       NODE FOOT-  U2             RF2          
+            NOTE
+  
+     999999      1.2000000E-03  1.7166488E-01
+
+ MAXIMUM         1.2000E-03  0.1717    
+ AT NODE            999999      999999
+
+ MINIMUM         1.2000E-03  0.1717    
+ AT NODE            999999      999999
+
+
+                                INCREMENT    13 SUMMARY
+
+
+ TIME INCREMENT COMPLETED  2.000E-02,  FRACTION OF STEP COMPLETED  0.260    
+ STEP TIME COMPLETED       0.260    ,  TOTAL TIME COMPLETED        0.260    
+  
+  
+  
+  
+                                       N O D E   O U T P U T
+  
+  
+  
+  
+   THE FOLLOWING TABLE IS PRINTED FOR NODES BELONGING TO NODE SET N_RP
+  
+       NODE FOOT-  U2             RF2          
+            NOTE
+  
+     999999      1.3000000E-03  1.8585890E-01
+
+ MAXIMUM         1.3000E-03  0.1859    
+ AT NODE            999999      999999
+
+ MINIMUM         1.3000E-03  0.1859    
+ AT NODE            999999      999999
+
+
+                                INCREMENT    14 SUMMARY
+
+
+ TIME INCREMENT COMPLETED  2.000E-02,  FRACTION OF STEP COMPLETED  0.280    
+ STEP TIME COMPLETED       0.280    ,  TOTAL TIME COMPLETED        0.280    
+  
+  
+  
+  
+                                       N O D E   O U T P U T
+  
+  
+  
+  
+   THE FOLLOWING TABLE IS PRINTED FOR NODES BELONGING TO NODE SET N_RP
+  
+       NODE FOOT-  U2             RF2          
+            NOTE
+  
+     999999      1.4000000E-03  2.0002604E-01
+
+ MAXIMUM         1.4000E-03  0.2000    
+ AT NODE            999999      999999
+
+ MINIMUM         1.4000E-03  0.2000    
+ AT NODE            999999      999999
+
+
+                                INCREMENT    15 SUMMARY
+
+
+ TIME INCREMENT COMPLETED  2.000E-02,  FRACTION OF STEP COMPLETED  0.300    
+ STEP TIME COMPLETED       0.300    ,  TOTAL TIME COMPLETED        0.300    
+  
+  
+  
+  
+                                       N O D E   O U T P U T
+  
+  
+  
+  
+   THE FOLLOWING TABLE IS PRINTED FOR NODES BELONGING TO NODE SET N_RP
+  
+       NODE FOOT-  U2             RF2          
+            NOTE
+  
+     999999      1.5000000E-03  2.1416417E-01
+
+ MAXIMUM         1.5000E-03  0.2142    
+ AT NODE            999999      999999
+
+ MINIMUM         1.5000E-03  0.2142    
+ AT NODE            999999      999999
+
+
+                                INCREMENT    16 SUMMARY
+
+
+ TIME INCREMENT COMPLETED  2.000E-02,  FRACTION OF STEP COMPLETED  0.320    
+ STEP TIME COMPLETED       0.320    ,  TOTAL TIME COMPLETED        0.320    
+  
+  
+  
+  
+                                       N O D E   O U T P U T
+  
+  
+  
+  
+   THE FOLLOWING TABLE IS PRINTED FOR NODES BELONGING TO NODE SET N_RP
+  
+       NODE FOOT-  U2             RF2          
+            NOTE
+  
+     999999      1.6000000E-03  2.2827115E-01
+
+ MAXIMUM         1.6000E-03  0.2283    
+ AT NODE            999999      999999
+
+ MINIMUM         1.6000E-03  0.2283    
+ AT NODE            999999      999999
+
+
+                                INCREMENT    17 SUMMARY
+
+
+ TIME INCREMENT COMPLETED  2.000E-02,  FRACTION OF STEP COMPLETED  0.340    
+ STEP TIME COMPLETED       0.340    ,  TOTAL TIME COMPLETED        0.340    
+  
+  
+  
+  
+                                       N O D E   O U T P U T
+  
+  
+  
+  
+   THE FOLLOWING TABLE IS PRINTED FOR NODES BELONGING TO NODE SET N_RP
+  
+       NODE FOOT-  U2             RF2          
+            NOTE
+  
+     999999      1.7000000E-03  2.4234481E-01
+
+ MAXIMUM         1.7000E-03  0.2423    
+ AT NODE            999999      999999
+
+ MINIMUM         1.7000E-03  0.2423    
+ AT NODE            999999      999999
+
+
+                                INCREMENT    18 SUMMARY
+
+
+ TIME INCREMENT COMPLETED  2.000E-02,  FRACTION OF STEP COMPLETED  0.360    
+ STEP TIME COMPLETED       0.360    ,  TOTAL TIME COMPLETED        0.360    
+  
+  
+  
+  
+                                       N O D E   O U T P U T
+  
+  
+  
+  
+   THE FOLLOWING TABLE IS PRINTED FOR NODES BELONGING TO NODE SET N_RP
+  
+       NODE FOOT-  U2             RF2          
+            NOTE
+  
+     999999      1.8000000E-03  2.5638298E-01
+
+ MAXIMUM         1.8000E-03  0.2564    
+ AT NODE            999999      999999
+
+ MINIMUM         1.8000E-03  0.2564    
+ AT NODE            999999      999999
+
+
+                                INCREMENT    19 SUMMARY
+
+
+ TIME INCREMENT COMPLETED  2.000E-02,  FRACTION OF STEP COMPLETED  0.380    
+ STEP TIME COMPLETED       0.380    ,  TOTAL TIME COMPLETED        0.380    
+  
+  
+  
+  
+                                       N O D E   O U T P U T
+  
+  
+  
+  
+   THE FOLLOWING TABLE IS PRINTED FOR NODES BELONGING TO NODE SET N_RP
+  
+       NODE FOOT-  U2             RF2          
+            NOTE
+  
+     999999      1.9000000E-03  2.7038346E-01
+
+ MAXIMUM         1.9000E-03  0.2704    
+ AT NODE            999999      999999
+
+ MINIMUM         1.9000E-03  0.2704    
+ AT NODE            999999      999999
+
+
+                                INCREMENT    20 SUMMARY
+
+
+ TIME INCREMENT COMPLETED  2.000E-02,  FRACTION OF STEP COMPLETED  0.400    
+ STEP TIME COMPLETED       0.400    ,  TOTAL TIME COMPLETED        0.400    
+  
+  
+  
+  
+                                       N O D E   O U T P U T
+  
+  
+  
+  
+   THE FOLLOWING TABLE IS PRINTED FOR NODES BELONGING TO NODE SET N_RP
+  
+       NODE FOOT-  U2             RF2          
+            NOTE
+  
+     999999      2.0000000E-03  2.8434404E-01
+
+ MAXIMUM         2.0000E-03  0.2843    
+ AT NODE            999999      999999
+
+ MINIMUM         2.0000E-03  0.2843    
+ AT NODE            999999      999999
+
+
+                                INCREMENT    21 SUMMARY
+
+
+ TIME INCREMENT COMPLETED  2.000E-02,  FRACTION OF STEP COMPLETED  0.420    
+ STEP TIME COMPLETED       0.420    ,  TOTAL TIME COMPLETED        0.420    
+  
+  
+  
+  
+                                       N O D E   O U T P U T
+  
+  
+  
+  
+   THE FOLLOWING TABLE IS PRINTED FOR NODES BELONGING TO NODE SET N_RP
+  
+       NODE FOOT-  U2             RF2          
+            NOTE
+  
+     999999      2.1000000E-03  2.9826247E-01
+
+ MAXIMUM         2.1000E-03  0.2983    
+ AT NODE            999999      999999
+
+ MINIMUM         2.1000E-03  0.2983    
+ AT NODE            999999      999999
+
+
+                                INCREMENT    22 SUMMARY
+
+
+ TIME INCREMENT COMPLETED  2.000E-02,  FRACTION OF STEP COMPLETED  0.440    
+ STEP TIME COMPLETED       0.440    ,  TOTAL TIME COMPLETED        0.440    
+  
+  
+  
+  
+                                       N O D E   O U T P U T
+  
+  
+  
+  
+   THE FOLLOWING TABLE IS PRINTED FOR NODES BELONGING TO NODE SET N_RP
+  
+       NODE FOOT-  U2             RF2          
+            NOTE
+  
+     999999      2.2000000E-03  3.1213649E-01
+
+ MAXIMUM         2.2000E-03  0.3121    
+ AT NODE            999999      999999
+
+ MINIMUM         2.2000E-03  0.3121    
+ AT NODE            999999      999999
+
+
+                                INCREMENT    23 SUMMARY
+
+
+ TIME INCREMENT COMPLETED  2.000E-02,  FRACTION OF STEP COMPLETED  0.460    
+ STEP TIME COMPLETED       0.460    ,  TOTAL TIME COMPLETED        0.460    
+  
+  
+  
+  
+                                       N O D E   O U T P U T
+  
+  
+  
+  
+   THE FOLLOWING TABLE IS PRINTED FOR NODES BELONGING TO NODE SET N_RP
+  
+       NODE FOOT-  U2             RF2          
+            NOTE
+  
+     999999      2.3000000E-03  3.2596381E-01
+
+ MAXIMUM         2.3000E-03  0.3260    
+ AT NODE            999999      999999
+
+ MINIMUM         2.3000E-03  0.3260    
+ AT NODE            999999      999999
+
+
+                                INCREMENT    24 SUMMARY
+
+
+ TIME INCREMENT COMPLETED  2.000E-02,  FRACTION OF STEP COMPLETED  0.480    
+ STEP TIME COMPLETED       0.480    ,  TOTAL TIME COMPLETED        0.480    
+  
+  
+  
+  
+                                       N O D E   O U T P U T
+  
+  
+  
+  
+   THE FOLLOWING TABLE IS PRINTED FOR NODES BELONGING TO NODE SET N_RP
+  
+       NODE FOOT-  U2             RF2          
+            NOTE
+  
+     999999      2.4000000E-03  3.3974209E-01
+
+ MAXIMUM         2.4000E-03  0.3397    
+ AT NODE            999999      999999
+
+ MINIMUM         2.4000E-03  0.3397    
+ AT NODE            999999      999999
+
+
+                                INCREMENT    25 SUMMARY
+
+
+ TIME INCREMENT COMPLETED  2.000E-02,  FRACTION OF STEP COMPLETED  0.500    
+ STEP TIME COMPLETED       0.500    ,  TOTAL TIME COMPLETED        0.500    
+  
+  
+  
+  
+                                       N O D E   O U T P U T
+  
+  
+  
+  
+   THE FOLLOWING TABLE IS PRINTED FOR NODES BELONGING TO NODE SET N_RP
+  
+       NODE FOOT-  U2             RF2          
+            NOTE
+  
+     999999      2.5000000E-03  3.5346899E-01
+
+ MAXIMUM         2.5000E-03  0.3535    
+ AT NODE            999999      999999
+
+ MINIMUM         2.5000E-03  0.3535    
+ AT NODE            999999      999999
+
+
+                                INCREMENT    26 SUMMARY
+
+
+ TIME INCREMENT COMPLETED  2.000E-02,  FRACTION OF STEP COMPLETED  0.520    
+ STEP TIME COMPLETED       0.520    ,  TOTAL TIME COMPLETED        0.520    
+  
+  
+  
+  
+                                       N O D E   O U T P U T
+  
+  
+  
+  
+   THE FOLLOWING TABLE IS PRINTED FOR NODES BELONGING TO NODE SET N_RP
+  
+       NODE FOOT-  U2             RF2          
+            NOTE
+  
+     999999      2.6000000E-03  3.6714211E-01
+
+ MAXIMUM         2.6000E-03  0.3671    
+ AT NODE            999999      999999
+
+ MINIMUM         2.6000E-03  0.3671    
+ AT NODE            999999      999999
+
+
+                                INCREMENT    27 SUMMARY
+
+
+ TIME INCREMENT COMPLETED  2.000E-02,  FRACTION OF STEP COMPLETED  0.540    
+ STEP TIME COMPLETED       0.540    ,  TOTAL TIME COMPLETED        0.540    
+  
+  
+  
+  
+                                       N O D E   O U T P U T
+  
+  
+  
+  
+   THE FOLLOWING TABLE IS PRINTED FOR NODES BELONGING TO NODE SET N_RP
+  
+       NODE FOOT-  U2             RF2          
+            NOTE
+  
+     999999      2.7000000E-03  3.8075901E-01
+
+ MAXIMUM         2.7000E-03  0.3808    
+ AT NODE            999999      999999
+
+ MINIMUM         2.7000E-03  0.3808    
+ AT NODE            999999      999999
+
+
+                                INCREMENT    28 SUMMARY
+
+
+ TIME INCREMENT COMPLETED  2.000E-02,  FRACTION OF STEP COMPLETED  0.560    
+ STEP TIME COMPLETED       0.560    ,  TOTAL TIME COMPLETED        0.560    
+  
+  
+  
+  
+                                       N O D E   O U T P U T
+  
+  
+  
+  
+   THE FOLLOWING TABLE IS PRINTED FOR NODES BELONGING TO NODE SET N_RP
+  
+       NODE FOOT-  U2             RF2          
+            NOTE
+  
+     999999      2.8000000E-03  3.9431721E-01
+
+ MAXIMUM         2.8000E-03  0.3943    
+ AT NODE            999999      999999
+
+ MINIMUM         2.8000E-03  0.3943    
+ AT NODE            999999      999999
+
+
+                                INCREMENT    29 SUMMARY
+
+
+ TIME INCREMENT COMPLETED  2.000E-02,  FRACTION OF STEP COMPLETED  0.580    
+ STEP TIME COMPLETED       0.580    ,  TOTAL TIME COMPLETED        0.580    
+  
+  
+  
+  
+                                       N O D E   O U T P U T
+  
+  
+  
+  
+   THE FOLLOWING TABLE IS PRINTED FOR NODES BELONGING TO NODE SET N_RP
+  
+       NODE FOOT-  U2             RF2          
+            NOTE
+  
+     999999      2.9000000E-03  4.0781420E-01
+
+ MAXIMUM         2.9000E-03  0.4078    
+ AT NODE            999999      999999
+
+ MINIMUM         2.9000E-03  0.4078    
+ AT NODE            999999      999999
+
+
+                                INCREMENT    30 SUMMARY
+
+
+ TIME INCREMENT COMPLETED  2.000E-02,  FRACTION OF STEP COMPLETED  0.600    
+ STEP TIME COMPLETED       0.600    ,  TOTAL TIME COMPLETED        0.600    
+  
+  
+  
+  
+                                       N O D E   O U T P U T
+  
+  
+  
+  
+   THE FOLLOWING TABLE IS PRINTED FOR NODES BELONGING TO NODE SET N_RP
+  
+       NODE FOOT-  U2             RF2          
+            NOTE
+  
+     999999      3.0000000E-03  4.2124740E-01
+
+ MAXIMUM         3.0000E-03  0.4212    
+ AT NODE            999999      999999
+
+ MINIMUM         3.0000E-03  0.4212    
+ AT NODE            999999      999999
+
+
+                                INCREMENT    31 SUMMARY
+
+
+ TIME INCREMENT COMPLETED  2.000E-02,  FRACTION OF STEP COMPLETED  0.620    
+ STEP TIME COMPLETED       0.620    ,  TOTAL TIME COMPLETED        0.620    
+  
+  
+  
+  
+                                       N O D E   O U T P U T
+  
+  
+  
+  
+   THE FOLLOWING TABLE IS PRINTED FOR NODES BELONGING TO NODE SET N_RP
+  
+       NODE FOOT-  U2             RF2          
+            NOTE
+  
+     999999      3.1000000E-03  4.3461416E-01
+
+ MAXIMUM         3.1000E-03  0.4346    
+ AT NODE            999999      999999
+
+ MINIMUM         3.1000E-03  0.4346    
+ AT NODE            999999      999999
+
+
+                                INCREMENT    32 SUMMARY
+
+
+ TIME INCREMENT COMPLETED  2.000E-02,  FRACTION OF STEP COMPLETED  0.640    
+ STEP TIME COMPLETED       0.640    ,  TOTAL TIME COMPLETED        0.640    
+  
+  
+  
+  
+                                       N O D E   O U T P U T
+  
+  
+  
+  
+   THE FOLLOWING TABLE IS PRINTED FOR NODES BELONGING TO NODE SET N_RP
+  
+       NODE FOOT-  U2             RF2          
+            NOTE
+  
+     999999      3.2000000E-03  4.4791180E-01
+
+ MAXIMUM         3.2000E-03  0.4479    
+ AT NODE            999999      999999
+
+ MINIMUM         3.2000E-03  0.4479    
+ AT NODE            999999      999999
+
+
+                                INCREMENT    33 SUMMARY
+
+
+ TIME INCREMENT COMPLETED  2.000E-02,  FRACTION OF STEP COMPLETED  0.660    
+ STEP TIME COMPLETED       0.660    ,  TOTAL TIME COMPLETED        0.660    
+  
+  
+  
+  
+                                       N O D E   O U T P U T
+  
+  
+  
+  
+   THE FOLLOWING TABLE IS PRINTED FOR NODES BELONGING TO NODE SET N_RP
+  
+       NODE FOOT-  U2             RF2          
+            NOTE
+  
+     999999      3.3000000E-03  4.6113754E-01
+
+ MAXIMUM         3.3000E-03  0.4611    
+ AT NODE            999999      999999
+
+ MINIMUM         3.3000E-03  0.4611    
+ AT NODE            999999      999999
+
+
+                                INCREMENT    34 SUMMARY
+
+
+ TIME INCREMENT COMPLETED  2.000E-02,  FRACTION OF STEP COMPLETED  0.680    
+ STEP TIME COMPLETED       0.680    ,  TOTAL TIME COMPLETED        0.680    
+  
+  
+  
+  
+                                       N O D E   O U T P U T
+  
+  
+  
+  
+   THE FOLLOWING TABLE IS PRINTED FOR NODES BELONGING TO NODE SET N_RP
+  
+       NODE FOOT-  U2             RF2          
+            NOTE
+  
+     999999      3.4000000E-03  4.7428854E-01
+
+ MAXIMUM         3.4000E-03  0.4743    
+ AT NODE            999999      999999
+
+ MINIMUM         3.4000E-03  0.4743    
+ AT NODE            999999      999999
+
+
+                                INCREMENT    35 SUMMARY
+
+
+ TIME INCREMENT COMPLETED  2.000E-02,  FRACTION OF STEP COMPLETED  0.700    
+ STEP TIME COMPLETED       0.700    ,  TOTAL TIME COMPLETED        0.700    
+  
+  
+  
+  
+                                       N O D E   O U T P U T
+  
+  
+  
+  
+   THE FOLLOWING TABLE IS PRINTED FOR NODES BELONGING TO NODE SET N_RP
+  
+       NODE FOOT-  U2             RF2          
+            NOTE
+  
+     999999      3.5000000E-03  4.8736187E-01
+
+ MAXIMUM         3.5000E-03  0.4874    
+ AT NODE            999999      999999
+
+ MINIMUM         3.5000E-03  0.4874    
+ AT NODE            999999      999999
+
+
+                                INCREMENT    36 SUMMARY
+
+
+ TIME INCREMENT COMPLETED  2.000E-02,  FRACTION OF STEP COMPLETED  0.720    
+ STEP TIME COMPLETED       0.720    ,  TOTAL TIME COMPLETED        0.720    
+  
+  
+  
+  
+                                       N O D E   O U T P U T
+  
+  
+  
+  
+   THE FOLLOWING TABLE IS PRINTED FOR NODES BELONGING TO NODE SET N_RP
+  
+       NODE FOOT-  U2             RF2          
+            NOTE
+  
+     999999      3.6000000E-03  5.0035451E-01
+
+ MAXIMUM         3.6000E-03  0.5004    
+ AT NODE            999999      999999
+
+ MINIMUM         3.6000E-03  0.5004    
+ AT NODE            999999      999999
+
+
+                                INCREMENT    37 SUMMARY
+
+
+ TIME INCREMENT COMPLETED  2.000E-02,  FRACTION OF STEP COMPLETED  0.740    
+ STEP TIME COMPLETED       0.740    ,  TOTAL TIME COMPLETED        0.740    
+  
+  
+  
+  
+                                       N O D E   O U T P U T
+  
+  
+  
+  
+   THE FOLLOWING TABLE IS PRINTED FOR NODES BELONGING TO NODE SET N_RP
+  
+       NODE FOOT-  U2             RF2          
+            NOTE
+  
+     999999      3.7000000E-03  5.1326333E-01
+
+ MAXIMUM         3.7000E-03  0.5133    
+ AT NODE            999999      999999
+
+ MINIMUM         3.7000E-03  0.5133    
+ AT NODE            999999      999999
+
+
+                                INCREMENT    38 SUMMARY
+
+
+ TIME INCREMENT COMPLETED  2.000E-02,  FRACTION OF STEP COMPLETED  0.760    
+ STEP TIME COMPLETED       0.760    ,  TOTAL TIME COMPLETED        0.760    
+  
+  
+  
+  
+                                       N O D E   O U T P U T
+  
+  
+  
+  
+   THE FOLLOWING TABLE IS PRINTED FOR NODES BELONGING TO NODE SET N_RP
+  
+       NODE FOOT-  U2             RF2          
+            NOTE
+  
+     999999      3.8000000E-03  5.2608507E-01
+
+ MAXIMUM         3.8000E-03  0.5261    
+ AT NODE            999999      999999
+
+ MINIMUM         3.8000E-03  0.5261    
+ AT NODE            999999      999999
+
+
+                                INCREMENT    39 SUMMARY
+
+
+ TIME INCREMENT COMPLETED  2.000E-02,  FRACTION OF STEP COMPLETED  0.780    
+ STEP TIME COMPLETED       0.780    ,  TOTAL TIME COMPLETED        0.780    
+  
+  
+  
+  
+                                       N O D E   O U T P U T
+  
+  
+  
+  
+   THE FOLLOWING TABLE IS PRINTED FOR NODES BELONGING TO NODE SET N_RP
+  
+       NODE FOOT-  U2             RF2          
+            NOTE
+  
+     999999      3.9000000E-03  5.3881637E-01
+
+ MAXIMUM         3.9000E-03  0.5388    
+ AT NODE            999999      999999
+
+ MINIMUM         3.9000E-03  0.5388    
+ AT NODE            999999      999999
+
+
+                                INCREMENT    40 SUMMARY
+
+
+ TIME INCREMENT COMPLETED  2.000E-02,  FRACTION OF STEP COMPLETED  0.800    
+ STEP TIME COMPLETED       0.800    ,  TOTAL TIME COMPLETED        0.800    
+  
+  
+  
+  
+                                       N O D E   O U T P U T
+  
+  
+  
+  
+   THE FOLLOWING TABLE IS PRINTED FOR NODES BELONGING TO NODE SET N_RP
+  
+       NODE FOOT-  U2             RF2          
+            NOTE
+  
+     999999      4.0000000E-03  5.5145370E-01
+
+ MAXIMUM         4.0000E-03  0.5515    
+ AT NODE            999999      999999
+
+ MINIMUM         4.0000E-03  0.5515    
+ AT NODE            999999      999999
+
+
+                                INCREMENT    41 SUMMARY
+
+
+ TIME INCREMENT COMPLETED  2.000E-02,  FRACTION OF STEP COMPLETED  0.820    
+ STEP TIME COMPLETED       0.820    ,  TOTAL TIME COMPLETED        0.820    
+  
+  
+  
+  
+                                       N O D E   O U T P U T
+  
+  
+  
+  
+   THE FOLLOWING TABLE IS PRINTED FOR NODES BELONGING TO NODE SET N_RP
+  
+       NODE FOOT-  U2             RF2          
+            NOTE
+  
+     999999      4.1000000E-03  5.6399337E-01
+
+ MAXIMUM         4.1000E-03  0.5640    
+ AT NODE            999999      999999
+
+ MINIMUM         4.1000E-03  0.5640    
+ AT NODE            999999      999999
+
+
+                                INCREMENT    42 SUMMARY
+
+
+ TIME INCREMENT COMPLETED  2.000E-02,  FRACTION OF STEP COMPLETED  0.840    
+ STEP TIME COMPLETED       0.840    ,  TOTAL TIME COMPLETED        0.840    
+  
+  
+  
+  
+                                       N O D E   O U T P U T
+  
+  
+  
+  
+   THE FOLLOWING TABLE IS PRINTED FOR NODES BELONGING TO NODE SET N_RP
+  
+       NODE FOOT-  U2             RF2          
+            NOTE
+  
+     999999      4.2000000E-03  5.7643151E-01
+
+ MAXIMUM         4.2000E-03  0.5764    
+ AT NODE            999999      999999
+
+ MINIMUM         4.2000E-03  0.5764    
+ AT NODE            999999      999999
+
+
+                                INCREMENT    43 SUMMARY
+
+
+ TIME INCREMENT COMPLETED  2.000E-02,  FRACTION OF STEP COMPLETED  0.860    
+ STEP TIME COMPLETED       0.860    ,  TOTAL TIME COMPLETED        0.860    
+  
+  
+  
+  
+                                       N O D E   O U T P U T
+  
+  
+  
+  
+   THE FOLLOWING TABLE IS PRINTED FOR NODES BELONGING TO NODE SET N_RP
+  
+       NODE FOOT-  U2             RF2          
+            NOTE
+  
+     999999      4.3000000E-03  5.8876402E-01
+
+ MAXIMUM         4.3000E-03  0.5888    
+ AT NODE            999999      999999
+
+ MINIMUM         4.3000E-03  0.5888    
+ AT NODE            999999      999999
+
+
+                                INCREMENT    44 SUMMARY
+
+
+ TIME INCREMENT COMPLETED  2.000E-02,  FRACTION OF STEP COMPLETED  0.880    
+ STEP TIME COMPLETED       0.880    ,  TOTAL TIME COMPLETED        0.880    
+  
+  
+  
+  
+                                       N O D E   O U T P U T
+  
+  
+  
+  
+   THE FOLLOWING TABLE IS PRINTED FOR NODES BELONGING TO NODE SET N_RP
+  
+       NODE FOOT-  U2             RF2          
+            NOTE
+  
+     999999      4.4000000E-03  6.0098658E-01
+
+ MAXIMUM         4.4000E-03  0.6010    
+ AT NODE            999999      999999
+
+ MINIMUM         4.4000E-03  0.6010    
+ AT NODE            999999      999999
+
+
+                                INCREMENT    45 SUMMARY
+
+
+ TIME INCREMENT COMPLETED  2.000E-02,  FRACTION OF STEP COMPLETED  0.900    
+ STEP TIME COMPLETED       0.900    ,  TOTAL TIME COMPLETED        0.900    
+  
+  
+  
+  
+                                       N O D E   O U T P U T
+  
+  
+  
+  
+   THE FOLLOWING TABLE IS PRINTED FOR NODES BELONGING TO NODE SET N_RP
+  
+       NODE FOOT-  U2             RF2          
+            NOTE
+  
+     999999      4.5000000E-03  6.1309458E-01
+
+ MAXIMUM         4.5000E-03  0.6131    
+ AT NODE            999999      999999
+
+ MINIMUM         4.5000E-03  0.6131    
+ AT NODE            999999      999999
+
+
+                                INCREMENT    46 SUMMARY
+
+
+ TIME INCREMENT COMPLETED  2.000E-02,  FRACTION OF STEP COMPLETED  0.920    
+ STEP TIME COMPLETED       0.920    ,  TOTAL TIME COMPLETED        0.920    
+  
+  
+  
+  
+                                       N O D E   O U T P U T
+  
+  
+  
+  
+   THE FOLLOWING TABLE IS PRINTED FOR NODES BELONGING TO NODE SET N_RP
+  
+       NODE FOOT-  U2             RF2          
+            NOTE
+  
+     999999      4.6000000E-03  6.2508309E-01
+
+ MAXIMUM         4.6000E-03  0.6251    
+ AT NODE            999999      999999
+
+ MINIMUM         4.6000E-03  0.6251    
+ AT NODE            999999      999999
+
+
+                                INCREMENT    47 SUMMARY
+
+
+ TIME INCREMENT COMPLETED  2.000E-02,  FRACTION OF STEP COMPLETED  0.940    
+ STEP TIME COMPLETED       0.940    ,  TOTAL TIME COMPLETED        0.940    
+  
+  
+  
+  
+                                       N O D E   O U T P U T
+  
+  
+  
+  
+   THE FOLLOWING TABLE IS PRINTED FOR NODES BELONGING TO NODE SET N_RP
+  
+       NODE FOOT-  U2             RF2          
+            NOTE
+  
+     999999      4.7000000E-03  6.3694682E-01
+
+ MAXIMUM         4.7000E-03  0.6369    
+ AT NODE            999999      999999
+
+ MINIMUM         4.7000E-03  0.6369    
+ AT NODE            999999      999999
+
+
+                                INCREMENT    48 SUMMARY
+
+
+ TIME INCREMENT COMPLETED  2.000E-02,  FRACTION OF STEP COMPLETED  0.960    
+ STEP TIME COMPLETED       0.960    ,  TOTAL TIME COMPLETED        0.960    
+  
+  
+  
+  
+                                       N O D E   O U T P U T
+  
+  
+  
+  
+   THE FOLLOWING TABLE IS PRINTED FOR NODES BELONGING TO NODE SET N_RP
+  
+       NODE FOOT-  U2             RF2          
+            NOTE
+  
+     999999      4.8000000E-03  6.4868004E-01
+
+ MAXIMUM         4.8000E-03  0.6487    
+ AT NODE            999999      999999
+
+ MINIMUM         4.8000E-03  0.6487    
+ AT NODE            999999      999999
+
+
+                                INCREMENT    49 SUMMARY
+
+
+ TIME INCREMENT COMPLETED  2.000E-02,  FRACTION OF STEP COMPLETED  0.980    
+ STEP TIME COMPLETED       0.980    ,  TOTAL TIME COMPLETED        0.980    
+  
+  
+  
+  
+                                       N O D E   O U T P U T
+  
+  
+  
+  
+   THE FOLLOWING TABLE IS PRINTED FOR NODES BELONGING TO NODE SET N_RP
+  
+       NODE FOOT-  U2             RF2          
+            NOTE
+  
+     999999      4.9000000E-03  6.6027650E-01
+
+ MAXIMUM         4.9000E-03  0.6603    
+ AT NODE            999999      999999
+
+ MINIMUM         4.9000E-03  0.6603    
+ AT NODE            999999      999999
+
+
+                                INCREMENT    50 SUMMARY
+
+
+ TIME INCREMENT COMPLETED  2.000E-02,  FRACTION OF STEP COMPLETED   1.00    
+ STEP TIME COMPLETED        1.00    ,  TOTAL TIME COMPLETED         1.00    
+  
+  
+  
+  
+                                       N O D E   O U T P U T
+  
+  
+  
+  
+   THE FOLLOWING TABLE IS PRINTED FOR NODES BELONGING TO NODE SET N_RP
+  
+       NODE FOOT-  U2             RF2          
+            NOTE
+  
+     999999      5.0000000E-03  6.7167071E-01
+
+ MAXIMUM         5.0000E-03  0.6717    
+ AT NODE            999999      999999
+
+ MINIMUM         5.0000E-03  0.6717    
+ AT NODE            999999      999999
+
+
+          THE ANALYSIS HAS BEEN COMPLETED
+
+
+
+                              ANALYSIS COMPLETE
+                              WITH      5 WARNING MESSAGES ON THE DAT FILE
+
+
+
+     JOB TIME SUMMARY
+       USER TIME (SEC)      =      38.    
+       SYSTEM TIME (SEC)    =      4.8    
+       TOTAL CPU TIME (SEC) =      43.    
+       WALLCLOCK TIME (SEC) =           16
