@@ -12,7 +12,7 @@
   "last_successful_pbs_job_id": "1424910.mmaster02",
   "last_failed_pbs_job_id": "1424881.mmaster02",
   "checkpoint_artifact": "docs/validation/METHOD_C_LPANEL_EXECUTION_AND_TRANSFER_AUDIT_REPORT.md",
-  "checkpoint_artifact_sha256": "66CF1E8E6C4AE68438D1030949F59136D4914AC178BF78414AE436B1FFD1B7FF",
+  "checkpoint_artifact_sha256": "EE7AFC50F2D0FC34E6E0906CEA41C77F6F53B48774AE9D63EE13AAF67FB65B53",
   "review_directive": "Set up and execute the 500 mm mixed-mode L-panel benchmark per HND-METHOD-C-MODE2-LPANEL-001/005: 500 mm L-shaped panel (500 mm wide top, 500 mm tall left, 250 mm bottom width, 250 mm right-leg height, notch at inner corner), E = 25.84 GPa, nu = 0.18, l0 = 3.125 mm, Gc = 9.5e-5 kN/mm, thickness 100 mm, bottom edge fixed, upward displacement at 30 mm from right edge. Use validated transfer machinery (*STATIC 1.0, 1.0, 1.0E-08, 1.0; *NODE OUTPUT U; nearest-neighbour damage/history transfer; global d_max gate). Refinement corridor follows Winkler path. Completion: crack path matching Winkler path or RF drop below 5% of peak. Commit/push each cycle. Local PC only, 0 PBS, cumulative 73 preserved, frozen UEL CE8D5EDC untouched, HPC job 1424916 untouched, master goal OPEN.",
   "predecessor_task": {
     "task_id": "METHOD-C-MODE2-CYCLE2-COMPLETION-CONTINUATION",
