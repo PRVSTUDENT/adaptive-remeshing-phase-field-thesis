@@ -1,6 +1,6 @@
 1
 
-   Abaqus 2024                                  Date 23-Nov-2026   Time 18:09:55
+   Abaqus 2024                                  Date 24-Nov-2026   Time 04:40:16
    For use by Supplied by Team-SolidSQUAD under license from Dassault Systemes or its subsidiary.
 
 
@@ -78,7 +78,7 @@
   *USER ELEMENT, NODES=4, TYPE=U2, PROPERTIES=6, COORDINATES=2, VARIABLES=18, UNSYMM
   *USER ELEMENT, NODES=3, TYPE=U4, PROPERTIES=6, COORDINATES=2, VARIABLES=18, UNSYMM
   *HEADING
-          Method C Case 3 Cycle 50 Deck (Hold u2=0.2974mm -> Advance u2=0.3074mm)                                                                                                                                                                                                                                                                                                                                                                                                                                                         
+          Method C Case 3 Cycle 50 Deck (Hold u2=0.3002mm -> Advance u2=0.3102mm)                                                                                                                                                                                                                                                                                                                                                                                                                                                         
   *ELEMENT, TYPE=U1, ELSET=PHASE_QUAD
   *ELEMENT, TYPE=U3, ELSET=PHASE_TRI
   *ELEMENT, TYPE=U2, ELSET=DISP_QUAD
@@ -186,17 +186,17 @@
   
   Element   Min/max angle   Adjusted nodes 
  --------- ---------------- -------------- 
-     39590          25.6246       NO       
-     40805          39.2259       NO       
-     50519          40.6719       NO       
-     50534          43.7774       NO       
+     64490          28.1002       NO       
+     68014          43.9925       NO       
   
  --------------------------------------------------------------------------------
  Distorted triangular elements
   
  Element   Quality measure     Min angle        Max angle     Adjusted nodes 
  --------- ---------------- ---------------- ---------------- -------------- 
-     50902        0.0101283          7.53762          162.735       NO       
+     85627        0.0062893          6.15817          165.244       NO       
+     85913       0.00460166          5.81284          166.775       NO       
+     85923          0.00766          7.42591          164.363       NO       
   
   
   *STEP, NAME=Step-1-Hold, NLGEOM=NO, INC=100
@@ -225,7 +225,7 @@
 
  ***WARNING: THE *ELEMENT OUTPUT OPTION IS NOT SUPPORTED FOR USER ELEMENTS
   *STEP, NAME=Step-2-Advance, NLGEOM=NO, INC=5000
-  *STATIC
+  *STATIC, RIKS
   *BOUNDARY, OP=MOD
   *OUTPUT, FIELD, FREQUENCY=5
   *NODE OUTPUT, NSET=N_RP
@@ -235,6 +235,9 @@
   *NODE PRINT, FREQ=1, NSET=N_RP
   *END STEP
 
+ ***WARNING: THE NLGEOM FLAG SHOULD BE ACTIVATED FOR THE RIKS STEP. OTHERWISE, 
+             THE GEOMETRIC NONLINEARITY WILL NOT BE CONSIDERED.
+
  ***WARNING: THE *ELEMENT OUTPUT OPTION IS NOT SUPPORTED FOR USER ELEMENTS
 
  ***WARNING: THE *ELEMENT OUTPUT OPTION IS NOT SUPPORTED FOR USER ELEMENTS
@@ -248,7 +251,7 @@
   *BOUNDARY, AMPLITUDE=CONST_HOLD
   *END STEP
   *STEP, NAME=Step-2-Advance, NLGEOM=NO, INC=5000
-  *STATIC
+  *STATIC, RIKS
   *BOUNDARY, OP=MOD
   *END STEP
 
@@ -263,10 +266,10 @@
                             P R O B L E M   S I Z E
 
 
-          NUMBER OF ELEMENTS IS                                 51129
-          NUMBER OF NODES IS                                    17106
-          NUMBER OF NODES DEFINED BY THE USER                   17106
-          TOTAL NUMBER OF VARIABLES IN THE MODEL                51316
+          NUMBER OF ELEMENTS IS                                 86151
+          NUMBER OF NODES IS                                    28704
+          NUMBER OF NODES DEFINED BY THE USER                   28704
+          TOTAL NUMBER OF VARIABLES IN THE MODEL                86110
           (DEGREES OF FREEDOM PLUS MAX NO. OF ANY LAGRANGE MULTIPLIER
            VARIABLES. INCLUDE *PRINT,SOLVE=YES TO GET THE ACTUAL NUMBER.)
 
@@ -277,16 +280,16 @@
 
 
      JOB TIME SUMMARY
-       USER TIME (SEC)      =      1.8    
-       SYSTEM TIME (SEC)    =     0.10    
-       TOTAL CPU TIME (SEC) =      1.9    
-       WALLCLOCK TIME (SEC) =            2
+       USER TIME (SEC)      =      2.7    
+       SYSTEM TIME (SEC)    =     0.20    
+       TOTAL CPU TIME (SEC) =      2.9    
+       WALLCLOCK TIME (SEC) =            3
 1
 
-   Abaqus 2024                                  Date 23-Nov-2026   Time 18:10:12
+   Abaqus 2024                                  Date 24-Nov-2026   Time 04:40:35
    For use by Supplied by Team-SolidSQUAD under license from Dassault Systemes or its subsidiary.
 
-     Method C Case 3 Cycle 50 Deck (Hold u2=0.2974mm -> Advance u2=0.3074mm)                   STEP    1  INCREMENT    1
+     Method C Case 3 Cycle 50 Deck (Hold u2=0.3002mm -> Advance u2=0.3102mm)                   STEP    1  INCREMENT    1
                                                                                           TIME COMPLETED IN THIS STEP   0.00    
 
 
@@ -311,7 +314,7 @@
               OPERATIONS           REQUIRED          MINIMIZE I/O
              PER ITERATION           (MB)               (MB)
   
-     1          2.21E+09               43                190
+     1          4.52E+09               63                314
   
  NOTE:
       (1) SINCE ABAQUS DOES NOT PRE-ALLOCATE MEMORY AND ONLY ALLOCATES MEMORY AS NEEDED DURING THE ANALYSIS,
@@ -363,19 +366,19 @@
        NODE FOOT-  U2             RF2          
             NOTE
   
-     999999      2.9740000E-01  2.2766510E+00
+     999999      3.0020000E-01  1.4981902E+00
 
- MAXIMUM         0.2974       2.277    
+ MAXIMUM         0.3002       1.498    
  AT NODE            999999      999999
 
- MINIMUM         0.2974       2.277    
+ MINIMUM         0.3002       1.498    
  AT NODE            999999      999999
 1
 
-   Abaqus 2024                                  Date 23-Nov-2026   Time 18:10:14
+   Abaqus 2024                                  Date 24-Nov-2026   Time 04:40:38
    For use by Supplied by Team-SolidSQUAD under license from Dassault Systemes or its subsidiary.
 
-     Method C Case 3 Cycle 50 Deck (Hold u2=0.2974mm -> Advance u2=0.3074mm)                   STEP    2  INCREMENT    1
+     Method C Case 3 Cycle 50 Deck (Hold u2=0.3002mm -> Advance u2=0.3102mm)                   STEP    2  INCREMENT    1
                                                                                           TIME COMPLETED IN THIS STEP   0.00    
 
 
@@ -384,13 +387,17 @@
 
                                                                                           
 
-     AUTOMATIC TIME CONTROL WITH -
-          A SUGGESTED INITIAL TIME INCREMENT OF                2.000E-03
-          AND A TOTAL TIME PERIOD OF                            1.00    
-          THE MINIMUM TIME INCREMENT ALLOWED IS                1.000E-14
-          THE MAXIMUM TIME INCREMENT ALLOWED IS                5.000E-03
+     AUTOMATIC LOAD CONTROL WITH -
+          A SUGGESTED INITIAL INCREMENT IN ARC LENGTH           2.000E-03
+          AND A TOTAL ARC LENGTH SCALE FACTOR OF                 1.00    
+          THE MINIMUM ARC LENGTH INCREMENT ALLOWED IS           1.000E-14
+          THE MAXIMUM ARC LENGTH INCREMENT ALLOWED IS           5.000E-02
 
      LINEAR EQUATION SOLVER TYPE         DIRECT SPARSE
+
+     MODIFIED RIKS METHOD IS USED - AMPLITUDE REFERENCES ARE IGNORED
+
+     THE STEP ENDS WHEN LOAD PROPORTIONALITY FACTOR EXCEEDS    1.00    
 
           UNSYMMETRIC MATRIX STORAGE AND SOLUTION WILL BE USED
   
@@ -400,7 +407,7 @@
               OPERATIONS           REQUIRED          MINIMIZE I/O
              PER ITERATION           (MB)               (MB)
   
-     1          2.21E+09               40                190
+     1          4.52E+09               63                318
   
  NOTE:
       (1) SINCE ABAQUS DOES NOT PRE-ALLOCATE MEMORY AND ONLY ALLOCATES MEMORY AS NEEDED DURING THE ANALYSIS,
@@ -436,8 +443,8 @@
                                 INCREMENT     1 SUMMARY
 
 
- TIME INCREMENT COMPLETED  2.000E-03,  FRACTION OF STEP COMPLETED  2.000E-03
- STEP TIME COMPLETED       2.000E-03,  TOTAL TIME COMPLETED         1.00    
+     CURRENT LOAD PROPORTIONALITY FACTOR         4.7682E-02
+     TOTAL ARC LENGTH   2.000E-03, INCREMENT OF ARC LENGTH   2.000E-03
   
   
   
@@ -452,20 +459,20 @@
        NODE FOOT-  U2             RF2          
             NOTE
   
-     999999      2.9742000E-01  2.2710762E+00
+     999999      3.0067682E-01  1.4662135E+00
 
- MAXIMUM         0.2974       2.271    
+ MAXIMUM         0.3007       1.466    
  AT NODE            999999      999999
 
- MINIMUM         0.2974       2.271    
+ MINIMUM         0.3007       1.466    
  AT NODE            999999      999999
 
 
                                 INCREMENT     2 SUMMARY
 
 
- TIME INCREMENT COMPLETED  1.250E-04,  FRACTION OF STEP COMPLETED  2.125E-03
- STEP TIME COMPLETED       2.125E-03,  TOTAL TIME COMPLETED         1.00    
+     CURRENT LOAD PROPORTIONALITY FACTOR         9.7028E-02
+     TOTAL ARC LENGTH   4.000E-03, INCREMENT OF ARC LENGTH   2.000E-03
   
   
   
@@ -480,20 +487,20 @@
        NODE FOOT-  U2             RF2          
             NOTE
   
-     999999      2.9742125E-01  2.2687966E+00
+     999999      3.0117028E-01  1.4366885E+00
 
- MAXIMUM         0.2974       2.269    
+ MAXIMUM         0.3012       1.437    
  AT NODE            999999      999999
 
- MINIMUM         0.2974       2.269    
+ MINIMUM         0.3012       1.437    
  AT NODE            999999      999999
 
 
                                 INCREMENT     3 SUMMARY
 
 
- TIME INCREMENT COMPLETED  1.172E-05,  FRACTION OF STEP COMPLETED  2.137E-03
- STEP TIME COMPLETED       2.137E-03,  TOTAL TIME COMPLETED         1.00    
+     CURRENT LOAD PROPORTIONALITY FACTOR         0.1473    
+     TOTAL ARC LENGTH   7.000E-03, INCREMENT OF ARC LENGTH   3.000E-03
   
   
   
@@ -508,20 +515,20 @@
        NODE FOOT-  U2             RF2          
             NOTE
   
-     999999      2.9742137E-01  2.2669635E+00
+     999999      3.0167292E-01  1.4087052E+00
 
- MAXIMUM         0.2974       2.267    
+ MAXIMUM         0.3017       1.409    
  AT NODE            999999      999999
 
- MINIMUM         0.2974       2.267    
+ MINIMUM         0.3017       1.409    
  AT NODE            999999      999999
 
 
                                 INCREMENT     4 SUMMARY
 
 
- TIME INCREMENT COMPLETED  1.099E-06,  FRACTION OF STEP COMPLETED  2.138E-03
- STEP TIME COMPLETED       2.138E-03,  TOTAL TIME COMPLETED         1.00    
+     CURRENT LOAD PROPORTIONALITY FACTOR         0.1990    
+     TOTAL ARC LENGTH   1.150E-02, INCREMENT OF ARC LENGTH   4.500E-03
   
   
   
@@ -536,20 +543,20 @@
        NODE FOOT-  U2             RF2          
             NOTE
   
-     999999      2.9742138E-01  2.2652046E+00
+     999999      3.0219005E-01  1.3822893E+00
 
- MAXIMUM         0.2974       2.265    
+ MAXIMUM         0.3022       1.382    
  AT NODE            999999      999999
 
- MINIMUM         0.2974       2.265    
+ MINIMUM         0.3022       1.382    
  AT NODE            999999      999999
 
 
                                 INCREMENT     5 SUMMARY
 
 
- TIME INCREMENT COMPLETED  1.030E-07,  FRACTION OF STEP COMPLETED  2.138E-03
- STEP TIME COMPLETED       2.138E-03,  TOTAL TIME COMPLETED         1.00    
+     CURRENT LOAD PROPORTIONALITY FACTOR         0.2530    
+     TOTAL ARC LENGTH   1.825E-02, INCREMENT OF ARC LENGTH   6.750E-03
   
   
   
@@ -564,20 +571,20 @@
        NODE FOOT-  U2             RF2          
             NOTE
   
-     999999      2.9742138E-01  2.2634502E+00
+     999999      3.0273041E-01  1.3573488E+00
 
- MAXIMUM         0.2974       2.263    
+ MAXIMUM         0.3027       1.357    
  AT NODE            999999      999999
 
- MINIMUM         0.2974       2.263    
+ MINIMUM         0.3027       1.357    
  AT NODE            999999      999999
 
 
                                 INCREMENT     6 SUMMARY
 
 
- TIME INCREMENT COMPLETED  9.656E-09,  FRACTION OF STEP COMPLETED  2.138E-03
- STEP TIME COMPLETED       2.138E-03,  TOTAL TIME COMPLETED         1.00    
+     CURRENT LOAD PROPORTIONALITY FACTOR         0.3106    
+     TOTAL ARC LENGTH   2.838E-02, INCREMENT OF ARC LENGTH   1.013E-02
   
   
   
@@ -592,20 +599,20 @@
        NODE FOOT-  U2             RF2          
             NOTE
   
-     999999      2.9742138E-01  2.2616254E+00
+     999999      3.0330622E-01  1.3338143E+00
 
- MAXIMUM         0.2974       2.262    
+ MAXIMUM         0.3033       1.334    
  AT NODE            999999      999999
 
- MINIMUM         0.2974       2.262    
+ MINIMUM         0.3033       1.334    
  AT NODE            999999      999999
 
 
                                 INCREMENT     7 SUMMARY
 
 
- TIME INCREMENT COMPLETED  9.052E-10,  FRACTION OF STEP COMPLETED  2.138E-03
- STEP TIME COMPLETED       2.138E-03,  TOTAL TIME COMPLETED         1.00    
+     CURRENT LOAD PROPORTIONALITY FACTOR         0.3736    
+     TOTAL ARC LENGTH   4.356E-02, INCREMENT OF ARC LENGTH   1.519E-02
   
   
   
@@ -620,20 +627,20 @@
        NODE FOOT-  U2             RF2          
             NOTE
   
-     999999      2.9742138E-01  2.2597023E+00
+     999999      3.0393550E-01  1.3116437E+00
 
- MAXIMUM         0.2974       2.260    
+ MAXIMUM         0.3039       1.312    
  AT NODE            999999      999999
 
- MINIMUM         0.2974       2.260    
+ MINIMUM         0.3039       1.312    
  AT NODE            999999      999999
 
 
                                 INCREMENT     8 SUMMARY
 
 
- TIME INCREMENT COMPLETED  8.487E-11,  FRACTION OF STEP COMPLETED  2.138E-03
- STEP TIME COMPLETED       2.138E-03,  TOTAL TIME COMPLETED         1.00    
+     CURRENT LOAD PROPORTIONALITY FACTOR         0.4445    
+     TOTAL ARC LENGTH   6.634E-02, INCREMENT OF ARC LENGTH   2.278E-02
   
   
   
@@ -648,20 +655,20 @@
        NODE FOOT-  U2             RF2          
             NOTE
   
-     999999      2.9742138E-01  2.2576684E+00
+     999999      3.0464509E-01  1.2908334E+00
 
- MAXIMUM         0.2974       2.258    
+ MAXIMUM         0.3046       1.291    
  AT NODE            999999      999999
 
- MINIMUM         0.2974       2.258    
+ MINIMUM         0.3046       1.291    
  AT NODE            999999      999999
 
 
                                 INCREMENT     9 SUMMARY
 
 
- TIME INCREMENT COMPLETED  7.956E-12,  FRACTION OF STEP COMPLETED  2.138E-03
- STEP TIME COMPLETED       2.138E-03,  TOTAL TIME COMPLETED         1.00    
+     CURRENT LOAD PROPORTIONALITY FACTOR         0.5275    
+     TOTAL ARC LENGTH   0.101    , INCREMENT OF ARC LENGTH   3.417E-02
   
   
   
@@ -676,20 +683,20 @@
        NODE FOOT-  U2             RF2          
             NOTE
   
-     999999      2.9742138E-01  2.2555094E+00
+     999999      3.0547518E-01  1.2714238E+00
 
- MAXIMUM         0.2974       2.256    
+ MAXIMUM         0.3055       1.271    
  AT NODE            999999      999999
 
- MINIMUM         0.2974       2.256    
+ MINIMUM         0.3055       1.271    
  AT NODE            999999      999999
 
 
                                 INCREMENT    10 SUMMARY
 
 
- TIME INCREMENT COMPLETED  7.459E-13,  FRACTION OF STEP COMPLETED  2.138E-03
- STEP TIME COMPLETED       2.138E-03,  TOTAL TIME COMPLETED         1.00    
+     CURRENT LOAD PROPORTIONALITY FACTOR         0.6273    
+     TOTAL ARC LENGTH   0.151    , INCREMENT OF ARC LENGTH   5.000E-02
   
   
   
@@ -704,20 +711,20 @@
        NODE FOOT-  U2             RF2          
             NOTE
   
-     999999      2.9742138E-01  2.2532038E+00
+     999999      3.0647266E-01  1.2534875E+00
 
- MAXIMUM         0.2974       2.253    
+ MAXIMUM         0.3065       1.253    
  AT NODE            999999      999999
 
- MINIMUM         0.2974       2.253    
+ MINIMUM         0.3065       1.253    
  AT NODE            999999      999999
 
 
                                 INCREMENT    11 SUMMARY
 
 
- TIME INCREMENT COMPLETED  6.993E-14,  FRACTION OF STEP COMPLETED  2.138E-03
- STEP TIME COMPLETED       2.138E-03,  TOTAL TIME COMPLETED         1.00    
+     CURRENT LOAD PROPORTIONALITY FACTOR         0.7277    
+     TOTAL ARC LENGTH   0.201    , INCREMENT OF ARC LENGTH   5.000E-02
   
   
   
@@ -732,20 +739,20 @@
        NODE FOOT-  U2             RF2          
             NOTE
   
-     999999      2.9742138E-01  2.2507438E+00
+     999999      3.0747732E-01  1.2363099E+00
 
- MAXIMUM         0.2974       2.251    
+ MAXIMUM         0.3075       1.236    
  AT NODE            999999      999999
 
- MINIMUM         0.2974       2.251    
+ MINIMUM         0.3075       1.236    
  AT NODE            999999      999999
 
 
                                 INCREMENT    12 SUMMARY
 
 
- TIME INCREMENT COMPLETED  1.000E-35,  FRACTION OF STEP COMPLETED  2.138E-03
- STEP TIME COMPLETED       2.138E-03,  TOTAL TIME COMPLETED         1.00    
+     CURRENT LOAD PROPORTIONALITY FACTOR         0.8292    
+     TOTAL ARC LENGTH   0.251    , INCREMENT OF ARC LENGTH   5.000E-02
   
   
   
@@ -760,24 +767,82 @@
        NODE FOOT-  U2             RF2          
             NOTE
   
-     999999      2.9742138E-01  2.2507438E+00
+     999999      3.0849177E-01  1.2197569E+00
 
- MAXIMUM         0.2974       2.251    
+ MAXIMUM         0.3085       1.220    
  AT NODE            999999      999999
 
- MINIMUM         0.2974       2.251    
+ MINIMUM         0.3085       1.220    
  AT NODE            999999      999999
+
+
+                                INCREMENT    13 SUMMARY
+
+
+     CURRENT LOAD PROPORTIONALITY FACTOR         0.9318    
+     TOTAL ARC LENGTH   0.301    , INCREMENT OF ARC LENGTH   5.000E-02
+  
+  
+  
+  
+                                       N O D E   O U T P U T
+  
+  
+  
+  
+   THE FOLLOWING TABLE IS PRINTED FOR NODES BELONGING TO NODE SET N_RP
+  
+       NODE FOOT-  U2             RF2          
+            NOTE
+  
+     999999      3.0951782E-01  1.2037734E+00
+
+ MAXIMUM         0.3095       1.204    
+ AT NODE            999999      999999
+
+ MINIMUM         0.3095       1.204    
+ AT NODE            999999      999999
+
+
+                                INCREMENT    14 SUMMARY
+
+
+     CURRENT LOAD PROPORTIONALITY FACTOR          1.036    
+     TOTAL ARC LENGTH   0.351    , INCREMENT OF ARC LENGTH   5.000E-02
+  
+  
+  
+  
+                                       N O D E   O U T P U T
+  
+  
+  
+  
+   THE FOLLOWING TABLE IS PRINTED FOR NODES BELONGING TO NODE SET N_RP
+  
+       NODE FOOT-  U2             RF2          
+            NOTE
+  
+     999999      3.1055822E-01  1.1883036E+00
+
+ MAXIMUM         0.3106       1.188    
+ AT NODE            999999      999999
+
+ MINIMUM         0.3106       1.188    
+ AT NODE            999999      999999
+
+
+          THE ANALYSIS HAS BEEN COMPLETED
 
 
 
                               ANALYSIS COMPLETE
-                              WITH      2 ERROR MESSAGES ON THE MSG FILE
-                              AND      11 WARNING MESSAGES ON THE DAT FILE
+                              WITH     12 WARNING MESSAGES ON THE DAT FILE
 
 
 
      JOB TIME SUMMARY
-       USER TIME (SEC)      =     1.94E+02
-       SYSTEM TIME (SEC)    =      13.    
-       TOTAL CPU TIME (SEC) =     2.08E+02
-       WALLCLOCK TIME (SEC) =           56
+       USER TIME (SEC)      =     1.24E+02
+       SYSTEM TIME (SEC)    =      7.3    
+       TOTAL CPU TIME (SEC) =     1.32E+02
+       WALLCLOCK TIME (SEC) =           38
