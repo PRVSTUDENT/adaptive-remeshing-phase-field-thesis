@@ -342,6 +342,19 @@ def run_cycle(c, run_dir=DEFAULT_RUN_DIR, cpus=6, skip_solve=False, push=True, l
     if os.path.isfile(state_path):
         shutil.copy2(state_path, tgt_state_path)
 
+    tgt_sta_path = os.path.join(TARGET_DIR, job_name + ".sta")
+    if os.path.isfile(sta_path):
+        shutil.copy2(sta_path, tgt_sta_path)
+
+    tgt_msg_path = os.path.join(TARGET_DIR, job_name + ".msg")
+    msg_path = os.path.join(run_dir, job_name + ".msg")
+    if os.path.isfile(msg_path):
+        shutil.copy2(msg_path, tgt_msg_path)
+
+    tgt_dat_path = os.path.join(TARGET_DIR, job_name + ".dat")
+    if os.path.isfile(dat_path):
+        shutil.copy2(dat_path, tgt_dat_path)
+
     # Telemetry report
     print("\n-----------------------------------------------------------------")
     print("[Cycle %d Telemetry] Status: %s | u2_term: %s mm | Tip: (%.4f, %.4f) mm | dist_hole: %.4f mm" %
@@ -362,6 +375,12 @@ def run_cycle(c, run_dir=DEFAULT_RUN_DIR, cpus=6, skip_solve=False, push=True, l
             os.path.relpath(tgt_sum_path, REPO_ROOT),
             os.path.relpath(tgt_state_path, REPO_ROOT)
         ]
+        if os.path.isfile(tgt_sta_path):
+            stg_files.append(os.path.relpath(tgt_sta_path, REPO_ROOT))
+        if os.path.isfile(tgt_msg_path):
+            stg_files.append(os.path.relpath(tgt_msg_path, REPO_ROOT))
+        if os.path.isfile(tgt_dat_path):
+            stg_files.append(os.path.relpath(tgt_dat_path, REPO_ROOT))
         add_cmd = ["git", "add"] + stg_files
         subprocess.call(add_cmd, cwd=REPO_ROOT)
         commit_msg = "feat(method_c): Cycle %d completed (u2=%s mm, tip=[%.2f, %.2f], far_side_d=%.4f, %s, %d elems)" % (

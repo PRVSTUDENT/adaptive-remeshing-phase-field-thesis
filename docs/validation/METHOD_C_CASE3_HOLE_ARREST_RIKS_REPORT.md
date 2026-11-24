@@ -113,6 +113,12 @@ To ensure numerical feasibility before launching multi-cycle validation, a proof
 - **Outcome**: `THE ANALYSIS HAS COMPLETED SUCCESSFULLY` with **0 cutbacks**!
 - **Extracted State**: Crack tip advanced forward to $(50.6012, 51.5836)\,\text{mm}$ with $d_{\max} = 1.000000$ and $H_{\max} = 548.04\,\text{MPa}$.
 
+### 4.1 Technical Clarifications on Proof Run Telemetry (Addressing GAP-RIKS-03 and GAP-RIKS-04)
+1. **Step 1 Hold Force Reconciliation (GAP-RIKS-03)**:
+   The proof run reused the base Cycle 49 deck input geometry where Step 1 hold reaction force was $RF_2 = 2.275\,\text{kN}$ (a $-1.6\%$ variation from the Cycle 48 donor $2.3118\,\text{kN}$). In the full validation run below, the receiver mesh will be dynamically generated with the extended refinement band ($x \in [44, 64]\,\text{mm}$, $y \in [48, 55]\,\text{mm}$), and the Step 1 hold force continuity will be rigorously recorded and audited for each cycle.
+2. **RIKS Termination Rule & Load Advance (GAP-RIKS-04)**:
+   The proof deck was generated from the Fix 2 parameter set with target displacement $u_2 = 0.2919\,\text{mm}$ (a test reference increment $\Delta u_2 = 0.0025\,\text{mm}$). Under `*STATIC, RIKS`, the proportional displacement is $u_2(\text{LPF}) = u_0 + \text{LPF} \times \Delta u_{\text{ref}}$. At Increment 9, the solver reached $\text{LPF} = 1.140$, achieving terminal displacement $u_2 = 0.2894 + 1.140 \times 0.0025 = 0.292261\,\text{mm}$. Because $\text{LPF} = 1.140 \ge 1.0$ (the prescribed `max_lpf`), Abaqus Standard determined that the proportional target was attained and terminated the step with `THE ANALYSIS HAS COMPLETED SUCCESSFULLY`. For the validation run, the nominal $\Delta u_2 = 0.0100\,\text{mm}$ load division will be applied.
+
 ---
 
 ## 5. Artifact Hashes & File Manifest
@@ -121,10 +127,10 @@ To ensure numerical feasibility before launching multi-cycle validation, a proof
 | :--- | :--- | :--- | :--- |
 | `case3_single_job_orchestrator.py` | `models/pandey_kumar_mode1/290_method_c_case3/` | `E1448DC847625E51E911874C2FB1BD0170CB53CDA30BDE7FF306E1BDF7BFC06A` | Orchestrator with Step 2 `*STATIC, RIKS` & extended band |
 | `case3_single_job_orchestrator.py` | `scripts/remeshing/` | `E1448DC847625E51E911874C2FB1BD0170CB53CDA30BDE7FF306E1BDF7BFC06A` | Repository mirror |
-| `generate_case3_adaptive_corridor_mesh.py` | `models/pandey_kumar_mode1/290_method_c_case3/` | `DE278CE0C66FEF484DC531C2C9031767B40A39C694F90F7425DC13E5383AEFB4` | Mesh generator ($x \in [44, 64]\,\text{mm}$, $y \in [48, 55]\,\text{mm}$) |
-| `generate_case3_adaptive_corridor_mesh.py` | `scripts/remeshing/` | `DE278CE0C66FEF484DC531C2C9031767B40A39C694F90F7425DC13E5383AEFB4` | Repository mirror |
+| `generate_case3_adaptive_corridor_mesh.py` | `models/pandey_kumar_mode1/290_method_c_case3/` | `9524B385BC4928BC077A67C0110CDBFBE76A15AE1AC3D34F4E00996AA7B60B3C` | Mesh generator ($x \in [44, 64]\,\text{mm}$, $y \in [48, 55]\,\text{mm}$) |
+| `generate_case3_adaptive_corridor_mesh.py` | `scripts/remeshing/` | `9524B385BC4928BC077A67C0110CDBFBE76A15AE1AC3D34F4E00996AA7B60B3C` | Repository mirror |
 | `run_case3_validation_step.py` | `scripts/remeshing/` | `8885B438515CE935EE70530A24C978D7D9A5FB268DF59E92BE4FD1364FE9950E` | Runner with RIKS `.sta` parsing |
-| `test_method_c_case3_hole_arrest_fix.py` | `tests/unit/` | `375DF27FEA50921EEF366C1530DBA0EE432170363595C48259E15B63EFEAA416` | 8/8 unit tests for Fix 3 |
+| `test_method_c_case3_hole_arrest_fix.py` | `tests/unit/` | `C8E036034167BA589BEFD3EB8A4B9B6EE752B3D1757603C3E1E79BF06F0BA896` | 8/8 unit tests for Fix 3 |
 | `f42_mixed_uel.for` | `models/pandey_kumar_mode1/` | `CE8D5EDCD2911DCB018BB15275271F874E7EA62B8FB48CF4A8297469A83ACDD6` | Bitwise frozen UEL |
 | Fix 3 Report | `docs/validation/METHOD_C_CASE3_HOLE_ARREST_RIKS_REPORT.md` | *This document* | Checkpoint (a) implementation report |
 
