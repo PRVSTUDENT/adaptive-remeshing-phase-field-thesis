@@ -1,8 +1,8 @@
 {
   "manifest_version": "2.0.0",
-  "task_id": "METHOD-C-CASE3-FRAMEWORK-SHORT-RESUME-RUN",
-  "correlation_id": "HND-METHOD-C-CASE3-FRAMEWORK-SHORT-RESUME-001",
-  "predecessor_correlation_id": "HND-METHOD-C-CASE3-FRAMEWORK-KILL-AND-FIX-003",
+  "task_id": "METHOD-C-CASE3-FRAMEWORK-FULL-PRODUCTION-RUN",
+  "correlation_id": "HND-METHOD-C-CASE3-FRAMEWORK-FULL-PRODUCTION-001",
+  "predecessor_correlation_id": "HND-METHOD-C-CASE3-FRAMEWORK-DYNAMIC-CORRIDOR-001",
   "benchmark": {
     "reference": "Pandey & Kumar (2025) Section 4.3",
     "case": "Case 3: Mode-I Cracked Plate with Central Void and Pin Loading",
@@ -31,6 +31,10 @@
     "orchestrator_script": "scripts/remeshing/case3_single_job_orchestrator.py",
     "submission_script": "models/pandey_kumar_mode1/290_method_c_case3/submit_case3_single_job_framework.pbs",
     "notification_script": "models/pandey_kumar_mode1/290_method_c_case3/job_notifications.sh",
+    "mesh_generator": {
+      "path": "models/pandey_kumar_mode1/290_method_c_case3/generate_case3_adaptive_corridor_mesh.py",
+      "sha256": "9524B385BC4928BC077A67C0110CDBFBE76A15AE1AC3D34F4E00996AA7B60B3C"
+    },
     "frozen_uel": {
       "path": "models/pandey_kumar_mode1/f42_mixed_uel.for",
       "sha256": "CE8D5EDCD2911DCB018BB15275271F874E7EA62B8FB48CF4A8297469A83ACDD6"
@@ -77,10 +81,10 @@
     }
   },
   "adaptive_schedule_parameters": {
-    "n_adaptive_steps": 10,
+    "n_adaptive_steps": 100,
     "load_increment_mm": 0.0100,
     "coarse_u2_mm": 0.0500,
-    "no_displacement_cap": false,
+    "no_displacement_cap": true,
     "crack_completion_criteria": {
       "terminal_tip_x_mm": 64.0,
       "load_drop_cutoff_ratio": 0.05,
@@ -101,9 +105,10 @@
     }
   },
   "accounting": {
-    "current_cumulative_pbs_submissions": 71,
+    "current_cumulative_pbs_submissions": 72,
     "framework_build_pbs_consumed": 0,
     "authorized_test_run_pbs_submissions": 1,
-    "cumulative_pbs_with_test_run": 72
+    "authorized_full_production_run_pbs_submissions": 1,
+    "cumulative_pbs_with_run": 73
   }
 }

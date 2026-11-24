@@ -164,18 +164,18 @@ def parse_sta(sta_path):
 
 
 def parse_dat_rf2(dat_path):
-    """Extracts step1, peak, and terminal RF2 from Abaqus .dat file."""
+    """Extracts step1, peak, and terminal RF2 from Abaqus .dat file using regex to support variable whitespace."""
     if not os.path.isfile(dat_path):
         return {}
     step1_rf2 = None
     step2_rf2_list = []
-    current_step = 1
+    current_step = None
 
     with open(dat_path, "r") as f:
         for line in f:
-            if "STEP  1" in line:
+            if re.search(r"\bSTEP\s+1\b", line):
                 current_step = 1
-            elif "STEP  2" in line:
+            elif re.search(r"\bSTEP\s+2\b", line):
                 current_step = 2
 
             if "999999" in line:
@@ -293,6 +293,20 @@ def run_cycle(c, run_dir=DEFAULT_RUN_DIR, cpus=6, skip_solve=False, push=True, l
     peak_rf2 = dat_data.get("peak_rf2")
     term_rf2 = dat_data.get("terminal_rf2")
 
+    donor_sum_path = os.path.join(TARGET_DIR, "PK_METHOD_C_CASE3_CYCLE%d_SUMMARY.json" % donor_c)
+    prev_term_rf2 = None
+    if os.path.isfile(donor_sum_path):
+        try:
+            with open(donor_sum_path, "r") as f:
+                d_rec = json.load(f)
+                prev_term_rf2 = d_rec.get("terminal_rf2_kN")
+        except Exception:
+            pass
+
+    hold_jump_pct = None
+    if step1_rf2 is not None and prev_term_rf2 is not None and prev_term_rf2 > 0:
+        hold_jump_pct = round(((step1_rf2 - prev_term_rf2) / prev_term_rf2) * 100.0, 4)
+
     conv_status = "CONV" if sta_data.get("completed", False) else ("CUTBACK" if sta_data.get("cutback_terminated", False) else "RUNNING/OTHER")
 
     rec = {
@@ -308,6 +322,7 @@ def run_cycle(c, run_dir=DEFAULT_RUN_DIR, cpus=6, skip_solve=False, push=True, l
         "far_side_d_max": round(far_side_d, 4),
         "far_side_node": far_side_node,
         "step1_rf2_kN": round(step1_rf2, 6) if step1_rf2 is not None else None,
+        "step1_hold_jump_pct": hold_jump_pct,
         "peak_rf2_kN": round(peak_rf2, 6) if peak_rf2 is not None else None,
         "peak_u2_mm": round(dat_data.get("peak_u2"), 6) if dat_data.get("peak_u2") is not None else None,
         "terminal_rf2_kN": round(term_rf2, 6) if term_rf2 is not None else None,
