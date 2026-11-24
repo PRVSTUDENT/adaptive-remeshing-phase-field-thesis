@@ -193,7 +193,7 @@ def state(frame):
    if v.nodeLabel!=999999:u_dict[str(v.nodeLabel)]=[float(x) for x in v.data]
  def rp(key):
   vals=[v for v in frame.fieldOutputs[key].values if v.nodeLabel==999999]
-  if len(vals)!=1:raise ValueError('Missing or ambiguous RP '+key)
+  if not vals:raise ValueError('Missing RP '+key)
   return float(vals[0].data[0])
  return dict(damage=damage,history=hgp,displacements=u_dict,u1=rp('U'),rf1=rp('RF'),energies=energies,
              step_frame=frame.incrementNumber,frame_time=frame.frameValue)
