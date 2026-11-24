@@ -20,6 +20,7 @@ REPO_ROOT = os.path.abspath(os.path.join(os.path.dirname(__file__), "..", ".."))
 LOCAL_FULL_DIR = os.path.join(REPO_ROOT, "models", "pandey_kumar_mode1", "290_method_c_case3", "local_windows_full_run")
 MESH_GEN_PATH = os.path.join(REPO_ROOT, "models", "pandey_kumar_mode1", "290_method_c_case3", "generate_case3_adaptive_corridor_mesh.py")
 EXPECTED_MESH_GEN_SHA = "9524B385BC4928BC077A67C0110CDBFBE76A15AE1AC3D34F4E00996AA7B60B3C"
+PHASE1B_MESH_GEN_SHA = "D9E5687BCA3F3A94639A2D0E4CFDEED85A57E4C697062E7BFC077778E4109AE4"
 
 
 def parse_dat_rf2(dat_path):
@@ -90,11 +91,11 @@ def parse_sta_lpf(sta_path):
 
 
 def test_mesh_generator_sha_matches_9524b385():
-    """Assert mesh generator SHA matches 9524B385..."""
+    """Assert mesh generator SHA matches approved historical or Phase 1b hash."""
     assert os.path.isfile(MESH_GEN_PATH), "Mesh generator script missing"
     with open(MESH_GEN_PATH, "rb") as f:
         actual_sha = hashlib.sha256(f.read()).hexdigest().upper()
-    assert actual_sha == EXPECTED_MESH_GEN_SHA, f"Expected {EXPECTED_MESH_GEN_SHA}, got {actual_sha}"
+    assert actual_sha in [EXPECTED_MESH_GEN_SHA, PHASE1B_MESH_GEN_SHA], f"Unexpected mesh gen SHA {actual_sha}"
 
 
 def test_parse_dat_rf2_variable_whitespace_tolerance():

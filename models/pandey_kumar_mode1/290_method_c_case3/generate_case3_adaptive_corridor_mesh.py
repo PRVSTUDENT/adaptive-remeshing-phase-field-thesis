@@ -60,14 +60,26 @@ BAND_HEIGHT_MM = 2.0       # Total height 2 * half_width (a few mm, not 17-30 mm
 BAND_WAKE_MARGIN_MM = 1.5  # Wake extension behind notch (x_min = 10.0 - 1.5 = 8.5 mm)
 BAND_AHEAD_MARGIN_MM = 2.0 # Forward extension ahead of tip
 
-# Far-side secondary refinement zone parameters (Node 16 damage band around void to completion point)
+# Far-side secondary refinement zone parameters (Wake-preserving dynamic advance)
 FAR_SIDE_BAND_X_MIN = 44.0
-FAR_SIDE_BAND_X_MAX = 64.0
-FAR_SIDE_BAND_Y_MIN = 48.0
-FAR_SIDE_BAND_Y_MAX = 55.0
+FAR_SIDE_BAND_X_MAX = 64.5
+FAR_SIDE_BAND_Y_MIN = 49.0
+FAR_SIDE_BAND_Y_MAX = 54.0
 FAR_SIDE_CENTER_X = 46.5
 FAR_SIDE_CENTER_Y = 51.0
 FAR_SIDE_H_REF_MM = 0.140
+
+def compute_far_side_x_max(tip_x):
+    """Computes dynamic far-side advance boundary to refine only the newly advanced crack front."""
+    tip_x = float(tip_x)
+    if tip_x < 44.0:
+        return 56.0
+    elif tip_x < 55.0:
+        return min(64.5, max(56.0, tip_x + 7.0))
+    elif tip_x < 60.0:
+        return min(64.5, max(56.0, tip_x + 4.5))
+    else:
+        return min(64.5, max(56.0, tip_x + 3.0))
 
 # Initial cycle reference constants (initial crack at notch root 10.0, 70.0)
 CORRIDOR_X_MIN = NOTCH_A - BAND_WAKE_MARGIN_MM   # 8.5 mm
@@ -81,43 +93,42 @@ def compute_narrow_band_spec(tip_x=10.0, tip_y=70.0, d_nodal=None,
                              wake_margin_mm=BAND_WAKE_MARGIN_MM,
                              notch_x=NOTCH_A, notch_y=NOTCH_Y,
                              plate_w=PLATE_W,
-                             enable_far_side_band=False):
+                             enable_far_side_band=None):
     """
     Computes narrow damage-following band geometry for a given crack tip position and damage field.
-    Optionally extends refinement with a secondary zone around the hole's far side (Node 16).
-
-    Rule:
-    1. Crack path locus: Starts at notch root (notch_x, notch_y) = (10.0, 70.0)
-       and extends to current crack tip (tip_x, tip_y).
-       If tip_x > notch_x, trajectory centerline y_c(x) interpolates from notch root to tip.
-    2. Wake extension: Extends wake_margin_mm behind notch root (x_min = notch_x - wake_margin_mm = 8.5 mm).
-    3. Tip advance margin: Extends ahead_margin_mm ahead of tip (x_max = min(plate_w, tip_x + ahead_margin_mm)).
-    4. Band half-width: Refines strictly within |y - y_c(x)| <= half_width_mm (default 1.0 mm).
-       Height of refined region at any x is strictly 2 * half_width_mm = 2.0 mm (a few mm, not 17-30 mm).
-    5. Element growth: At h_ref = 0.140 mm, each 1 mm of crack advance adds:
-       (1.0 mm / 0.140 mm) * (2.0 mm / 0.140 mm) ≈ 7.14 * 14.28 ≈ 102 elements/mm.
-       Total mesh remains bounded (< 35,000 elements for full propagation vs ~65,000 in Cycle 4).
-    6. Far-side secondary refinement zone (Fix 1):
-       When crack tip approaches or reaches the hole (tip_x >= 35.0 mm or explicit enable),
-       activates a secondary zone centered on (46.5, 51.0) mm covering x in [44, 54] mm, y in [44, 58] mm
-       refined to h_ref = 0.140 mm, in addition to the narrow tip band.
+    Wake-preserving progressive advance:
+    - Wake zone (notch to hole): Clamped to x <= 39.0 mm once crack reaches or passes hole (tip_x >= 35.0 mm).
+      Leaves already-passed wake mesh untouched and prevents unphysical corridor slicing across the central void.
+    - Advance zone (far-side ligament): When crack reaches hole, dynamically refines only the newly advanced
+      crack front from x = 44.0 mm to x_max = compute_far_side_x_max(tip_x), y in [49.0, 54.0] mm.
     """
     tip_x = float(tip_x)
     tip_y = float(tip_y)
 
+    is_post_hole = (tip_x >= 35.0)
+    wake_clamp_x = 39.0
+
     x_min = max(0.0, notch_x - wake_margin_mm)
-    x_max = min(plate_w, tip_x + ahead_margin_mm)
+    if is_post_hole:
+        x_max = min(wake_clamp_x, tip_x + ahead_margin_mm)
+        eff_tip_x = min(wake_clamp_x, tip_x)
+        eff_tip_y = 61.0 if tip_x >= 38.0 else tip_y
+    else:
+        x_max = min(plate_w, tip_x + ahead_margin_mm)
+        eff_tip_x = tip_x
+        eff_tip_y = tip_y
+
     length = max(0.0, x_max - x_min)
 
-    if tip_x > notch_x:
-        slope = (tip_y - notch_y) / (tip_x - notch_x)
+    if eff_tip_x > notch_x:
+        slope = (eff_tip_y - notch_y) / (eff_tip_x - notch_x)
     else:
         slope = 0.0
 
     y_at_xmin = notch_y
     y_at_notch = notch_y
-    y_at_tip = tip_y
-    y_at_xmax = tip_y + slope * (x_max - tip_x)
+    y_at_tip = eff_tip_y
+    y_at_xmax = eff_tip_y + slope * (x_max - eff_tip_x)
 
     y_center_min = min(y_at_xmin, y_at_notch, y_at_tip, y_at_xmax)
     y_center_max = max(y_at_xmin, y_at_notch, y_at_tip, y_at_xmax)
@@ -142,13 +153,14 @@ def compute_narrow_band_spec(tip_x=10.0, tip_y=70.0, d_nodal=None,
         (x_min, y_at_xmin + half_width_mm)
     ]
 
-    # Far-side secondary refinement zone (Fix 1)
+    # Far-side secondary refinement zone (Wake-Preserving Progressive Advance)
     if enable_far_side_band is None:
-        enable_far_side_band = (tip_x >= 35.0)
+        enable_far_side_band = is_post_hole
 
     far_side_spec = None
     if enable_far_side_band:
-        fs_w = FAR_SIDE_BAND_X_MAX - FAR_SIDE_BAND_X_MIN
+        fs_x_max = compute_far_side_x_max(tip_x)
+        fs_w = fs_x_max - FAR_SIDE_BAND_X_MIN
         fs_h = FAR_SIDE_BAND_Y_MAX - FAR_SIDE_BAND_Y_MIN
         fs_area = fs_w * fs_h
         fs_elem_area = FAR_SIDE_H_REF_MM * FAR_SIDE_H_REF_MM
@@ -159,7 +171,7 @@ def compute_narrow_band_spec(tip_x=10.0, tip_y=70.0, d_nodal=None,
             "center_x_mm": FAR_SIDE_CENTER_X,
             "center_y_mm": FAR_SIDE_CENTER_Y,
             "x_min_mm": FAR_SIDE_BAND_X_MIN,
-            "x_max_mm": FAR_SIDE_BAND_X_MAX,
+            "x_max_mm": fs_x_max,
             "y_min_mm": FAR_SIDE_BAND_Y_MIN,
             "y_max_mm": FAR_SIDE_BAND_Y_MAX,
             "width_mm": fs_w,
@@ -169,8 +181,8 @@ def compute_narrow_band_spec(tip_x=10.0, tip_y=70.0, d_nodal=None,
             "refined_elements": fs_elements,
             "polygon_vertices": [
                 (FAR_SIDE_BAND_X_MIN, FAR_SIDE_BAND_Y_MIN),
-                (FAR_SIDE_BAND_X_MAX, FAR_SIDE_BAND_Y_MIN),
-                (FAR_SIDE_BAND_X_MAX, FAR_SIDE_BAND_Y_MAX),
+                (fs_x_max, FAR_SIDE_BAND_Y_MIN),
+                (fs_x_max, FAR_SIDE_BAND_Y_MAX),
                 (FAR_SIDE_BAND_X_MIN, FAR_SIDE_BAND_Y_MAX)
             ]
         }
