@@ -110,3 +110,29 @@ def test_resume_rejects_mismatched_donor_before_any_solver_command(tmp_path):
     runner.command=forbidden
     with pytest.raises(RuntimeError,match='Donor evidence, hash or convergence mismatch'):
         runner.execute()
+
+
+def test_step1_hold_single_increment_and_node_displacement_output(tmp_path):
+    deck = tmp_path / 'deck_fix.inp'
+    mode2.assemble_mode2_coupled_deck(
+        str(deck), {1: (0, 0), 2: (1, 0), 3: (1, 1), 4: (0, 1)},
+        {1: [1, 2, 3, 4]}, {}, .0095, .011,
+        {n: .25 for n in range(1, 5)}, {(1, gp): gp * .001 for gp in range(1, 5)})
+    text = deck.read_text()
+    step1_block = text.split('*STEP, NAME=Step-1')[1].split('*END STEP')[0]
+    # Step 1 must be canonical Method C single-increment hold: 1.0, 1.0, 1.0E-08, 1.0
+    assert '*STATIC\n1.0, 1.0, 1.0E-08, 1.0' in step1_block
+    assert '0.05, 1.0, 1.0E-14, 0.5' not in step1_block
+    # Both Step 1 and Step 2 must include *NODE OUTPUT\nU to record full interior displacement field
+    assert '*NODE OUTPUT\nU\n' in step1_block
+    step2_block = text.split('*STEP, NAME=Step-2')[1].split('*END STEP')[0]
+    assert '*NODE OUTPUT\nU\n' in step2_block
+
+
+def test_frozen_uel_source_bit_integrity():
+    import hashlib
+    uel_path = ROOT / 'models/pandey_kumar_mode1/f42_mixed_uel.for'
+    uel_sha = hashlib.sha256(uel_path.read_bytes()).hexdigest().upper()
+    assert uel_sha == mode2.FROZEN_UEL_SHA256
+    assert uel_sha == 'CE8D5EDCD2911DCB018BB15275271F874E7EA62B8FB48CF4A8297469A83ACDD6'
+

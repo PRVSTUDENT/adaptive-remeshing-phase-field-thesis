@@ -167,11 +167,15 @@ def state(frame):
    d=sum(dgp[eid])/len(dgp[eid])
    for n in e.connectivity:nd.setdefault(n,[]).append(d)
  damage={str(n):sum(v)/len(v) for n,v in nd.items()}
+ u_dict={}
+ if 'U' in frame.fieldOutputs:
+  for v in frame.fieldOutputs['U'].values:
+   if v.nodeLabel!=999999:u_dict[str(v.nodeLabel)]=[float(x) for x in v.data]
  def rp(key):
   vals=[v for v in frame.fieldOutputs[key].values if v.nodeLabel==999999]
   if len(vals)!=1:raise ValueError('Missing or ambiguous RP '+key)
   return float(vals[0].data[0])
- return dict(damage=damage,history=hgp,u1=rp('U'),rf1=rp('RF'),energies=energies,
+ return dict(damage=damage,history=hgp,displacements=u_dict,u1=rp('U'),rf1=rp('RF'),energies=energies,
              step_frame=frame.incrementNumber,frame_time=frame.frameValue)
 steps=list(odb.steps.values())
 result={'hold':state(steps[0].frames[-1]),'terminal':state(steps[-1].frames[-1]),
