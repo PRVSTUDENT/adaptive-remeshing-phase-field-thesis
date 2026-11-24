@@ -55,11 +55,11 @@
     "hypothesis_tested": "Is the -27.68% Step 1 hold-force drop caused by Gauss-point history averaging in the transfer?",
     "hypothesis_status": "DISPROVEN",
     "findings": [
-      "Exact per-GP history transfer (Case A) reproduces donor RF2 to machine precision (-0.00036% difference, 2 iterations, Exit 0).",
+      "Exact per-GP history transfer (Case A) reproduces donor RF2 to within 0.0004% (-0.00036% difference, 2 iterations, Exit 0).",
       "Element-averaged history transfer (Case B) causes a minor stiffening of +0.3666% (+0.0085 kN, 2 iterations, Exit 0), which is well within the 5.0% continuity gate.",
       "The effect of history averaging (+0.37%) is two orders of magnitude smaller than the observed drop (-27.68%) and has the OPPOSITE SIGN (slight stiffening vs massive softening).",
-      "True physical mechanism of the -27.68% drop in Fix 1: Artificial coarse-mesh stiffness locking in the donor mesh. In Cycle 48, the far-side ligament ahead of the hole was discretized by coarse background quads (h = 2.0 mm ~ 7.0 * l0), which could not resolve the steep damage localization band (d ~ 0.35-0.40) and artificially locked the structural stiffness to 2.3118 kN. When Fix 1 refined the ligament with fine elements (h_ref = 0.140 mm < l0/2), the resolved constitutive softening (1-d)^2 E authentically lowered the equilibrium force to 1.6719 kN.",
-      "Corroboration: In Phase 1(b), retaining the wake mesh and restricting the advance window to the immediate crack front prevented sudden unconstrained ligament relaxation, achieving < 5% continuity (-1.05% at Cycle 49)."
+      "True physical mechanism of the -27.68% drop in Fix 1: Artificial coarse-mesh stiffness locking in the donor mesh. In Cycle 48, the far-side ligament ahead of the hole was discretized by coarse background quads (h = 2.0 mm ~ 7.0 * l0), which could not resolve the steep damage localization band (far-side d_max ~ 0.48) and artificially locked the structural stiffness to 2.3118 kN. When Fix 1 refined the ligament with fine elements (h_ref = 0.140 mm < l0/2), the resolved constitutive softening (1-d)^2 E authentically lowered the equilibrium force to 1.6719 kN.",
+      "Corroboration: In Phase 1(b), retaining the wake mesh and restricting the advance window to the immediate crack front prevented sudden unconstrained ligament relaxation, achieving < 5% continuity (-0.61% at Cycle 49)."
     ]
   }
 }

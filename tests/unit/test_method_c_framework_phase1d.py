@@ -7,7 +7,7 @@ Verifies:
    Controlled same-mesh transfer at Cycle 48 (u2 = 0.2894 mm) with and without history
    averaging both achieve force continuity far below the <= 5.0% gate.
 2. Case A (exact per-GP history transfer):
-   - Step 1 hold RF2 = 2.311816 kN vs donor 2.311824 kN (hold jump: -0.00036%, machine precision).
+   - Step 1 hold RF2 = 2.311816 kN vs donor 2.311824 kN (reproduces donor force to within 0.0004%).
    - Step 1 converges in exactly 1 increment and 2 iterations.
 3. Case B (element-averaged history transfer):
    - Step 1 hold RF2 = 2.320299 kN vs donor 2.311824 kN (hold jump: +0.3666%, slight stiffening).
@@ -17,7 +17,7 @@ Verifies:
 5. Mesh refinement compliance mechanism:
    The -27.68% hold-force drop in Fix 1/2 (2.3118 -> 1.6719 kN) is physically explained
    by transitioning from coarse background elements (h = 2.0 mm ~ 7.0 * l0) to resolved
-   corridor elements (h_ref = 0.140 mm < l0 / 2) across a partially damaged ligament (d ~ 0.35-0.40),
+   corridor elements (h_ref = 0.140 mm < l0 / 2) across a partially damaged ligament (far-side d_max ~ 0.48),
    relieving artificial coarse-mesh stiffness locking.
 6. Bitwise frozen UEL CE8D5EDC... integrity preserved.
 """
@@ -29,7 +29,6 @@ import hashlib
 import pytest
 
 REPO_ROOT = os.path.abspath(os.path.join(os.path.dirname(__file__), "..", ".."))
-LOCAL_INVESTIGATION_DIR = r"D:\mc3_local\phase1d_investigation"
 REPO_INVESTIGATION_DIR = os.path.join(REPO_ROOT, "models", "pandey_kumar_mode1", "290_method_c_case3", "phase1d_hold_force_investigation")
 SUMMARY_JSON_PATH = os.path.join(REPO_INVESTIGATION_DIR, "PHASE1D_HOLD_FORCE_COMPARISON_SUMMARY.json")
 UEL_PATH = os.path.join(REPO_ROOT, "models", "pandey_kumar_mode1", "f42_mixed_uel.for")
@@ -101,9 +100,9 @@ def test_frozen_uel_sha_preserved():
 
 
 def test_case_a_per_gp_same_mesh_force_continuity():
-    """Verify Case A (exact per-GP history transfer) reproduces donor RF2 to machine precision."""
-    dat_path = os.path.join(LOCAL_INVESTIGATION_DIR, "CASE3_C48_SAME_MESH_PER_GP.dat")
-    sta_path = os.path.join(LOCAL_INVESTIGATION_DIR, "CASE3_C48_SAME_MESH_PER_GP.sta")
+    """Verify Case A (exact per-GP history transfer) reproduces donor RF2 to within 0.0004%."""
+    dat_path = os.path.join(REPO_INVESTIGATION_DIR, "CASE3_C48_SAME_MESH_PER_GP.dat")
+    sta_path = os.path.join(REPO_INVESTIGATION_DIR, "CASE3_C48_SAME_MESH_PER_GP.sta")
     assert os.path.isfile(dat_path), f"Missing {dat_path}"
 
     res = parse_dat_rf2(dat_path)
@@ -123,8 +122,8 @@ def test_case_a_per_gp_same_mesh_force_continuity():
 
 def test_case_b_elem_avg_same_mesh_force_continuity():
     """Verify Case B (element-averaged history transfer) passes the 5% force continuity gate."""
-    dat_path = os.path.join(LOCAL_INVESTIGATION_DIR, "CASE3_C48_SAME_MESH_ELEM_AVG.dat")
-    sta_path = os.path.join(LOCAL_INVESTIGATION_DIR, "CASE3_C48_SAME_MESH_ELEM_AVG.sta")
+    dat_path = os.path.join(REPO_INVESTIGATION_DIR, "CASE3_C48_SAME_MESH_ELEM_AVG.dat")
+    sta_path = os.path.join(REPO_INVESTIGATION_DIR, "CASE3_C48_SAME_MESH_ELEM_AVG.sta")
     assert os.path.isfile(dat_path), f"Missing {dat_path}"
 
     res = parse_dat_rf2(dat_path)
@@ -149,8 +148,8 @@ def test_history_averaging_hypothesis_disproven():
     On the identical discretization, element-averaging causes a +0.3666% change (stiffening),
     whereas the Fix 1 drop was -27.68% (softening).
     """
-    dat_a = os.path.join(LOCAL_INVESTIGATION_DIR, "CASE3_C48_SAME_MESH_PER_GP.dat")
-    dat_b = os.path.join(LOCAL_INVESTIGATION_DIR, "CASE3_C48_SAME_MESH_ELEM_AVG.dat")
+    dat_a = os.path.join(REPO_INVESTIGATION_DIR, "CASE3_C48_SAME_MESH_PER_GP.dat")
+    dat_b = os.path.join(REPO_INVESTIGATION_DIR, "CASE3_C48_SAME_MESH_ELEM_AVG.dat")
     res_a = parse_dat_rf2(dat_a)
     res_b = parse_dat_rf2(dat_b)
 

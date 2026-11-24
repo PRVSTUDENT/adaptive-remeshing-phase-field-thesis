@@ -1,7 +1,7 @@
 {
   "active": true,
   "agent": "gemini-antigravity",
-  "task_id": "METHOD-C-FRAMEWORK-PHASE1D-HOLD-FORCE-DROP-INVESTIGATION",
+  "task_id": "METHOD-C-FRAMEWORK-PHASE1D-HOLD-FORCE-DROP-INVESTIGATION-R2",
   "session_id": "2026-11-24_gemini_method_c_phase1d_001",
   "started_at": "2026-11-24T06:58:00+01:00",
   "ended_at": null,
@@ -13,6 +13,7 @@
     "docs/meetings/*",
     "tests/unit/*",
     "project_coordination/*",
-    ".agents/scripts/*"
+    ".agents/scripts/*",
+    ".gitignore"
   ]
 }
