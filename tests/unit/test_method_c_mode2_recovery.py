@@ -31,6 +31,7 @@ def test_initial_state_contains_18_values_per_element(tmp_path):
     assert '*AMPLITUDE, NAME=CONST_HOLD' in text
     assert '*BOUNDARY, AMPLITUDE=CONST_HOLD' in text
     assert '*DEPVAR\n20\n' in text
+    assert '*BOUNDARY, OP=NEW' not in text.split('** STEP 2:')[0]
 
 
 def test_cli_cannot_silently_succeed_without_running():

@@ -465,7 +465,7 @@ def assemble_mode2_coupled_deck(out_deck_path,
         out.write("*STEP, NAME=Step-1, NLGEOM=NO, INC=500\n")
         out.write("*STATIC\n")
         out.write("0.05, 1.0, 1.0E-14, 0.5\n")
-        out.write("*BOUNDARY, OP=NEW\n")
+        out.write("*BOUNDARY\n")
         out.write("N_BOTTOM, 1, 2, 0.0\n")
         out.write("N_TOP, 2, 2, 0.0\n")
         out.write("*BOUNDARY, AMPLITUDE=CONST_HOLD\n")

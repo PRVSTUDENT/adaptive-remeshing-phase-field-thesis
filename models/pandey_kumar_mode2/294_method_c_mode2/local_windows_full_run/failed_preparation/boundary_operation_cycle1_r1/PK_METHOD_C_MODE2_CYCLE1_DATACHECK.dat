@@ -1,0 +1,256 @@
+1
+
+   Abaqus 2024                                  Date 24-Nov-2026   Time 16:10:32
+   For use by Supplied by Team-SolidSQUAD under license from Dassault Systemes or its subsidiary.
+
+
+
+                         The Abaqus Software is a product of:
+
+                           Dassault Systemes SIMULIA Corp.
+                           1301 Atwood Avenue, Suite 101W
+                              Johnston, RI 02919, USA
+ 
+
+
+                   The Abaqus Software is available only under license
+                   from Dassault Systemes or its subsidiary and may be
+                   used or reproduced only in accordance with the terms
+                   of such license.
+ 
+                          On machine PRUTHVI 
+                          you are authorized to run
+                          Abaqus/Standard until 31-Dec-2055
+
+                          Your site id is:  
+
+
+ 
+                    For assistance or any other information you may
+                    obtain contact information for your local office
+                    from the world wide web at:
+
+                      https://www.3ds.com/products-services/simulia/services-support/
+
+ 
+                * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * 
+                *                                                         * 
+                *                   *****************                     * 
+                *                   *  N O T I C E  *                     * 
+                *                   *****************                     * 
+                *                                                         * 
+                *                                                         * 
+                *                       Abaqus 2024                       * 
+                *                                                         * 
+                *       BUILD ID: 2023_09_21-14.55.25 RELr426 190762      * 
+                *                                                         * 
+                *                                                         * 
+                *  Please make sure you are using                         * 
+                *  release Abaqus 2024 manuals                            * 
+                *  plus the notes accompanying this release.              * 
+                *                                                         * 
+                *                                                         * 
+                *                                                         * 
+                *                                                         * 
+                * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * 
+
+
+ 
+
+
+
+     PROCESSING PART, INSTANCE, AND ASSEMBLY INFORMATION
+   *******************************************************
+
+
+     END PROCESSING PART, INSTANCE, AND ASSEMBLY INFORMATION
+   ***********************************************************
+
+
+
+
+     OPTIONS BEING PROCESSED
+   ***************************
+
+
+  *USER ELEMENT, NODES=4, TYPE=U1, PROPERTIES=6, COORDINATES=2, VARIABLES=18, UNSYMM
+  *USER ELEMENT, NODES=3, TYPE=U3, PROPERTIES=6, COORDINATES=2, VARIABLES=18, UNSYMM
+  *USER ELEMENT, NODES=4, TYPE=U2, PROPERTIES=6, COORDINATES=2, VARIABLES=18, UNSYMM
+  *USER ELEMENT, NODES=3, TYPE=U4, PROPERTIES=6, COORDINATES=2, VARIABLES=18, UNSYMM
+  *HEADING
+          Method C Mode-II Model                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                          
+  *ELEMENT, TYPE=U1, ELSET=PHASE_QUAD
+  *ELEMENT, TYPE=U3, ELSET=PHASE_TRI
+  *ELEMENT, TYPE=U2, ELSET=DISP_QUAD
+  *ELEMENT, TYPE=U4, ELSET=DISP_TRI
+  *ELEMENT, TYPE=CPE4, ELSET=umatelem_quad
+  *ELEMENT, TYPE=CPE3, ELSET=umatelem_tri
+  *ELSET, ELSET=All_elem
+  *ELSET, ELSET=umatelem
+  *MATERIAL, NAME=M_COMPANION
+  *USER MATERIAL, CONSTANTS=3
+  *DEPVAR
+  *INITIAL CONDITIONS, TYPE=SOLUTION
+  *SOLID SECTION, ELSET=All_elem, MATERIAL=M_COMPANION
+  *USER ELEMENT, NODES=4, TYPE=U1, PROPERTIES=6, COORDINATES=2, VARIABLES=18, UNSYMM
+  *USER ELEMENT, NODES=3, TYPE=U3, PROPERTIES=6, COORDINATES=2, VARIABLES=18, UNSYMM
+  *USER ELEMENT, NODES=4, TYPE=U2, PROPERTIES=6, COORDINATES=2, VARIABLES=18, UNSYMM
+  *USER ELEMENT, NODES=3, TYPE=U4, PROPERTIES=6, COORDINATES=2, VARIABLES=18, UNSYMM
+  *SOLID SECTION, ELSET=All_elem, MATERIAL=M_COMPANION
+  *INITIAL CONDITIONS, TYPE=SOLUTION
+  *BOUNDARY, OP=NEW
+  *BOUNDARY, AMPLITUDE=CONST_HOLD
+  *BOUNDARY, OP=MOD
+  *BOUNDARY, OP=NEW
+  *BOUNDARY, AMPLITUDE=CONST_HOLD
+  *EQUATION
+  *EQUATION
+  *EQUATION
+  *EQUATION
+  *EQUATION
+  *EQUATION
+  *EQUATION
+  *EQUATION
+  *EQUATION
+  *EQUATION
+  *EQUATION
+  *EQUATION
+  *EQUATION
+  *EQUATION
+  *EQUATION
+  *EQUATION
+  *EQUATION
+  *EQUATION
+  *EQUATION
+  *EQUATION
+  *EQUATION
+  *EQUATION
+  *EQUATION
+  *EQUATION
+  *EQUATION
+  *EQUATION
+  *EQUATION
+  *EQUATION
+  *EQUATION
+  *EQUATION
+  *EQUATION
+  *EQUATION
+  *EQUATION
+  *EQUATION
+  *EQUATION
+  *EQUATION
+  *EQUATION
+  *EQUATION
+  *EQUATION
+  *EQUATION
+  *EQUATION
+  *UEL PROPERTY, ELSET=PHASE_QUAD
+  *UEL PROPERTY, ELSET=DISP_QUAD
+  *UEL PROPERTY, ELSET=PHASE_TRI
+  *UEL PROPERTY, ELSET=DISP_TRI
+  *OUTPUT, FIELD, FREQUENCY=1
+  *OUTPUT, FIELD, FREQUENCY=1
+  *ELEMENT OUTPUT, ELSET=umatelem
+  *ELEMENT OUTPUT, ELSET=umatelem
+  *INITIAL CONDITIONS, TYPE=SOLUTION
+  *OUTPUT, FIELD, FREQUENCY=1
+  *OUTPUT, FIELD, FREQUENCY=1
+  *ELEMENT OUTPUT, ELSET=umatelem
+  *ELEMENT OUTPUT, ELSET=umatelem
+  *INITIAL CONDITIONS, TYPE=SOLUTION
+  *INITIAL CONDITIONS, TYPE=SOLUTION
+  *OUTPUT, FIELD, FREQUENCY=1
+  *OUTPUT, FIELD, FREQUENCY=1
+  *ELEMENT OUTPUT, ELSET=umatelem
+  *ELEMENT OUTPUT, ELSET=umatelem
+
+ ***NOTE: MPCS (EXTERNAL or INTERNAL, including those generated from rigid body 
+          definitions), KINEMATIC COUPLINGS, AND/OR EQUATIONS WILL ACTIVATE 
+          ADDITIONAL DEGREES OF FREEDOM
+  *STEP, NAME=Step-1, NLGEOM=NO, INC=500
+  *OUTPUT, FIELD, FREQUENCY=1
+  *STEP, NAME=Step-2, NLGEOM=NO, INC=1000
+  *OUTPUT, FIELD, FREQUENCY=1
+  *STEP, NAME=Step-1, NLGEOM=NO, INC=500
+  *STEP, NAME=Step-2, NLGEOM=NO, INC=1000
+  *STEP, NAME=Step-1, NLGEOM=NO, INC=500
+  *STATIC
+  *BOUNDARY, OP=NEW
+  *BOUNDARY, AMPLITUDE=CONST_HOLD
+  *OUTPUT, FIELD, FREQUENCY=1
+  *NODE OUTPUT, NSET=N_RP
+  *ELEMENT OUTPUT, ELSET=umatelem
+  *NODE PRINT, FREQ=1, NSET=N_RP
+  *END STEP
+
+ ***WARNING: THE *ELEMENT OUTPUT OPTION IS NOT SUPPORTED FOR USER ELEMENTS
+
+ ***WARNING: THE *ELEMENT OUTPUT OPTION IS NOT SUPPORTED FOR USER ELEMENTS
+
+ ***WARNING: THE *ELEMENT OUTPUT OPTION IS NOT SUPPORTED FOR USER ELEMENTS
+
+ ***WARNING: THE *ELEMENT OUTPUT OPTION IS NOT SUPPORTED FOR USER ELEMENTS
+  *STEP, NAME=Step-2, NLGEOM=NO, INC=1000
+  *STATIC, RIKS
+  *BOUNDARY, OP=MOD
+  *OUTPUT, FIELD, FREQUENCY=1
+  *NODE OUTPUT, NSET=N_RP
+  *ELEMENT OUTPUT, ELSET=umatelem
+  *NODE PRINT, FREQ=1, NSET=N_RP
+  *END STEP
+
+ ***WARNING: THE NLGEOM FLAG SHOULD BE ACTIVATED FOR THE RIKS STEP. OTHERWISE, 
+             THE GEOMETRIC NONLINEARITY WILL NOT BE CONSIDERED.
+
+ ***WARNING: THE *ELEMENT OUTPUT OPTION IS NOT SUPPORTED FOR USER ELEMENTS
+
+ ***WARNING: THE *ELEMENT OUTPUT OPTION IS NOT SUPPORTED FOR USER ELEMENTS
+
+ ***WARNING: THE *ELEMENT OUTPUT OPTION IS NOT SUPPORTED FOR USER ELEMENTS
+
+ ***WARNING: THE *ELEMENT OUTPUT OPTION IS NOT SUPPORTED FOR USER ELEMENTS
+  *STEP, NAME=Step-1, NLGEOM=NO, INC=500
+  *STATIC
+  *BOUNDARY, OP=NEW
+  *BOUNDARY, AMPLITUDE=CONST_HOLD
+  *END STEP
+
+ ***ERROR: YOU ARE MIXING OP=NEW AND OP=MOD FOR *BOUNDARY
+ ***NOTE: DUE TO AN INPUT ERROR THE ANALYSIS PRE-PROCESSOR HAS BEEN UNABLE TO 
+          INTERPRET SOME DATA.  SUBSEQUENT ERRORS MAY BE CAUSED BY THIS OMISSION
+  *STEP, NAME=Step-2, NLGEOM=NO, INC=1000
+  *STATIC, RIKS
+  *BOUNDARY, OP=MOD
+  *END STEP
+
+
+
+                            P R O B L E M   S I Z E
+
+
+          NUMBER OF ELEMENTS IS                                 15084
+          NUMBER OF NODES IS                                     5046
+          NUMBER OF NODES DEFINED BY THE USER                    5046
+          TOTAL NUMBER OF VARIABLES IN THE MODEL                15136
+          (DEGREES OF FREEDOM PLUS MAX NO. OF ANY LAGRANGE MULTIPLIER
+           VARIABLES. INCLUDE *PRINT,SOLVE=YES TO GET THE ACTUAL NUMBER.)
+
+
+
+
+
+          THE PROGRAM HAS DISCOVERED     1 FATAL ERRORS
+
+               ** EXECUTION IS TERMINATED **
+
+
+
+                              END OF USER INPUT PROCESSING
+
+
+
+     JOB TIME SUMMARY
+       USER TIME (SEC)      =     0.50    
+       SYSTEM TIME (SEC)    =      0.0    
+       TOTAL CPU TIME (SEC) =     0.50    
+       WALLCLOCK TIME (SEC) =            0

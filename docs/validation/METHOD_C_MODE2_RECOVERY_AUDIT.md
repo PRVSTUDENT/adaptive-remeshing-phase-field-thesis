@@ -204,3 +204,14 @@ depvar30_cycle1_r0; the full rejected deck remains in its original scratch.
 A distinct bounded R1 candidate uses a fresh scratch folder and scope; no
 identical retry or reset accounting. The material/order correction and this
 continuation correction change no frozen source or declared physical inputs.
+
+Cycle 1 R1 datacheck confirmed the state continuation correction: no invalid
+integer errors remained. It then diagnosed one independent input error,
+`YOU ARE MIXING OP=NEW AND OP=MOD FOR *BOUNDARY`: the inherited first-step
+OP=NEW card conflicted with the constant-amplitude card's default OP=MOD.
+Normalized the first step to default OP=MOD throughout (as in Case 1);
+constraints and constant donor hold are unchanged. R1 diagnostics preserved
+under failed_preparation/boundary_operation_cycle1_r1; no R1 cycle solve
+started. R2 is a distinct freshly scoped datacheck/solve candidate, not an
+identical rerun; input errors do not consume a PBS submission or imply a
+numerical transfer result.
