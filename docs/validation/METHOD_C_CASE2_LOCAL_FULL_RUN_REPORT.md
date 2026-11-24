@@ -1,8 +1,8 @@
 # Method C Case 2 Full Production Run Validation Report
 
 **Document ID**: `METHOD_C_CASE2_LOCAL_FULL_RUN_REPORT`  
-**Task ID**: `METHOD-C-PHASE2-CASE2-FULL-RUN`  
-**Correlation ID**: `HND-METHOD-C-PHASE2-CASE2-001`  
+**Task ID**: `METHOD-C-PHASE2-CASE2-FULL-RUN-R2`  
+**Correlation ID**: `HND-METHOD-C-PHASE2-CASE2-002`  
 **Date**: 2026-11-24  
 **Author**: Gemini Antigravity (Local Workstation Autonomous Execution)  
 **Execution Environment**: Local Windows Workstation, Abaqus/Standard 2024, Intel(R) Fortran Compiler 2026.0.0, 6 CPUs  
@@ -38,10 +38,10 @@ Following the successful completion of Case 3 and Case 1, the improved Method C 
 - **Notch Root**: Initial crack tip at $(0.5000, 0.5000)\,\text{mm}$.
 - **Hole Void**: Center at $(0.6500, 0.6500)\,\text{mm}$, radius $R = 0.1000\,\text{mm}$ (void boundary from $x=0.55$ to $0.75$, $y=0.55$ to $0.75$).
 - **Primary Ligament**: Notch root $(0.5, 0.5)$ to hole boundary $(0.58, 0.58)$ with length $L_1 = 0.15\sqrt{2} - 0.10 \approx 0.1121\,\text{mm}$.
-- **Void Transition Jump**: Entry $(0.5859, 0.5733)$ to re-nucleation at $(0.7500, 0.6500)$ with $\Delta s_{\text{jump}} \approx 0.184\,\text{mm}$.
+- **Void Transition Jump**: Entry $(0.5859, 0.5733)$ to re-nucleation at $(0.7500, 0.6500)$ with $\Delta s_{\text{jump}} = \sqrt{(0.75 - 0.5859)^2 + (0.65 - 0.5733)^2} \approx 0.1811\,\text{mm}$ ($\sim 0.181\,\text{mm}$).
 - **Secondary Distal Ligament**: Hole right edge $(0.7500, 0.6500)$ to outer right boundary $(1.0000, 0.6500)$ with length $L_2 = 0.2500\,\text{mm}$.
 - **Total Solid Material Ligament**: $L_{\text{solid}} = L_1 + L_2 \approx 0.3621\,\text{mm}$.
-- **Total Cumulative Crack Trajectory**: $s_{\text{tot}} \approx 0.113 + 0.184 + 0.250 \approx 0.547\,\text{mm}$.
+- **Total Cumulative Crack Trajectory**: Theoretical full path to outer right edge is $s_{\text{tot}} \approx 0.112 + 0.181 + 0.250 \approx 0.543 - 0.547\,\text{mm}$, while the achieved cumulative arc length at completion was $s = 0.4905\,\text{mm}$ (~$79.5\%$ of distal ligament severed).
 - **Boundary Conditions**: Bottom edge $y = 0.0$ restrained in DOF 2 ($u_y = 0$); node $(0.0, 0.0)$ pinned in DOF 1 ($u_x = 0$); top edge $y = 1.0$ restrained in DOF 1 ($u_x = 0$) and coupled in DOF 2 to reference node `N_RP` (label `999999`).
 
 ### 2.2 Dual-Corridor Wake-Preserving Adaptive Mesh Generator
@@ -95,15 +95,20 @@ During Cycle 4, the sudden discharge of stored elastic energy as the crack jumpe
 
 | Artifact Path | Format | Size | Description |
 |---|---|---|---|
-| `models/pandey_kumar_mode1/292_method_c_case2/local_windows_full_run/METHOD_C_CASE2_FULL_RUN_SUMMARY.json` | JSON | 4.2 KB | Complete multi-cycle audit and gate telemetry |
-| `models/pandey_kumar_mode1/292_method_c_case2/local_windows_full_run/PK_METHOD_C_CASE2_COARSE_JOB1.sta` | ASCII | 3.5 KB | Cycle 0 solver status file (Exit 0) |
-| `models/pandey_kumar_mode1/292_method_c_case2/local_windows_full_run/PK_METHOD_C_CASE2_CYCLE1.sta` | ASCII | 2.6 KB | Cycle 1 solver status file (Exit 0) |
-| `models/pandey_kumar_mode1/292_method_c_case2/local_windows_full_run/PK_METHOD_C_CASE2_CYCLE2.sta` | ASCII | 2.7 KB | Cycle 2 solver status file (Exit 0) |
-| `models/pandey_kumar_mode1/292_method_c_case2/local_windows_full_run/PK_METHOD_C_CASE2_CYCLE3.sta` | ASCII | 2.5 KB | Cycle 3 solver status file (Exit 0) |
-| `models/pandey_kumar_mode1/292_method_c_case2/local_windows_full_run/PK_METHOD_C_CASE2_CYCLE4.sta` | ASCII | 6.5 KB | Cycle 4 solver status file (Exit 0) |
-| `tests/unit/test_method_c_case2_full_run.py` | Python | 4.8 KB | 7/7 unit tests verifying full run metrics |
-| `models/pandey_kumar_mode1/292_method_c_case2/case2_single_job_orchestrator.py` | Python | 40.5 KB | In-job multi-cycle orchestrator script |
-| `models/pandey_kumar_mode1/292_method_c_case2/generate_case2_adaptive_corridor_mesh.py` | Python | 15.1 KB | Case 2 dual-corridor mesh generator |
+| `models/pandey_kumar_mode1/292_method_c_case2/local_windows_full_run/METHOD_C_CASE2_FULL_RUN_SUMMARY.json` | JSON | 4,386 B | Complete multi-cycle audit and gate telemetry |
+| `models/pandey_kumar_mode1/292_method_c_case2/local_windows_full_run/PK_METHOD_C_CASE2_COARSE_JOB1.sta` | ASCII | 3,775 B | Cycle 0 solver status file (Exit 0) |
+| `models/pandey_kumar_mode1/292_method_c_case2/local_windows_full_run/PK_METHOD_C_CASE2_COARSE_JOB1.dat` | ASCII | 45,932 B | Cycle 0 solver print output file |
+| `models/pandey_kumar_mode1/292_method_c_case2/local_windows_full_run/PK_METHOD_C_CASE2_CYCLE1.sta` | ASCII | 2,711 B | Cycle 1 solver status file (Exit 0) |
+| `models/pandey_kumar_mode1/292_method_c_case2/local_windows_full_run/PK_METHOD_C_CASE2_CYCLE1.dat` | ASCII | 39,406 B | Cycle 1 solver print output file |
+| `models/pandey_kumar_mode1/292_method_c_case2/local_windows_full_run/PK_METHOD_C_CASE2_CYCLE2.sta` | ASCII | 3,278 B | Cycle 2 solver status file (Exit 0) |
+| `models/pandey_kumar_mode1/292_method_c_case2/local_windows_full_run/PK_METHOD_C_CASE2_CYCLE2.dat` | ASCII | 43,318 B | Cycle 2 solver print output file |
+| `models/pandey_kumar_mode1/292_method_c_case2/local_windows_full_run/PK_METHOD_C_CASE2_CYCLE3.sta` | ASCII | 2,711 B | Cycle 3 solver status file (Exit 0) |
+| `models/pandey_kumar_mode1/292_method_c_case2/local_windows_full_run/PK_METHOD_C_CASE2_CYCLE3.dat` | ASCII | 38,754 B | Cycle 3 solver print output file |
+| `models/pandey_kumar_mode1/292_method_c_case2/local_windows_full_run/PK_METHOD_C_CASE2_CYCLE4.sta` | ASCII | 8,867 B | Cycle 4 solver status file (Exit 0) |
+| `models/pandey_kumar_mode1/292_method_c_case2/local_windows_full_run/PK_METHOD_C_CASE2_CYCLE4.dat` | ASCII | 72,658 B | Cycle 4 solver print output file |
+| `tests/unit/test_method_c_case2_full_run.py` | Python | 5,279 B | 7/7 unit tests verifying full run metrics |
+| `models/pandey_kumar_mode1/292_method_c_case2/case2_single_job_orchestrator.py` | Python | 57,482 B | In-job multi-cycle orchestrator script |
+| `models/pandey_kumar_mode1/292_method_c_case2/generate_case2_adaptive_corridor_mesh.py` | Python | 15,130 B | Case 2 dual-corridor mesh generator |
 
 ---
 
@@ -112,7 +117,7 @@ During Cycle 4, the sudden discharge of stored elastic energy as the crack jumpe
 The Method C framework has now successfully completed **three of the four benchmark cases**:
 1. **Case 3** (Mode-I Cracked Plate with Single Hole): 100% COMPLETE & APPROVED (`HND-METHOD-C-CASE3-FULL-RUN-COMPLETION-001`).
 2. **Case 1** (Mode-I Edge-Cracked Square Plate): 100% COMPLETE & APPROVED (`HND-METHOD-C-PHASE2-CASE1-001`).
-3. **Case 2** (Mode-I Edge-Notched Plate with Off-Axis Hole): 100% COMPLETE (Cycles 0 to 4, $98.56\%$ load drop, primary and secondary ligaments severed, all force continuity gates $\le 1.27\%$).
+3. **Case 2** (Mode-I Edge-Notched Plate with Off-Axis Hole): COMPLETE by load-drop criterion (Cycles 0 to 4, $98.56\%$ load drop, primary ligament severed, void crossed, and ~79.5% of distal ligament severed with tip at $x = 0.9479\,\text{mm}$ [0.0521 mm short of outer edge], all force continuity gates $\le 1.27\%$).
 
 **Next Operational Directive**:
-Advance Phase 2 to **Case 5** (`FIVE_HOLE_PLATE` under `EDGE_PULL`, the 5-hole plate benchmark), the fourth and final benchmark case.
+Advance Phase 2 to **Case 5** (`SEVEN_HOLE_PLATE` under `EDGE_PULL`, seven-hole plate benchmark as specified in `configs/remeshing/f1728_case5_seven_hole.json`), the fourth and final benchmark case.

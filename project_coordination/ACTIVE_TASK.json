@@ -1,28 +1,28 @@
 {
-  "task_id": "METHOD-C-PHASE2-CASE2-FULL-RUN",
-  "title": "Method C Phase 2: Pandey-Kumar Mode-I Case 2 Full Benchmark Run with Improved Method C Framework",
+  "task_id": "METHOD-C-PHASE2-CASE2-FULL-RUN-R2",
+  "title": "Method C Phase 2: Pandey-Kumar Mode-I Case 2 Full Benchmark Run with Improved Method C Framework Re-Issue 2",
   "task_status": "COMPLETED",
   "master_goal_status": "OPEN",
   "status": "COMPLETED",
   "review_verdict": "READY_FOR_REVIEW",
-  "review_correlation_id": "HND-METHOD-C-PHASE2-CASE2-001",
+  "review_correlation_id": "HND-METHOD-C-PHASE2-CASE2-002",
   "classification": "METHOD_C_INCREMENTAL_ADAPTIVE_REMESHING",
   "assigned_agent": "gemini-antigravity",
   "active_pbs_job_id": null,
   "last_successful_pbs_job_id": "1424910.mmaster02",
   "last_failed_pbs_job_id": "1424881.mmaster02",
   "checkpoint_artifact": "docs/validation/METHOD_C_CASE2_LOCAL_FULL_RUN_REPORT.md",
-  "checkpoint_artifact_sha256": "AFB0D4B5B6DFF421D624A6A71A96DF8770DEEC9EF21041A563EE0CE071A2828A",
-  "review_directive": "Phase 2 Case 2: Configure Master Thesis Mode-I Case 2 benchmark (1.0 x 1.0 mm plate with off-axis hole, initial notch a0 = 0.5 mm at y = 0.5 mm, circular void R = 0.10 mm at [0.65, 0.65], l0 = 0.0075 mm, E = 210 GPa, nu = 0.3, Gc = 0.0027 kN/mm) for the improved Method C framework (F1852 driver, wake-preserving remesh, arc-length completion criterion calibrated for Case 2's geometry s >= 0.52 mm, xtip >= 0.98 mm, or RF2 < 5% of Case 2 peak). Run Case 2 on local PC from coarse mesh through completion, committing and pushing per cycle with per-cycle summaries, state files and solver outputs. Return handoff under HND-METHOD-C-PHASE2-CASE2-001. Local PC only, 0 PBS. Bitwise frozen UEL CE8D5EDC preserved; HPC job 1424916 untouched; MASTER_GOAL_STATUS = OPEN.",
+  "checkpoint_artifact_sha256": "F02284F825B3B83D619CC85AB05C9ADA5FB73C91F92238B78A1AF405847090EE",
+  "review_directive": "Re-issued Phase 2 Case 2 full production run under HND-METHOD-C-PHASE2-CASE2-002 resolving all review gaps: committed all 5 .sta files and 5 .dat files under models/pandey_kumar_mode1/292_method_c_case2/local_windows_full_run/ with .gitignore un-ignore rules [GAP-P2C2-01]; corrected severance wording to ~79.5% distal ligament severed with tip 0.0521 mm short of outer edge [GAP-P2C2-02]; corrected Case 5 description to SEVEN_HOLE_PLATE [GAP-P2C2-03]; corrected artifact byte counts in Section 5 table [GAP-P2C2-04]; and corrected void jump to ~0.181 mm [GAP-P2C2-05]. 44/44 unit tests PASS.",
   "predecessor_task": {
-    "task_id": "METHOD-C-PHASE2-CASE1-FULL-RUN",
-    "checkpoint_artifact": "docs/validation/METHOD_C_CASE1_LOCAL_FULL_RUN_REPORT.md",
+    "task_id": "METHOD-C-PHASE2-CASE2-FULL-RUN",
+    "checkpoint_artifact": "docs/validation/METHOD_C_CASE2_LOCAL_FULL_RUN_REPORT.md",
     "classification": "METHOD_C_INCREMENTAL_ADAPTIVE_REMESHING",
-    "review_verdict": "APPROVE",
-    "correlation_id": "HND-METHOD-C-PHASE2-CASE1-001"
+    "review_verdict": "INSUFFICIENT_EVIDENCE",
+    "correlation_id": "HND-METHOD-C-PHASE2-CASE2-001"
   },
-  "correlation_id": "HND-METHOD-C-PHASE2-CASE2-001",
-  "predecessor_correlation_id": "HND-METHOD-C-PHASE2-CASE1-001",
+  "correlation_id": "HND-METHOD-C-PHASE2-CASE2-002",
+  "predecessor_correlation_id": "HND-METHOD-C-PHASE2-CASE2-001",
   "scientific_operation": "method_c_phase2_case2_full_run",
   "scientific_operation_id": "method_c_phase2_case2_full_run",
   "scientific_checkpoint_required": true,
@@ -33,5 +33,5 @@
   "max_new_pbs_submissions": 0,
   "submissions_consumed": 0,
   "cumulative_pbs_submissions": 73,
-  "notes": "Completed Phase 2 Case 2 full production run on local PC (Cycles 0 to 4) under improved Method C framework. All force continuity gates passed (|Delta RF2| <= 1.27%), zero healing verified, complete severance across hole and distal ligament achieved with 98.56% load drop. Ready for independent review."
+  "notes": "Re-issued Phase 2 Case 2 full production run under HND-METHOD-C-PHASE2-CASE2-002 resolving all review gaps: committed all 5 .sta files and 5 .dat files under models/pandey_kumar_mode1/292_method_c_case2/local_windows_full_run/ with .gitignore un-ignore rules [GAP-P2C2-01]; corrected severance wording to ~79.5% distal ligament severed with tip 0.0521 mm short of outer edge [GAP-P2C2-02]; corrected Case 5 description to SEVEN_HOLE_PLATE [GAP-P2C2-03]; corrected artifact byte counts in Section 5 table [GAP-P2C2-04]; and corrected void jump to ~0.181 mm [GAP-P2C2-05]. 44/44 unit tests PASS."
 }
