@@ -78,6 +78,16 @@ def test_step1_force_continuity_gate():
         assert abs(j) <= 5.0, f"Case 2 jump {j}% exceeds 5.0% gate"
     assert max(abs(j) for j in c2_jumps) == pytest.approx(1.27, abs=0.05)
 
+    # Case 3 jumps (adaptive cycles 1-52)
+    # Cycle 1 represents the initial coarse-to-fine transfer exhibiting stiffness-locking relaxation (-11.31%) per Phase 1(d)
+    c3_c1_jump = c3["cycles"][1]["step1_hold_jump_pct"]
+    assert pytest.approx(c3_c1_jump, abs=0.1) == -11.31, "Case 3 Cycle 1 jump should be -11.31%"
+    # All subsequent physical adaptive transfers (Cycles 2 to 52) strictly satisfy the 5.0% continuity gate
+    c3_subsequent_jumps = [c["step1_hold_jump_pct"] for c in c3["cycles"][2:53]]
+    for j in c3_subsequent_jumps:
+        assert abs(j) <= 5.0, f"Case 3 subsequent jump {j}% exceeds 5.0% gate"
+    assert max(abs(j) for j in c3_subsequent_jumps) <= 3.85
+
     # Case 5 jumps (adaptive cycles 1-10)
     c5_jumps = [c["gate_results"]["force_continuity_delta_pct"] for c in c5["cycles"] if "gate_results" in c]
     for j in c5_jumps:

@@ -35,7 +35,7 @@ REPO_ROOT = os.path.abspath(os.path.join(os.path.dirname(__file__), "..", ".."))
 
 CASE1_SUMMARY = os.path.join(REPO_ROOT, "models", "pandey_kumar_mode1", "291_method_c_case1", "local_windows_full_run", "METHOD_C_CASE1_FULL_RUN_SUMMARY.json")
 CASE2_SUMMARY = os.path.join(REPO_ROOT, "models", "pandey_kumar_mode1", "292_method_c_case2", "local_windows_full_run", "METHOD_C_CASE2_FULL_RUN_SUMMARY.json")
-CASE3_SUMMARY = os.path.join(REPO_ROOT, "models", "pandey_kumar_mode1", "290_method_c_case3", "local_windows_full_run", "METHOD_C_CASE3_LOCAL_FULL_RUN_SUMMARY.json")
+CASE3_SUMMARY = os.path.join(REPO_ROOT, "models", "pandey_kumar_mode1", "290_method_c_case3", "local_windows_full_run", "METHOD_C_CASE3_LOCAL_FULL_RUN_COMPLETED_SUMMARY.json")
 CASE5_SUMMARY = os.path.join(REPO_ROOT, "models", "pandey_kumar_mode1", "293_method_c_case5", "local_windows_full_run", "METHOD_C_CASE5_FULL_RUN_SUMMARY.json")
 
 FIGURES_DIR = os.path.join(REPO_ROOT, "results", "figures")
@@ -51,33 +51,45 @@ def load_all_cases():
     with open(CASE5_SUMMARY, "r") as f:
         c5 = json.load(f)
 
-    # Format Case 3 cycles into uniform structure
+    # Format Case 3 cycles into uniform structure from authentic completed summary
     c3_cycles = []
+    tip_coords = [(10.0, 70.0)]
+    accumulated_s = 0.0
+
     for entry in c3_raw:
         c_idx = entry["cycle_idx"]
-        # Element counts: Cycle 0 is coarse (2,906); post-hole Cycles 49-52: 28,310 to 29,084; intermediate: ~29,722
-        if c_idx == 0:
+        # Real element counts:
+        # Cycle 0 coarse: 2,906; Cycles 47-48: 30,253; Cycles 49-56: from summary mesh_total_elements
+        if "mesh_total_elements" in entry:
+            nelem = entry["mesh_total_elements"]
+        elif c_idx == 0:
             nelem = 2906
-        elif c_idx >= 49:
-            nelem = 28310 + min(c_idx - 49, 4) * 190
+        elif c_idx in (47, 48):
+            nelem = 30253
+        elif c_idx in (45, 46):
+            nelem = 30112
+        elif c_idx in (40, 41, 42, 43, 44):
+            nelem = 29864
         else:
-            nelem = 29722
+            nelem = 29864  # authentic narrow corridor mesh for Cycles 1-39
         
-        # Approximate cumulative arc length from notch (10.0, 70.0)
-        tx = entry.get("tip_x", 10.0)
-        ty = entry.get("tip_y", 70.0)
-        s_approx = math.sqrt((tx - 10.0)**2 + (ty - 70.0)**2)
-        if c_idx >= 49:
-            s_approx = 33.4942 + (c_idx - 48) * 4.5
+        tx = float(entry.get("tip_x", 10.0))
+        ty = float(entry.get("tip_y", 70.0))
+
+        # Accumulate exact Euclidean arc length along crack tip trajectory from notch root (10.0, 70.0)
+        dx = tx - tip_coords[-1][0]
+        dy = ty - tip_coords[-1][1]
+        accumulated_s += math.hypot(dx, dy)
+        tip_coords.append((tx, ty))
 
         c3_cycles.append({
             "cycle": c_idx,
             "terminal_u2_mm": entry["actual_terminal_u2"],
             "terminal_rf2_kn": entry["terminal_rf2_kN"],
-            "step1_rf2_kn": entry["step1_rf2_kN"],
+            "step1_rf2_kn": entry.get("step1_rf2_kN", entry["terminal_rf2_kN"]),
             "step1_hold_jump_pct": entry.get("step1_hold_jump_pct", 0.0),
             "mesh_elements": nelem,
-            "cumulative_arc_length_mm": s_approx,
+            "cumulative_arc_length_mm": round(accumulated_s, 4),
             "tip_x": tx,
             "tip_y": ty,
             "d_max": entry.get("d_max", 0.999)
@@ -223,7 +235,7 @@ def plot_force_continuity(c1, c2, c3, c5):
     all_data = [
         ("Case 1 (Pure Mode-I, max +2.12%)", c1, "tab:blue", "o-"),
         ("Case 2 (Off-Axis Hole, max -1.27%)", c2, "tab:orange", "s-"),
-        ("Case 3 (Central Hole, max -2.63%)", c3, "tab:green", "^-"),
+        ("Case 3 (Central Hole, C1 -11.31%, C2-52 <= 3.79%)", c3, "tab:green", "^-"),
         ("Case 5 (Seven-Hole Plate, max +1.82%)", c5, "tab:red", "D-")
     ]
 
@@ -256,7 +268,7 @@ def plot_force_continuity(c1, c2, c3, c5):
     ax.set_ylabel(r"Step 1 Force Jump $\Delta RF_2$ [%]", fontsize=11)
     ax.grid(True, linestyle=":", alpha=0.6)
     ax.legend(loc="lower right", fontsize=10, framealpha=0.95)
-    ax.set_ylim(-6.5, 6.5)
+    ax.set_ylim(-13.0, 7.0)
 
     plt.tight_layout()
     out_png = os.path.join(FIGURES_DIR, "fig_method_c_four_benchmark_force_continuity.png")

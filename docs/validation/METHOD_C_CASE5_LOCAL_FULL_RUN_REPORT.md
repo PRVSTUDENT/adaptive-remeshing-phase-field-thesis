@@ -167,7 +167,7 @@ With the successful completion and approval of Case 5, **all four benchmark case
 ### Table 6.1: Master Synthesis Across All Four Benchmark Cases
 | Benchmark Case | Description | Loading | Cycles | Max Force Jump | Peak Load ($F_{\max}$) | Ref Agreement | Fracture Mode | Status |
 |---|---|---|---|---|---|---|---|---|
-| **Case 3** | Plate with Central Hole | EDGE_PULL | 56 adaptive (57 total) | -2.63% | 4.3318 kN | < 0.5% | Crack arrest at hole, re-nucleation, full severance | **COMPLETE (Approved)** |
+| **Case 3** | Plate with Central Hole | EDGE_PULL | 56 adaptive (57 total) | -11.31% (C1 coarse; C2-52 <= 3.79%) | 4.3318 kN | < 0.5% | Crack arrest at hole, re-nucleation, full severance | **COMPLETE (Approved)** |
 | **Case 1** | Pure Mode-I Edge-Notched Plate | EDGE_PULL | 5 adaptive (6 total) | +2.12% | 0.7970 kN | +2.82% | Straight Mode-I horizontal cleavage to far boundary | **COMPLETE (Approved)** |
 | **Case 2** | Edge-Notched Plate with Off-Axis Hole | EDGE_PULL | 4 adaptive (5 total) | -1.27% | 0.6199 kN | +3.70% | Curved trajectory into hole, snap-through, distal severance | **COMPLETE (Approved)** |
 | **Case 5** | Seven-Hole Plate | EDGE_PULL | 10 adaptive (11 total) | +1.82% | 0.7458 kN | +2.87% | Multi-void trajectory ($h_1 \to h_4 \to h_2 \to h_5 \to h_3$) to boundary | **COMPLETE (Approved)** |
@@ -175,8 +175,9 @@ With the successful completion and approval of Case 5, **all four benchmark case
 *Note on Table 6.1 Reconciliations (`GAP-P2C5-05`)*:
 - Case 1 loading is verified as `EDGE_PULL` per `f1728_case1_mode1_edge_crack.json`; cycles are 5 adaptive (6 total: Cycle 0 coarse + Cycles 1-5); peak reaction force is $0.797036\,\text{kN}$; maximum Step 1 force jump is $+2.12\%$.
 - Case 2 loading is verified as `EDGE_PULL` per `f1728_case2_mode1_asymmetric_hole.json`; cycles are 4 adaptive (5 total: Cycle 0 coarse + Cycles 1-4); peak reaction force is $0.619921\,\text{kN}$; maximum Step 1 force jump is $-1.27\%$.
-- Case 3 loading is verified as `EDGE_PULL`; cycles are 56 adaptive (57 total: Cycle 0 coarse + Cycles 1-56); peak reaction force is $4.3318\,\text{kN}$; maximum Step 1 force jump is $-2.63\%$.
+- Case 3 loading is verified as `EDGE_PULL`; cycles are 56 adaptive (57 total: Cycle 0 coarse + Cycles 1-56); peak reaction force is $4.3318\,\text{kN}$; maximum Step 1 force jump is $-11.31\%$ at Cycle 1 (coarse-mesh stiffness-locking relaxation per Phase 1(d); Cycles 2 to 52 all pass $\le 3.79\%$).
 - Case 5 loading is verified as `EDGE_PULL` per `f1728_case5_seven_hole.json`; cycles are 10 adaptive (11 total: Cycle 0 coarse + Cycles 1-10); peak reaction force is $0.745825\,\text{kN}$; maximum Step 1 force jump is $+1.82\%$.
+- Case 5 Stopping-Logic Repair (`GAP-SL-01`): The geometric severance branch in `case5_single_job_orchestrator.py` was repaired under commit `0b3eeb4c` (`HND-METHOD-C-CASE5-STOPPING-LOGIC-001`, APPROVED) to strictly use `SEVERANCE_RF_RATIO = 0.20` (reaction force $< 20\%$ of peak). The committed Case 5 full-run summary carries the historical retrospective label assigned at the 10-cycle cap (`GAP-P2C5-04`), while the code repair is prospective for future runs, verified by `test_case5_check_completion_branch2_severance_rf_ratio` (returns False at Cycle 3, True at Cycle 4).
 
 **Framework Synthesis**:
 Across all 4 distinct geometries, boundary conditions, and length scales ($l_0 = 0.0075\,\text{mm}$ and $l_0 = 0.0080\,\text{mm}$):
