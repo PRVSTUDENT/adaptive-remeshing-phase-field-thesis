@@ -62,6 +62,8 @@ Re-running the extraction across the authentic `.dat` records in `local_windows_
 | **55** | 54 | 0.001662 | 0.001662 | $0.0000\%$ | N/A (Severed) | Severed baseline |
 | **56** | 55 | 0.001662 | 0.001662 | $0.0000\%$ | N/A (Severed) | Severed baseline |
 
+*(Note: Donor $RF_{2,\text{term}}$ values in the table above are extracted directly from the raw ASCII `.dat` node 999999 output lines of the donor cycle; slight differences of ~1e-5 kN ($\le 0.003\%$) relative to the summary JSON records arise from ASCII floating-point formatting and do not affect any force gate).*
+
 **Key Physical Finding**: Every single cycle before complete specimen fracture at Cycle 53 strictly met the project's $\le 5.0\%$ force continuity criterion. This demonstrates that the non-matching mesh state transfer, history mapping, and subsequent fixed-load re-equilibration maintain excellent physical state fidelity across the crack front even during dynamic snap-through.
 
 ---
@@ -75,7 +77,7 @@ where $\Delta l$ is the arc length.
 
 In `case3_single_job_orchestrator.py`, Step 2 is parameterized as:
 ```abaqus
-*STEP, NAME=STEP-2, NLGEOM=YES, INC=200
+*STEP, NAME=Step-2-Advance, NLGEOM=NO, INC=5000
 *STATIC, RIKS
 0.002, 1.0, 1.0E-14, 0.05, 1.0
 ```
@@ -92,7 +94,7 @@ Abaqus enforces the following termination rule for arc-length analysis:
 2. Newton-Raphson iterations iterate until displacement and residual force tolerances converge.
 3. **Only after increment $k$ has fully converged** does Abaqus evaluate the termination criteria:
    - Is $\lambda_k \ge \lambda_{\max}$?
-   - Or has the maximum increment count `INC=200` been reached?
+   - Or has the maximum increment count `INC=5000` been reached?
 4. If $\lambda_k \ge \lambda_{\max}$, the step terminates with normal completion (`THE ANALYSIS HAS COMPLETED`).
 
 ### 3.3 Mechanism of LPF Overshoot
