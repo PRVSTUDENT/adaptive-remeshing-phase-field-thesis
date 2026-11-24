@@ -17,7 +17,7 @@ INDEPENDENT_STRUCTURED_REVIEW_V1
   "title": "Mode-II Campaign Full Completion Continuation (Cycles 2 to 3, Terminal Load Drop)",
   "goal_id": "METHOD_C_MODE2_LPANEL_V1",
   "canonical_rules_sha256": "7642D247E6EDEF468454563F96711A470869D5CCBA48E1EDEF7BE06F1E7BB1EC",
-  "artifact_commit": "c2118b5e326c2cfd3bf0f69f2ea700eb85b1bfdc",
+  "artifact_commit": "2494c7ab63eecfafe4d82b4df7e33fe1bc7ebc4c",
   "checkpoint_artifact": "docs/validation/METHOD_C_MODE2_CAMPAIGN_COMPLETION_REPORT.md",
   "checkpoint_artifact_sha256": "0996F9ACE82BF355A3CDDEDDC769354BAC32E9693D3E0A6FEB1B01140CD15455",
   "research_contract": {
@@ -43,7 +43,7 @@ INDEPENDENT_STRUCTURED_REVIEW_V1
     "completion_report": {
       "path": "docs/validation/METHOD_C_MODE2_CAMPAIGN_COMPLETION_REPORT.md",
       "sha256": "0996F9ACE82BF355A3CDDEDDC769354BAC32E9693D3E0A6FEB1B01140CD15455",
-      "github_url": "https://github.com/PRVSTUDENT/adaptive-remeshing-phase-field-thesis/blob/c2118b5e326c2cfd3bf0f69f2ea700eb85b1bfdc/docs/validation/METHOD_C_MODE2_CAMPAIGN_COMPLETION_REPORT.md"
+      "github_url": "https://github.com/PRVSTUDENT/adaptive-remeshing-phase-field-thesis/blob/2494c7ab63eecfafe4d82b4df7e33fe1bc7ebc4c/docs/validation/METHOD_C_MODE2_CAMPAIGN_COMPLETION_REPORT.md"
     },
     "cycle2_summary": {
       "path": "models/pandey_kumar_mode2/294_method_c_mode2/local_windows_full_run/PK_METHOD_C_MODE2_CYCLE2_SUMMARY.json",
@@ -83,7 +83,7 @@ INDEPENDENT_STRUCTURED_REVIEW_V1
     "canonical_frozen_uel": {
       "path": "models/pandey_kumar_mode1/f42_mixed_uel.for",
       "sha256": "CE8D5EDCD2911DCB018BB15275271F874E7EA62B8FB48CF4A8297469A83ACDD6",
-      "github_url": "https://github.com/PRVSTUDENT/adaptive-remeshing-phase-field-thesis/blob/c2118b5e326c2cfd3bf0f69f2ea700eb85b1bfdc/models/pandey_kumar_mode1/f42_mixed_uel.for"
+      "github_url": "https://github.com/PRVSTUDENT/adaptive-remeshing-phase-field-thesis/blob/2494c7ab63eecfafe4d82b4df7e33fe1bc7ebc4c/models/pandey_kumar_mode1/f42_mixed_uel.for"
     }
   },
   "budget_declaration": {
