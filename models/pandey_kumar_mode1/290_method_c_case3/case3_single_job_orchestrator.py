@@ -114,10 +114,31 @@ CORRIDOR_X_MAX = 12.0      # Follows tip: initial = 10.0 + 2.0 = 12.0 mm
 CORRIDOR_Y_MIN = 69.0      # 70.0 - 1.0 mm
 CORRIDOR_Y_MAX = 71.0      # 70.0 + 1.0 mm
 
-# Plate geometry bounds for completion check
+# Plate geometry bounds for completion check (Phase 1(c) Better Crack-Length Measure)
 PLATE_WIDTH_MM = 65.0
-CRACK_COMPLETION_X_MM = 64.0
-LOAD_DROP_COMPLETION_RATIO = 0.05  # RF2 < 5% of peak RF2
+NOTCH_ROOT_X_MM = 10.0
+NOTCH_ROOT_Y_MM = 70.0
+CRACK_COMPLETION_ARC_LENGTH_MM = 62.0  # Primary completion criterion: cumulative arc length >= 62.0 mm
+CRACK_COMPLETION_X_MM = 64.0           # Secondary geometric completion criterion: x_tip >= 64.0 mm
+LOAD_DROP_COMPLETION_RATIO = 0.05      # Secondary load-drop criterion: RF2 < 5% of peak RF2
+
+
+def compute_cumulative_crack_arc_length(tip_history, notch_root=(NOTCH_ROOT_X_MM, NOTCH_ROOT_Y_MM)):
+    """
+    Computes cumulative arc length along the crack path from the notch root
+    through the sequence of crack tip points:
+      s = sum_{i=1}^k sqrt((x_i - x_{i-1})^2 + (y_i - y_{i-1})^2)
+    where (x_0, y_0) = notch_root.
+    """
+    if not tip_history:
+        return 0.0
+    pts = [notch_root] + list(tip_history)
+    s = 0.0
+    for i in range(1, len(pts)):
+        dx = pts[i][0] - pts[i-1][0]
+        dy = pts[i][1] - pts[i-1][1]
+        s += math.hypot(dx, dy)
+    return round(s, 4)
 
 # Load schedule defaults
 DEFAULT_COARSE_U2_MM = 0.0500
@@ -1211,6 +1232,8 @@ class Case3SingleJobOrchestrator(object):
         else:
             self.uel_path = os.path.join(REPO_ROOT, "models", "pandey_kumar_mode1", "f42_mixed_uel.for")
         self.history = []
+        self.tip_history = []
+        self.current_arc_length = 0.0
         self.peak_rf2 = 0.0
         self.current_tip_x = 10.0  # initial notch length a = 10.0 mm
         self.current_tip_y = 70.0  # initial notch height y = 70.0 mm
@@ -1279,13 +1302,24 @@ class Case3SingleJobOrchestrator(object):
             "enable_far_side_band": spec["enable_far_side_band"]
         }
 
-    def check_completion(self, current_tip_x, current_rf2, peak_rf2):
-        """Checks completion criteria: crack tip reached plate edge (x >= 64 mm) or load drop < 5% of peak."""
+    def check_completion(self, current_tip_x, current_rf2, peak_rf2, current_arc_length=None):
+        """
+        Checks completion criteria:
+        Primary: Cumulative crack arc length along path reaches completion target (s >= 62.0 mm).
+        Secondary: Crack tip reached plate edge (x >= 64.0 mm) OR load drop < 5% of peak RF2.
+        """
+        if current_arc_length is not None and current_arc_length >= CRACK_COMPLETION_ARC_LENGTH_MM:
+            return True, "CRACK_ARC_LENGTH_COMPLETION_REACHED (s = %.4f mm >= %.1f mm, tip_x = %.4f mm)" % (
+                current_arc_length, CRACK_COMPLETION_ARC_LENGTH_MM, current_tip_x
+            )
         if current_tip_x >= CRACK_COMPLETION_X_MM:
-            return True, "CRACK_FULLY_PROPAGATED_TO_PLATE_EDGE (x_tip = %.4f mm >= %.1f mm)" % (current_tip_x, CRACK_COMPLETION_X_MM)
+            return True, "CRACK_FULLY_PROPAGATED_TO_PLATE_EDGE (x_tip = %.4f mm >= %.1f mm, s = %s)" % (
+                current_tip_x, CRACK_COMPLETION_X_MM, ("%.4f mm" % current_arc_length) if current_arc_length else "N/A"
+            )
         if peak_rf2 > 0.0 and current_rf2 < (LOAD_DROP_COMPLETION_RATIO * peak_rf2):
-            return True, "PLATE_SEVERED_LOAD_DROP_BELOW_5PCT (RF2 = %.4f kN < %.4f kN [5%% of peak %.4f kN])" % (
-                current_rf2, LOAD_DROP_COMPLETION_RATIO * peak_rf2, peak_rf2
+            return True, "PLATE_SEVERED_LOAD_DROP_BELOW_5PCT (RF2 = %.4f kN < %.4f kN [5%% of peak %.4f kN], s = %s)" % (
+                current_rf2, LOAD_DROP_COMPLETION_RATIO * peak_rf2, peak_rf2,
+                ("%.4f mm" % current_arc_length) if current_arc_length else "N/A"
             )
         return False, None
 
@@ -1458,6 +1492,7 @@ class Case3SingleJobOrchestrator(object):
                 "coarse_u2_mm": self.coarse_u2_mm,
                 "no_displacement_cap": True,
                 "crack_completion_criteria": {
+                    "primary_arc_length_mm": CRACK_COMPLETION_ARC_LENGTH_MM,
                     "terminal_tip_x_mm": CRACK_COMPLETION_X_MM,
                     "load_drop_cutoff_ratio": LOAD_DROP_COMPLETION_RATIO
                 }
@@ -1578,6 +1613,7 @@ class Case3SingleJobOrchestrator(object):
                 "max_history_MPa": max_history,
                 "tip_x": tip_x,
                 "tip_y": tip_y,
+                "crack_arc_length_mm": float(state.get("crack_arc_length_mm", self.current_arc_length)),
                 "peak_rf2": peak_rf2,
                 "terminal_rf2": terminal_rf2,
                 "step1_rf2": step1_rf2,
@@ -1672,6 +1708,7 @@ class Case3SingleJobOrchestrator(object):
                     "max_history_MPa": h_max,
                     "tip_x": tip_x,
                     "tip_y": tip_y,
+                    "crack_arc_length_mm": float(state.get("crack_arc_length_mm", self.current_arc_length)),
                     "peak_rf2": peak_rf2,
                     "terminal_rf2": terminal_rf2,
                     "step1_rf2": step1_rf2,
@@ -1728,8 +1765,35 @@ class Case3SingleJobOrchestrator(object):
             self.peak_rf2 = max(self.peak_rf2, donor_state.get("peak_rf2", 0.0))
             donor_phys_inp = os.path.join(self.run_dir, donor_job + "_PHYS.inp")
             cycle_idx = resume_cycle + 1
-            print("Resuming execution at Cycle %d (donor u2=%.4f mm, tip=(%.4f, %.4f) mm, RF2=%.4f kN)" % (
-                cycle_idx, donor_u2, self.current_tip_x, self.current_tip_y, self.current_rf2))
+
+            # Reconstruct tip history from prior cycles (Phase 1(c) Better Crack-Length Measure)
+            self.tip_history = []
+            for c in range(resume_cycle + 1):
+                c_job = "PK_METHOD_C_CASE3_COARSE_JOB1" if c == 0 else ("PK_METHOD_C_CASE3_CYCLE%d" % c)
+                c_state_cand = [
+                    os.path.join(self.run_dir, c_job + "_state.json"),
+                    os.path.join(REPO_ROOT, "models", "pandey_kumar_mode1", "290_method_c_case3", c_job + "_state.json"),
+                    os.path.join(REPO_ROOT, "models", "pandey_kumar_mode1", "290_method_c_case3", "local_windows_full_run", c_job + "_SUMMARY.json"),
+                    os.path.join(REPO_ROOT, "models", "pandey_kumar_mode1", "290_method_c_case3", "phase1b_wake_preserving_validation", c_job + "_SUMMARY.json")
+                ]
+                for sc in c_state_cand:
+                    if os.path.isfile(sc):
+                        try:
+                            with open(sc, "r") as fp:
+                                sd = json.load(fp)
+                            tx = sd.get("tip_x")
+                            ty = sd.get("tip_y", 70.0)
+                            if tx is not None and ty is not None:
+                                self.tip_history.append((float(tx), float(ty)))
+                                break
+                        except Exception:
+                            pass
+            if not self.tip_history:
+                self.tip_history.append((self.current_tip_x, self.current_tip_y))
+            self.current_arc_length = compute_cumulative_crack_arc_length(self.tip_history)
+
+            print("Resuming execution at Cycle %d (donor u2=%.4f mm, tip=(%.4f, %.4f) mm, arc_length=%.4f mm, RF2=%.4f kN)" % (
+                cycle_idx, donor_u2, self.current_tip_x, self.current_tip_y, self.current_arc_length, self.current_rf2))
             print("=================================================================")
         else:
             # Step 0: Initial Coarse Solve
@@ -1766,6 +1830,8 @@ class Case3SingleJobOrchestrator(object):
                     donor_phys_inp = candidate_phys
 
             cycle_idx = 1
+            self.tip_history = [(self.current_tip_x, self.current_tip_y)]
+            self.current_arc_length = compute_cumulative_crack_arc_length(self.tip_history)
 
         adaptive_phys_inp = os.path.join(self.run_dir, "PK_METHOD_C_CASE3_ADAPTIVE_PHYS.inp")
         if not os.path.isfile(adaptive_phys_inp):
@@ -1778,8 +1844,8 @@ class Case3SingleJobOrchestrator(object):
             print("-----------------------------------------------------------------")
             print("Starting Cycle %d: target u2 = %.4f mm (donor u2 = %.4f mm)" % (cycle_idx, target_u2, donor_u2))
 
-            # Completion check before starting cycle
-            is_done, reason = self.check_completion(self.current_tip_x, self.current_rf2, self.peak_rf2)
+            # Completion check before starting cycle (Primary: arc length >= 62.0 mm; Secondary: tip_x >= 64.0 mm, RF2 < 5%)
+            is_done, reason = self.check_completion(self.current_tip_x, self.current_rf2, self.peak_rf2, current_arc_length=self.current_arc_length)
             if is_done:
                 print("Crack propagation completion criteria met: %s" % reason)
                 break
@@ -1871,8 +1937,11 @@ class Case3SingleJobOrchestrator(object):
                 self.current_tip_y = cycle_donor_state.get("tip_y", 70.0)
                 self.current_rf2 = cycle_donor_state["terminal_rf2"]
                 self.peak_rf2 = max(self.peak_rf2, cycle_donor_state.get("peak_rf2", 0.0))
-                print("[Cycle %d State Advanced] tip=(%.4f, %.4f) mm, terminal_rf2=%.4f kN, peak_rf2=%.4f kN" % 
-                      (cycle_idx, self.current_tip_x, self.current_tip_y, self.current_rf2, self.peak_rf2))
+                self.tip_history.append((self.current_tip_x, self.current_tip_y))
+                self.current_arc_length = compute_cumulative_crack_arc_length(self.tip_history)
+                cycle_donor_state["crack_arc_length_mm"] = self.current_arc_length
+                print("[Cycle %d State Advanced] tip=(%.4f, %.4f) mm, arc_length=%.4f mm (primary), terminal_rf2=%.4f kN, peak_rf2=%.4f kN" % 
+                      (cycle_idx, self.current_tip_x, self.current_tip_y, self.current_arc_length, self.current_rf2, self.peak_rf2))
             except Exception as e:
                 print("[Cycle %d State Advancement Warning] Could not extract %s state: %s" % (cycle_idx, cycle_job, str(e)))
                 donor_u2 = target_u2
@@ -1933,7 +2002,10 @@ def main():
         print("Case 3 Single-Job Framework Plan verified successfully.")
         print("Planned cycles configured:", len(plan["planned_initial_cycles"]))
         print("Load division increment: %.4f mm (no cap)" % plan["configuration"]["load_increment_mm"])
-        print("Completion criterion: x_tip >= %.1f mm OR load drop < 5%%" % plan["configuration"]["crack_completion_criteria"]["terminal_tip_x_mm"])
+        print("Completion criterion: arc_length >= %.1f mm (primary) OR x_tip >= %.1f mm OR load drop < 5%%" % (
+            plan["configuration"]["crack_completion_criteria"]["primary_arc_length_mm"],
+            plan["configuration"]["crack_completion_criteria"]["terminal_tip_x_mm"]
+        ))
         print(json.dumps(plan, indent=2))
     else:
         orch.execute()

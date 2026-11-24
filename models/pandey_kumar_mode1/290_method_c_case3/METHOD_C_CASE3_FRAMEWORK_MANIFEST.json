@@ -28,12 +28,15 @@
   },
   "single_job_architecture": {
     "description": "In-allocation orchestrator chaining Coarse solve plus multi-cycle adaptive remeshing in ONE PBS allocation on scratch",
-    "orchestrator_script": "scripts/remeshing/case3_single_job_orchestrator.py",
+    "orchestrator_script": {
+      "path": "models/pandey_kumar_mode1/290_method_c_case3/case3_single_job_orchestrator.py",
+      "sha256": "9DDE7BB884DF2D822F675BB763A498DF9597F86E37A04366C081D5608FA7AA7D"
+    },
     "submission_script": "models/pandey_kumar_mode1/290_method_c_case3/submit_case3_single_job_framework.pbs",
     "notification_script": "models/pandey_kumar_mode1/290_method_c_case3/job_notifications.sh",
     "mesh_generator": {
       "path": "models/pandey_kumar_mode1/290_method_c_case3/generate_case3_adaptive_corridor_mesh.py",
-      "sha256": "9524B385BC4928BC077A67C0110CDBFBE76A15AE1AC3D34F4E00996AA7B60B3C"
+      "sha256": "D9E5687BCA3F3A94639A2D0E4CFDEED85A57E4C697062E7BFC077778E4109AE4"
     },
     "frozen_uel": {
       "path": "models/pandey_kumar_mode1/f42_mixed_uel.for",
@@ -86,6 +89,7 @@
     "coarse_u2_mm": 0.0500,
     "no_displacement_cap": true,
     "crack_completion_criteria": {
+      "primary_arc_length_mm": 62.0,
       "terminal_tip_x_mm": 64.0,
       "load_drop_cutoff_ratio": 0.05,
       "outer_bound_walltime_hours": 72

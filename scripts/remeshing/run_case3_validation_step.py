@@ -272,6 +272,27 @@ def run_cycle(c, run_dir=DEFAULT_RUN_DIR, cpus=6, skip_solve=False, push=True, l
     h_max = state_data.get("max_history_MPa", 0.0)
     terminal_u2 = dat_data.get("terminal_u2") or state_data.get("terminal_u2")
 
+    # Phase 1(c): compute cumulative crack arc length from notch root (10, 70)
+    tip_hist = []
+    for prev_c in range(c):
+        prev_sum_p = os.path.join(TARGET_DIR, "PK_METHOD_C_CASE3_CYCLE%d_SUMMARY.json" % prev_c)
+        if os.path.isfile(prev_sum_p):
+            try:
+                with open(prev_sum_p, "r") as pf:
+                    prec = json.load(pf)
+                ptx = prec.get("tip_x")
+                pty = prec.get("tip_y", 70.0)
+                if ptx is not None and pty is not None:
+                    tip_hist.append((float(ptx), float(pty)))
+            except Exception:
+                pass
+    tip_hist.append((float(tip_x), float(tip_y)))
+    pts = [(10.0, 70.0)] + tip_hist
+    arc_len = 0.0
+    for i in range(1, len(pts)):
+        arc_len += math.hypot(pts[i][0] - pts[i-1][0], pts[i][1] - pts[i-1][1])
+    crack_arc_length_mm = round(arc_len, 4)
+
     dist_center = math.sqrt((tip_x - HOLE_X)**2 + (tip_y - HOLE_Y)**2)
     dist_hole = dist_center - HOLE_R
 
@@ -316,6 +337,7 @@ def run_cycle(c, run_dir=DEFAULT_RUN_DIR, cpus=6, skip_solve=False, push=True, l
         "actual_terminal_u2": round(terminal_u2, 6) if terminal_u2 is not None else None,
         "tip_x": round(tip_x, 4),
         "tip_y": round(tip_y, 4),
+        "crack_arc_length_mm": crack_arc_length_mm,
         "dist_to_hole_boundary_mm": round(dist_hole, 4),
         "d_max": round(d_max, 6),
         "h_max_MPa": round(h_max, 4),
