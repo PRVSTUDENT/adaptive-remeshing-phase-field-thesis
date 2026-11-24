@@ -52,8 +52,8 @@ This report establishes that **the Master Continuation Goal `METHOD_C_INCREMENTA
 | **Refined Element Size $h_{\text{ref}}$** | $0.0035\,\text{mm}$ ($< l_0/2$) | $0.0035\,\text{mm}$ ($< l_0/2$) | $0.140\,\text{mm}$ ($< l_0/2$) | $0.0035\,\text{mm}$ ($< l_0/2$) |
 | **Cycle Sequence** | 5 adapt (6 total) | 4 adapt (5 total) | 56 adapt (57 total) | 10 adapt (11 total) |
 | **Peak Force ($F_{\max}$)** | $0.797036\,\text{kN}$ | $0.619921\,\text{kN}$ | $4.331822\,\text{kN}$ | $0.745825\,\text{kN}$ |
-| **Reference Peak ($F_{\text{ref}}$)** | $0.7752\,\text{kN}$ | $0.5978\,\text{kN}$ | $4.332\,\text{kN}$ | $0.7250\,\text{kN}$ |
-| **Reference Agreement** | **+2.82%** | **+3.70%** | **< 0.5%** | **+2.87%** |
+| **Reference Peak ($F_{\text{ref}}$)** | $0.7341\,\text{kN}$ (lit.) / $0.7887\,\text{kN}$ (F1859 Job-2) | $0.5978\,\text{kN}$ | $4.332\,\text{kN}$ | $0.7250\,\text{kN}$ |
+| **Reference Agreement** | **+1.06%** (Job-2) / **+8.57%** (lit.) | **+3.70%** | **< 0.5%** | **+2.87%** |
 | **Terminal Reaction Force** | $0.010952\,\text{kN}$ | $0.008913\,\text{kN}$ | $0.001694\,\text{kN}$ | $0.079900\,\text{kN}$ |
 | **Total Load Drop** | $\mathbf{98.63\%}$ | $\mathbf{98.56\%}$ | $\mathbf{99.96\%}$ | $\mathbf{89.30\%}$ |
 | **Maximum Force Jump $|\Delta RF_2|$** | $+2.12\%$ | $-1.27\%$ | $-11.31\%$ (C1 coarse; C2-52 $\le 3.79\%$) | $+1.82\%$ |
@@ -98,7 +98,7 @@ All figures are generated programmatically via `scripts/remeshing/generate_four_
    - For Case 3, the initial coarse-to-fine transfer at Cycle 1 showed a $-11.31\%$ hold-force relaxation ($3.762212\,\text{kN}$ vs $4.241979\,\text{kN}$ donor), which was conclusively proven in Phase 1(d) to result from coarse-mesh stiffness locking ($h = 2.0\,\text{mm} \approx 7 \times l_0$) relaxing under resolved discretization ($h = 0.140\,\text{mm} < l_0/2$). All subsequent 51 transfers in Case 3 passed the continuity gate (Cycles 2 to 48 maximum magnitude $1.59\%$, and RIKS Cycles 49 to 52 .dat-verified jumps of $-1.05\%$, $-2.24\%$, $-1.56\%$, and $-3.79\%$, all $\le 5.0\%$). Across Cases 1, 2, and 5, where initial meshes were already resolved near the notch, all transfers including Cycle 1 passed within $\le 2.12\%$.
 2. **Resolution of Void Arrest and Snap-Through via RIKS Arc-Length Control**:
    - Conventional Newton-Raphson displacement control fails when cracks encounter internal voids due to cohesive snap-through instabilities ($dt_{\min} = 10^{-14}$ cutbacks).
-   - Integrating Step 2 RIKS arc-length control enabled smooth traversal of dynamic cohesive jumps in Case 3 (Cycle 49) and Case 5 (Cycle 3) with zero step-level divergence.
+   - Integrating Step 2 RIKS arc-length control enabled smooth traversal of dynamic cohesive jumps in Case 3 (Cycle 49) and Case 5 (Cycle 3), completing all steps without step-level divergence or abort, after increment-level cutback retries.
 3. **Computational Efficiency & Scalability**:
    - By restricting mesh refinement ($h \le l_0/2$) to the immediate crack corridor while freezing the inactive wake at background resolution, physical element counts strictly adhered to the $< 35,000$ element budget ceiling across all four benchmarks (actual maxima: Case 1 = $9,047$, Case 2 = $9,876$, Case 3 = $30,253$, Case 5 = $15,708$), avoiding the prohibitive cost of global uniform refinement (which would require $>150,000$ to $400,000$ elements for full-domain coverage) while preserving pristine localized fracture kinematics.
 4. **Case 5 Stopping-Logic Repair and Prospective Severance Criterion (`GAP-SL-01`)**:

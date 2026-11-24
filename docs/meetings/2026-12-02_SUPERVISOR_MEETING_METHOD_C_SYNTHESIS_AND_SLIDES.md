@@ -48,7 +48,7 @@ At the 19 November 2026 milestone, the supervisor mandate established a primary 
 - **Geometry**: $1.0 \times 1.0\,\text{mm}$ plate, notch $a_0 = 0.5\,\text{mm}$, ligament $0.5\,\text{mm}$, $l_0 = 0.0075\,\text{mm}$.
 - **Evolution**: 5 adaptive cycles (6 total) advancing from $u_2 = 0.0058$ to $0.008401\,\text{mm}$.
 - **Crack Trajectory**: Clean horizontal cleavage propagating strictly along $y = 0.50\,\text{mm}$ to $x = 0.9085\,\text{mm}$ ($s = 0.4085\,\text{mm}$, $81.7\%$ solid ligament severed).
-- **Peak Reaction Force**: $0.7970\,\text{kN}$ (vs F1859 reference $0.7752\,\text{kN}$, $+2.82\%$ agreement).
+- **Peak Reaction Force**: $0.7970\,\text{kN}$ (vs F1859 Job-2 $0.7887\,\text{kN}$, $+1.06\%$ agreement; vs Pandey-Kumar lit. $0.7341\,\text{kN}$, $+8.57\%$).
 - **Load Drop & Severance**: Terminal $RF_2 = 0.0110\,\text{kN}$ ($\mathbf{98.63\%\text{ load drop}}$).
 - **Force Continuity Gate**: Maximum $|\Delta RF_2| = +2.12\% \le 5.0\%$ (all 5 transfers PASS).
 - **Mesh Bounds**: Elements bounded between $2,906$ and $9,047$ (well below $35,000$).
@@ -110,8 +110,8 @@ At the 19 November 2026 milestone, the supervisor mandate established a primary 
 | **Refined Element Size $h_{\text{ref}}$** | $0.0035\,\text{mm}$ | $0.0035\,\text{mm}$ | $0.140\,\text{mm}$ | $0.0035\,\text{mm}$ |
 | **Cycle Sequence** | 5 adapt (6 total) | 4 adapt (5 total) | 56 adapt (57 total) | 10 adapt (11 total) |
 | **Peak Force ($F_{\max}$)** | $0.7970\,\text{kN}$ | $0.6199\,\text{kN}$ | $4.3318\,\text{kN}$ | $0.7458\,\text{kN}$ |
-| **Reference Value ($F_{\text{ref}}$)** | $0.7752\,\text{kN}$ | $0.5978\,\text{kN}$ | $4.332\,\text{kN}$ | $0.7250\,\text{kN}$ |
-| **Relative Agreement** | $+2.82\%$ | $+3.70\%$ | $< 0.5\%$ | $+2.87\%$ |
+| **Reference Value ($F_{\text{ref}}$)** | $0.7887\,\text{kN}$ (Job-2) / $0.7341\,\text{kN}$ (lit.) | $0.5978\,\text{kN}$ | $4.332\,\text{kN}$ | $0.7250\,\text{kN}$ |
+| **Relative Agreement** | $+1.06\%$ / $+8.57\%$ | $+3.70\%$ | $< 0.5\%$ | $+2.87\%$ |
 | **Terminal Reaction Force** | $0.0110\,\text{kN}$ | $0.0089\,\text{kN}$ | $0.00169\,\text{kN}$ | $0.0799\,\text{kN}$ |
 | **Total Load Drop** | $\mathbf{98.63\%}$ | $\mathbf{98.56\%}$ | $\mathbf{99.96\%}$ | $\mathbf{89.30\%}$ |
 | **Max Force Jump $|\Delta RF_2|$** | $+2.12\%$ | $-1.27\%$ | $-11.31\%$ (C1 coarse; C2-52 $\le 3.79\%$) | $+1.82\%$ |
