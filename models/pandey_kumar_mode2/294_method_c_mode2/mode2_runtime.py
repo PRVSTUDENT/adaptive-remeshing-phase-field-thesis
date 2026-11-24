@@ -249,7 +249,8 @@ odb.close()
         folder.mkdir(exist_ok=True)
         files=[]
         for path in (self.run/(job+'_SUMMARY.json'),self.run/(job+'.sta'),
-                     self.run/(job+'.dat'),self.run/(job+'.inp'),mesh,image):
+                     self.run/(job+'.dat'),self.run/(job+'.inp'),
+                     self.run/(job+'_checkpoint.json'),mesh,image):
             dest=folder/path.name
             if dest.exists():
                 raise RuntimeError('Preserving existing published evidence: '+str(dest))
@@ -296,6 +297,12 @@ odb.close()
             phys=Path(checkpoint['mesh_path'])
             previous_input=Path(checkpoint['odb_path']).with_suffix('.inp')
             sta=Path(checkpoint['odb_path']).with_suffix('.sta')
+            if not phys.exists() and (self.donor_checkpoint.parent / phys.name).exists():
+                phys = self.donor_checkpoint.parent / phys.name
+            if not previous_input.exists() and (self.donor_checkpoint.parent / previous_input.name).exists():
+                previous_input = self.donor_checkpoint.parent / previous_input.name
+            if not sta.exists() and (self.donor_checkpoint.parent / sta.name).exists():
+                sta = self.donor_checkpoint.parent / sta.name
             if (previous['source_sha256'] != self.api.FROZEN_UEL_SHA256 or
                 previous['status'] != 'CONVERGED_AUDITED' or
                 self.api.compute_sha256(phys) != previous['mesh_sha256'] or
@@ -405,7 +412,8 @@ odb.close()
             if done:
                 write_json(lock,{'active':False,'completed':True,'last_cycle':cycle,'reason':reason})
                 return summary
-            donor,donor_mesh=terminal,mesh
+            self.donor_checkpoint = self.run / (job + '_checkpoint.json')
+            donor, donor_mesh = terminal, mesh
         write_json(lock,{'active':False,'completed':False,'last_cycle':self.max_cycles,
                          'reason':'COARSE_QUALIFICATION_COMPLETE' if self.max_cycles==0 else
                          'BOUNDED_CYCLE_CAP_REACHED; independent review required'})
