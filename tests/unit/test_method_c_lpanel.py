@@ -218,7 +218,7 @@ def test_lpanel_stall_watchdog():
 
 def test_lpanel_collar_run_evidence_and_gates():
     """
-    Verifies that the steel collar run evidence across Cycles 0 to 7
+    Verifies that the steel collar run evidence across Cycles 0 to 10
     satisfies all physical transfer gates, zero-healing, and authentic tip propagation.
     """
     run_dir = os.path.join(REPO_ROOT, "models", "mode_II_or_l_panel", "295_method_c_lpanel", "local_windows_full_run")
@@ -228,7 +228,7 @@ def test_lpanel_collar_run_evidence_and_gates():
     assert os.path.isfile(manifest_path), "Image manifest must exist"
     with open(manifest_path, "r") as f:
         manifest = json.load(f)
-    assert len(manifest) == 8, f"Must have 8 cycles recorded, found {len(manifest)}"
+    assert len(manifest) == 11, f"Must have 11 cycles recorded, found {len(manifest)}"
 
     # Audit every cycle
     prev_dmax = 0.0
@@ -259,12 +259,37 @@ def test_lpanel_collar_run_evidence_and_gates():
         assert entry["commit"] in entry["url"]
         assert entry["image_sha256"] is not None
 
-    # Final cycle check: authentic tip advance into vertical column
-    c7_sum_path = os.path.join(run_dir, "PK_METHOD_C_LPANEL_CYCLE7_SUMMARY.json")
-    with open(c7_sum_path, "r") as f:
-        c7 = json.load(f)
-    assert c7["tip_mm"][0] < 200.0  # tip traversed from 250 mm to < 200 mm
-    assert c7["tip_mm"][1] > 265.0  # tip curved upward above y = 265 mm
-    assert c7["tip_history_chord_sum_mm"] > 50.0  # cumulative chord > 50 mm
-    assert c7["peak_rf2_kn"] > 0.158  # peak reaction force ~ 0.159 kN
+    # Cycle 10 check: deep curved penetration across vertical column
+    c10_sum_path = os.path.join(run_dir, "PK_METHOD_C_LPANEL_CYCLE10_SUMMARY.json")
+    with open(c10_sum_path, "r") as f:
+        c10 = json.load(f)
+    assert c10["tip_mm"][0] < 100.0  # tip traversed from 250 mm to < 100 mm (x = 97.87 mm)
+    assert c10["tip_mm"][1] > 280.0  # tip curved upward above y = 280 mm
+    assert c10["tip_history_chord_sum_mm"] > 150.0  # cumulative chord > 150 mm (157.51 mm)
+    assert c10["terminal_rf2_kn"] < 0.035  # load softened below 0.035 kN (> 81% load drop from 0.15907 kN)
+
+
+def test_lpanel_cycle11_cutback_diagnosis():
+    """
+    Verifies that the Cycle 11 solver output is preserved with authentic dt_min diagnostics:
+    Step 1 re-equilibrated in 1 increment, Step 2 advanced 145 RIKS increments reaching
+    uy = 0.4152 mm with RF2 = 0.02695 kN (83.1% load drop) before cutback termination.
+    """
+    cont_dir = os.path.join(REPO_ROOT, "models", "mode_II_or_l_panel", "295_method_c_lpanel", "run_campaign_continuation")
+    sta_path = os.path.join(cont_dir, "PK_METHOD_C_LPANEL_CYCLE11.sta")
+    msg_path = os.path.join(cont_dir, "PK_METHOD_C_LPANEL_CYCLE11.msg")
+    dat_path = os.path.join(cont_dir, "PK_METHOD_C_LPANEL_CYCLE11.dat")
+
+    assert os.path.isfile(sta_path), "Cycle 11 .sta must be preserved"
+    assert os.path.isfile(msg_path), "Cycle 11 .msg must be preserved"
+    assert os.path.isfile(dat_path), "Cycle 11 .dat must be preserved"
+
+    msg_text = open(msg_path, "r").read()
+    assert "TIME INCREMENT REQUIRED IS LESS THAN THE MINIMUM SPECIFIED" in msg_text
+
+    dat_text = open(dat_path, "r").read()
+    assert "INCREMENT   145 SUMMARY" in dat_text
+    assert "4.1522659E-01" in dat_text  # terminal uy = 0.4152 mm
+    assert "2.6946296E-02" in dat_text  # terminal RF2 = 0.02695 kN (83.1% load drop)
+
 
