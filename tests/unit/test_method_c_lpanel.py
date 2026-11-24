@@ -118,8 +118,49 @@ def test_lpanel_deck_assembly_and_uel_properties(tmp_path):
     assert "*STEP, NAME=Step-1, NLGEOM=NO, INC=100\n*STATIC\n1.0, 1.0, 1.0E-08, 1.0" in content
     assert "*NODE OUTPUT\nU" in content
 
+    # Verify steel bearing collar constraint on DOF 3
+    assert "*NSET, NSET=N_LOAD_COLLAR" in content
+    assert "N_LOAD_COLLAR, 3, 3, 0.0" in content
+
     # Verify Step 2 RIKS card
     assert "*STEP, NAME=Step-2, NLGEOM=NO, INC=1000\n*STATIC, RIKS" in content
+
+
+def test_lpanel_steel_collar_constraint(tmp_path):
+    """Verifies that the steel collar nodes in [455, 485] along y=250 are constrained to d=0 on DOF 3."""
+    mesh_path = os.path.join(LPANEL_DIR, "PK_METHOD_C_LPANEL_COARSE_PHYS.inp")
+    nodes, quads, tris, _ = orch.parse_physical_mesh(mesh_path)
+
+    # 1. Identify collar nodes
+    collar_nodes = [nid for nid, (x, y) in nodes.items() if 455.0 - 1e-4 <= x <= 485.0 + 1e-4 and abs(y - 250.0) <= 1e-3]
+    assert len(collar_nodes) >= 3, "Collar must contain multiple nodes across bearing zone"
+    assert any(math.hypot(nodes[n][0] - 470.0, nodes[n][1] - 250.0) < 1e-3 for n in collar_nodes), "Loading node (470, 250) must be in collar"
+
+    # 2. Test coarse deck assembly
+    coarse_deck = str(tmp_path / "coarse_collar.inp")
+    orch.assemble_lpanel_coupled_deck(
+        coarse_deck, nodes, quads, tris,
+        donor_uy=0.0, target_uy=0.20,
+        is_coarse=True
+    )
+    coarse_content = open(coarse_deck, "r").read()
+    assert "*NSET, NSET=N_LOAD_COLLAR" in coarse_content
+    assert "N_LOAD_COLLAR, 3, 3, 0.0" in coarse_content
+
+    # 3. Test adaptive deck assembly with initial damage
+    adapt_deck = str(tmp_path / "adapt_collar.inp")
+    damage_with_puncture = {n: 0.90 for n in nodes}  # synthetic high damage
+    orch.assemble_lpanel_coupled_deck(
+        adapt_deck, nodes, quads, tris,
+        donor_uy=0.20, target_uy=0.22,
+        transferred_damage=damage_with_puncture,
+        transferred_history={},
+        is_coarse=False, use_riks=True
+    )
+    adapt_content = open(adapt_deck, "r").read()
+    assert "*NSET, NSET=N_LOAD_COLLAR" in adapt_content
+    assert "N_LOAD_COLLAR, 3, 3, 0.0" in adapt_content
+
 
 
 def test_lpanel_arc_length_progression():

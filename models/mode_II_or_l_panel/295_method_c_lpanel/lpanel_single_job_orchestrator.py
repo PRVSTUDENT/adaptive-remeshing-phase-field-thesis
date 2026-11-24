@@ -272,12 +272,15 @@ def assemble_lpanel_coupled_deck(out_deck_path,
 
     bottom_nodes = []
     load_candidates = []
+    collar_nodes = []
 
     for nid, (x, y) in r_nodes.items():
         if abs(y - 0.0) < 1e-4 and x <= 250.0 + 1e-4:
             bottom_nodes.append(nid)
         d_load = math.hypot(x - LOAD_X, y - LOAD_Y)
         load_candidates.append((nid, d_load))
+        if 455.0 - 1e-4 <= x <= 485.0 + 1e-4 and abs(y - LOAD_Y) <= 1e-3:
+            collar_nodes.append(nid)
 
     load_candidates.sort(key=lambda item: item[1])
     load_node_id = load_candidates[0][0]
@@ -351,6 +354,7 @@ def assemble_lpanel_coupled_deck(out_deck_path,
 
         # Boundary Node sets
         write_wrapped_nset(out, "N_BOTTOM", bottom_nodes)
+        write_wrapped_nset(out, "N_LOAD_COLLAR", sorted(collar_nodes))
         out.write("*NSET, NSET=N_LOAD\n%d\n" % load_node_id)
         out.write("*NSET, NSET=N_RP\n%d\n" % rp_nid)
 
@@ -382,7 +386,7 @@ def assemble_lpanel_coupled_deck(out_deck_path,
             out.write("*INITIAL CONDITIONS, TYPE=SOLUTION\n")
             for elements, ngp in ((r_quads, 4), (r_tris, 3)):
                 for eid, conn in sorted(elements.items()):
-                    d = sum(transferred_damage.get(n, 0.0) for n in conn) / len(conn)
+                    d = sum((0.0 if n in collar_nodes else transferred_damage.get(n, 0.0)) for n in conn) / len(conn)
                     h = [transferred_history.get((eid, gp), transferred_history.get(eid, 0.0))
                          for gp in range(1, ngp + 1)]
                     deg = (1.0 - d)**2 + k_res
@@ -406,6 +410,7 @@ def assemble_lpanel_coupled_deck(out_deck_path,
             out.write("0.005, 1.0, 1.0E-14, 0.02\n")
             out.write("*BOUNDARY\n")
             out.write("N_BOTTOM, 1, 2, 0.0\n")
+            out.write("N_LOAD_COLLAR, 3, 3, 0.0\n")
             out.write("N_RP, 2, 2, %.8e\n" % target_uy)
             out.write("*OUTPUT, FIELD, FREQUENCY=1\n")
             out.write("*NODE OUTPUT\nU\n")
@@ -423,6 +428,7 @@ def assemble_lpanel_coupled_deck(out_deck_path,
             out.write("1.0, 1.0, 1.0E-08, 1.0\n")
             out.write("*BOUNDARY\n")
             out.write("N_BOTTOM, 1, 2, 0.0\n")
+            out.write("N_LOAD_COLLAR, 3, 3, 0.0\n")
             out.write("*BOUNDARY, AMPLITUDE=CONST_HOLD\n")
             out.write("N_RP, 2, 2, %.8e\n" % donor_uy)
             out.write("*OUTPUT, FIELD, FREQUENCY=1\n")
@@ -440,12 +446,14 @@ def assemble_lpanel_coupled_deck(out_deck_path,
                 out.write("*STATIC, RIKS\n")
                 out.write("0.005, 1.0, 1.0E-14, 0.05, 1.0\n")
                 out.write("*BOUNDARY, OP=MOD\n")
+                out.write("N_LOAD_COLLAR, 3, 3, 0.0\n")
                 out.write("N_RP, 2, 2, %.8e\n" % target_uy)
             else:
                 out.write("*STEP, NAME=Step-2, NLGEOM=NO, INC=1000\n")
                 out.write("*STATIC\n")
                 out.write("0.005, 1.0, 1.0E-14, 0.05\n")
                 out.write("*BOUNDARY, OP=MOD\n")
+                out.write("N_LOAD_COLLAR, 3, 3, 0.0\n")
                 out.write("N_RP, 2, 2, %.8e\n" % target_uy)
 
             out.write("*OUTPUT, FIELD, FREQUENCY=1\n")

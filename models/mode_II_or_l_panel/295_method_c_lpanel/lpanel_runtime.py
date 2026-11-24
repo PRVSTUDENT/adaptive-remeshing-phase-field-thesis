@@ -37,27 +37,28 @@ def connected_tip(nodes, elements, damage, threshold=0.90):
     Find the damaged component attached to the re-entrant corner (250, 250),
     without path seeding.
     """
-    active = {n for n in nodes if damage.get(n, 0.0) >= threshold}
-    graph = {n: set() for n in active}
-    for conn in elements.values():
-        selected = [n for n in conn if n in active]
-        for n in selected:
-            graph[n].update(selected)
-    # Seed region: within 15 mm of re-entrant corner (250, 250)
-    seen = {n for n in active if math.hypot(nodes[n][0] - 250.0, nodes[n][1] - 250.0) <= 15.0}
-    todo = list(seen)
-    while todo:
-        curr = todo.pop()
-        for n in graph[curr] - seen:
-            seen.add(n)
-            todo.append(n)
-    if not seen:
-        return (250.0, 250.0), False
-    # Tip is the node in seen that has traversed furthest from corner (max distance, min x)
-    tip = max(seen, key=lambda n: math.hypot(nodes[n][0] - 250.0, nodes[n][1] - 250.0))
-    # Boundary reached if crack touches left boundary (x <= 5.0 mm)
-    boundary = any(nodes[n][0] <= 5.0 for n in seen)
-    return nodes[tip], boundary
+    for thr in (threshold, 0.80, 0.70, 0.50):
+        active = {n for n in nodes if damage.get(n, 0.0) >= thr}
+        if not active:
+            continue
+        graph = {n: set() for n in active}
+        for conn in elements.values():
+            selected = [n for n in conn if n in active]
+            for n in selected:
+                graph[n].update(selected)
+        # Seed region: within 25 mm of re-entrant corner (250, 250)
+        seen = {n for n in active if math.hypot(nodes[n][0] - 250.0, nodes[n][1] - 250.0) <= 25.0}
+        todo = list(seen)
+        while todo:
+            curr = todo.pop()
+            for n in graph[curr] - seen:
+                seen.add(n)
+                todo.append(n)
+        if seen:
+            tip = max(seen, key=lambda n: math.hypot(nodes[n][0] - 250.0, nodes[n][1] - 250.0))
+            boundary = any(nodes[n][0] <= 5.0 for n in seen)
+            return nodes[tip], boundary
+    return (250.0, 250.0), False
 
 
 def completion(peak, force, boundary, tip_x):
@@ -440,9 +441,17 @@ odb.close()
                 if abs(donor['rf2']) < 1e-12:
                     raise RuntimeError('Cannot qualify relative force continuity against zero donor reaction')
                 delta = 100.0 * (abs(fields['hold']['rf2']) - abs(donor['rf2'])) / abs(donor['rf2'])
+                sdv17_donor = donor['energies'].get('SDV17', 0.0)
+                sdv17_hold = fields['hold']['energies'].get('SDV17', 0.0)
+                sdv18_donor = donor['energies'].get('SDV18', 0.0)
+                sdv18_hold = fields['hold']['energies'].get('SDV18', 0.0)
+                delta_sdv17 = 100.0 * (sdv17_hold - sdv17_donor) / sdv17_donor if sdv17_donor > 0 else 0.0
+                delta_sdv18 = 100.0 * (sdv18_hold - sdv18_donor) / sdv18_donor if sdv18_donor > 0 else 0.0
                 gates = {
                     'force_continuity_delta_pct': delta,
                     'force_continuity_pass': abs(delta) <= 5.0,
+                    'energy_continuity_delta_sdv17_pct': delta_sdv17,
+                    'energy_continuity_delta_sdv18_pct': delta_sdv18,
                     'global_max_damage_nonhealing_pass': max_damage >= max(donor['damage'].values()) - 1e-4,
                     'evaluation_timing': 'after two-step job; failure forbids donor acceptance and further cycles',
                     'hold_energies': fields['hold']['energies'],
