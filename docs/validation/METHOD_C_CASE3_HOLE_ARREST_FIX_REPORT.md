@@ -39,12 +39,12 @@ The secondary refinement zone is parameterized in both `case3_single_job_orchest
 In `generate_case3_adaptive_corridor_mesh.py`:
 1. **Partitioning**: When `spec.get("far_side_band")` is active, Abaqus CAE constructs a constrained sketch `__far_side_partition__` across $[44, 54] \times [44, 58]\,\text{mm}$ and executes `p.PartitionFaceBySketch(faces=p.faces, sketch=spf)`.
 2. **Face & Edge Seeding**: All partition faces with `pointOn` falling within the far-side box are appended to `ref_faces`. All unique boundary and internal edges of `ref_faces` (along with the primary tip corridor edges) are seeded with `p.seedEdgeBySize(edges=ref_edges, size=0.140, constraint=mesh.FINER)`.
-3. **Element Quality & Mesh Size**: Abaqus CAE meshing generates approximately $29,722$ total elements ($97.2\%$ quad fraction), strictly adhering to the $< 35,000$ bounded mesh threshold and avoiding excessive computational cost.
+3. **Element Quality & Mesh Size (Pre-run Estimate)**: Abaqus CAE meshing is estimated to generate roughly 24,000--30,000 total elements (substantially below the $< 35,000$ bounded mesh threshold). Note: An earlier draft cited approximately 29,722 elements (97.2% quad fraction); this is treated as an unverified pre-run estimate (which coincidently matched the byte size of the frozen UEL source file). The exact element count and quad fraction will be confirmed directly from the generated Cycle 49 `.inp` during the validation run and reported in the Checkpoint (b) ledger.
 
 ### 2.3 Resumption Mechanism (`--resume-cycle`)
 In `case3_single_job_orchestrator.py`:
 - Added `--resume-cycle <k>` CLI argument to explicitly select the donor cycle checkpoint.
-- For this remediation, `--resume-cycle 48` directs the orchestrator to load `PK_METHOD_C_CASE3_CYCLE48_state.json` as the donor state ($u_2 = 0.2894\,\text{mm}$, tip at $(37.9452, 61.3786)\,\text{mm}$, $RF_2 = 2.2599\,\text{kN}$) rather than scanning for the terminal cutback cycle (Cycle 56).
+- For this remediation, `--resume-cycle 48` directs the orchestrator to load `PK_METHOD_C_CASE3_CYCLE48_state.json` as the donor state ($u_2 = 0.2894\,\text{mm}$, tip at $(37.9452, 61.3786)\,\text{mm}$, $RF_2 = 2.3118\,\text{kN}$) rather than scanning for the terminal cutback cycle (Cycle 56).
 - Preserves the existing run directory `D:\mc3_local\full_run\` 100% intact without file deletion.
 
 ---
