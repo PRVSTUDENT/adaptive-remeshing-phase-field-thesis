@@ -49,6 +49,17 @@ As mandated, execution has been **STOPPED**, and this report presents the compre
      * **Quad Fraction**: **97.60% quads**
      * **Upper Bound Constraint**: Strictly $< 35,000$ elements (PASS).
 
+### 2.3 Solver Artifact Provenance & Overwrite Note (GAP-DIAG-01 & GAP-DIAG-02)
+
+1. **Fix 1 Artifact Overwrite Note (GAP-DIAG-01)**:
+   - Because both Fix 1 and Fix 2 trials were executed sequentially from the Cycle 48 donor checkpoint in `D:\mc3_local\full_run\`, the Fix 2 re-run naturally updated the single set of Cycle 49 runtime artifacts. The committed Cycle 49 summary and state reflect the Fix 2 run ($u_2 = 0.289405\,\text{mm}$); the Fix 1 terminal value ($u_2 = 0.289421\,\text{mm}$) differs by only $0.000016\,\text{mm}$ and both confirmed identical cutback termination below the $0.297421\,\text{mm}$ threshold.
+2. **Committed Solver Artifacts (GAP-DIAG-02)**:
+   - To make the diagnosis fully verifiable and auditable, the raw solver outputs from the live Abaqus 2024 run have been committed to `models/pandey_kumar_mode1/290_method_c_case3/local_windows_full_run/`:
+     * `PK_METHOD_C_CASE3_CYCLE49.msg`: `D6CBF177D80D1D23AFD7461FBEDE9E1F01E39B5955F8D2E66F853F443F4DF74B` (119,600 B)
+     * `PK_METHOD_C_CASE3_CYCLE49.sta`: `3BCA33F993CDDD0D88EFE4657CC988B2986EED78BAF90ED9F009B7B5DECB0E73` (2,751 B)
+     * `PK_METHOD_C_CASE3_CYCLE49.dat`: `1820093D50274D9566D3CFDE28AAE6D993AD9A57C7C936F952737F7CD549DA95` (28,919 B)
+   - These files provide direct backing evidence for the DOF 3 divergence quotes, incrementation counts, and nodal coordinates.
+
 ---
 
 ## 3. Physical & Numerical Diagnosis of Why Both Fixes Failed
@@ -85,7 +96,7 @@ When an unstable crack jump occurs in an implicit quasi-static phase-field formu
    ***NOTE: THE SOLUTION APPEARS TO BE DIVERGING. CONVERGENCE IS JUDGED UNLIKELY.
    ```
 3. **Ineffectiveness of Increment Reduction**: Even when reducing $\Delta u_2$ from $0.0100\,\text{mm}$ to $0.0025\,\text{mm}$ (Fix 2), the solver attempts to advance the displacement, but because the snap-through is a structural instability (a negative-slope softening branch in load-displacement space under displacement control), quasi-static Newton-Raphson cannot trace the dynamic jump without arc-length control (`*STATIC, RIKS`) or numerical artificial damping / dynamic inertia (`*DYNAMIC`).
-4. As a result, the solver cuts back the time increment repeatedly ($12 \to 24$ cutbacks) until reaching the minimum allowable increment ($dt = 1.0\times 10^{-14}$), terminating with `THE ANALYSIS HAS NOT BEEN COMPLETED`.
+4. As a result, the solver cuts back the time increment repeatedly (10 cutbacks across 12 total increments and 24 iterations) until reaching the minimum allowable increment ($dt = 1.0\times 10^{-14}$), terminating with `THE ANALYSIS HAS NOT BEEN COMPLETED`.
 
 ### 3.3 Secondary Spatial Bottleneck: Right Boundary Impingement
 
@@ -97,6 +108,13 @@ Detailed tracking of the diverging nodes from the `.msg` file identified:
 - Node 25459 at $(53.20, 51.69)\,\text{mm}$
 
 The secondary refinement zone $[44, 54] \times [44, 58]\,\text{mm}$ terminates at $x = 54.0\,\text{mm}$. The re-nucleated crack front advanced across the fine zone to $x = 53.20\,\text{mm}$ (only $0.8\,\text{mm}$ from the boundary). At this boundary, elements abruptly transition from $h_{\text{ref}} = 0.140\,\text{mm}$ to $h_{\text{bg}} = 2.0\,\text{mm}$. Attempting to resolve a fully developed phase-field damage gradient ($l_0 = 0.285\,\text{mm}$) as it crosses into coarse $2.0\,\text{mm}$ background elements exacerbates the residual imbalance.
+
+### 3.4 Step 1 Hold Force Discontinuity (-27.7%) Analysis (GAP-DIAG-03)
+
+- **Donor Cycle 48 Terminal Force**: $RF_2 = 2.311824\,\text{kN}$ at $u_2 = 0.289400\,\text{mm}$.
+- **Cycle 49 Step 1 Hold Force**: $RF_2 = 1.671925\,\text{kN}$ at $u_2 = 0.289400\,\text{mm}$.
+- **Hold Force Jump**: $\Delta RF_2 / RF_2 = -27.68\%$, which exceeds the nominal $\le 5.0\%$ re-equilibration continuity gate.
+- **Physical & Discretization Origin**: In Cycle 48, the far-side ligament was discretized by coarse background elements ($h_{\text{bg}} = 2.0\,\text{mm} \gg l_0 = 0.285\,\text{mm}$). These coarse elements artificially over-stiffened the plate, under-resolving the compliance of the developing far-side damage zone ($d_{\max} \approx 0.48$). When the secondary refinement zone was activated in Cycle 49 ($h_{\text{ref}} = 0.140\,\text{mm} \le l_0/2$), the dense discretization accurately captured the material compliance and damage softening in the ligament. Consequently, at the identical displacement hold of $u_2 = 0.2894\,\text{mm}$, the internal strain energy relaxed, reducing the reaction force from $2.31\,\text{kN}$ to $1.67\,\text{kN}$. While the solver converged cleanly in 2 iterations for Step 1, this step is not claimed as a continuity-passing re-equilibration under the $5\%$ gate.
 
 ---
 
