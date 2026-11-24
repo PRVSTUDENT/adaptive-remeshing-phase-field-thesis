@@ -87,6 +87,15 @@ BAND_HEIGHT_MM = 2.0       # Total height 2 * half_width (a few mm, not 17-30 mm
 BAND_WAKE_MARGIN_MM = 1.5  # Wake extension behind notch root (8.5 mm)
 BAND_AHEAD_MARGIN_MM = 2.0 # Forward extension ahead of tip
 
+# Far-side secondary refinement zone parameters (Node 16 damage band around void)
+FAR_SIDE_BAND_X_MIN = 44.0
+FAR_SIDE_BAND_X_MAX = 54.0
+FAR_SIDE_BAND_Y_MIN = 44.0
+FAR_SIDE_BAND_Y_MAX = 58.0
+FAR_SIDE_CENTER_X = 46.5
+FAR_SIDE_CENTER_Y = 51.0
+FAR_SIDE_H_REF_MM = 0.140
+
 # Initial cycle reference constants (for backward-compatible module-level imports)
 CORRIDOR_X_MIN = 8.5
 CORRIDOR_X_MAX = 12.0      # Follows tip: initial = 10.0 + 2.0 = 12.0 mm
@@ -1033,9 +1042,11 @@ def compute_narrow_band_spec(tip_x=10.0, tip_y=70.0, d_nodal=None,
                              ahead_margin_mm=BAND_AHEAD_MARGIN_MM,
                              wake_margin_mm=BAND_WAKE_MARGIN_MM,
                              notch_x=10.0, notch_y=70.0,
-                             plate_w=PLATE_WIDTH_MM):
+                             plate_w=PLATE_WIDTH_MM,
+                             enable_far_side_band=False):
     """
     Computes narrow damage-following band geometry for a given crack tip position and damage field.
+    Optionally extends refinement with a secondary zone around the hole's far side (Node 16).
 
     Rule:
     1. Crack path locus: Starts at notch root (notch_x, notch_y) = (10.0, 70.0)
@@ -1048,6 +1059,10 @@ def compute_narrow_band_spec(tip_x=10.0, tip_y=70.0, d_nodal=None,
     5. Element growth: At h_ref = 0.140 mm, each 1 mm of crack advance adds:
        (1.0 mm / 0.140 mm) * (2.0 mm / 0.140 mm) ≈ 7.14 * 14.28 ≈ 102 elements/mm.
        Total mesh remains bounded (< 35,000 elements for full propagation vs ~65,000 in Cycle 4).
+    6. Far-side secondary refinement zone (Fix 1):
+       When crack tip approaches or reaches the hole (tip_x >= 35.0 mm or explicit enable),
+       activates a secondary zone centered on (46.5, 51.0) mm covering x in [44, 54] mm, y in [44, 58] mm
+       refined to h_ref = 0.140 mm, in addition to the narrow tip band.
     """
     tip_x = float(tip_x)
     tip_y = float(tip_y)
@@ -1088,6 +1103,39 @@ def compute_narrow_band_spec(tip_x=10.0, tip_y=70.0, d_nodal=None,
         (x_min, y_at_xmin + half_width_mm)
     ]
 
+    # Far-side secondary refinement zone (Fix 1)
+    if enable_far_side_band is None:
+        enable_far_side_band = (tip_x >= 35.0)
+
+    far_side_spec = None
+    if enable_far_side_band:
+        fs_w = FAR_SIDE_BAND_X_MAX - FAR_SIDE_BAND_X_MIN
+        fs_h = FAR_SIDE_BAND_Y_MAX - FAR_SIDE_BAND_Y_MIN
+        fs_area = fs_w * fs_h
+        fs_elem_area = FAR_SIDE_H_REF_MM * FAR_SIDE_H_REF_MM
+        fs_elements = int(round(fs_area / fs_elem_area))
+        estimated_total_elements += fs_elements
+        far_side_spec = {
+            "band_type": "FAR_SIDE_SECONDARY_REFINEMENT_ZONE",
+            "center_x_mm": FAR_SIDE_CENTER_X,
+            "center_y_mm": FAR_SIDE_CENTER_Y,
+            "x_min_mm": FAR_SIDE_BAND_X_MIN,
+            "x_max_mm": FAR_SIDE_BAND_X_MAX,
+            "y_min_mm": FAR_SIDE_BAND_Y_MIN,
+            "y_max_mm": FAR_SIDE_BAND_Y_MAX,
+            "width_mm": fs_w,
+            "height_mm": fs_h,
+            "area_mm2": fs_area,
+            "h_ref_mm": FAR_SIDE_H_REF_MM,
+            "refined_elements": fs_elements,
+            "polygon_vertices": [
+                (FAR_SIDE_BAND_X_MIN, FAR_SIDE_BAND_Y_MIN),
+                (FAR_SIDE_BAND_X_MAX, FAR_SIDE_BAND_Y_MIN),
+                (FAR_SIDE_BAND_X_MAX, FAR_SIDE_BAND_Y_MAX),
+                (FAR_SIDE_BAND_X_MIN, FAR_SIDE_BAND_Y_MAX)
+            ]
+        }
+
     return {
         "band_type": "NARROW_DAMAGE_FOLLOWING_BAND",
         "tip_x": tip_x,
@@ -1108,7 +1156,9 @@ def compute_narrow_band_spec(tip_x=10.0, tip_y=70.0, d_nodal=None,
         "elements_per_mm_advance": elements_per_mm_advance,
         "refined_band_elements": refined_elements,
         "estimated_total_elements": estimated_total_elements,
-        "polygon_vertices": polygon_vertices
+        "polygon_vertices": polygon_vertices,
+        "far_side_band": far_side_spec,
+        "enable_far_side_band": bool(enable_far_side_band)
     }
 
 
@@ -1116,7 +1166,8 @@ class Case3SingleJobOrchestrator(object):
     """Manages the in-allocation execution of coarse solve and multi-cycle adaptive remeshing with equal load division."""
 
     def __init__(self, run_dir, n_adaptive_steps=DEFAULT_N_ADAPTIVE_STEPS, load_increment_mm=DEFAULT_LOAD_INCREMENT_MM,
-                 coarse_u2_mm=DEFAULT_COARSE_U2_MM, uel_path=None, cpus=16, dry_run=False, max_cycles=50):
+                 coarse_u2_mm=DEFAULT_COARSE_U2_MM, uel_path=None, cpus=16, dry_run=False, max_cycles=50,
+                 resume_cycle=None):
         self.run_dir = os.path.abspath(run_dir)
         self.n_adaptive_steps = int(n_adaptive_steps)
         self.load_increment_mm = float(load_increment_mm)
@@ -1124,6 +1175,7 @@ class Case3SingleJobOrchestrator(object):
         self.dry_run = dry_run
         self.cpus = int(cpus)
         self.max_cycles = int(max_cycles)
+        self.resume_cycle = int(resume_cycle) if resume_cycle is not None else None
         if uel_path:
             self.uel_path = os.path.abspath(uel_path)
         elif os.path.isfile(os.path.join(self.run_dir, "f42_mixed_uel.for")):
@@ -1151,12 +1203,15 @@ class Case3SingleJobOrchestrator(object):
         assert band["elements_per_mm_advance"] <= 150, "Elements per mm advance exceeds target"
         return True
 
-    def get_corridor_definition(self, tip_x=None, tip_y=None, d_nodal=None):
+    def get_corridor_definition(self, tip_x=None, tip_y=None, d_nodal=None, enable_far_side_band=None):
         """Returns the formal narrow damage-following band specification."""
         if tip_x is None:
             tip_x = self.current_tip_x if self.current_tip_x > 0 else 10.0
         if tip_y is None:
             tip_y = getattr(self, "current_tip_y", 70.0)
+
+        if enable_far_side_band is None:
+            enable_far_side_band = (float(tip_x) >= 35.0)
 
         spec = compute_narrow_band_spec(
             tip_x=tip_x,
@@ -1167,7 +1222,8 @@ class Case3SingleJobOrchestrator(object):
             wake_margin_mm=BAND_WAKE_MARGIN_MM,
             notch_x=10.0,
             notch_y=70.0,
-            plate_w=PLATE_WIDTH_MM
+            plate_w=PLATE_WIDTH_MM,
+            enable_far_side_band=enable_far_side_band
         )
         return {
             "band_type": "NARROW_DAMAGE_FOLLOWING_BAND",
@@ -1190,7 +1246,9 @@ class Case3SingleJobOrchestrator(object):
             "refined_band_elements": spec["refined_band_elements"],
             "estimated_total_elements": spec["estimated_total_elements"],
             "target_total_elements_bounded": 35000,
-            "polygon_vertices": spec["polygon_vertices"]
+            "polygon_vertices": spec["polygon_vertices"],
+            "far_side_band": spec["far_side_band"],
+            "enable_far_side_band": spec["enable_far_side_band"]
         }
 
     def check_completion(self, current_tip_x, current_rf2, peak_rf2):
@@ -1605,16 +1663,20 @@ class Case3SingleJobOrchestrator(object):
 
         # Check for existing completed cycles to enable seamless checkpoint resumption
         resume_cycle = 0
-        for c in range(self.n_adaptive_steps, 0, -1):
-            c_job = "PK_METHOD_C_CASE3_CYCLE%d" % c
-            c_state = os.path.join(self.run_dir, c_job + "_state.json")
-            c_sta = os.path.join(self.run_dir, c_job + ".sta")
-            c_phys = os.path.join(self.run_dir, c_job + "_PHYS.inp")
-            if os.path.isfile(c_state) and os.path.isfile(c_sta) and os.path.isfile(c_phys):
-                term_eval = self.evaluate_cutback_state(c_sta)
-                if term_eval.get("can_continue", False):
-                    resume_cycle = c
-                    break
+        if self.resume_cycle is not None:
+            resume_cycle = self.resume_cycle
+            print("EXPLICIT RESUME REQUESTED: Selecting Cycle %d checkpoint as donor" % resume_cycle)
+        else:
+            for c in range(self.n_adaptive_steps, 0, -1):
+                c_job = "PK_METHOD_C_CASE3_CYCLE%d" % c
+                c_state = os.path.join(self.run_dir, c_job + "_state.json")
+                c_sta = os.path.join(self.run_dir, c_job + ".sta")
+                c_phys = os.path.join(self.run_dir, c_job + "_PHYS.inp")
+                if os.path.isfile(c_state) and os.path.isfile(c_sta) and os.path.isfile(c_phys):
+                    term_eval = self.evaluate_cutback_state(c_sta)
+                    if term_eval.get("can_continue", False):
+                        resume_cycle = c
+                        break
 
         if resume_cycle > 0:
             print("=================================================================")
@@ -1818,6 +1880,8 @@ def main():
                         help="Output JSON path for extracted state")
     parser.add_argument("--ref-y", type=float, default=None,
                         help="Reference y-coordinate for dynamic crack tip corridor (default: notch_y=70.0)")
+    parser.add_argument("--resume-cycle", type=int, default=None,
+                        help="Explicitly resume from a specific cycle checkpoint (e.g. 48)")
     args = parser.parse_args()
 
     if args.extract_odb:
@@ -1832,7 +1896,8 @@ def main():
         coarse_u2_mm=args.coarse_u2_mm,
         cpus=args.cpus,
         uel_path=args.uel_path,
-        dry_run=args.dry_run
+        dry_run=args.dry_run,
+        resume_cycle=args.resume_cycle
     )
 
     if args.dry_run:

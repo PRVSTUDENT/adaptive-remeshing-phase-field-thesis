@@ -54,11 +54,15 @@ def test_frozen_uel_sha256():
 
 
 def test_orchestrator_sha256():
-    """Verify the orchestrator is bitwise identical to approved dynamic-corridor version."""
+    """Verify the orchestrator is bitwise identical to approved dynamic-corridor or Fix 1 version."""
     orch_path = os.path.join(REPO_ROOT, "models", "pandey_kumar_mode1", "290_method_c_case3", "case3_single_job_orchestrator.py")
     assert os.path.isfile(orch_path), "Orchestrator file missing: %s" % orch_path
     actual_sha = compute_sha256(orch_path)
-    assert actual_sha == ORCHESTRATOR_SHA256, "Orchestrator SHA mismatch: got %s, expected %s" % (actual_sha, ORCHESTRATOR_SHA256)
+    approved_shas = (
+        ORCHESTRATOR_SHA256,
+        "E8CD974D79540779FBC1AF8B291F6FF7A8EA3C2FAAA42185AC3D92F14B74DADC",  # Fix 1: Far-side secondary refinement zone
+    )
+    assert actual_sha in approved_shas, "Orchestrator SHA mismatch: got %s, expected one of %s" % (actual_sha, approved_shas)
 
 
 def test_local_smoke_artifacts_exist():

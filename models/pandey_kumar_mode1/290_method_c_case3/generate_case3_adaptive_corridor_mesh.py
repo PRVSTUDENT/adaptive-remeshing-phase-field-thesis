@@ -60,6 +60,15 @@ BAND_HEIGHT_MM = 2.0       # Total height 2 * half_width (a few mm, not 17-30 mm
 BAND_WAKE_MARGIN_MM = 1.5  # Wake extension behind notch (x_min = 10.0 - 1.5 = 8.5 mm)
 BAND_AHEAD_MARGIN_MM = 2.0 # Forward extension ahead of tip
 
+# Far-side secondary refinement zone parameters (Node 16 damage band around void)
+FAR_SIDE_BAND_X_MIN = 44.0
+FAR_SIDE_BAND_X_MAX = 54.0
+FAR_SIDE_BAND_Y_MIN = 44.0
+FAR_SIDE_BAND_Y_MAX = 58.0
+FAR_SIDE_CENTER_X = 46.5
+FAR_SIDE_CENTER_Y = 51.0
+FAR_SIDE_H_REF_MM = 0.140
+
 # Initial cycle reference constants (initial crack at notch root 10.0, 70.0)
 CORRIDOR_X_MIN = NOTCH_A - BAND_WAKE_MARGIN_MM   # 8.5 mm
 CORRIDOR_X_MAX = NOTCH_A + BAND_AHEAD_MARGIN_MM  # 12.0 mm (follows tip dynamically)
@@ -71,9 +80,11 @@ def compute_narrow_band_spec(tip_x=10.0, tip_y=70.0, d_nodal=None,
                              ahead_margin_mm=BAND_AHEAD_MARGIN_MM,
                              wake_margin_mm=BAND_WAKE_MARGIN_MM,
                              notch_x=NOTCH_A, notch_y=NOTCH_Y,
-                             plate_w=PLATE_W):
+                             plate_w=PLATE_W,
+                             enable_far_side_band=False):
     """
     Computes narrow damage-following band geometry for a given crack tip position and damage field.
+    Optionally extends refinement with a secondary zone around the hole's far side (Node 16).
 
     Rule:
     1. Crack path locus: Starts at notch root (notch_x, notch_y) = (10.0, 70.0)
@@ -86,6 +97,10 @@ def compute_narrow_band_spec(tip_x=10.0, tip_y=70.0, d_nodal=None,
     5. Element growth: At h_ref = 0.140 mm, each 1 mm of crack advance adds:
        (1.0 mm / 0.140 mm) * (2.0 mm / 0.140 mm) ≈ 7.14 * 14.28 ≈ 102 elements/mm.
        Total mesh remains bounded (< 35,000 elements for full propagation vs ~65,000 in Cycle 4).
+    6. Far-side secondary refinement zone (Fix 1):
+       When crack tip approaches or reaches the hole (tip_x >= 35.0 mm or explicit enable),
+       activates a secondary zone centered on (46.5, 51.0) mm covering x in [44, 54] mm, y in [44, 58] mm
+       refined to h_ref = 0.140 mm, in addition to the narrow tip band.
     """
     tip_x = float(tip_x)
     tip_y = float(tip_y)
@@ -127,6 +142,39 @@ def compute_narrow_band_spec(tip_x=10.0, tip_y=70.0, d_nodal=None,
         (x_min, y_at_xmin + half_width_mm)
     ]
 
+    # Far-side secondary refinement zone (Fix 1)
+    if enable_far_side_band is None:
+        enable_far_side_band = (tip_x >= 35.0)
+
+    far_side_spec = None
+    if enable_far_side_band:
+        fs_w = FAR_SIDE_BAND_X_MAX - FAR_SIDE_BAND_X_MIN
+        fs_h = FAR_SIDE_BAND_Y_MAX - FAR_SIDE_BAND_Y_MIN
+        fs_area = fs_w * fs_h
+        fs_elem_area = FAR_SIDE_H_REF_MM * FAR_SIDE_H_REF_MM
+        fs_elements = int(round(fs_area / fs_elem_area))
+        estimated_total_elements += fs_elements
+        far_side_spec = {
+            "band_type": "FAR_SIDE_SECONDARY_REFINEMENT_ZONE",
+            "center_x_mm": FAR_SIDE_CENTER_X,
+            "center_y_mm": FAR_SIDE_CENTER_Y,
+            "x_min_mm": FAR_SIDE_BAND_X_MIN,
+            "x_max_mm": FAR_SIDE_BAND_X_MAX,
+            "y_min_mm": FAR_SIDE_BAND_Y_MIN,
+            "y_max_mm": FAR_SIDE_BAND_Y_MAX,
+            "width_mm": fs_w,
+            "height_mm": fs_h,
+            "area_mm2": fs_area,
+            "h_ref_mm": FAR_SIDE_H_REF_MM,
+            "refined_elements": fs_elements,
+            "polygon_vertices": [
+                (FAR_SIDE_BAND_X_MIN, FAR_SIDE_BAND_Y_MIN),
+                (FAR_SIDE_BAND_X_MAX, FAR_SIDE_BAND_Y_MIN),
+                (FAR_SIDE_BAND_X_MAX, FAR_SIDE_BAND_Y_MAX),
+                (FAR_SIDE_BAND_X_MIN, FAR_SIDE_BAND_Y_MAX)
+            ]
+        }
+
     return {
         "band_type": "NARROW_DAMAGE_FOLLOWING_BAND",
         "tip_x": tip_x,
@@ -147,7 +195,9 @@ def compute_narrow_band_spec(tip_x=10.0, tip_y=70.0, d_nodal=None,
         "elements_per_mm_advance": elements_per_mm_advance,
         "refined_band_elements": refined_elements,
         "estimated_total_elements": estimated_total_elements,
-        "polygon_vertices": polygon_vertices
+        "polygon_vertices": polygon_vertices,
+        "far_side_band": far_side_spec,
+        "enable_far_side_band": bool(enable_far_side_band)
     }
 
 def compute_element_area_and_h(coords):
@@ -233,9 +283,11 @@ def evaluate_corridor_audit(nodes, elements, elem_type_map, tip_x=10.0, tip_y=70
         "gate_04_corridor_h_pass": median_h <= L0_HALF if corridor_elements else True
     }
 
-def get_corridor_partition_spec(tip_x=10.0, tip_y=70.0, d_nodal=None):
+def get_corridor_partition_spec(tip_x=10.0, tip_y=70.0, d_nodal=None, enable_far_side_band=None):
     """Returns the exact narrow damage-following band partition geometry definition."""
-    spec = compute_narrow_band_spec(tip_x=tip_x, tip_y=tip_y, d_nodal=d_nodal)
+    if enable_far_side_band is None:
+        enable_far_side_band = (float(tip_x) >= 35.0)
+    spec = compute_narrow_band_spec(tip_x=tip_x, tip_y=tip_y, d_nodal=d_nodal, enable_far_side_band=enable_far_side_band)
     return {
         "band_type": "NARROW_DAMAGE_FOLLOWING_BAND",
         "tip_x": spec["tip_x"],
@@ -263,11 +315,13 @@ def get_corridor_partition_spec(tip_x=10.0, tip_y=70.0, d_nodal=None):
             "min_quad_fraction_pct": 85.0,
             "max_aspect_ratio": 4.0
         },
-        "polygon_vertices": spec["polygon_vertices"]
+        "polygon_vertices": spec["polygon_vertices"],
+        "far_side_band": spec.get("far_side_band"),
+        "enable_far_side_band": spec.get("enable_far_side_band", False)
     }
 
-def generate_abaqus_cae_mesh(out_phys_inp, tip_x=10.0, tip_y=70.0):
-    """Executes Abaqus CAE commands to generate physical mesh with narrow damage-following band."""
+def generate_abaqus_cae_mesh(out_phys_inp, tip_x=10.0, tip_y=70.0, enable_far_side_band=None):
+    """Executes Abaqus CAE commands to generate physical mesh with narrow damage-following band and far-side zone."""
     try:
         from abaqus import mdb
         from abaqusConstants import TWO_D_PLANAR, DEFORMABLE_BODY, QUAD_DOMINATED, FREE, CPE4, CPE3, STANDARD, OFF, ON, ANALYSIS
@@ -276,11 +330,18 @@ def generate_abaqus_cae_mesh(out_phys_inp, tip_x=10.0, tip_y=70.0):
     except ImportError:
         raise RuntimeError("Abaqus Python modules not available. Must be invoked via 'abaqus cae noGUI=...'")
 
-    spec = compute_narrow_band_spec(tip_x=tip_x, tip_y=tip_y)
+    if enable_far_side_band is None:
+        enable_far_side_band = (float(tip_x) >= 35.0)
+    spec = compute_narrow_band_spec(tip_x=tip_x, tip_y=tip_y, enable_far_side_band=enable_far_side_band)
     print("Generating Case 3 Narrow Damage-Following Band physical mesh...")
     print("Narrow band: x in [%.1f, %.1f] mm, y in [%.1f, %.1f] mm, height=%.1f mm" % (
         spec["x_min"], spec["x_max"], spec["y_min"], spec["y_max"], spec["band_height_mm"]
     ))
+    if spec.get("far_side_band"):
+        fs = spec["far_side_band"]
+        print("Far-side secondary zone: x in [%.1f, %.1f] mm, y in [%.1f, %.1f] mm, h_ref=%.3f mm" % (
+            fs["x_min_mm"], fs["x_max_mm"], fs["y_min_mm"], fs["y_max_mm"], fs["h_ref_mm"]
+        ))
     model_name = "CASE3_NARROW_BAND"
     if model_name in mdb.models:
         del mdb.models[model_name]
@@ -315,6 +376,16 @@ def generate_abaqus_cae_mesh(out_phys_inp, tip_x=10.0, tip_y=70.0):
     p.PartitionFaceBySketch(faces=p.faces, sketch=sp)
     del m.sketches["__partition__"]
 
+    # Partition far-side secondary refinement zone if enabled
+    if spec.get("far_side_band"):
+        fs_spec = spec["far_side_band"]
+        spf = m.ConstrainedSketch(name="__far_side_partition__", sheetSize=250.0)
+        fs_poly = fs_spec["polygon_vertices"]
+        for i in range(len(fs_poly)):
+            spf.Line(point1=fs_poly[i], point2=fs_poly[(i + 1) % len(fs_poly)])
+        p.PartitionFaceBySketch(faces=p.faces, sketch=spf)
+        del m.sketches["__far_side_partition__"]
+
     mat = m.Material(name="Steel")
     mat.Elastic(table=((210000.0, 0.3),))
     m.HomogeneousSolidSection(name="SolidSec", material="Steel", thickness=1.0)
@@ -329,12 +400,21 @@ def generate_abaqus_cae_mesh(out_phys_inp, tip_x=10.0, tip_y=70.0):
     notch_y = NOTCH_Y
     slope = (tip_y - notch_y) / (tip_x - notch_x) if tip_x > notch_x else 0.0
     half_w = spec["half_width_mm"]
+    fs_zone = spec.get("far_side_band")
+
     for f in p.faces:
         pt = f.pointOn[0]
+        # 1. Tip-following band face
         if (x_min - 1e-3 <= pt[0] <= x_max + 1e-3):
             cx = pt[0]
             yc = notch_y if cx <= notch_x else notch_y + slope * (cx - notch_x)
             if abs(pt[1] - yc) <= half_w + 1e-2:
+                ref_faces.append(f)
+                continue
+        # 2. Far-side secondary refinement zone face
+        if fs_zone:
+            if (fs_zone["x_min_mm"] - 1e-3 <= pt[0] <= fs_zone["x_max_mm"] + 1e-3 and
+                fs_zone["y_min_mm"] - 1e-3 <= pt[1] <= fs_zone["y_max_mm"] + 1e-3):
                 ref_faces.append(f)
 
     ref_edges = []
