@@ -1,0 +1,31 @@
+{
+  "cycle": 0,
+  "job_name": "PK_METHOD_C_LPANEL_COARSE_JOB1",
+  "status": "CONVERGED_AUDITED",
+  "benchmark": "L-Shaped Panel (Winkler 2001 / Miehe 2010 Fig. 19)",
+  "donor_uy_mm": 0.0,
+  "terminal_uy_mm": 0.20000000298023224,
+  "terminal_rf2_kn": 0.11888424307107925,
+  "peak_rf2_kn": 0.11888424307107925,
+  "tip_mm": [
+    250.0,
+    250.0
+  ],
+  "tip_history_chord_sum_mm": 0.0,
+  "max_damage": 0.20321790874004364,
+  "mesh_elements": 28848,
+  "mesh_nodes": 28757,
+  "gate_results": {},
+  "elapsed_seconds": 230.04829597473145,
+  "completion": false,
+  "completion_reason": "IN_PROGRESS",
+  "input_sha256": "DA75948C3599B193F11803592B54A14D8976E5821E8DD9D996CF9DFC11FF54F2",
+  "mesh_sha256": "B1E505398A46103F452305D90A5A9F10654D445CE2CB0DA06B11CE1730DF47AE",
+  "source_sha256": "CE8D5EDCD2911DCB018BB15275271F874E7EA62B8FB48CF4A8297469A83ACDD6",
+  "donor_cutoff": null,
+  "pbs_submissions": 0,
+  "cumulative_pbs_submissions": 73,
+  "transfer_implementation_sha256": "CCFE33814C6ADE6D8EAF6DE9DFD17C98E622497AAF3B16A6BFFC267F9F532621",
+  "transfer_implementation": "Unchanged Case 1 spatial nearest-neighbour damage/history transfer",
+  "donor_checkpoint_sha256": null
+}
