@@ -1,0 +1,2976 @@
+1
+
+   Abaqus 2024                                  Date 25-Nov-2026   Time 15:21:11
+   For use by Supplied by Team-SolidSQUAD under license from Dassault Systemes or its subsidiary.
+
+
+
+                         The Abaqus Software is a product of:
+
+                           Dassault Systemes SIMULIA Corp.
+                           1301 Atwood Avenue, Suite 101W
+                              Johnston, RI 02919, USA
+ 
+
+
+                   The Abaqus Software is available only under license
+                   from Dassault Systemes or its subsidiary and may be
+                   used or reproduced only in accordance with the terms
+                   of such license.
+ 
+                          On machine PRUTHVI 
+                          you are authorized to run
+                          Abaqus/Standard until 31-Dec-2055
+
+                          Your site id is:  
+
+
+ 
+                    For assistance or any other information you may
+                    obtain contact information for your local office
+                    from the world wide web at:
+
+                      https://www.3ds.com/products-services/simulia/services-support/
+
+ 
+                * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * 
+                *                                                         * 
+                *                   *****************                     * 
+                *                   *  N O T I C E  *                     * 
+                *                   *****************                     * 
+                *                                                         * 
+                *                                                         * 
+                *                       Abaqus 2024                       * 
+                *                                                         * 
+                *       BUILD ID: 2023_09_21-14.55.25 RELr426 190762      * 
+                *                                                         * 
+                *                                                         * 
+                *  Please make sure you are using                         * 
+                *  release Abaqus 2024 manuals                            * 
+                *  plus the notes accompanying this release.              * 
+                *                                                         * 
+                *                                                         * 
+                *                                                         * 
+                *                                                         * 
+                * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * 
+
+
+ 
+
+
+
+     PROCESSING PART, INSTANCE, AND ASSEMBLY INFORMATION
+   *******************************************************
+
+
+     END PROCESSING PART, INSTANCE, AND ASSEMBLY INFORMATION
+   ***********************************************************
+
+
+
+
+     OPTIONS BEING PROCESSED
+   ***************************
+
+
+  *USER ELEMENT, NODES=4, TYPE=U1, PROPERTIES=6, COORDINATES=2, VARIABLES=18, UNSYMM
+  *USER ELEMENT, NODES=4, TYPE=U2, PROPERTIES=6, COORDINATES=2, VARIABLES=18, UNSYMM
+  *USER ELEMENT, NODES=3, TYPE=U3, PROPERTIES=6, COORDINATES=2, VARIABLES=18, UNSYMM
+  *USER ELEMENT, NODES=3, TYPE=U4, PROPERTIES=6, COORDINATES=2, VARIABLES=18, UNSYMM
+  *HEADING
+          Problem 3 Combined Tension + Shear Adaptive Remeshing                                                                                                                                                                                                                                                                                                                                                                                                                                                                           
+  *ELEMENT, TYPE=U1, ELSET=PHASE_QUAD
+  *ELEMENT, TYPE=U3, ELSET=PHASE_TRI
+  *ELEMENT, TYPE=U2, ELSET=DISP_QUAD
+  *ELEMENT, TYPE=U4, ELSET=DISP_TRI
+  *ELEMENT, TYPE=CPE4, ELSET=umatelem_quad
+  *ELEMENT, TYPE=CPE3, ELSET=umatelem_tri
+  *ELSET, ELSET=All_elem
+  *ELSET, ELSET=umatelem
+  *MATERIAL, NAME=M_COMPANION
+  *USER MATERIAL, CONSTANTS=3
+  *DEPVAR
+  *INITIAL CONDITIONS, TYPE=SOLUTION
+  *SOLID SECTION, ELSET=All_elem, MATERIAL=M_COMPANION
+  *USER ELEMENT, NODES=4, TYPE=U1, PROPERTIES=6, COORDINATES=2, VARIABLES=18, UNSYMM
+  *USER ELEMENT, NODES=4, TYPE=U2, PROPERTIES=6, COORDINATES=2, VARIABLES=18, UNSYMM
+  *USER ELEMENT, NODES=3, TYPE=U3, PROPERTIES=6, COORDINATES=2, VARIABLES=18, UNSYMM
+  *USER ELEMENT, NODES=3, TYPE=U4, PROPERTIES=6, COORDINATES=2, VARIABLES=18, UNSYMM
+  *SOLID SECTION, ELSET=All_elem, MATERIAL=M_COMPANION
+  *INITIAL CONDITIONS, TYPE=SOLUTION
+  *BOUNDARY
+  *BOUNDARY, AMPLITUDE=CONST_HOLD
+  *BOUNDARY, OP=MOD
+  *BOUNDARY
+  *BOUNDARY, AMPLITUDE=CONST_HOLD
+  *EQUATION
+  *EQUATION
+  *EQUATION
+  *EQUATION
+  *EQUATION
+  *EQUATION
+  *EQUATION
+  *EQUATION
+  *EQUATION
+  *EQUATION
+  *EQUATION
+  *EQUATION
+  *EQUATION
+  *EQUATION
+  *EQUATION
+  *EQUATION
+  *EQUATION
+  *EQUATION
+  *EQUATION
+  *EQUATION
+  *EQUATION
+  *EQUATION
+  *EQUATION
+  *EQUATION
+  *EQUATION
+  *EQUATION
+  *EQUATION
+  *EQUATION
+  *EQUATION
+  *EQUATION
+  *EQUATION
+  *EQUATION
+  *EQUATION
+  *EQUATION
+  *EQUATION
+  *EQUATION
+  *EQUATION
+  *EQUATION
+  *EQUATION
+  *EQUATION
+  *EQUATION
+  *EQUATION
+  *EQUATION
+  *EQUATION
+  *EQUATION
+  *EQUATION
+  *EQUATION
+  *EQUATION
+  *EQUATION
+  *EQUATION
+
+ ***NOTE: DUE TO EXCESSIVE REPORTING, THE ECHO OF THE *MPC and *EQUATION 
+          OPTIONS IS BEING SUPPRESSED.
+  *UEL PROPERTY, ELSET=PHASE_QUAD
+  *UEL PROPERTY, ELSET=DISP_QUAD
+  *UEL PROPERTY, ELSET=PHASE_TRI
+  *UEL PROPERTY, ELSET=DISP_TRI
+  *OUTPUT, FIELD, FREQUENCY=1
+  *OUTPUT, FIELD, FREQUENCY=1
+  *ELEMENT OUTPUT, ELSET=umatelem
+  *ELEMENT OUTPUT, ELSET=umatelem
+  *INITIAL CONDITIONS, TYPE=SOLUTION
+  *OUTPUT, FIELD, FREQUENCY=1
+  *OUTPUT, FIELD, FREQUENCY=1
+  *ELEMENT OUTPUT, ELSET=umatelem
+  *ELEMENT OUTPUT, ELSET=umatelem
+  *INITIAL CONDITIONS, TYPE=SOLUTION
+  *INITIAL CONDITIONS, TYPE=SOLUTION
+  *OUTPUT, FIELD, FREQUENCY=1
+  *OUTPUT, FIELD, FREQUENCY=1
+  *ELEMENT OUTPUT, ELSET=umatelem
+  *ELEMENT OUTPUT, ELSET=umatelem
+
+ ***NOTE: MPCS (EXTERNAL or INTERNAL, including those generated from rigid body 
+          definitions), KINEMATIC COUPLINGS, AND/OR EQUATIONS WILL ACTIVATE 
+          ADDITIONAL DEGREES OF FREEDOM
+  
+                               E L E M E N T   Q U A L I T Y  C H E C K S        
+  
+  
+ ***NOTES: DISTORTED ISOPARAMETRIC ELEMENTS: ANGLE BETWEEN ISOPARAMETRIC LINES 
+           IS LESS THAN 45 DEGREES OR GREATER THAN 135 DEGREES.
+  
+           TETRAHEDRAL QUALITY MEASURE: VOLUME OF TETRAHEDRON DIVIDED BY THE 
+           VOLUME OF EQUILATERAL TETRAHEDRON WITH SAME CIRCUMSPHERE RADIUS; 
+           0 FOR DEGENERATE TETRAHEDRON AND 1 FOR EQUILATERIAL TETRAHEDRON. IT 
+           IS RECOMMENDED THAT THE TETRAHEDRAL QUALITY MEASURE BE GREATER THAN 
+           0.02, THE MIN INTERIOR (DIHEDRAL) ANGLE BE GREATER THAN 10 DEGREES, 
+           AND THE MAX INTERIOR (DIHEDRAL) ANGLE BE LESS THAN 160 DEGREES. 
+  
+           MODIFIED TETRAHEDRAL QUALITY MEASURE: ANGLES BETWEEN THE TWO LINE 
+           SEGMENTS ON EACH EDGE; THE EDGES OF MODIFIED TETRAHEDRAL SHOULD BE 
+           AS STRAIGHT AS POSSIBLE. IT IS RECOMMENDED THAT THE ANGLE BETWEEN 
+           THE TWO LINE SEGMENTS ON EACH EDGE IS BETWEEN 160 AND 180 DEGREES. 
+  
+           TRIANGULAR QUALITY MEASURE: AREA OF TRIANGLE DIVIDED BY THE AREA OF 
+           EQUILATERAL TRIANGLE WITH SAME CIRCUMCIRCLE RADIUS; 0 FOR DEGENERATE 
+           TRIANGLE AND 1 FOR EQUILATERAL TRIANGLE. IT IS RECOMMENDED THAT THE
+           TRIANGULAR QUALITY MEASURE BE GREATER THAN 0.01, THE MIN INTERIOR 
+           ANGLE BE GREATER THAN 10 DEGREES, AND THE MAX INTERIOR ANGLE BE LESS 
+           THAN 160 DEGREES. 
+  
+           NODAL ADJUSTMENTS ARISING FROM CONTACT INTERACTIONS AND/OR TIE 
+           CONSTRAINTS CAN CAUSE SEVERE ELEMENT DISTORTION. IT MAY BE NECESSARY 
+           TO REMESH IN ORDER TO REDUCE THE AMOUNT OF ADJUSTMENT. 
+
+ ***WARNING: 8 elements are distorted. Either the isoparametric angles are out 
+             of the suggested limits or the triangular or tetrahedral quality 
+             measure is bad. The elements have been identified in element set 
+             WarnElemDistorted.
+  
+ --------------------------------------------------------------------------------
+ Distorted isoparametric elements
+  
+  Element   Min/max angle   Adjusted nodes 
+ --------- ---------------- -------------- 
+     18263          38.6092       NO       
+     18884           42.621       NO       
+     24894          31.8037       NO       
+  
+ --------------------------------------------------------------------------------
+ Distorted triangular elements
+  
+ Element   Quality measure     Min angle        Max angle     Adjusted nodes 
+ --------- ---------------- ---------------- ---------------- -------------- 
+     25121       0.00179645          3.64668          170.179       NO       
+     25126       0.00422777          6.06241          167.199       NO       
+     25244        0.0194163           9.9974          158.546       NO       
+     25251        0.0025195          5.17376          169.245       NO       
+     25264      0.000166872          1.98331           175.65       NO       
+  
+  
+  *STEP, NAME=Step-1, NLGEOM=NO, INC=100
+  *OUTPUT, FIELD, FREQUENCY=1
+  *STEP, NAME=Step-2, NLGEOM=NO, INC=1000
+  *OUTPUT, FIELD, FREQUENCY=1
+  *STEP, NAME=Step-1, NLGEOM=NO, INC=100
+  *STEP, NAME=Step-2, NLGEOM=NO, INC=1000
+  *STEP, NAME=Step-1, NLGEOM=NO, INC=100
+  *STATIC
+  *BOUNDARY
+  *BOUNDARY, AMPLITUDE=CONST_HOLD
+  *OUTPUT, FIELD, FREQUENCY=1
+  *NODE OUTPUT
+  *NODE OUTPUT, NSET=N_RP
+  *ELEMENT OUTPUT, ELSET=umatelem
+  *NODE PRINT, FREQ=1, NSET=N_RP
+  *END STEP
+
+ ***WARNING: THE *ELEMENT OUTPUT OPTION IS NOT SUPPORTED FOR USER ELEMENTS
+
+ ***WARNING: THE *ELEMENT OUTPUT OPTION IS NOT SUPPORTED FOR USER ELEMENTS
+
+ ***WARNING: THE *ELEMENT OUTPUT OPTION IS NOT SUPPORTED FOR USER ELEMENTS
+
+ ***WARNING: THE *ELEMENT OUTPUT OPTION IS NOT SUPPORTED FOR USER ELEMENTS
+  *STEP, NAME=Step-2, NLGEOM=NO, INC=1000
+  *STATIC, RIKS
+  *BOUNDARY, OP=MOD
+  *OUTPUT, FIELD, FREQUENCY=1
+  *NODE OUTPUT
+  *NODE OUTPUT, NSET=N_RP
+  *ELEMENT OUTPUT, ELSET=umatelem
+  *NODE PRINT, FREQ=1, NSET=N_RP
+  *END STEP
+
+ ***WARNING: THE NLGEOM FLAG SHOULD BE ACTIVATED FOR THE RIKS STEP. OTHERWISE, 
+             THE GEOMETRIC NONLINEARITY WILL NOT BE CONSIDERED.
+
+ ***WARNING: THE *ELEMENT OUTPUT OPTION IS NOT SUPPORTED FOR USER ELEMENTS
+
+ ***WARNING: THE *ELEMENT OUTPUT OPTION IS NOT SUPPORTED FOR USER ELEMENTS
+
+ ***WARNING: THE *ELEMENT OUTPUT OPTION IS NOT SUPPORTED FOR USER ELEMENTS
+
+ ***WARNING: THE *ELEMENT OUTPUT OPTION IS NOT SUPPORTED FOR USER ELEMENTS
+  *STEP, NAME=Step-1, NLGEOM=NO, INC=100
+  *STATIC
+  *BOUNDARY
+  *BOUNDARY, AMPLITUDE=CONST_HOLD
+  *END STEP
+  *STEP, NAME=Step-2, NLGEOM=NO, INC=1000
+  *STATIC, RIKS
+  *BOUNDARY, OP=MOD
+  *END STEP
+
+
+
+                            P R O B L E M   S I Z E
+
+
+          NUMBER OF ELEMENTS IS                                 25305
+          NUMBER OF NODES IS                                     8526
+          NUMBER OF NODES DEFINED BY THE USER                    8526
+          TOTAL NUMBER OF VARIABLES IN THE MODEL                25577
+          (DEGREES OF FREEDOM PLUS MAX NO. OF ANY LAGRANGE MULTIPLIER
+           VARIABLES. INCLUDE *PRINT,SOLVE=YES TO GET THE ACTUAL NUMBER.)
+
+
+
+                              END OF USER INPUT PROCESSING
+
+
+
+     JOB TIME SUMMARY
+       USER TIME (SEC)      =     0.90    
+       SYSTEM TIME (SEC)    =     0.10    
+       TOTAL CPU TIME (SEC) =      1.0    
+       WALLCLOCK TIME (SEC) =            0
+1
+
+   Abaqus 2024                                  Date 25-Nov-2026   Time 15:21:26
+   For use by Supplied by Team-SolidSQUAD under license from Dassault Systemes or its subsidiary.
+
+     Problem 3 Combined Tension + Shear Adaptive Remeshing                                     STEP    1  INCREMENT    1
+                                                                                          TIME COMPLETED IN THIS STEP   0.00    
+
+
+                        S T E P       1     S T A T I C   A N A L Y S I S
+
+
+                                                                                          
+
+     AUTOMATIC TIME CONTROL WITH -
+          A SUGGESTED INITIAL TIME INCREMENT OF                 1.00    
+          AND A TOTAL TIME PERIOD OF                            1.00    
+          THE MINIMUM TIME INCREMENT ALLOWED IS                1.000E-08
+          THE MAXIMUM TIME INCREMENT ALLOWED IS                 1.00    
+
+     LINEAR EQUATION SOLVER TYPE         DIRECT SPARSE
+
+          UNSYMMETRIC MATRIX STORAGE AND SOLUTION WILL BE USED
+  
+                   M E M O R Y   E S T I M A T E
+  
+ PROCESS      FLOATING PT       MINIMUM MEMORY        MEMORY TO
+              OPERATIONS           REQUIRED          MINIMIZE I/O
+             PER ITERATION           (MB)               (MB)
+  
+     1          6.32E+08               30                 98
+  
+ NOTE:
+      (1) SINCE ABAQUS DOES NOT PRE-ALLOCATE MEMORY AND ONLY ALLOCATES MEMORY AS NEEDED DURING THE ANALYSIS,
+          THE MEMORY REQUIREMENT PRINTED HERE CAN ONLY BE VIEWED AS A GENERAL GUIDELINE BASED ON THE BEST
+          KNOWLEDGE AVAILABLE AT THE BEGINNING OF A STEP BEFORE THE SOLUTION PROCESS HAS BEGUN.
+      (2) THE ESTIMATE IS NORMALLY UPDATED AT THE BEGINNING OF EVERY STEP. IT IS THE MAXIMUM VALUE OF THE
+          ESTIMATE FROM THE CURRENT STEP TO THE LAST STEP OF THE ANALYSIS, WITH UNSYMMETRIC SOLUTION TAKEN
+          INTO ACCOUNT IF APPLICABLE. 
+      (3) SINCE THE ESTIMATE IS BASED ON THE ACTIVE DEGREES OF FREEDOM IN THE FIRST ITERATION OF THE 
+          CURRENT STEP, THE MEMORY ESTIMATE MIGHT BE SIGNIFICANTLY DIFFERENT THAN ACTUAL USAGE FOR 
+          PROBLEMS WITH SUBSTANTIAL CHANGES IN ACTIVE DEGREES OF FREEDOM BETWEEN STEPS (OR EVEN WITHIN
+          THE SAME STEP). EXAMPLES ARE: PROBLEMS WITH SIGNIFICANT CONTACT CHANGES, PROBLEMS WITH MODEL
+          CHANGE, PROBLEMS WITH BOTH STATIC STEP AND STEADY STATE DYNAMIC PROCEDURES WHERE ACOUSTIC 
+          ELEMENTS WILL ONLY BE ACTIVATED IN THE STEADY STATE DYNAMIC STEPS.
+      (4) FOR MULTI-PROCESS EXECUTION, THE ESTIMATED VALUE OF FLOATING POINT OPERATIONS FOR EACH PROCESS
+          IS BASED ON AN INITIAL SCHEDULING OF OPERATIONS AND MIGHT NOT REFLECT THE ACTUAL FLOATING 
+          POINT OPERATIONS COMPLETED ON EACH PROCESS. OPERATIONS ARE DYNAMICALLY BALANCED DURING EXECUTION, 
+          SO THE ACTUAL BALANCE OF OPERATIONS BETWEEN PROCESSES IS EXPECTED TO BE BETTER THAN THE ESTIMATE
+          PRINTED HERE.
+      (5) THE UPPER LIMIT OF MEMORY THAT CAN BE ALLOCATED BY ABAQUS WILL IN GENERAL DEPEND ON THE VALUE OF
+          THE "MEMORY" PARAMETER AND THE AMOUNT OF PHYSICAL MEMORY AVAILABLE ON THE MACHINE. PLEASE SEE
+          THE "ABAQUS ANALYSIS USER'S MANUAL" FOR MORE DETAILS. THE ACTUAL USAGE OF MEMORY AND OF DISK
+          SPACE FOR SCRATCH DATA WILL DEPEND ON THIS UPPER LIMIT AS WELL AS THE MEMORY REQUIRED TO MINIMIZE
+          I/O. IF THE MEMORY UPPER LIMIT IS GREATER THAN THE MEMORY REQUIRED TO MINIMIZE I/O, THEN THE ACTUAL
+          MEMORY USAGE WILL BE CLOSE TO THE ESTIMATED "MEMORY TO MINIMIZE I/O" VALUE, AND THE SCRATCH DISK
+          USAGE WILL BE CLOSE-TO-ZERO; OTHERWISE, THE ACTUAL MEMORY USED WILL BE CLOSE TO THE PREVIOUSLY
+          MENTIONED MEMORY LIMIT, AND THE SCRATCH DISK USAGE WILL BE ROUGHLY PROPORTIONAL TO THE DIFFERENCE
+          BETWEEN THE ESTIMATED "MEMORY TO MINIMIZE I/O" AND THE MEMORY UPPER LIMIT. HOWEVER ACCURATE
+          ESTIMATE OF THE SCRATCH DISK SPACE IS NOT POSSIBLE.
+      (6) USING "*RESTART, WRITE" CAN GENERATE A LARGE AMOUNT OF DATA WRITTEN IN THE WORK DIRECTORY.
+
+
+                                INCREMENT     1 SUMMARY
+
+
+ TIME INCREMENT COMPLETED   1.00    ,  FRACTION OF STEP COMPLETED   1.00    
+ STEP TIME COMPLETED        1.00    ,  TOTAL TIME COMPLETED         1.00    
+  
+  
+  
+  
+                                       N O D E   O U T P U T
+  
+  
+  
+  
+   THE FOLLOWING TABLE IS PRINTED FOR NODES BELONGING TO NODE SET N_RP
+  
+       NODE FOOT-  U1             U2             RF1            RF2          
+            NOTE
+  
+     999999      4.0414678E-03  8.0829356E-03  9.8978758E-02  5.4312055E-01
+
+ MAXIMUM         4.0415E-03  8.0829E-03  9.8979E-02  0.5431    
+ AT NODE            999999      999999      999999      999999
+
+ MINIMUM         4.0415E-03  8.0829E-03  9.8979E-02  0.5431    
+ AT NODE            999999      999999      999999      999999
+1
+
+   Abaqus 2024                                  Date 25-Nov-2026   Time 15:21:27
+   For use by Supplied by Team-SolidSQUAD under license from Dassault Systemes or its subsidiary.
+
+     Problem 3 Combined Tension + Shear Adaptive Remeshing                                     STEP    2  INCREMENT    1
+                                                                                          TIME COMPLETED IN THIS STEP   0.00    
+
+
+                        S T E P       2     S T A T I C   A N A L Y S I S
+
+
+                                                                                          
+
+     AUTOMATIC LOAD CONTROL WITH -
+          A SUGGESTED INITIAL INCREMENT IN ARC LENGTH           1.000E-02
+          AND A TOTAL ARC LENGTH SCALE FACTOR OF                 1.00    
+          THE MINIMUM ARC LENGTH INCREMENT ALLOWED IS           1.000E-14
+          THE MAXIMUM ARC LENGTH INCREMENT ALLOWED IS           5.000E-02
+
+     LINEAR EQUATION SOLVER TYPE         DIRECT SPARSE
+
+     MODIFIED RIKS METHOD IS USED - AMPLITUDE REFERENCES ARE IGNORED
+
+     THE STEP ENDS WHEN LOAD PROPORTIONALITY FACTOR EXCEEDS    1.00    
+
+          UNSYMMETRIC MATRIX STORAGE AND SOLUTION WILL BE USED
+  
+                   M E M O R Y   E S T I M A T E
+  
+ PROCESS      FLOATING PT       MINIMUM MEMORY        MEMORY TO
+              OPERATIONS           REQUIRED          MINIMIZE I/O
+             PER ITERATION           (MB)               (MB)
+  
+     1          6.32E+08               27                 99
+  
+ NOTE:
+      (1) SINCE ABAQUS DOES NOT PRE-ALLOCATE MEMORY AND ONLY ALLOCATES MEMORY AS NEEDED DURING THE ANALYSIS,
+          THE MEMORY REQUIREMENT PRINTED HERE CAN ONLY BE VIEWED AS A GENERAL GUIDELINE BASED ON THE BEST
+          KNOWLEDGE AVAILABLE AT THE BEGINNING OF A STEP BEFORE THE SOLUTION PROCESS HAS BEGUN.
+      (2) THE ESTIMATE IS NORMALLY UPDATED AT THE BEGINNING OF EVERY STEP. IT IS THE MAXIMUM VALUE OF THE
+          ESTIMATE FROM THE CURRENT STEP TO THE LAST STEP OF THE ANALYSIS, WITH UNSYMMETRIC SOLUTION TAKEN
+          INTO ACCOUNT IF APPLICABLE. 
+      (3) SINCE THE ESTIMATE IS BASED ON THE ACTIVE DEGREES OF FREEDOM IN THE FIRST ITERATION OF THE 
+          CURRENT STEP, THE MEMORY ESTIMATE MIGHT BE SIGNIFICANTLY DIFFERENT THAN ACTUAL USAGE FOR 
+          PROBLEMS WITH SUBSTANTIAL CHANGES IN ACTIVE DEGREES OF FREEDOM BETWEEN STEPS (OR EVEN WITHIN
+          THE SAME STEP). EXAMPLES ARE: PROBLEMS WITH SIGNIFICANT CONTACT CHANGES, PROBLEMS WITH MODEL
+          CHANGE, PROBLEMS WITH BOTH STATIC STEP AND STEADY STATE DYNAMIC PROCEDURES WHERE ACOUSTIC 
+          ELEMENTS WILL ONLY BE ACTIVATED IN THE STEADY STATE DYNAMIC STEPS.
+      (4) FOR MULTI-PROCESS EXECUTION, THE ESTIMATED VALUE OF FLOATING POINT OPERATIONS FOR EACH PROCESS
+          IS BASED ON AN INITIAL SCHEDULING OF OPERATIONS AND MIGHT NOT REFLECT THE ACTUAL FLOATING 
+          POINT OPERATIONS COMPLETED ON EACH PROCESS. OPERATIONS ARE DYNAMICALLY BALANCED DURING EXECUTION, 
+          SO THE ACTUAL BALANCE OF OPERATIONS BETWEEN PROCESSES IS EXPECTED TO BE BETTER THAN THE ESTIMATE
+          PRINTED HERE.
+      (5) THE UPPER LIMIT OF MEMORY THAT CAN BE ALLOCATED BY ABAQUS WILL IN GENERAL DEPEND ON THE VALUE OF
+          THE "MEMORY" PARAMETER AND THE AMOUNT OF PHYSICAL MEMORY AVAILABLE ON THE MACHINE. PLEASE SEE
+          THE "ABAQUS ANALYSIS USER'S MANUAL" FOR MORE DETAILS. THE ACTUAL USAGE OF MEMORY AND OF DISK
+          SPACE FOR SCRATCH DATA WILL DEPEND ON THIS UPPER LIMIT AS WELL AS THE MEMORY REQUIRED TO MINIMIZE
+          I/O. IF THE MEMORY UPPER LIMIT IS GREATER THAN THE MEMORY REQUIRED TO MINIMIZE I/O, THEN THE ACTUAL
+          MEMORY USAGE WILL BE CLOSE TO THE ESTIMATED "MEMORY TO MINIMIZE I/O" VALUE, AND THE SCRATCH DISK
+          USAGE WILL BE CLOSE-TO-ZERO; OTHERWISE, THE ACTUAL MEMORY USED WILL BE CLOSE TO THE PREVIOUSLY
+          MENTIONED MEMORY LIMIT, AND THE SCRATCH DISK USAGE WILL BE ROUGHLY PROPORTIONAL TO THE DIFFERENCE
+          BETWEEN THE ESTIMATED "MEMORY TO MINIMIZE I/O" AND THE MEMORY UPPER LIMIT. HOWEVER ACCURATE
+          ESTIMATE OF THE SCRATCH DISK SPACE IS NOT POSSIBLE.
+      (6) USING "*RESTART, WRITE" CAN GENERATE A LARGE AMOUNT OF DATA WRITTEN IN THE WORK DIRECTORY.
+
+
+                                INCREMENT     1 SUMMARY
+
+
+     CURRENT LOAD PROPORTIONALITY FACTOR         3.6199E-03
+     TOTAL ARC LENGTH   6.250E-04, INCREMENT OF ARC LENGTH   6.250E-04
+  
+  
+  
+  
+                                       N O D E   O U T P U T
+  
+  
+  
+  
+   THE FOLLOWING TABLE IS PRINTED FOR NODES BELONGING TO NODE SET N_RP
+  
+       NODE FOOT-  U1             U2             RF1            RF2          
+            NOTE
+  
+     999999      4.0423728E-03  8.0847455E-03  9.6873185E-02  5.3790141E-01
+
+ MAXIMUM         4.0424E-03  8.0847E-03  9.6873E-02  0.5379    
+ AT NODE            999999      999999      999999      999999
+
+ MINIMUM         4.0424E-03  8.0847E-03  9.6873E-02  0.5379    
+ AT NODE            999999      999999      999999      999999
+
+
+                                INCREMENT     2 SUMMARY
+
+
+     CURRENT LOAD PROPORTIONALITY FACTOR         9.8218E-03
+     TOTAL ARC LENGTH   1.250E-03, INCREMENT OF ARC LENGTH   6.250E-04
+  
+  
+  
+  
+                                       N O D E   O U T P U T
+  
+  
+  
+  
+   THE FOLLOWING TABLE IS PRINTED FOR NODES BELONGING TO NODE SET N_RP
+  
+       NODE FOOT-  U1             U2             RF1            RF2          
+            NOTE
+  
+     999999      4.0439232E-03  8.0878465E-03  9.6339165E-02  5.3687699E-01
+
+ MAXIMUM         4.0439E-03  8.0878E-03  9.6339E-02  0.5369    
+ AT NODE            999999      999999      999999      999999
+
+ MINIMUM         4.0439E-03  8.0878E-03  9.6339E-02  0.5369    
+ AT NODE            999999      999999      999999      999999
+
+
+                                INCREMENT     3 SUMMARY
+
+
+     CURRENT LOAD PROPORTIONALITY FACTOR         1.2667E-02
+     TOTAL ARC LENGTH   2.188E-03, INCREMENT OF ARC LENGTH   9.375E-04
+  
+  
+  
+  
+                                       N O D E   O U T P U T
+  
+  
+  
+  
+   THE FOLLOWING TABLE IS PRINTED FOR NODES BELONGING TO NODE SET N_RP
+  
+       NODE FOOT-  U1             U2             RF1            RF2          
+            NOTE
+  
+     999999      4.0446346E-03  8.0892693E-03  9.6121132E-02  5.3641083E-01
+
+ MAXIMUM         4.0446E-03  8.0893E-03  9.6121E-02  0.5364    
+ AT NODE            999999      999999      999999      999999
+
+ MINIMUM         4.0446E-03  8.0893E-03  9.6121E-02  0.5364    
+ AT NODE            999999      999999      999999      999999
+
+
+                                INCREMENT     4 SUMMARY
+
+
+     CURRENT LOAD PROPORTIONALITY FACTOR         1.4912E-02
+     TOTAL ARC LENGTH   3.594E-03, INCREMENT OF ARC LENGTH   1.406E-03
+  
+  
+  
+  
+                                       N O D E   O U T P U T
+  
+  
+  
+  
+   THE FOLLOWING TABLE IS PRINTED FOR NODES BELONGING TO NODE SET N_RP
+  
+       NODE FOOT-  U1             U2             RF1            RF2          
+            NOTE
+  
+     999999      4.0451959E-03  8.0903917E-03  9.6029401E-02  5.3619863E-01
+
+ MAXIMUM         4.0452E-03  8.0904E-03  9.6029E-02  0.5362    
+ AT NODE            999999      999999      999999      999999
+
+ MINIMUM         4.0452E-03  8.0904E-03  9.6029E-02  0.5362    
+ AT NODE            999999      999999      999999      999999
+
+
+                                INCREMENT     5 SUMMARY
+
+
+     CURRENT LOAD PROPORTIONALITY FACTOR         1.6917E-02
+     TOTAL ARC LENGTH   5.703E-03, INCREMENT OF ARC LENGTH   2.109E-03
+  
+  
+  
+  
+                                       N O D E   O U T P U T
+  
+  
+  
+  
+   THE FOLLOWING TABLE IS PRINTED FOR NODES BELONGING TO NODE SET N_RP
+  
+       NODE FOOT-  U1             U2             RF1            RF2          
+            NOTE
+  
+     999999      4.0456969E-03  8.0913939E-03  9.5988156E-02  5.3610661E-01
+
+ MAXIMUM         4.0457E-03  8.0914E-03  9.5988E-02  0.5361    
+ AT NODE            999999      999999      999999      999999
+
+ MINIMUM         4.0457E-03  8.0914E-03  9.5988E-02  0.5361    
+ AT NODE            999999      999999      999999      999999
+
+
+                                INCREMENT     6 SUMMARY
+
+
+     CURRENT LOAD PROPORTIONALITY FACTOR         1.8385E-02
+     TOTAL ARC LENGTH   8.867E-03, INCREMENT OF ARC LENGTH   3.164E-03
+  
+  
+  
+  
+                                       N O D E   O U T P U T
+  
+  
+  
+  
+   THE FOLLOWING TABLE IS PRINTED FOR NODES BELONGING TO NODE SET N_RP
+  
+       NODE FOOT-  U1             U2             RF1            RF2          
+            NOTE
+  
+     999999      4.0460639E-03  8.0921279E-03  9.5968331E-02  5.3606301E-01
+
+ MAXIMUM         4.0461E-03  8.0921E-03  9.5968E-02  0.5361    
+ AT NODE            999999      999999      999999      999999
+
+ MINIMUM         4.0461E-03  8.0921E-03  9.5968E-02  0.5361    
+ AT NODE            999999      999999      999999      999999
+
+
+                                INCREMENT     7 SUMMARY
+
+
+     CURRENT LOAD PROPORTIONALITY FACTOR         1.9740E-02
+     TOTAL ARC LENGTH   1.361E-02, INCREMENT OF ARC LENGTH   4.746E-03
+  
+  
+  
+  
+                                       N O D E   O U T P U T
+  
+  
+  
+  
+   THE FOLLOWING TABLE IS PRINTED FOR NODES BELONGING TO NODE SET N_RP
+  
+       NODE FOOT-  U1             U2             RF1            RF2          
+            NOTE
+  
+     999999      4.0464028E-03  8.0928056E-03  9.5960585E-02  5.3605208E-01
+
+ MAXIMUM         4.0464E-03  8.0928E-03  9.5961E-02  0.5361    
+ AT NODE            999999      999999      999999      999999
+
+ MINIMUM         4.0464E-03  8.0928E-03  9.5961E-02  0.5361    
+ AT NODE            999999      999999      999999      999999
+
+
+                                INCREMENT     8 SUMMARY
+
+
+     CURRENT LOAD PROPORTIONALITY FACTOR         2.1516E-02
+     TOTAL ARC LENGTH   2.073E-02, INCREMENT OF ARC LENGTH   7.119E-03
+  
+  
+  
+  
+                                       N O D E   O U T P U T
+  
+  
+  
+  
+   THE FOLLOWING TABLE IS PRINTED FOR NODES BELONGING TO NODE SET N_RP
+  
+       NODE FOOT-  U1             U2             RF1            RF2          
+            NOTE
+  
+     999999      4.0468467E-03  8.0936934E-03  9.5961125E-02  5.3607348E-01
+
+ MAXIMUM         4.0468E-03  8.0937E-03  9.5961E-02  0.5361    
+ AT NODE            999999      999999      999999      999999
+
+ MINIMUM         4.0468E-03  8.0937E-03  9.5961E-02  0.5361    
+ AT NODE            999999      999999      999999      999999
+
+
+                                INCREMENT     9 SUMMARY
+
+
+     CURRENT LOAD PROPORTIONALITY FACTOR         2.4150E-02
+     TOTAL ARC LENGTH   3.141E-02, INCREMENT OF ARC LENGTH   1.068E-02
+  
+  
+  
+  
+                                       N O D E   O U T P U T
+  
+  
+  
+  
+   THE FOLLOWING TABLE IS PRINTED FOR NODES BELONGING TO NODE SET N_RP
+  
+       NODE FOOT-  U1             U2             RF1            RF2          
+            NOTE
+  
+     999999      4.0475054E-03  8.0950108E-03  9.5968557E-02  5.3612980E-01
+
+ MAXIMUM         4.0475E-03  8.0950E-03  9.5969E-02  0.5361    
+ AT NODE            999999      999999      999999      999999
+
+ MINIMUM         4.0475E-03  8.0950E-03  9.5969E-02  0.5361    
+ AT NODE            999999      999999      999999      999999
+
+
+                                INCREMENT    10 SUMMARY
+
+
+     CURRENT LOAD PROPORTIONALITY FACTOR         2.8126E-02
+     TOTAL ARC LENGTH   4.743E-02, INCREMENT OF ARC LENGTH   1.602E-02
+  
+  
+  
+  
+                                       N O D E   O U T P U T
+  
+  
+  
+  
+   THE FOLLOWING TABLE IS PRINTED FOR NODES BELONGING TO NODE SET N_RP
+  
+       NODE FOOT-  U1             U2             RF1            RF2          
+            NOTE
+  
+     999999      4.0484993E-03  8.0969987E-03  9.5983195E-02  5.3622838E-01
+
+ MAXIMUM         4.0485E-03  8.0970E-03  9.5983E-02  0.5362    
+ AT NODE            999999      999999      999999      999999
+
+ MINIMUM         4.0485E-03  8.0970E-03  9.5983E-02  0.5362    
+ AT NODE            999999      999999      999999      999999
+
+
+                                INCREMENT    11 SUMMARY
+
+
+     CURRENT LOAD PROPORTIONALITY FACTOR         3.4114E-02
+     TOTAL ARC LENGTH   7.146E-02, INCREMENT OF ARC LENGTH   2.403E-02
+  
+  
+  
+  
+                                       N O D E   O U T P U T
+  
+  
+  
+  
+   THE FOLLOWING TABLE IS PRINTED FOR NODES BELONGING TO NODE SET N_RP
+  
+       NODE FOOT-  U1             U2             RF1            RF2          
+            NOTE
+  
+     999999      4.0499962E-03  8.0999925E-03  9.6006658E-02  5.3638329E-01
+
+ MAXIMUM         4.0500E-03  8.1000E-03  9.6007E-02  0.5364    
+ AT NODE            999999      999999      999999      999999
+
+ MINIMUM         4.0500E-03  8.1000E-03  9.6007E-02  0.5364    
+ AT NODE            999999      999999      999999      999999
+
+
+                                INCREMENT    12 SUMMARY
+
+
+     CURRENT LOAD PROPORTIONALITY FACTOR         4.3110E-02
+     TOTAL ARC LENGTH   0.107    , INCREMENT OF ARC LENGTH   3.604E-02
+  
+  
+  
+  
+                                       N O D E   O U T P U T
+  
+  
+  
+  
+   THE FOLLOWING TABLE IS PRINTED FOR NODES BELONGING TO NODE SET N_RP
+  
+       NODE FOOT-  U1             U2             RF1            RF2          
+            NOTE
+  
+     999999      4.0522453E-03  8.1044906E-03  9.6042352E-02  5.3661832E-01
+
+ MAXIMUM         4.0522E-03  8.1045E-03  9.6042E-02  0.5366    
+ AT NODE            999999      999999      999999      999999
+
+ MINIMUM         4.0522E-03  8.1045E-03  9.6042E-02  0.5366    
+ AT NODE            999999      999999      999999      999999
+
+
+                                INCREMENT    13 SUMMARY
+
+
+     CURRENT LOAD PROPORTIONALITY FACTOR         5.5598E-02
+     TOTAL ARC LENGTH   0.157    , INCREMENT OF ARC LENGTH   5.000E-02
+  
+  
+  
+  
+                                       N O D E   O U T P U T
+  
+  
+  
+  
+   THE FOLLOWING TABLE IS PRINTED FOR NODES BELONGING TO NODE SET N_RP
+  
+       NODE FOOT-  U1             U2             RF1            RF2          
+            NOTE
+  
+     999999      4.0553672E-03  8.1107345E-03  9.6091025E-02  5.3694158E-01
+
+ MAXIMUM         4.0554E-03  8.1107E-03  9.6091E-02  0.5369    
+ AT NODE            999999      999999      999999      999999
+
+ MINIMUM         4.0554E-03  8.1107E-03  9.6091E-02  0.5369    
+ AT NODE            999999      999999      999999      999999
+
+
+                                INCREMENT    14 SUMMARY
+
+
+     CURRENT LOAD PROPORTIONALITY FACTOR         6.8087E-02
+     TOTAL ARC LENGTH   0.207    , INCREMENT OF ARC LENGTH   5.000E-02
+  
+  
+  
+  
+                                       N O D E   O U T P U T
+  
+  
+  
+  
+   THE FOLLOWING TABLE IS PRINTED FOR NODES BELONGING TO NODE SET N_RP
+  
+       NODE FOOT-  U1             U2             RF1            RF2          
+            NOTE
+  
+     999999      4.0584896E-03  8.1169793E-03  9.6136806E-02  5.3725295E-01
+
+ MAXIMUM         4.0585E-03  8.1170E-03  9.6137E-02  0.5373    
+ AT NODE            999999      999999      999999      999999
+
+ MINIMUM         4.0585E-03  8.1170E-03  9.6137E-02  0.5373    
+ AT NODE            999999      999999      999999      999999
+
+
+                                INCREMENT    15 SUMMARY
+
+
+     CURRENT LOAD PROPORTIONALITY FACTOR         8.0578E-02
+     TOTAL ARC LENGTH   0.257    , INCREMENT OF ARC LENGTH   5.000E-02
+  
+  
+  
+  
+                                       N O D E   O U T P U T
+  
+  
+  
+  
+   THE FOLLOWING TABLE IS PRINTED FOR NODES BELONGING TO NODE SET N_RP
+  
+       NODE FOOT-  U1             U2             RF1            RF2          
+            NOTE
+  
+     999999      4.0616124E-03  8.1232247E-03  9.6180857E-02  5.3755665E-01
+
+ MAXIMUM         4.0616E-03  8.1232E-03  9.6181E-02  0.5376    
+ AT NODE            999999      999999      999999      999999
+
+ MINIMUM         4.0616E-03  8.1232E-03  9.6181E-02  0.5376    
+ AT NODE            999999      999999      999999      999999
+
+
+                                INCREMENT    16 SUMMARY
+
+
+     CURRENT LOAD PROPORTIONALITY FACTOR         9.3070E-02
+     TOTAL ARC LENGTH   0.307    , INCREMENT OF ARC LENGTH   5.000E-02
+  
+  
+  
+  
+                                       N O D E   O U T P U T
+  
+  
+  
+  
+   THE FOLLOWING TABLE IS PRINTED FOR NODES BELONGING TO NODE SET N_RP
+  
+       NODE FOOT-  U1             U2             RF1            RF2          
+            NOTE
+  
+     999999      4.0647352E-03  8.1294705E-03  9.6223909E-02  5.3785579E-01
+
+ MAXIMUM         4.0647E-03  8.1295E-03  9.6224E-02  0.5379    
+ AT NODE            999999      999999      999999      999999
+
+ MINIMUM         4.0647E-03  8.1295E-03  9.6224E-02  0.5379    
+ AT NODE            999999      999999      999999      999999
+
+
+                                INCREMENT    17 SUMMARY
+
+
+     CURRENT LOAD PROPORTIONALITY FACTOR         0.1056    
+     TOTAL ARC LENGTH   0.357    , INCREMENT OF ARC LENGTH   5.000E-02
+  
+  
+  
+  
+                                       N O D E   O U T P U T
+  
+  
+  
+  
+   THE FOLLOWING TABLE IS PRINTED FOR NODES BELONGING TO NODE SET N_RP
+  
+       NODE FOOT-  U1             U2             RF1            RF2          
+            NOTE
+  
+     999999      4.0678582E-03  8.1357164E-03  9.6266477E-02  5.3815198E-01
+
+ MAXIMUM         4.0679E-03  8.1357E-03  9.6266E-02  0.5382    
+ AT NODE            999999      999999      999999      999999
+
+ MINIMUM         4.0679E-03  8.1357E-03  9.6266E-02  0.5382    
+ AT NODE            999999      999999      999999      999999
+
+
+                                INCREMENT    18 SUMMARY
+
+
+     CURRENT LOAD PROPORTIONALITY FACTOR         0.1181    
+     TOTAL ARC LENGTH   0.407    , INCREMENT OF ARC LENGTH   5.000E-02
+  
+  
+  
+  
+                                       N O D E   O U T P U T
+  
+  
+  
+  
+   THE FOLLOWING TABLE IS PRINTED FOR NODES BELONGING TO NODE SET N_RP
+  
+       NODE FOOT-  U1             U2             RF1            RF2          
+            NOTE
+  
+     999999      4.0709812E-03  8.1419623E-03  9.6308720E-02  5.3844615E-01
+
+ MAXIMUM         4.0710E-03  8.1420E-03  9.6309E-02  0.5384    
+ AT NODE            999999      999999      999999      999999
+
+ MINIMUM         4.0710E-03  8.1420E-03  9.6309E-02  0.5384    
+ AT NODE            999999      999999      999999      999999
+
+
+                                INCREMENT    19 SUMMARY
+
+
+     CURRENT LOAD PROPORTIONALITY FACTOR         0.1305    
+     TOTAL ARC LENGTH   0.457    , INCREMENT OF ARC LENGTH   5.000E-02
+  
+  
+  
+  
+                                       N O D E   O U T P U T
+  
+  
+  
+  
+   THE FOLLOWING TABLE IS PRINTED FOR NODES BELONGING TO NODE SET N_RP
+  
+       NODE FOOT-  U1             U2             RF1            RF2          
+            NOTE
+  
+     999999      4.0741042E-03  8.1482084E-03  9.6350640E-02  5.3873858E-01
+
+ MAXIMUM         4.0741E-03  8.1482E-03  9.6351E-02  0.5387    
+ AT NODE            999999      999999      999999      999999
+
+ MINIMUM         4.0741E-03  8.1482E-03  9.6351E-02  0.5387    
+ AT NODE            999999      999999      999999      999999
+
+
+                                INCREMENT    20 SUMMARY
+
+
+     CURRENT LOAD PROPORTIONALITY FACTOR         0.1430    
+     TOTAL ARC LENGTH   0.507    , INCREMENT OF ARC LENGTH   5.000E-02
+  
+  
+  
+  
+                                       N O D E   O U T P U T
+  
+  
+  
+  
+   THE FOLLOWING TABLE IS PRINTED FOR NODES BELONGING TO NODE SET N_RP
+  
+       NODE FOOT-  U1             U2             RF1            RF2          
+            NOTE
+  
+     999999      4.0772273E-03  8.1544547E-03  9.6392263E-02  5.3902893E-01
+
+ MAXIMUM         4.0772E-03  8.1545E-03  9.6392E-02  0.5390    
+ AT NODE            999999      999999      999999      999999
+
+ MINIMUM         4.0772E-03  8.1545E-03  9.6392E-02  0.5390    
+ AT NODE            999999      999999      999999      999999
+
+
+                                INCREMENT    21 SUMMARY
+
+
+     CURRENT LOAD PROPORTIONALITY FACTOR         0.1555    
+     TOTAL ARC LENGTH   0.557    , INCREMENT OF ARC LENGTH   5.000E-02
+  
+  
+  
+  
+                                       N O D E   O U T P U T
+  
+  
+  
+  
+   THE FOLLOWING TABLE IS PRINTED FOR NODES BELONGING TO NODE SET N_RP
+  
+       NODE FOOT-  U1             U2             RF1            RF2          
+            NOTE
+  
+     999999      4.0803505E-03  8.1607011E-03  9.6433628E-02  5.3931768E-01
+
+ MAXIMUM         4.0804E-03  8.1607E-03  9.6434E-02  0.5393    
+ AT NODE            999999      999999      999999      999999
+
+ MINIMUM         4.0804E-03  8.1607E-03  9.6434E-02  0.5393    
+ AT NODE            999999      999999      999999      999999
+
+
+                                INCREMENT    22 SUMMARY
+
+
+     CURRENT LOAD PROPORTIONALITY FACTOR         0.1680    
+     TOTAL ARC LENGTH   0.607    , INCREMENT OF ARC LENGTH   5.000E-02
+  
+  
+  
+  
+                                       N O D E   O U T P U T
+  
+  
+  
+  
+   THE FOLLOWING TABLE IS PRINTED FOR NODES BELONGING TO NODE SET N_RP
+  
+       NODE FOOT-  U1             U2             RF1            RF2          
+            NOTE
+  
+     999999      4.0834737E-03  8.1669474E-03  9.6474734E-02  5.3960524E-01
+
+ MAXIMUM         4.0835E-03  8.1669E-03  9.6475E-02  0.5396    
+ AT NODE            999999      999999      999999      999999
+
+ MINIMUM         4.0835E-03  8.1669E-03  9.6475E-02  0.5396    
+ AT NODE            999999      999999      999999      999999
+
+
+                                INCREMENT    23 SUMMARY
+
+
+     CURRENT LOAD PROPORTIONALITY FACTOR         0.1805    
+     TOTAL ARC LENGTH   0.657    , INCREMENT OF ARC LENGTH   5.000E-02
+  
+  
+  
+  
+                                       N O D E   O U T P U T
+  
+  
+  
+  
+   THE FOLLOWING TABLE IS PRINTED FOR NODES BELONGING TO NODE SET N_RP
+  
+       NODE FOOT-  U1             U2             RF1            RF2          
+            NOTE
+  
+     999999      4.0865969E-03  8.1731938E-03  9.6515729E-02  5.3989199E-01
+
+ MAXIMUM         4.0866E-03  8.1732E-03  9.6516E-02  0.5399    
+ AT NODE            999999      999999      999999      999999
+
+ MINIMUM         4.0866E-03  8.1732E-03  9.6516E-02  0.5399    
+ AT NODE            999999      999999      999999      999999
+
+
+                                INCREMENT    24 SUMMARY
+
+
+     CURRENT LOAD PROPORTIONALITY FACTOR         0.1930    
+     TOTAL ARC LENGTH   0.707    , INCREMENT OF ARC LENGTH   5.000E-02
+  
+  
+  
+  
+                                       N O D E   O U T P U T
+  
+  
+  
+  
+   THE FOLLOWING TABLE IS PRINTED FOR NODES BELONGING TO NODE SET N_RP
+  
+       NODE FOOT-  U1             U2             RF1            RF2          
+            NOTE
+  
+     999999      4.0897201E-03  8.1794401E-03  9.6556635E-02  5.4017804E-01
+
+ MAXIMUM         4.0897E-03  8.1794E-03  9.6557E-02  0.5402    
+ AT NODE            999999      999999      999999      999999
+
+ MINIMUM         4.0897E-03  8.1794E-03  9.6557E-02  0.5402    
+ AT NODE            999999      999999      999999      999999
+
+
+                                INCREMENT    25 SUMMARY
+
+
+     CURRENT LOAD PROPORTIONALITY FACTOR         0.2055    
+     TOTAL ARC LENGTH   0.757    , INCREMENT OF ARC LENGTH   5.000E-02
+  
+  
+  
+  
+                                       N O D E   O U T P U T
+  
+  
+  
+  
+   THE FOLLOWING TABLE IS PRINTED FOR NODES BELONGING TO NODE SET N_RP
+  
+       NODE FOOT-  U1             U2             RF1            RF2          
+            NOTE
+  
+     999999      4.0928432E-03  8.1856864E-03  9.6597141E-02  5.4046289E-01
+
+ MAXIMUM         4.0928E-03  8.1857E-03  9.6597E-02  0.5405    
+ AT NODE            999999      999999      999999      999999
+
+ MINIMUM         4.0928E-03  8.1857E-03  9.6597E-02  0.5405    
+ AT NODE            999999      999999      999999      999999
+
+
+                                INCREMENT    26 SUMMARY
+
+
+     CURRENT LOAD PROPORTIONALITY FACTOR         0.2180    
+     TOTAL ARC LENGTH   0.807    , INCREMENT OF ARC LENGTH   5.000E-02
+  
+  
+  
+  
+                                       N O D E   O U T P U T
+  
+  
+  
+  
+   THE FOLLOWING TABLE IS PRINTED FOR NODES BELONGING TO NODE SET N_RP
+  
+       NODE FOOT-  U1             U2             RF1            RF2          
+            NOTE
+  
+     999999      4.0959665E-03  8.1919330E-03  9.6637187E-02  5.4074613E-01
+
+ MAXIMUM         4.0960E-03  8.1919E-03  9.6637E-02  0.5407    
+ AT NODE            999999      999999      999999      999999
+
+ MINIMUM         4.0960E-03  8.1919E-03  9.6637E-02  0.5407    
+ AT NODE            999999      999999      999999      999999
+
+
+                                INCREMENT    27 SUMMARY
+
+
+     CURRENT LOAD PROPORTIONALITY FACTOR         0.2305    
+     TOTAL ARC LENGTH   0.857    , INCREMENT OF ARC LENGTH   5.000E-02
+  
+  
+  
+  
+                                       N O D E   O U T P U T
+  
+  
+  
+  
+   THE FOLLOWING TABLE IS PRINTED FOR NODES BELONGING TO NODE SET N_RP
+  
+       NODE FOOT-  U1             U2             RF1            RF2          
+            NOTE
+  
+     999999      4.0990899E-03  8.1981798E-03  9.6676966E-02  5.4102808E-01
+
+ MAXIMUM         4.0991E-03  8.1982E-03  9.6677E-02  0.5410    
+ AT NODE            999999      999999      999999      999999
+
+ MINIMUM         4.0991E-03  8.1982E-03  9.6677E-02  0.5410    
+ AT NODE            999999      999999      999999      999999
+
+
+                                INCREMENT    28 SUMMARY
+
+
+     CURRENT LOAD PROPORTIONALITY FACTOR         0.2430    
+     TOTAL ARC LENGTH   0.907    , INCREMENT OF ARC LENGTH   5.000E-02
+  
+  
+  
+  
+                                       N O D E   O U T P U T
+  
+  
+  
+  
+   THE FOLLOWING TABLE IS PRINTED FOR NODES BELONGING TO NODE SET N_RP
+  
+       NODE FOOT-  U1             U2             RF1            RF2          
+            NOTE
+  
+     999999      4.1022133E-03  8.2044266E-03  9.6716466E-02  5.4130887E-01
+
+ MAXIMUM         4.1022E-03  8.2044E-03  9.6716E-02  0.5413    
+ AT NODE            999999      999999      999999      999999
+
+ MINIMUM         4.1022E-03  8.2044E-03  9.6716E-02  0.5413    
+ AT NODE            999999      999999      999999      999999
+
+
+                                INCREMENT    29 SUMMARY
+
+
+     CURRENT LOAD PROPORTIONALITY FACTOR         0.2555    
+     TOTAL ARC LENGTH   0.957    , INCREMENT OF ARC LENGTH   5.000E-02
+  
+  
+  
+  
+                                       N O D E   O U T P U T
+  
+  
+  
+  
+   THE FOLLOWING TABLE IS PRINTED FOR NODES BELONGING TO NODE SET N_RP
+  
+       NODE FOOT-  U1             U2             RF1            RF2          
+            NOTE
+  
+     999999      4.1053369E-03  8.2106738E-03  9.6755551E-02  5.4158839E-01
+
+ MAXIMUM         4.1053E-03  8.2107E-03  9.6756E-02  0.5416    
+ AT NODE            999999      999999      999999      999999
+
+ MINIMUM         4.1053E-03  8.2107E-03  9.6756E-02  0.5416    
+ AT NODE            999999      999999      999999      999999
+
+
+                                INCREMENT    30 SUMMARY
+
+
+     CURRENT LOAD PROPORTIONALITY FACTOR         0.2680    
+     TOTAL ARC LENGTH    1.01    , INCREMENT OF ARC LENGTH   5.000E-02
+  
+  
+  
+  
+                                       N O D E   O U T P U T
+  
+  
+  
+  
+   THE FOLLOWING TABLE IS PRINTED FOR NODES BELONGING TO NODE SET N_RP
+  
+       NODE FOOT-  U1             U2             RF1            RF2          
+            NOTE
+  
+     999999      4.1084605E-03  8.2169211E-03  9.6794483E-02  5.4186698E-01
+
+ MAXIMUM         4.1085E-03  8.2169E-03  9.6794E-02  0.5419    
+ AT NODE            999999      999999      999999      999999
+
+ MINIMUM         4.1085E-03  8.2169E-03  9.6794E-02  0.5419    
+ AT NODE            999999      999999      999999      999999
+
+
+                                INCREMENT    31 SUMMARY
+
+
+     CURRENT LOAD PROPORTIONALITY FACTOR         0.2805    
+     TOTAL ARC LENGTH    1.06    , INCREMENT OF ARC LENGTH   5.000E-02
+  
+  
+  
+  
+                                       N O D E   O U T P U T
+  
+  
+  
+  
+   THE FOLLOWING TABLE IS PRINTED FOR NODES BELONGING TO NODE SET N_RP
+  
+       NODE FOOT-  U1             U2             RF1            RF2          
+            NOTE
+  
+     999999      4.1115843E-03  8.2231686E-03  9.6833319E-02  5.4214431E-01
+
+ MAXIMUM         4.1116E-03  8.2232E-03  9.6833E-02  0.5421    
+ AT NODE            999999      999999      999999      999999
+
+ MINIMUM         4.1116E-03  8.2232E-03  9.6833E-02  0.5421    
+ AT NODE            999999      999999      999999      999999
+
+
+                                INCREMENT    32 SUMMARY
+
+
+     CURRENT LOAD PROPORTIONALITY FACTOR         0.2930    
+     TOTAL ARC LENGTH    1.11    , INCREMENT OF ARC LENGTH   5.000E-02
+  
+  
+  
+  
+                                       N O D E   O U T P U T
+  
+  
+  
+  
+   THE FOLLOWING TABLE IS PRINTED FOR NODES BELONGING TO NODE SET N_RP
+  
+       NODE FOOT-  U1             U2             RF1            RF2          
+            NOTE
+  
+     999999      4.1147081E-03  8.2294162E-03  9.6871869E-02  5.4242044E-01
+
+ MAXIMUM         4.1147E-03  8.2294E-03  9.6872E-02  0.5424    
+ AT NODE            999999      999999      999999      999999
+
+ MINIMUM         4.1147E-03  8.2294E-03  9.6872E-02  0.5424    
+ AT NODE            999999      999999      999999      999999
+
+
+                                INCREMENT    33 SUMMARY
+
+
+     CURRENT LOAD PROPORTIONALITY FACTOR         0.3055    
+     TOTAL ARC LENGTH    1.16    , INCREMENT OF ARC LENGTH   5.000E-02
+  
+  
+  
+  
+                                       N O D E   O U T P U T
+  
+  
+  
+  
+   THE FOLLOWING TABLE IS PRINTED FOR NODES BELONGING TO NODE SET N_RP
+  
+       NODE FOOT-  U1             U2             RF1            RF2          
+            NOTE
+  
+     999999      4.1178319E-03  8.2356638E-03  9.6910189E-02  5.4269557E-01
+
+ MAXIMUM         4.1178E-03  8.2357E-03  9.6910E-02  0.5427    
+ AT NODE            999999      999999      999999      999999
+
+ MINIMUM         4.1178E-03  8.2357E-03  9.6910E-02  0.5427    
+ AT NODE            999999      999999      999999      999999
+
+
+                                INCREMENT    34 SUMMARY
+
+
+     CURRENT LOAD PROPORTIONALITY FACTOR         0.3180    
+     TOTAL ARC LENGTH    1.21    , INCREMENT OF ARC LENGTH   5.000E-02
+  
+  
+  
+  
+                                       N O D E   O U T P U T
+  
+  
+  
+  
+   THE FOLLOWING TABLE IS PRINTED FOR NODES BELONGING TO NODE SET N_RP
+  
+       NODE FOOT-  U1             U2             RF1            RF2          
+            NOTE
+  
+     999999      4.1209557E-03  8.2419115E-03  9.6948323E-02  5.4296980E-01
+
+ MAXIMUM         4.1210E-03  8.2419E-03  9.6948E-02  0.5430    
+ AT NODE            999999      999999      999999      999999
+
+ MINIMUM         4.1210E-03  8.2419E-03  9.6948E-02  0.5430    
+ AT NODE            999999      999999      999999      999999
+
+
+                                INCREMENT    35 SUMMARY
+
+
+     CURRENT LOAD PROPORTIONALITY FACTOR         0.3304    
+     TOTAL ARC LENGTH    1.26    , INCREMENT OF ARC LENGTH   5.000E-02
+  
+  
+  
+  
+                                       N O D E   O U T P U T
+  
+  
+  
+  
+   THE FOLLOWING TABLE IS PRINTED FOR NODES BELONGING TO NODE SET N_RP
+  
+       NODE FOOT-  U1             U2             RF1            RF2          
+            NOTE
+  
+     999999      4.1240796E-03  8.2481592E-03  9.6986279E-02  5.4324319E-01
+
+ MAXIMUM         4.1241E-03  8.2482E-03  9.6986E-02  0.5432    
+ AT NODE            999999      999999      999999      999999
+
+ MINIMUM         4.1241E-03  8.2482E-03  9.6986E-02  0.5432    
+ AT NODE            999999      999999      999999      999999
+
+
+                                INCREMENT    36 SUMMARY
+
+
+     CURRENT LOAD PROPORTIONALITY FACTOR         0.3429    
+     TOTAL ARC LENGTH    1.31    , INCREMENT OF ARC LENGTH   5.000E-02
+  
+  
+  
+  
+                                       N O D E   O U T P U T
+  
+  
+  
+  
+   THE FOLLOWING TABLE IS PRINTED FOR NODES BELONGING TO NODE SET N_RP
+  
+       NODE FOOT-  U1             U2             RF1            RF2          
+            NOTE
+  
+     999999      4.1272034E-03  8.2544069E-03  9.7024010E-02  5.4351569E-01
+
+ MAXIMUM         4.1272E-03  8.2544E-03  9.7024E-02  0.5435    
+ AT NODE            999999      999999      999999      999999
+
+ MINIMUM         4.1272E-03  8.2544E-03  9.7024E-02  0.5435    
+ AT NODE            999999      999999      999999      999999
+
+
+                                INCREMENT    37 SUMMARY
+
+
+     CURRENT LOAD PROPORTIONALITY FACTOR         0.3554    
+     TOTAL ARC LENGTH    1.36    , INCREMENT OF ARC LENGTH   5.000E-02
+  
+  
+  
+  
+                                       N O D E   O U T P U T
+  
+  
+  
+  
+   THE FOLLOWING TABLE IS PRINTED FOR NODES BELONGING TO NODE SET N_RP
+  
+       NODE FOOT-  U1             U2             RF1            RF2          
+            NOTE
+  
+     999999      4.1303274E-03  8.2606548E-03  9.7061294E-02  5.4378632E-01
+
+ MAXIMUM         4.1303E-03  8.2607E-03  9.7061E-02  0.5438    
+ AT NODE            999999      999999      999999      999999
+
+ MINIMUM         4.1303E-03  8.2607E-03  9.7061E-02  0.5438    
+ AT NODE            999999      999999      999999      999999
+
+
+                                INCREMENT    38 SUMMARY
+
+
+     CURRENT LOAD PROPORTIONALITY FACTOR         0.3679    
+     TOTAL ARC LENGTH    1.41    , INCREMENT OF ARC LENGTH   5.000E-02
+  
+  
+  
+  
+                                       N O D E   O U T P U T
+  
+  
+  
+  
+   THE FOLLOWING TABLE IS PRINTED FOR NODES BELONGING TO NODE SET N_RP
+  
+       NODE FOOT-  U1             U2             RF1            RF2          
+            NOTE
+  
+     999999      4.1334515E-03  8.2669030E-03  9.7097925E-02  5.4405483E-01
+
+ MAXIMUM         4.1335E-03  8.2669E-03  9.7098E-02  0.5441    
+ AT NODE            999999      999999      999999      999999
+
+ MINIMUM         4.1335E-03  8.2669E-03  9.7098E-02  0.5441    
+ AT NODE            999999      999999      999999      999999
+
+
+                                INCREMENT    39 SUMMARY
+
+
+     CURRENT LOAD PROPORTIONALITY FACTOR         0.3804    
+     TOTAL ARC LENGTH    1.46    , INCREMENT OF ARC LENGTH   5.000E-02
+  
+  
+  
+  
+                                       N O D E   O U T P U T
+  
+  
+  
+  
+   THE FOLLOWING TABLE IS PRINTED FOR NODES BELONGING TO NODE SET N_RP
+  
+       NODE FOOT-  U1             U2             RF1            RF2          
+            NOTE
+  
+     999999      4.1365757E-03  8.2731514E-03  9.7134196E-02  5.4432208E-01
+
+ MAXIMUM         4.1366E-03  8.2732E-03  9.7134E-02  0.5443    
+ AT NODE            999999      999999      999999      999999
+
+ MINIMUM         4.1366E-03  8.2732E-03  9.7134E-02  0.5443    
+ AT NODE            999999      999999      999999      999999
+
+
+                                INCREMENT    40 SUMMARY
+
+
+     CURRENT LOAD PROPORTIONALITY FACTOR         0.3929    
+     TOTAL ARC LENGTH    1.51    , INCREMENT OF ARC LENGTH   5.000E-02
+  
+  
+  
+  
+                                       N O D E   O U T P U T
+  
+  
+  
+  
+   THE FOLLOWING TABLE IS PRINTED FOR NODES BELONGING TO NODE SET N_RP
+  
+       NODE FOOT-  U1             U2             RF1            RF2          
+            NOTE
+  
+     999999      4.1396999E-03  8.2793999E-03  9.7170215E-02  5.4458842E-01
+
+ MAXIMUM         4.1397E-03  8.2794E-03  9.7170E-02  0.5446    
+ AT NODE            999999      999999      999999      999999
+
+ MINIMUM         4.1397E-03  8.2794E-03  9.7170E-02  0.5446    
+ AT NODE            999999      999999      999999      999999
+
+
+                                INCREMENT    41 SUMMARY
+
+
+     CURRENT LOAD PROPORTIONALITY FACTOR         0.4054    
+     TOTAL ARC LENGTH    1.56    , INCREMENT OF ARC LENGTH   5.000E-02
+  
+  
+  
+  
+                                       N O D E   O U T P U T
+  
+  
+  
+  
+   THE FOLLOWING TABLE IS PRINTED FOR NODES BELONGING TO NODE SET N_RP
+  
+       NODE FOOT-  U1             U2             RF1            RF2          
+            NOTE
+  
+     999999      4.1428242E-03  8.2856483E-03  9.7206063E-02  5.4485388E-01
+
+ MAXIMUM         4.1428E-03  8.2856E-03  9.7206E-02  0.5449    
+ AT NODE            999999      999999      999999      999999
+
+ MINIMUM         4.1428E-03  8.2856E-03  9.7206E-02  0.5449    
+ AT NODE            999999      999999      999999      999999
+
+
+                                INCREMENT    42 SUMMARY
+
+
+     CURRENT LOAD PROPORTIONALITY FACTOR         0.4179    
+     TOTAL ARC LENGTH    1.61    , INCREMENT OF ARC LENGTH   5.000E-02
+  
+  
+  
+  
+                                       N O D E   O U T P U T
+  
+  
+  
+  
+   THE FOLLOWING TABLE IS PRINTED FOR NODES BELONGING TO NODE SET N_RP
+  
+       NODE FOOT-  U1             U2             RF1            RF2          
+            NOTE
+  
+     999999      4.1459484E-03  8.2918968E-03  9.7241754E-02  5.4511859E-01
+
+ MAXIMUM         4.1459E-03  8.2919E-03  9.7242E-02  0.5451    
+ AT NODE            999999      999999      999999      999999
+
+ MINIMUM         4.1459E-03  8.2919E-03  9.7242E-02  0.5451    
+ AT NODE            999999      999999      999999      999999
+
+
+                                INCREMENT    43 SUMMARY
+
+
+     CURRENT LOAD PROPORTIONALITY FACTOR         0.4304    
+     TOTAL ARC LENGTH    1.66    , INCREMENT OF ARC LENGTH   5.000E-02
+  
+  
+  
+  
+                                       N O D E   O U T P U T
+  
+  
+  
+  
+   THE FOLLOWING TABLE IS PRINTED FOR NODES BELONGING TO NODE SET N_RP
+  
+       NODE FOOT-  U1             U2             RF1            RF2          
+            NOTE
+  
+     999999      4.1490726E-03  8.2981453E-03  9.7277246E-02  5.4538229E-01
+
+ MAXIMUM         4.1491E-03  8.2981E-03  9.7277E-02  0.5454    
+ AT NODE            999999      999999      999999      999999
+
+ MINIMUM         4.1491E-03  8.2981E-03  9.7277E-02  0.5454    
+ AT NODE            999999      999999      999999      999999
+
+
+                                INCREMENT    44 SUMMARY
+
+
+     CURRENT LOAD PROPORTIONALITY FACTOR         0.4429    
+     TOTAL ARC LENGTH    1.71    , INCREMENT OF ARC LENGTH   5.000E-02
+  
+  
+  
+  
+                                       N O D E   O U T P U T
+  
+  
+  
+  
+   THE FOLLOWING TABLE IS PRINTED FOR NODES BELONGING TO NODE SET N_RP
+  
+       NODE FOOT-  U1             U2             RF1            RF2          
+            NOTE
+  
+     999999      4.1521970E-03  8.3043940E-03  9.7312345E-02  5.4564413E-01
+
+ MAXIMUM         4.1522E-03  8.3044E-03  9.7312E-02  0.5456    
+ AT NODE            999999      999999      999999      999999
+
+ MINIMUM         4.1522E-03  8.3044E-03  9.7312E-02  0.5456    
+ AT NODE            999999      999999      999999      999999
+
+
+                                INCREMENT    45 SUMMARY
+
+
+     CURRENT LOAD PROPORTIONALITY FACTOR         0.4554    
+     TOTAL ARC LENGTH    1.76    , INCREMENT OF ARC LENGTH   5.000E-02
+  
+  
+  
+  
+                                       N O D E   O U T P U T
+  
+  
+  
+  
+   THE FOLLOWING TABLE IS PRINTED FOR NODES BELONGING TO NODE SET N_RP
+  
+       NODE FOOT-  U1             U2             RF1            RF2          
+            NOTE
+  
+     999999      4.1553214E-03  8.3106427E-03  9.7347242E-02  5.4590484E-01
+
+ MAXIMUM         4.1553E-03  8.3106E-03  9.7347E-02  0.5459    
+ AT NODE            999999      999999      999999      999999
+
+ MINIMUM         4.1553E-03  8.3106E-03  9.7347E-02  0.5459    
+ AT NODE            999999      999999      999999      999999
+
+
+                                INCREMENT    46 SUMMARY
+
+
+     CURRENT LOAD PROPORTIONALITY FACTOR         0.4679    
+     TOTAL ARC LENGTH    1.81    , INCREMENT OF ARC LENGTH   5.000E-02
+  
+  
+  
+  
+                                       N O D E   O U T P U T
+  
+  
+  
+  
+   THE FOLLOWING TABLE IS PRINTED FOR NODES BELONGING TO NODE SET N_RP
+  
+       NODE FOOT-  U1             U2             RF1            RF2          
+            NOTE
+  
+     999999      4.1584457E-03  8.3168915E-03  9.7381942E-02  5.4616452E-01
+
+ MAXIMUM         4.1584E-03  8.3169E-03  9.7382E-02  0.5462    
+ AT NODE            999999      999999      999999      999999
+
+ MINIMUM         4.1584E-03  8.3169E-03  9.7382E-02  0.5462    
+ AT NODE            999999      999999      999999      999999
+
+
+                                INCREMENT    47 SUMMARY
+
+
+     CURRENT LOAD PROPORTIONALITY FACTOR         0.4804    
+     TOTAL ARC LENGTH    1.86    , INCREMENT OF ARC LENGTH   5.000E-02
+  
+  
+  
+  
+                                       N O D E   O U T P U T
+  
+  
+  
+  
+   THE FOLLOWING TABLE IS PRINTED FOR NODES BELONGING TO NODE SET N_RP
+  
+       NODE FOOT-  U1             U2             RF1            RF2          
+            NOTE
+  
+     999999      4.1615701E-03  8.3231401E-03  9.7416409E-02  5.4642310E-01
+
+ MAXIMUM         4.1616E-03  8.3231E-03  9.7416E-02  0.5464    
+ AT NODE            999999      999999      999999      999999
+
+ MINIMUM         4.1616E-03  8.3231E-03  9.7416E-02  0.5464    
+ AT NODE            999999      999999      999999      999999
+
+
+                                INCREMENT    48 SUMMARY
+
+
+     CURRENT LOAD PROPORTIONALITY FACTOR         0.4929    
+     TOTAL ARC LENGTH    1.91    , INCREMENT OF ARC LENGTH   5.000E-02
+  
+  
+  
+  
+                                       N O D E   O U T P U T
+  
+  
+  
+  
+   THE FOLLOWING TABLE IS PRINTED FOR NODES BELONGING TO NODE SET N_RP
+  
+       NODE FOOT-  U1             U2             RF1            RF2          
+            NOTE
+  
+     999999      4.1646944E-03  8.3293889E-03  9.7450719E-02  5.4668085E-01
+
+ MAXIMUM         4.1647E-03  8.3294E-03  9.7451E-02  0.5467    
+ AT NODE            999999      999999      999999      999999
+
+ MINIMUM         4.1647E-03  8.3294E-03  9.7451E-02  0.5467    
+ AT NODE            999999      999999      999999      999999
+
+
+                                INCREMENT    49 SUMMARY
+
+
+     CURRENT LOAD PROPORTIONALITY FACTOR         0.5054    
+     TOTAL ARC LENGTH    1.96    , INCREMENT OF ARC LENGTH   5.000E-02
+  
+  
+  
+  
+                                       N O D E   O U T P U T
+  
+  
+  
+  
+   THE FOLLOWING TABLE IS PRINTED FOR NODES BELONGING TO NODE SET N_RP
+  
+       NODE FOOT-  U1             U2             RF1            RF2          
+            NOTE
+  
+     999999      4.1678188E-03  8.3356376E-03  9.7484893E-02  5.4693785E-01
+
+ MAXIMUM         4.1678E-03  8.3356E-03  9.7485E-02  0.5469    
+ AT NODE            999999      999999      999999      999999
+
+ MINIMUM         4.1678E-03  8.3356E-03  9.7485E-02  0.5469    
+ AT NODE            999999      999999      999999      999999
+
+
+                                INCREMENT    50 SUMMARY
+
+
+     CURRENT LOAD PROPORTIONALITY FACTOR         0.5179    
+     TOTAL ARC LENGTH    2.01    , INCREMENT OF ARC LENGTH   5.000E-02
+  
+  
+  
+  
+                                       N O D E   O U T P U T
+  
+  
+  
+  
+   THE FOLLOWING TABLE IS PRINTED FOR NODES BELONGING TO NODE SET N_RP
+  
+       NODE FOOT-  U1             U2             RF1            RF2          
+            NOTE
+  
+     999999      4.1709435E-03  8.3418869E-03  9.7518329E-02  5.4719318E-01
+
+ MAXIMUM         4.1709E-03  8.3419E-03  9.7518E-02  0.5472    
+ AT NODE            999999      999999      999999      999999
+
+ MINIMUM         4.1709E-03  8.3419E-03  9.7518E-02  0.5472    
+ AT NODE            999999      999999      999999      999999
+
+
+                                INCREMENT    51 SUMMARY
+
+
+     CURRENT LOAD PROPORTIONALITY FACTOR         0.5304    
+     TOTAL ARC LENGTH    2.06    , INCREMENT OF ARC LENGTH   5.000E-02
+  
+  
+  
+  
+                                       N O D E   O U T P U T
+  
+  
+  
+  
+   THE FOLLOWING TABLE IS PRINTED FOR NODES BELONGING TO NODE SET N_RP
+  
+       NODE FOOT-  U1             U2             RF1            RF2          
+            NOTE
+  
+     999999      4.1740687E-03  8.3481374E-03  9.7550723E-02  5.4744621E-01
+
+ MAXIMUM         4.1741E-03  8.3481E-03  9.7551E-02  0.5474    
+ AT NODE            999999      999999      999999      999999
+
+ MINIMUM         4.1741E-03  8.3481E-03  9.7551E-02  0.5474    
+ AT NODE            999999      999999      999999      999999
+
+
+                                INCREMENT    52 SUMMARY
+
+
+     CURRENT LOAD PROPORTIONALITY FACTOR         0.5429    
+     TOTAL ARC LENGTH    2.11    , INCREMENT OF ARC LENGTH   5.000E-02
+  
+  
+  
+  
+                                       N O D E   O U T P U T
+  
+  
+  
+  
+   THE FOLLOWING TABLE IS PRINTED FOR NODES BELONGING TO NODE SET N_RP
+  
+       NODE FOOT-  U1             U2             RF1            RF2          
+            NOTE
+  
+     999999      4.1771941E-03  8.3543883E-03  9.7582796E-02  5.4769822E-01
+
+ MAXIMUM         4.1772E-03  8.3544E-03  9.7583E-02  0.5477    
+ AT NODE            999999      999999      999999      999999
+
+ MINIMUM         4.1772E-03  8.3544E-03  9.7583E-02  0.5477    
+ AT NODE            999999      999999      999999      999999
+
+
+                                INCREMENT    53 SUMMARY
+
+
+     CURRENT LOAD PROPORTIONALITY FACTOR         0.5554    
+     TOTAL ARC LENGTH    2.16    , INCREMENT OF ARC LENGTH   5.000E-02
+  
+  
+  
+  
+                                       N O D E   O U T P U T
+  
+  
+  
+  
+   THE FOLLOWING TABLE IS PRINTED FOR NODES BELONGING TO NODE SET N_RP
+  
+       NODE FOOT-  U1             U2             RF1            RF2          
+            NOTE
+  
+     999999      4.1803197E-03  8.3606393E-03  9.7614623E-02  5.4794929E-01
+
+ MAXIMUM         4.1803E-03  8.3606E-03  9.7615E-02  0.5479    
+ AT NODE            999999      999999      999999      999999
+
+ MINIMUM         4.1803E-03  8.3606E-03  9.7615E-02  0.5479    
+ AT NODE            999999      999999      999999      999999
+
+
+                                INCREMENT    54 SUMMARY
+
+
+     CURRENT LOAD PROPORTIONALITY FACTOR         0.5679    
+     TOTAL ARC LENGTH    2.21    , INCREMENT OF ARC LENGTH   5.000E-02
+  
+  
+  
+  
+                                       N O D E   O U T P U T
+  
+  
+  
+  
+   THE FOLLOWING TABLE IS PRINTED FOR NODES BELONGING TO NODE SET N_RP
+  
+       NODE FOOT-  U1             U2             RF1            RF2          
+            NOTE
+  
+     999999      4.1834452E-03  8.3668905E-03  9.7646302E-02  5.4819961E-01
+
+ MAXIMUM         4.1834E-03  8.3669E-03  9.7646E-02  0.5482    
+ AT NODE            999999      999999      999999      999999
+
+ MINIMUM         4.1834E-03  8.3669E-03  9.7646E-02  0.5482    
+ AT NODE            999999      999999      999999      999999
+
+
+                                INCREMENT    55 SUMMARY
+
+
+     CURRENT LOAD PROPORTIONALITY FACTOR         0.5804    
+     TOTAL ARC LENGTH    2.26    , INCREMENT OF ARC LENGTH   5.000E-02
+  
+  
+  
+  
+                                       N O D E   O U T P U T
+  
+  
+  
+  
+   THE FOLLOWING TABLE IS PRINTED FOR NODES BELONGING TO NODE SET N_RP
+  
+       NODE FOOT-  U1             U2             RF1            RF2          
+            NOTE
+  
+     999999      4.1865708E-03  8.3731416E-03  9.7677832E-02  5.4844925E-01
+
+ MAXIMUM         4.1866E-03  8.3731E-03  9.7678E-02  0.5484    
+ AT NODE            999999      999999      999999      999999
+
+ MINIMUM         4.1866E-03  8.3731E-03  9.7678E-02  0.5484    
+ AT NODE            999999      999999      999999      999999
+
+
+                                INCREMENT    56 SUMMARY
+
+
+     CURRENT LOAD PROPORTIONALITY FACTOR         0.5929    
+     TOTAL ARC LENGTH    2.31    , INCREMENT OF ARC LENGTH   5.000E-02
+  
+  
+  
+  
+                                       N O D E   O U T P U T
+  
+  
+  
+  
+   THE FOLLOWING TABLE IS PRINTED FOR NODES BELONGING TO NODE SET N_RP
+  
+       NODE FOOT-  U1             U2             RF1            RF2          
+            NOTE
+  
+     999999      4.1896963E-03  8.3793927E-03  9.7709191E-02  5.4869818E-01
+
+ MAXIMUM         4.1897E-03  8.3794E-03  9.7709E-02  0.5487    
+ AT NODE            999999      999999      999999      999999
+
+ MINIMUM         4.1897E-03  8.3794E-03  9.7709E-02  0.5487    
+ AT NODE            999999      999999      999999      999999
+
+
+                                INCREMENT    57 SUMMARY
+
+
+     CURRENT LOAD PROPORTIONALITY FACTOR         0.6054    
+     TOTAL ARC LENGTH    2.36    , INCREMENT OF ARC LENGTH   5.000E-02
+  
+  
+  
+  
+                                       N O D E   O U T P U T
+  
+  
+  
+  
+   THE FOLLOWING TABLE IS PRINTED FOR NODES BELONGING TO NODE SET N_RP
+  
+       NODE FOOT-  U1             U2             RF1            RF2          
+            NOTE
+  
+     999999      4.1928220E-03  8.3856440E-03  9.7740168E-02  5.4894594E-01
+
+ MAXIMUM         4.1928E-03  8.3856E-03  9.7740E-02  0.5489    
+ AT NODE            999999      999999      999999      999999
+
+ MINIMUM         4.1928E-03  8.3856E-03  9.7740E-02  0.5489    
+ AT NODE            999999      999999      999999      999999
+
+
+                                INCREMENT    58 SUMMARY
+
+
+     CURRENT LOAD PROPORTIONALITY FACTOR         0.6179    
+     TOTAL ARC LENGTH    2.41    , INCREMENT OF ARC LENGTH   5.000E-02
+  
+  
+  
+  
+                                       N O D E   O U T P U T
+  
+  
+  
+  
+   THE FOLLOWING TABLE IS PRINTED FOR NODES BELONGING TO NODE SET N_RP
+  
+       NODE FOOT-  U1             U2             RF1            RF2          
+            NOTE
+  
+     999999      4.1959483E-03  8.3918966E-03  9.7770045E-02  5.4919129E-01
+
+ MAXIMUM         4.1959E-03  8.3919E-03  9.7770E-02  0.5492    
+ AT NODE            999999      999999      999999      999999
+
+ MINIMUM         4.1959E-03  8.3919E-03  9.7770E-02  0.5492    
+ AT NODE            999999      999999      999999      999999
+
+
+                                INCREMENT    59 SUMMARY
+
+
+     CURRENT LOAD PROPORTIONALITY FACTOR         0.6304    
+     TOTAL ARC LENGTH    2.46    , INCREMENT OF ARC LENGTH   5.000E-02
+  
+  
+  
+  
+                                       N O D E   O U T P U T
+  
+  
+  
+  
+   THE FOLLOWING TABLE IS PRINTED FOR NODES BELONGING TO NODE SET N_RP
+  
+       NODE FOOT-  U1             U2             RF1            RF2          
+            NOTE
+  
+     999999      4.1990750E-03  8.3981500E-03  9.7799435E-02  5.4943532E-01
+
+ MAXIMUM         4.1991E-03  8.3981E-03  9.7799E-02  0.5494    
+ AT NODE            999999      999999      999999      999999
+
+ MINIMUM         4.1991E-03  8.3981E-03  9.7799E-02  0.5494    
+ AT NODE            999999      999999      999999      999999
+
+
+                                INCREMENT    60 SUMMARY
+
+
+     CURRENT LOAD PROPORTIONALITY FACTOR         0.6429    
+     TOTAL ARC LENGTH    2.51    , INCREMENT OF ARC LENGTH   5.000E-02
+  
+  
+  
+  
+                                       N O D E   O U T P U T
+  
+  
+  
+  
+   THE FOLLOWING TABLE IS PRINTED FOR NODES BELONGING TO NODE SET N_RP
+  
+       NODE FOOT-  U1             U2             RF1            RF2          
+            NOTE
+  
+     999999      4.2022019E-03  8.4044038E-03  9.7828508E-02  5.4967832E-01
+
+ MAXIMUM         4.2022E-03  8.4044E-03  9.7829E-02  0.5497    
+ AT NODE            999999      999999      999999      999999
+
+ MINIMUM         4.2022E-03  8.4044E-03  9.7829E-02  0.5497    
+ AT NODE            999999      999999      999999      999999
+
+
+                                INCREMENT    61 SUMMARY
+
+
+     CURRENT LOAD PROPORTIONALITY FACTOR         0.6554    
+     TOTAL ARC LENGTH    2.56    , INCREMENT OF ARC LENGTH   5.000E-02
+  
+  
+  
+  
+                                       N O D E   O U T P U T
+  
+  
+  
+  
+   THE FOLLOWING TABLE IS PRINTED FOR NODES BELONGING TO NODE SET N_RP
+  
+       NODE FOOT-  U1             U2             RF1            RF2          
+            NOTE
+  
+     999999      4.2053289E-03  8.4106578E-03  9.7857290E-02  5.4992038E-01
+
+ MAXIMUM         4.2053E-03  8.4107E-03  9.7857E-02  0.5499    
+ AT NODE            999999      999999      999999      999999
+
+ MINIMUM         4.2053E-03  8.4107E-03  9.7857E-02  0.5499    
+ AT NODE            999999      999999      999999      999999
+
+
+                                INCREMENT    62 SUMMARY
+
+
+     CURRENT LOAD PROPORTIONALITY FACTOR         0.6680    
+     TOTAL ARC LENGTH    2.61    , INCREMENT OF ARC LENGTH   5.000E-02
+  
+  
+  
+  
+                                       N O D E   O U T P U T
+  
+  
+  
+  
+   THE FOLLOWING TABLE IS PRINTED FOR NODES BELONGING TO NODE SET N_RP
+  
+       NODE FOOT-  U1             U2             RF1            RF2          
+            NOTE
+  
+     999999      4.2084560E-03  8.4169120E-03  9.7885868E-02  5.5016169E-01
+
+ MAXIMUM         4.2085E-03  8.4169E-03  9.7886E-02  0.5502    
+ AT NODE            999999      999999      999999      999999
+
+ MINIMUM         4.2085E-03  8.4169E-03  9.7886E-02  0.5502    
+ AT NODE            999999      999999      999999      999999
+
+
+                                INCREMENT    63 SUMMARY
+
+
+     CURRENT LOAD PROPORTIONALITY FACTOR         0.6805    
+     TOTAL ARC LENGTH    2.66    , INCREMENT OF ARC LENGTH   5.000E-02
+  
+  
+  
+  
+                                       N O D E   O U T P U T
+  
+  
+  
+  
+   THE FOLLOWING TABLE IS PRINTED FOR NODES BELONGING TO NODE SET N_RP
+  
+       NODE FOOT-  U1             U2             RF1            RF2          
+            NOTE
+  
+     999999      4.2115833E-03  8.4231665E-03  9.7914127E-02  5.5040189E-01
+
+ MAXIMUM         4.2116E-03  8.4232E-03  9.7914E-02  0.5504    
+ AT NODE            999999      999999      999999      999999
+
+ MINIMUM         4.2116E-03  8.4232E-03  9.7914E-02  0.5504    
+ AT NODE            999999      999999      999999      999999
+
+
+                                INCREMENT    64 SUMMARY
+
+
+     CURRENT LOAD PROPORTIONALITY FACTOR         0.6930    
+     TOTAL ARC LENGTH    2.71    , INCREMENT OF ARC LENGTH   5.000E-02
+  
+  
+  
+  
+                                       N O D E   O U T P U T
+  
+  
+  
+  
+   THE FOLLOWING TABLE IS PRINTED FOR NODES BELONGING TO NODE SET N_RP
+  
+       NODE FOOT-  U1             U2             RF1            RF2          
+            NOTE
+  
+     999999      4.2147106E-03  8.4294212E-03  9.7942067E-02  5.5064084E-01
+
+ MAXIMUM         4.2147E-03  8.4294E-03  9.7942E-02  0.5506    
+ AT NODE            999999      999999      999999      999999
+
+ MINIMUM         4.2147E-03  8.4294E-03  9.7942E-02  0.5506    
+ AT NODE            999999      999999      999999      999999
+
+
+                                INCREMENT    65 SUMMARY
+
+
+     CURRENT LOAD PROPORTIONALITY FACTOR         0.7055    
+     TOTAL ARC LENGTH    2.76    , INCREMENT OF ARC LENGTH   5.000E-02
+  
+  
+  
+  
+                                       N O D E   O U T P U T
+  
+  
+  
+  
+   THE FOLLOWING TABLE IS PRINTED FOR NODES BELONGING TO NODE SET N_RP
+  
+       NODE FOOT-  U1             U2             RF1            RF2          
+            NOTE
+  
+     999999      4.2178380E-03  8.4356761E-03  9.7969827E-02  5.5087885E-01
+
+ MAXIMUM         4.2178E-03  8.4357E-03  9.7970E-02  0.5509    
+ AT NODE            999999      999999      999999      999999
+
+ MINIMUM         4.2178E-03  8.4357E-03  9.7970E-02  0.5509    
+ AT NODE            999999      999999      999999      999999
+
+
+                                INCREMENT    66 SUMMARY
+
+
+     CURRENT LOAD PROPORTIONALITY FACTOR         0.7180    
+     TOTAL ARC LENGTH    2.81    , INCREMENT OF ARC LENGTH   5.000E-02
+  
+  
+  
+  
+                                       N O D E   O U T P U T
+  
+  
+  
+  
+   THE FOLLOWING TABLE IS PRINTED FOR NODES BELONGING TO NODE SET N_RP
+  
+       NODE FOOT-  U1             U2             RF1            RF2          
+            NOTE
+  
+     999999      4.2209655E-03  8.4419310E-03  9.7997446E-02  5.5111600E-01
+
+ MAXIMUM         4.2210E-03  8.4419E-03  9.7997E-02  0.5511    
+ AT NODE            999999      999999      999999      999999
+
+ MINIMUM         4.2210E-03  8.4419E-03  9.7997E-02  0.5511    
+ AT NODE            999999      999999      999999      999999
+
+
+                                INCREMENT    67 SUMMARY
+
+
+     CURRENT LOAD PROPORTIONALITY FACTOR         0.7305    
+     TOTAL ARC LENGTH    2.86    , INCREMENT OF ARC LENGTH   5.000E-02
+  
+  
+  
+  
+                                       N O D E   O U T P U T
+  
+  
+  
+  
+   THE FOLLOWING TABLE IS PRINTED FOR NODES BELONGING TO NODE SET N_RP
+  
+       NODE FOOT-  U1             U2             RF1            RF2          
+            NOTE
+  
+     999999      4.2240929E-03  8.4481858E-03  9.8024864E-02  5.5135233E-01
+
+ MAXIMUM         4.2241E-03  8.4482E-03  9.8025E-02  0.5514    
+ AT NODE            999999      999999      999999      999999
+
+ MINIMUM         4.2241E-03  8.4482E-03  9.8025E-02  0.5514    
+ AT NODE            999999      999999      999999      999999
+
+
+                                INCREMENT    68 SUMMARY
+
+
+     CURRENT LOAD PROPORTIONALITY FACTOR         0.7430    
+     TOTAL ARC LENGTH    2.91    , INCREMENT OF ARC LENGTH   5.000E-02
+  
+  
+  
+  
+                                       N O D E   O U T P U T
+  
+  
+  
+  
+   THE FOLLOWING TABLE IS PRINTED FOR NODES BELONGING TO NODE SET N_RP
+  
+       NODE FOOT-  U1             U2             RF1            RF2          
+            NOTE
+  
+     999999      4.2272204E-03  8.4544408E-03  9.8052080E-02  5.5158782E-01
+
+ MAXIMUM         4.2272E-03  8.4544E-03  9.8052E-02  0.5516    
+ AT NODE            999999      999999      999999      999999
+
+ MINIMUM         4.2272E-03  8.4544E-03  9.8052E-02  0.5516    
+ AT NODE            999999      999999      999999      999999
+
+
+                                INCREMENT    69 SUMMARY
+
+
+     CURRENT LOAD PROPORTIONALITY FACTOR         0.7555    
+     TOTAL ARC LENGTH    2.96    , INCREMENT OF ARC LENGTH   5.000E-02
+  
+  
+  
+  
+                                       N O D E   O U T P U T
+  
+  
+  
+  
+   THE FOLLOWING TABLE IS PRINTED FOR NODES BELONGING TO NODE SET N_RP
+  
+       NODE FOOT-  U1             U2             RF1            RF2          
+            NOTE
+  
+     999999      4.2303479E-03  8.4606959E-03  9.8079078E-02  5.5182235E-01
+
+ MAXIMUM         4.2303E-03  8.4607E-03  9.8079E-02  0.5518    
+ AT NODE            999999      999999      999999      999999
+
+ MINIMUM         4.2303E-03  8.4607E-03  9.8079E-02  0.5518    
+ AT NODE            999999      999999      999999      999999
+
+
+                                INCREMENT    70 SUMMARY
+
+
+     CURRENT LOAD PROPORTIONALITY FACTOR         0.7680    
+     TOTAL ARC LENGTH    3.01    , INCREMENT OF ARC LENGTH   5.000E-02
+  
+  
+  
+  
+                                       N O D E   O U T P U T
+  
+  
+  
+  
+   THE FOLLOWING TABLE IS PRINTED FOR NODES BELONGING TO NODE SET N_RP
+  
+       NODE FOOT-  U1             U2             RF1            RF2          
+            NOTE
+  
+     999999      4.2334755E-03  8.4669511E-03  9.8105895E-02  5.5205597E-01
+
+ MAXIMUM         4.2335E-03  8.4670E-03  9.8106E-02  0.5521    
+ AT NODE            999999      999999      999999      999999
+
+ MINIMUM         4.2335E-03  8.4670E-03  9.8106E-02  0.5521    
+ AT NODE            999999      999999      999999      999999
+
+
+                                INCREMENT    71 SUMMARY
+
+
+     CURRENT LOAD PROPORTIONALITY FACTOR         0.7805    
+     TOTAL ARC LENGTH    3.06    , INCREMENT OF ARC LENGTH   5.000E-02
+  
+  
+  
+  
+                                       N O D E   O U T P U T
+  
+  
+  
+  
+   THE FOLLOWING TABLE IS PRINTED FOR NODES BELONGING TO NODE SET N_RP
+  
+       NODE FOOT-  U1             U2             RF1            RF2          
+            NOTE
+  
+     999999      4.2366032E-03  8.4732064E-03  9.8132484E-02  5.5228855E-01
+
+ MAXIMUM         4.2366E-03  8.4732E-03  9.8132E-02  0.5523    
+ AT NODE            999999      999999      999999      999999
+
+ MINIMUM         4.2366E-03  8.4732E-03  9.8132E-02  0.5523    
+ AT NODE            999999      999999      999999      999999
+
+
+                                INCREMENT    72 SUMMARY
+
+
+     CURRENT LOAD PROPORTIONALITY FACTOR         0.7931    
+     TOTAL ARC LENGTH    3.11    , INCREMENT OF ARC LENGTH   5.000E-02
+  
+  
+  
+  
+                                       N O D E   O U T P U T
+  
+  
+  
+  
+   THE FOLLOWING TABLE IS PRINTED FOR NODES BELONGING TO NODE SET N_RP
+  
+       NODE FOOT-  U1             U2             RF1            RF2          
+            NOTE
+  
+     999999      4.2397309E-03  8.4794618E-03  9.8158818E-02  5.5251993E-01
+
+ MAXIMUM         4.2397E-03  8.4795E-03  9.8159E-02  0.5525    
+ AT NODE            999999      999999      999999      999999
+
+ MINIMUM         4.2397E-03  8.4795E-03  9.8159E-02  0.5525    
+ AT NODE            999999      999999      999999      999999
+
+
+                                INCREMENT    73 SUMMARY
+
+
+     CURRENT LOAD PROPORTIONALITY FACTOR         0.8056    
+     TOTAL ARC LENGTH    3.16    , INCREMENT OF ARC LENGTH   5.000E-02
+  
+  
+  
+  
+                                       N O D E   O U T P U T
+  
+  
+  
+  
+   THE FOLLOWING TABLE IS PRINTED FOR NODES BELONGING TO NODE SET N_RP
+  
+       NODE FOOT-  U1             U2             RF1            RF2          
+            NOTE
+  
+     999999      4.2428586E-03  8.4857173E-03  9.8184966E-02  5.5275041E-01
+
+ MAXIMUM         4.2429E-03  8.4857E-03  9.8185E-02  0.5528    
+ AT NODE            999999      999999      999999      999999
+
+ MINIMUM         4.2429E-03  8.4857E-03  9.8185E-02  0.5528    
+ AT NODE            999999      999999      999999      999999
+
+
+                                INCREMENT    74 SUMMARY
+
+
+     CURRENT LOAD PROPORTIONALITY FACTOR         0.8181    
+     TOTAL ARC LENGTH    3.21    , INCREMENT OF ARC LENGTH   5.000E-02
+  
+  
+  
+  
+                                       N O D E   O U T P U T
+  
+  
+  
+  
+   THE FOLLOWING TABLE IS PRINTED FOR NODES BELONGING TO NODE SET N_RP
+  
+       NODE FOOT-  U1             U2             RF1            RF2          
+            NOTE
+  
+     999999      4.2459864E-03  8.4919728E-03  9.8210966E-02  5.5298015E-01
+
+ MAXIMUM         4.2460E-03  8.4920E-03  9.8211E-02  0.5530    
+ AT NODE            999999      999999      999999      999999
+
+ MINIMUM         4.2460E-03  8.4920E-03  9.8211E-02  0.5530    
+ AT NODE            999999      999999      999999      999999
+
+
+                                INCREMENT    75 SUMMARY
+
+
+     CURRENT LOAD PROPORTIONALITY FACTOR         0.8306    
+     TOTAL ARC LENGTH    3.26    , INCREMENT OF ARC LENGTH   5.000E-02
+  
+  
+  
+  
+                                       N O D E   O U T P U T
+  
+  
+  
+  
+   THE FOLLOWING TABLE IS PRINTED FOR NODES BELONGING TO NODE SET N_RP
+  
+       NODE FOOT-  U1             U2             RF1            RF2          
+            NOTE
+  
+     999999      4.2491141E-03  8.4982283E-03  9.8236715E-02  5.5320890E-01
+
+ MAXIMUM         4.2491E-03  8.4982E-03  9.8237E-02  0.5532    
+ AT NODE            999999      999999      999999      999999
+
+ MINIMUM         4.2491E-03  8.4982E-03  9.8237E-02  0.5532    
+ AT NODE            999999      999999      999999      999999
+
+
+                                INCREMENT    76 SUMMARY
+
+
+     CURRENT LOAD PROPORTIONALITY FACTOR         0.8431    
+     TOTAL ARC LENGTH    3.31    , INCREMENT OF ARC LENGTH   5.000E-02
+  
+  
+  
+  
+                                       N O D E   O U T P U T
+  
+  
+  
+  
+   THE FOLLOWING TABLE IS PRINTED FOR NODES BELONGING TO NODE SET N_RP
+  
+       NODE FOOT-  U1             U2             RF1            RF2          
+            NOTE
+  
+     999999      4.2522419E-03  8.5044839E-03  9.8262226E-02  5.5343667E-01
+
+ MAXIMUM         4.2522E-03  8.5045E-03  9.8262E-02  0.5534    
+ AT NODE            999999      999999      999999      999999
+
+ MINIMUM         4.2522E-03  8.5045E-03  9.8262E-02  0.5534    
+ AT NODE            999999      999999      999999      999999
+
+
+                                INCREMENT    77 SUMMARY
+
+
+     CURRENT LOAD PROPORTIONALITY FACTOR         0.8556    
+     TOTAL ARC LENGTH    3.36    , INCREMENT OF ARC LENGTH   5.000E-02
+  
+  
+  
+  
+                                       N O D E   O U T P U T
+  
+  
+  
+  
+   THE FOLLOWING TABLE IS PRINTED FOR NODES BELONGING TO NODE SET N_RP
+  
+       NODE FOOT-  U1             U2             RF1            RF2          
+            NOTE
+  
+     999999      4.2553697E-03  8.5107395E-03  9.8287553E-02  5.5366359E-01
+
+ MAXIMUM         4.2554E-03  8.5107E-03  9.8288E-02  0.5537    
+ AT NODE            999999      999999      999999      999999
+
+ MINIMUM         4.2554E-03  8.5107E-03  9.8288E-02  0.5537    
+ AT NODE            999999      999999      999999      999999
+
+
+                                INCREMENT    78 SUMMARY
+
+
+     CURRENT LOAD PROPORTIONALITY FACTOR         0.8681    
+     TOTAL ARC LENGTH    3.41    , INCREMENT OF ARC LENGTH   5.000E-02
+  
+  
+  
+  
+                                       N O D E   O U T P U T
+  
+  
+  
+  
+   THE FOLLOWING TABLE IS PRINTED FOR NODES BELONGING TO NODE SET N_RP
+  
+       NODE FOOT-  U1             U2             RF1            RF2          
+            NOTE
+  
+     999999      4.2584976E-03  8.5169951E-03  9.8312701E-02  5.5388966E-01
+
+ MAXIMUM         4.2585E-03  8.5170E-03  9.8313E-02  0.5539    
+ AT NODE            999999      999999      999999      999999
+
+ MINIMUM         4.2585E-03  8.5170E-03  9.8313E-02  0.5539    
+ AT NODE            999999      999999      999999      999999
+
+
+                                INCREMENT    79 SUMMARY
+
+
+     CURRENT LOAD PROPORTIONALITY FACTOR         0.8806    
+     TOTAL ARC LENGTH    3.46    , INCREMENT OF ARC LENGTH   5.000E-02
+  
+  
+  
+  
+                                       N O D E   O U T P U T
+  
+  
+  
+  
+   THE FOLLOWING TABLE IS PRINTED FOR NODES BELONGING TO NODE SET N_RP
+  
+       NODE FOOT-  U1             U2             RF1            RF2          
+            NOTE
+  
+     999999      4.2616254E-03  8.5232508E-03  9.8337672E-02  5.5411489E-01
+
+ MAXIMUM         4.2616E-03  8.5233E-03  9.8338E-02  0.5541    
+ AT NODE            999999      999999      999999      999999
+
+ MINIMUM         4.2616E-03  8.5233E-03  9.8338E-02  0.5541    
+ AT NODE            999999      999999      999999      999999
+
+
+                                INCREMENT    80 SUMMARY
+
+
+     CURRENT LOAD PROPORTIONALITY FACTOR         0.8931    
+     TOTAL ARC LENGTH    3.51    , INCREMENT OF ARC LENGTH   5.000E-02
+  
+  
+  
+  
+                                       N O D E   O U T P U T
+  
+  
+  
+  
+   THE FOLLOWING TABLE IS PRINTED FOR NODES BELONGING TO NODE SET N_RP
+  
+       NODE FOOT-  U1             U2             RF1            RF2          
+            NOTE
+  
+     999999      4.2647533E-03  8.5295066E-03  9.8362337E-02  5.5433889E-01
+
+ MAXIMUM         4.2648E-03  8.5295E-03  9.8362E-02  0.5543    
+ AT NODE            999999      999999      999999      999999
+
+ MINIMUM         4.2648E-03  8.5295E-03  9.8362E-02  0.5543    
+ AT NODE            999999      999999      999999      999999
+
+
+                                INCREMENT    81 SUMMARY
+
+
+     CURRENT LOAD PROPORTIONALITY FACTOR         0.9057    
+     TOTAL ARC LENGTH    3.56    , INCREMENT OF ARC LENGTH   5.000E-02
+  
+  
+  
+  
+                                       N O D E   O U T P U T
+  
+  
+  
+  
+   THE FOLLOWING TABLE IS PRINTED FOR NODES BELONGING TO NODE SET N_RP
+  
+       NODE FOOT-  U1             U2             RF1            RF2          
+            NOTE
+  
+     999999      4.2678813E-03  8.5357626E-03  9.8386775E-02  5.5456198E-01
+
+ MAXIMUM         4.2679E-03  8.5358E-03  9.8387E-02  0.5546    
+ AT NODE            999999      999999      999999      999999
+
+ MINIMUM         4.2679E-03  8.5358E-03  9.8387E-02  0.5546    
+ AT NODE            999999      999999      999999      999999
+
+
+                                INCREMENT    82 SUMMARY
+
+
+     CURRENT LOAD PROPORTIONALITY FACTOR         0.9182    
+     TOTAL ARC LENGTH    3.61    , INCREMENT OF ARC LENGTH   5.000E-02
+  
+  
+  
+  
+                                       N O D E   O U T P U T
+  
+  
+  
+  
+   THE FOLLOWING TABLE IS PRINTED FOR NODES BELONGING TO NODE SET N_RP
+  
+       NODE FOOT-  U1             U2             RF1            RF2          
+            NOTE
+  
+     999999      4.2710093E-03  8.5420186E-03  9.8411026E-02  5.5478423E-01
+
+ MAXIMUM         4.2710E-03  8.5420E-03  9.8411E-02  0.5548    
+ AT NODE            999999      999999      999999      999999
+
+ MINIMUM         4.2710E-03  8.5420E-03  9.8411E-02  0.5548    
+ AT NODE            999999      999999      999999      999999
+
+
+                                INCREMENT    83 SUMMARY
+
+
+     CURRENT LOAD PROPORTIONALITY FACTOR         0.9307    
+     TOTAL ARC LENGTH    3.66    , INCREMENT OF ARC LENGTH   5.000E-02
+  
+  
+  
+  
+                                       N O D E   O U T P U T
+  
+  
+  
+  
+   THE FOLLOWING TABLE IS PRINTED FOR NODES BELONGING TO NODE SET N_RP
+  
+       NODE FOOT-  U1             U2             RF1            RF2          
+            NOTE
+  
+     999999      4.2741373E-03  8.5482746E-03  9.8435065E-02  5.5500535E-01
+
+ MAXIMUM         4.2741E-03  8.5483E-03  9.8435E-02  0.5550    
+ AT NODE            999999      999999      999999      999999
+
+ MINIMUM         4.2741E-03  8.5483E-03  9.8435E-02  0.5550    
+ AT NODE            999999      999999      999999      999999
+
+
+                                INCREMENT    84 SUMMARY
+
+
+     CURRENT LOAD PROPORTIONALITY FACTOR         0.9432    
+     TOTAL ARC LENGTH    3.71    , INCREMENT OF ARC LENGTH   5.000E-02
+  
+  
+  
+  
+                                       N O D E   O U T P U T
+  
+  
+  
+  
+   THE FOLLOWING TABLE IS PRINTED FOR NODES BELONGING TO NODE SET N_RP
+  
+       NODE FOOT-  U1             U2             RF1            RF2          
+            NOTE
+  
+     999999      4.2772653E-03  8.5545307E-03  9.8458839E-02  5.5522508E-01
+
+ MAXIMUM         4.2773E-03  8.5545E-03  9.8459E-02  0.5552    
+ AT NODE            999999      999999      999999      999999
+
+ MINIMUM         4.2773E-03  8.5545E-03  9.8459E-02  0.5552    
+ AT NODE            999999      999999      999999      999999
+
+
+                                INCREMENT    85 SUMMARY
+
+
+     CURRENT LOAD PROPORTIONALITY FACTOR         0.9557    
+     TOTAL ARC LENGTH    3.76    , INCREMENT OF ARC LENGTH   5.000E-02
+  
+  
+  
+  
+                                       N O D E   O U T P U T
+  
+  
+  
+  
+   THE FOLLOWING TABLE IS PRINTED FOR NODES BELONGING TO NODE SET N_RP
+  
+       NODE FOOT-  U1             U2             RF1            RF2          
+            NOTE
+  
+     999999      4.2803934E-03  8.5607868E-03  9.8482401E-02  5.5544371E-01
+
+ MAXIMUM         4.2804E-03  8.5608E-03  9.8482E-02  0.5554    
+ AT NODE            999999      999999      999999      999999
+
+ MINIMUM         4.2804E-03  8.5608E-03  9.8482E-02  0.5554    
+ AT NODE            999999      999999      999999      999999
+
+
+                                INCREMENT    86 SUMMARY
+
+
+     CURRENT LOAD PROPORTIONALITY FACTOR         0.9682    
+     TOTAL ARC LENGTH    3.81    , INCREMENT OF ARC LENGTH   5.000E-02
+  
+  
+  
+  
+                                       N O D E   O U T P U T
+  
+  
+  
+  
+   THE FOLLOWING TABLE IS PRINTED FOR NODES BELONGING TO NODE SET N_RP
+  
+       NODE FOOT-  U1             U2             RF1            RF2          
+            NOTE
+  
+     999999      4.2835214E-03  8.5670428E-03  9.8505769E-02  5.5566135E-01
+
+ MAXIMUM         4.2835E-03  8.5670E-03  9.8506E-02  0.5557    
+ AT NODE            999999      999999      999999      999999
+
+ MINIMUM         4.2835E-03  8.5670E-03  9.8506E-02  0.5557    
+ AT NODE            999999      999999      999999      999999
+
+
+                                INCREMENT    87 SUMMARY
+
+
+     CURRENT LOAD PROPORTIONALITY FACTOR         0.9807    
+     TOTAL ARC LENGTH    3.86    , INCREMENT OF ARC LENGTH   5.000E-02
+  
+  
+  
+  
+                                       N O D E   O U T P U T
+  
+  
+  
+  
+   THE FOLLOWING TABLE IS PRINTED FOR NODES BELONGING TO NODE SET N_RP
+  
+       NODE FOOT-  U1             U2             RF1            RF2          
+            NOTE
+  
+     999999      4.2866494E-03  8.5732989E-03  9.8528934E-02  5.5587797E-01
+
+ MAXIMUM         4.2866E-03  8.5733E-03  9.8529E-02  0.5559    
+ AT NODE            999999      999999      999999      999999
+
+ MINIMUM         4.2866E-03  8.5733E-03  9.8529E-02  0.5559    
+ AT NODE            999999      999999      999999      999999
+
+
+                                INCREMENT    88 SUMMARY
+
+
+     CURRENT LOAD PROPORTIONALITY FACTOR         0.9932    
+     TOTAL ARC LENGTH    3.91    , INCREMENT OF ARC LENGTH   5.000E-02
+  
+  
+  
+  
+                                       N O D E   O U T P U T
+  
+  
+  
+  
+   THE FOLLOWING TABLE IS PRINTED FOR NODES BELONGING TO NODE SET N_RP
+  
+       NODE FOOT-  U1             U2             RF1            RF2          
+            NOTE
+  
+     999999      4.2897775E-03  8.5795550E-03  9.8551932E-02  5.5609359E-01
+
+ MAXIMUM         4.2898E-03  8.5796E-03  9.8552E-02  0.5561    
+ AT NODE            999999      999999      999999      999999
+
+ MINIMUM         4.2898E-03  8.5796E-03  9.8552E-02  0.5561    
+ AT NODE            999999      999999      999999      999999
+
+
+                                INCREMENT    89 SUMMARY
+
+
+     CURRENT LOAD PROPORTIONALITY FACTOR          1.006    
+     TOTAL ARC LENGTH    3.96    , INCREMENT OF ARC LENGTH   5.000E-02
+  
+  
+  
+  
+                                       N O D E   O U T P U T
+  
+  
+  
+  
+   THE FOLLOWING TABLE IS PRINTED FOR NODES BELONGING TO NODE SET N_RP
+  
+       NODE FOOT-  U1             U2             RF1            RF2          
+            NOTE
+  
+     999999      4.2929055E-03  8.5858111E-03  9.8574749E-02  5.5630829E-01
+
+ MAXIMUM         4.2929E-03  8.5858E-03  9.8575E-02  0.5563    
+ AT NODE            999999      999999      999999      999999
+
+ MINIMUM         4.2929E-03  8.5858E-03  9.8575E-02  0.5563    
+ AT NODE            999999      999999      999999      999999
+
+
+          THE ANALYSIS HAS BEEN COMPLETED
+
+
+
+                              ANALYSIS COMPLETE
+                              WITH     10 WARNING MESSAGES ON THE DAT FILE
+
+
+
+     JOB TIME SUMMARY
+       USER TIME (SEC)      =     2.82E+02
+       SYSTEM TIME (SEC)    =      12.    
+       TOTAL CPU TIME (SEC) =     2.95E+02
+       WALLCLOCK TIME (SEC) =          108
