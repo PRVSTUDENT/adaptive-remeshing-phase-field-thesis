@@ -1,0 +1,49 @@
+{
+  "cycle": 5,
+  "job_name": "PK_METHOD_C_LPANEL_CYCLE5",
+  "status": "TRANSFER_GATE_FAILED",
+  "benchmark": "L-Shaped Panel (Winkler 2001 / Miehe 2010 Fig. 19)",
+  "donor_uy_mm": 0.28160715103149414,
+  "terminal_uy_mm": 0.30163517594337463,
+  "terminal_rf2_kn": 0.1579960733652115,
+  "peak_rf2_kn": 0.17042706906795502,
+  "tip_mm": [
+    240.648575,
+    255.331055
+  ],
+  "tip_history_chord_sum_mm": 12.521416,
+  "max_damage": 0.9615362137556076,
+  "mesh_elements": 7160,
+  "mesh_nodes": 7204,
+  "gate_results": {
+    "force_continuity_delta_pct": 6.774075255905817,
+    "force_continuity_pass": false,
+    "energy_continuity_delta_sdv17_pct": -69.67550053175162,
+    "energy_continuity_delta_sdv18_pct": 6.777640926246301,
+    "global_max_damage_nonhealing_pass": true,
+    "evaluation_timing": "after two-step job; failure forbids donor acceptance and further cycles",
+    "hold_energies": {
+      "SDV17": 0.0003884423966512678,
+      "SDV18": 0.023996740850301172
+    },
+    "donor_energies": {
+      "SDV17": 0.0012809523766682145,
+      "SDV18": 0.022473563418465348
+    }
+  },
+  "elapsed_seconds": 55.01366329193115,
+  "completion": false,
+  "completion_reason": "TRANSFER_GATE_FAILED",
+  "input_sha256": "FB072039F9BF3154B6C739A2E6E3819178A725D47020C2BC5D7E09BFDBF14D5C",
+  "mesh_sha256": "6A5FBFC2C331AAE0BC03500BF793CBF1B552064845627AFB70C1EB66820CEA9B",
+  "source_sha256": "CE8D5EDCD2911DCB018BB15275271F874E7EA62B8FB48CF4A8297469A83ACDD6",
+  "donor_cutoff": {
+    "frame": 31,
+    "time": 1.0594433546066284
+  },
+  "pbs_submissions": 0,
+  "cumulative_pbs_submissions": 73,
+  "transfer_implementation_sha256": "CCFE33814C6ADE6D8EAF6DE9DFD17C98E622497AAF3B16A6BFFC267F9F532621",
+  "transfer_implementation": "Unchanged Case 1 spatial nearest-neighbour damage/history transfer",
+  "donor_checkpoint_sha256": "A084ADD0B7FE8CEEE26F97AEF82F02A65624CA5F901B0514215EDD439EDD6DD7"
+}
