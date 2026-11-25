@@ -1,0 +1,5 @@
+# Narrow-band adaptive mesh and damage video
+
+Assembled existing coarse and cycle 1–9 side-by-side mesh/damage PNGs from `models/novel_inclined_notch_hole/campaign_results_narrow_band/` into `results/animations/inclined_notch_hole_narrow_band_mesh_damage_cycles_0_9.mp4`. This is a sequence of discrete saved end states, not intermediate solver frames. Cycle 9 summary records donor checkpoint SHA-256 CC9321A535CF3BF92AAF98590AB2C398212FC603EE6CC2CA0D45E9A8E6EE08CA. No simulation, transfer, or HPC submission was performed.
+
+Video: H.264, 2160 x 990, 24 fps, 27.5 s; SHA-256 71A5A613BCB8E4D4DC9D6388718F4B76C2FB45E667FC4C12B7AE1BCBDE426358. Source images retain cycle, load, mesh and damage labels. ffprobe metadata and full ffmpeg decode passed. Base commit 2043432f4a050808d2180957cac537966adfdde6. Master goal remains COMPLETE.
