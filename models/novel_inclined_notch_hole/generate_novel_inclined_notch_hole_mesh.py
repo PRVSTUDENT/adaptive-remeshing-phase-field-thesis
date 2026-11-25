@@ -131,7 +131,12 @@ def build_narrow_band_polygon(tip_x=NOTCH_TIP_X, tip_y=NOTCH_TIP_Y, tip_history=
         p_ahead = (NOTCH_TIP_X + ahead_d * v_to_hole[0], NOTCH_TIP_Y + ahead_d * v_to_hole[1])
         centerline = [p_wake, pts[0], p_ahead]
     else:
-        p_wake = (NOTCH_TIP_X - wake_d * v_notch[0], NOTCH_TIP_Y - wake_d * v_notch[1])
+        # Collinear backward wake projection along initial crack tangent (prevents acute fold-back)
+        v0_x = pts[1][0] - pts[0][0]
+        v0_y = pts[1][1] - pts[0][1]
+        l0 = math.hypot(v0_x, v0_y)
+        v0 = (v0_x / l0, v0_y / l0) if l0 > 1e-6 else v_to_hole
+        p_wake = (pts[0][0] - wake_d * v0[0], pts[0][1] - wake_d * v0[1])
         last_seg_dx = pts[-1][0] - pts[-2][0]
         last_seg_dy = pts[-1][1] - pts[-2][1]
         last_seg_len = math.hypot(last_seg_dx, last_seg_dy)
