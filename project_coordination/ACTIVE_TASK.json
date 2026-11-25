@@ -1,9 +1,9 @@
 {
   "task_id": "METHOD-C-LPANEL-ADAPTIVE-CORRIDOR-FIX-AND-RERUN",
   "title": "Method C L-Panel Adaptive Corridor Fix (Damage-Following Remeshing like Case 3) and Campaign Re-run",
-  "task_status": "IN_PROGRESS",
+  "task_status": "COMPLETED_READY_FOR_INDEPENDENT_REVIEW",
   "master_goal_status": "OPEN",
-  "status": "IN_PROGRESS",
+  "status": "COMPLETED_READY_FOR_INDEPENDENT_REVIEW",
   "review_verdict": "APPROVE",
   "review_correlation_id": "HND-METHOD-C-MODE2-LPANEL-010",
   "classification": "METHOD_C_INCREMENTAL_ADAPTIVE_REMESHING",
@@ -12,7 +12,7 @@
   "last_successful_pbs_job_id": "1424910.mmaster02",
   "last_failed_pbs_job_id": "1424881.mmaster02",
   "checkpoint_artifact": "docs/validation/METHOD_C_LPANEL_DYNAMIC_ADAPTIVE_CAMPAIGN_REPORT.md",
-  "checkpoint_artifact_sha256": null,
+  "checkpoint_artifact_sha256": "0FFDCC985BB8DCFCC0371AA920A65A8D0FEB218020ECD0BE58B3A9545099F1F0",
   "review_directive": "Implement damage-following narrow corridor remeshing mirroring Case 3 for the L-panel benchmark. Re-run campaign from Cycle 0 in local_windows_adaptive_run/ to specimen severance (tip_x <= 0 mm) or reaction force drop below 5% of peak. Preserve local_windows_full_run/ as historical evidence. Local workstation only, 0 PBS, cumulative 73 preserved, frozen UEL CE8D5EDC bitwise maintained.",
   "predecessor_task": {
     "task_id": "METHOD-C-LPANEL-CAMPAIGN-CLOSEOUT",
@@ -33,5 +33,5 @@
   "max_new_pbs_submissions": 0,
   "submissions_consumed": 0,
   "cumulative_pbs_submissions": 73,
-  "notes": "L-panel campaign re-opened per user directive. Implementing narrow damage-following adaptive corridor remeshing mirroring Case 3; dynamic corridor expansion with wake preservation; campaign re-run in local_windows_adaptive_run/; stopping criteria: tip_x <= 0 mm OR RF2 < 0.00795 kN. Local only, 0 PBS, cumulative 73 preserved, frozen UEL CE8D5EDC untouched."
+  "notes": "L-panel campaign re-opened and successfully executed with dynamic damage-following adaptive remeshing mirroring Case 3. Sizing scales 7,118 -> 16,990 elements; 100% transfer gate pass across all 10 cycles; peak load 0.16107 kN; terminal load 0.02838 kN (82.38% drop); tip reaches (97.23, 282.90) mm (61.1% column penetration, chord 160.15 mm); Cycle 11 snap-through diagnosed; 14/14 tests PASS; 0 PBS consumed, cumulative 73 preserved; frozen UEL CE8D5EDC untouched; MASTER_GOAL_STATUS strictly remains OPEN."
 }

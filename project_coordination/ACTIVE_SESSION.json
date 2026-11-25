@@ -1,19 +1,9 @@
 {
-  "active": true,
-  "agent": "gemini-antigravity",
-  "task_id": "METHOD-C-LPANEL-ADAPTIVE-CORRIDOR-FIX-AND-RERUN",
-  "session_id": "2026-11-25_gemini_lpanel_adaptive_001",
-  "started_at": "2026-11-25T01:50:00+01:00",
+  "active": false,
+  "agent": null,
+  "task_id": null,
+  "session_id": null,
+  "started_at": null,
   "starting_commit": "c8281b4de1ed2c48cc49b8f7651fe17b9c0f2eba",
-  "allowed_write_scope": [
-    "models/mode_II_or_l_panel/*",
-    "scripts/remeshing/*",
-    "scripts/state_transfer/*",
-    "docs/validation/*",
-    "docs/meetings/*",
-    "tests/unit/*",
-    "project_coordination/*",
-    ".agents/scripts/*",
-    ".gitignore"
-  ]
+  "allowed_write_scope": []
 }

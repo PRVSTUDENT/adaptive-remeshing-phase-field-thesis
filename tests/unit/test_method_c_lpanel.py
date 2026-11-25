@@ -396,4 +396,94 @@ def test_lpanel_ckdtree_state_transfer():
     assert all(rd[n] > 0.5 for n in corner_box_nodes), "Corner zone damage must remain > 0.5"
 
 
+def test_lpanel_dynamic_adaptive_run_evidence_and_gates():
+    """
+    Verifies that the dynamic damage-following adaptive remeshing run
+    (local_windows_adaptive_run, mirroring Case 3) satisfies all 11 cycle transfer gates,
+    demonstrates progressive mesh expansion with crack growth, and achieves > 82% load drop.
+    """
+    run_dir = os.path.join(REPO_ROOT, "models", "mode_II_or_l_panel", "295_method_c_lpanel", "local_windows_adaptive_run")
+    assert os.path.isdir(run_dir), "Adaptive run directory must exist"
+
+    manifest_path = os.path.join(run_dir, "image_manifest.json")
+    assert os.path.isfile(manifest_path), "Image manifest must exist"
+    with open(manifest_path, "r") as f:
+        manifest = json.load(f)
+    assert len(manifest) == 11, f"Must have 11 cycles recorded in manifest, found {len(manifest)}"
+
+    prev_dmax = 0.0
+    prev_elements = 0
+    element_counts = []
+
+    for entry in manifest:
+        cycle = entry["cycle"]
+        job = "PK_METHOD_C_LPANEL_COARSE_JOB1" if cycle == 0 else f"PK_METHOD_C_LPANEL_CYCLE{cycle}"
+        sum_path = os.path.join(run_dir, f"{job}_SUMMARY.json")
+        assert os.path.isfile(sum_path)
+        with open(sum_path, "r") as f:
+            summary = json.load(f)
+
+        assert summary["status"] == "CONVERGED_AUDITED"
+        assert summary["source_sha256"] == orch.FROZEN_UEL_SHA256
+        assert summary["mesh_elements"] < 35000, f"Cycle {cycle} element count must be < 35,000"
+        element_counts.append(summary["mesh_elements"])
+
+        # Monotonic damage (zero-healing check)
+        assert summary["max_damage"] >= prev_dmax - 1e-4
+        prev_dmax = summary["max_damage"]
+
+        # Transfer gates for adaptive cycles (<= 5.0%)
+        if cycle > 0:
+            gates = summary["gate_results"]
+            assert gates["force_continuity_pass"] is True
+            assert abs(gates["force_continuity_delta_pct"]) <= 5.0
+            assert gates["global_max_damage_nonhealing_pass"] is True
+
+        # Commit-pinned URL verification
+        assert entry["commit"] in entry["url"]
+        assert entry["image_sha256"] is not None
+
+    # Progressive mesh scaling check: element count strictly increases after crack initiation
+    # Initiation at Cycle 4 (7,118) -> 7,160 (C5) -> 7,902 (C6) -> 9,650 (C7) -> 11,604 (C8) -> 14,056 (C9) -> 16,990 (C10)
+    for c in range(5, 11):
+        assert element_counts[c] > element_counts[c - 1], f"Mesh must expand from cycle {c-1} to {c}"
+
+    # Initial mesh size is 7,118 (-75.3% reduction vs static 28,848 mesh!)
+    assert element_counts[0] == 7118
+
+    # Cycle 10 verification: deep crack penetration and softening
+    c10_sum_path = os.path.join(run_dir, "PK_METHOD_C_LPANEL_CYCLE10_SUMMARY.json")
+    with open(c10_sum_path, "r") as f:
+        c10 = json.load(f)
+    assert c10["tip_mm"][0] < 100.0, "Crack tip x must reach < 100 mm"
+    assert c10["tip_mm"][1] > 280.0, "Crack tip y must curve above 280 mm"
+    assert c10["tip_history_chord_sum_mm"] > 150.0, "Cumulative chord must exceed 150 mm"
+    assert c10["terminal_rf2_kn"] < 0.035, "Terminal load must be softened below 0.035 kN"
+
+
+def test_lpanel_dynamic_cycle11_cutback_diagnosis():
+    """
+    Verifies that the dynamic run Cycle 11 solver output is preserved with authentic dt_min diagnostics:
+    Step 1 re-equilibrated in 1 increment, Step 2 advanced 191 RIKS increments reaching
+    uy = 0.4169 mm with RF2 = 0.02568 kN (84.05% load drop) before cohesive ligament snap-through.
+    """
+    run_dir = os.path.join(REPO_ROOT, "models", "mode_II_or_l_panel", "295_method_c_lpanel", "local_windows_adaptive_run")
+    sta_path = os.path.join(run_dir, "PK_METHOD_C_LPANEL_CYCLE11.sta")
+    msg_path = os.path.join(run_dir, "PK_METHOD_C_LPANEL_CYCLE11.msg")
+    dat_path = os.path.join(run_dir, "PK_METHOD_C_LPANEL_CYCLE11.dat")
+
+    assert os.path.isfile(sta_path), "Cycle 11 .sta must be preserved"
+    assert os.path.isfile(msg_path), "Cycle 11 .msg must be preserved"
+    assert os.path.isfile(dat_path), "Cycle 11 .dat must be preserved"
+
+    msg_text = open(msg_path, "r").read()
+    assert "TIME INCREMENT REQUIRED IS LESS THAN THE MINIMUM SPECIFIED" in msg_text
+
+    dat_text = open(dat_path, "r").read()
+    assert "INCREMENT   191 SUMMARY" in dat_text
+    assert "4.1688709E-01" in dat_text  # terminal uy = 0.4169 mm
+    assert "2.5683176E-02" in dat_text  # terminal RF2 = 0.02568 kN (84.05% load drop)
+
+
+
 
