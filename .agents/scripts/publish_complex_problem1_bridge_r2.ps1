@@ -150,11 +150,11 @@ INDEPENDENT_STRUCTURED_REVIEW_V1
 
 if ($Publish) {
     Write-Output "Publishing HND-METHOD-C-COMPLEX-003 to ChatGPT bridge..."
-    $result = Invoke-ChatGPTBridge -Prompt $prompt -Wait
+    $result = Invoke-ChatGPTBridge -PromptText $prompt -HandoffId "HND-METHOD-C-COMPLEX-003" -TaskId "METHOD-C-COMPLEX-MODELS" -LaunchPad
     Write-Output "Bridge publication complete."
     $result
 } else {
     Write-Output "Validating prompt against canonical bridge policy..."
-    $packet = New-BridgeCanonicalPrompt -PromptText $prompt -HandoffId "HND-METHOD-C-COMPLEX-003" -TaskId "METHOD-C-COMPLEX-MODELS"
+    $result = Invoke-ChatGPTBridge -PromptText $prompt -HandoffId "HND-METHOD-C-COMPLEX-003" -TaskId "METHOD-C-COMPLEX-MODELS" -DryRun
     Write-Output "Validation PASS. Ready to publish with -Publish."
 }
