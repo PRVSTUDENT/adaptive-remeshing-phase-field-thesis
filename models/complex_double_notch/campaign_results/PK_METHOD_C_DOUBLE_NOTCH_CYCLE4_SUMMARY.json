@@ -1,0 +1,56 @@
+{
+  "cycle": 4,
+  "job_name": "PK_METHOD_C_DOUBLE_NOTCH_CYCLE4",
+  "status": "CONVERGED_AUDITED",
+  "benchmark": "Problem 2: Double Notch Symmetrical Crack Coalescence",
+  "donor_uy_mm": 0.006063118111342192,
+  "terminal_uy_mm": 0.006594527047127485,
+  "terminal_rf2_kn": 0.6055908203125,
+  "peak_rf2_kn": 0.6644667983055115,
+  "left_tip_mm": [
+    0.385053396,
+    0.842839122
+  ],
+  "right_tip_mm": [
+    0.618446589,
+    0.842839122
+  ],
+  "tip_distance_mm": 0.233393,
+  "coalesced": false,
+  "left_crack_arc_length_s1_mm": 0.038284,
+  "right_crack_arc_length_s2_mm": 0.036647,
+  "max_damage": 0.9735069076220194,
+  "mesh_elements": 16847,
+  "mesh_nodes": 17021,
+  "gate_results": {
+    "force_continuity_delta_pct": -0.6831635728527489,
+    "force_continuity_pass": true,
+    "energy_continuity_delta_sdv17_pct": 5.870130187202418,
+    "energy_continuity_delta_sdv18_pct": -0.6824763611610606,
+    "global_max_damage_nonhealing_pass": true,
+    "evaluation_timing": "after two-step job; failure forbids donor acceptance and further cycles",
+    "hold_energies": {
+      "SDV17": 0.00021073001957615118,
+      "SDV18": 0.0019970780579309493
+    },
+    "donor_energies": {
+      "SDV17": 0.0001990457735373827,
+      "SDV18": 0.002010801301483493
+    }
+  },
+  "elapsed_seconds": 75.0166380405426,
+  "completion": false,
+  "completion_reason": "IN_PROGRESS",
+  "donor_checkpoint_sha256": "E785CF30A4247E82FEE4456BA9E2EA880E6092844F11CB5D77EB649F5320E5AC",
+  "input_sha256": "623F8ED4B36F0D51DA352AE01A7B4C8344252E95F5509689DAA2E640D1612EB4",
+  "mesh_sha256": "C3B8D60ED881B2551BBFE7212AA99171E867AA26C144E04F1EDAEFC9A01C9B09",
+  "source_sha256": "CE8D5EDCD2911DCB018BB15275271F874E7EA62B8FB48CF4A8297469A83ACDD6",
+  "donor_cutoff": {
+    "frame": 20,
+    "time": 0.8412500023841858
+  },
+  "pbs_submissions": 0,
+  "cumulative_pbs_submissions": 73,
+  "transfer_implementation_sha256": "81AE81FCFA181A84616435DCF49B4F2A8E87DF51172EC4774B48758422A36A02",
+  "transfer_implementation": "cKDTree nearest-neighbour nodal damage and Gauss-point history transfer"
+}
