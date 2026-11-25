@@ -1,0 +1,37 @@
+{
+  "cycle": 0,
+  "job_name": "PK_METHOD_C_TWO_HOLE_COARSE_JOB1",
+  "status": "CONVERGED_AUDITED",
+  "benchmark": "Problem 1: Inclined Notch + Two Holes in Series",
+  "donor_uy_mm": 0.0,
+  "terminal_uy_mm": 0.0044999998062849045,
+  "terminal_rf2_kn": 0.6076085567474365,
+  "peak_rf2_kn": 0.6076085567474365,
+  "tip1_mm": [
+    0.35355339,
+    0.85355339
+  ],
+  "tip2_mm": null,
+  "tip1_entered_hole1": false,
+  "tip2_entered_hole2": false,
+  "active_tip_mm": [
+    0.35355339,
+    0.85355339
+  ],
+  "tip_history_chord_sum_mm": 0.0,
+  "max_damage": 0.2853986769914627,
+  "mesh_elements": 6348,
+  "mesh_nodes": 6510,
+  "gate_results": {},
+  "elapsed_seconds": 55.013254165649414,
+  "completion": false,
+  "completion_reason": "IN_PROGRESS",
+  "input_sha256": "DA871878006906391FD7958B64785DB035EB87E6F559296A4D1325FEC7A17AC3",
+  "mesh_sha256": "C049FC7ED0BCB4B4DE7AA4A118659487FB4015BB33AD2476D7ED865780993581",
+  "source_sha256": "CE8D5EDCD2911DCB018BB15275271F874E7EA62B8FB48CF4A8297469A83ACDD6",
+  "donor_cutoff": null,
+  "pbs_submissions": 0,
+  "cumulative_pbs_submissions": 73,
+  "transfer_implementation_sha256": "A90E0DE7C67F377DC47C84918660AB5E9A73600525E37101E740D7B0042239BB",
+  "transfer_implementation": "cKDTree nearest-neighbour nodal damage and Gauss-point history transfer"
+}

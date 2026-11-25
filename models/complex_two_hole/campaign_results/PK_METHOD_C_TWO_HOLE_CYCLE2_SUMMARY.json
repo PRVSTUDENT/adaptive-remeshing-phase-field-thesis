@@ -1,0 +1,55 @@
+{
+  "cycle": 2,
+  "job_name": "PK_METHOD_C_TWO_HOLE_CYCLE2",
+  "status": "CONVERGED_AUDITED",
+  "benchmark": "Problem 1: Inclined Notch + Two Holes in Series",
+  "donor_uy_mm": 0.005022389814257622,
+  "terminal_uy_mm": 0.005526600405573845,
+  "terminal_rf2_kn": 0.7134348750114441,
+  "peak_rf2_kn": 0.7134348750114441,
+  "tip1_mm": [
+    0.353360027,
+    0.848635793
+  ],
+  "tip2_mm": null,
+  "tip1_entered_hole1": false,
+  "tip2_entered_hole2": false,
+  "active_tip_mm": [
+    0.353360027,
+    0.848635793
+  ],
+  "tip_history_chord_sum_mm": 0.004921,
+  "max_damage": 0.7358538309733073,
+  "mesh_elements": 6348,
+  "mesh_nodes": 6510,
+  "gate_results": {
+    "force_continuity_delta_pct": -0.029572607535436026,
+    "force_continuity_pass": true,
+    "energy_continuity_delta_sdv17_pct": 0.8216444055718927,
+    "energy_continuity_delta_sdv18_pct": -0.02956860407453079,
+    "global_max_damage_nonhealing_pass": true,
+    "evaluation_timing": "after two-step job; failure forbids donor acceptance and further cycles",
+    "hold_energies": {
+      "SDV17": 6.01527703375047e-05,
+      "SDV18": 0.0016763469494313916
+    },
+    "donor_energies": {
+      "SDV17": 5.9662556281595785e-05,
+      "SDV18": 0.0016768427684305412
+    }
+  },
+  "elapsed_seconds": 60.01403498649597,
+  "completion": false,
+  "completion_reason": "IN_PROGRESS",
+  "input_sha256": "AF038C5FD118207864AD9C75E91703E7933EDC511349FEB51774EF7A6CCB2CA7",
+  "mesh_sha256": "CC1AF8DB76E9A4ED166DDB39DC251FDA4547CE0E270368276DB63944AB3593F6",
+  "source_sha256": "CE8D5EDCD2911DCB018BB15275271F874E7EA62B8FB48CF4A8297469A83ACDD6",
+  "donor_cutoff": {
+    "frame": 24,
+    "time": 1.0412499904632568
+  },
+  "pbs_submissions": 0,
+  "cumulative_pbs_submissions": 73,
+  "transfer_implementation_sha256": "A90E0DE7C67F377DC47C84918660AB5E9A73600525E37101E740D7B0042239BB",
+  "transfer_implementation": "cKDTree nearest-neighbour nodal damage and Gauss-point history transfer"
+}
