@@ -1,7 +1,7 @@
 ﻿# -*- coding: utf-8 -*-
 # .agents/scripts/dispatch_method_c_novel_narrow_band_001.ps1
-# Dispatches Method C Novel Complex Problem Narrow Damage-Following Band Campaign Report
-# (HND-METHOD-C-MODE2-LPANEL-016) to Independent Scientific Supervision (ChatGPT) across OpenClaw PAD Bridge.
+# Dispatches Method C Novel Complex Problem Narrow Damage-Following Band Final Completion Report
+# (HND-METHOD-C-MODE2-LPANEL-017) to Independent Scientific Supervision (ChatGPT) across OpenClaw PAD Bridge.
 
 param(
     [switch]$CheckOnly,
@@ -13,10 +13,10 @@ $ErrorActionPreference = 'Stop'
 . "$PSScriptRoot\Invoke-ChatGPTBridge.ps1"
 
 $taskId = "METHOD-C-NOVEL-INCLINED-NOTCH-HOLE"
-$handoffId = "HND-METHOD-C-MODE2-LPANEL-016"
-$predecessorHandoffId = "HND-METHOD-C-MODE2-LPANEL-015"
+$handoffId = "HND-METHOD-C-MODE2-LPANEL-017"
+$predecessorHandoffId = "HND-METHOD-C-MODE2-LPANEL-016"
 
-$reportPath = Join-Path $PSScriptRoot "..\..\docs\validation\METHOD_C_NOVEL_NARROW_BAND_CAMPAIGN_REPORT.md"
+$reportPath = Join-Path $PSScriptRoot "..\..\docs\validation\METHOD_C_NOVEL_INCLINED_NOTCH_HOLE_NARROW_BAND_REPORT.md"
 if (-not (Test-Path $reportPath)) { throw "Report not found: $reportPath" }
 $reportSha = (Get-FileHash -Path $reportPath -Algorithm SHA256).Hash.ToUpper()
 
@@ -55,11 +55,11 @@ $payload = [ordered]@{
     correlation_id = $handoffId
     predecessor_correlation_id = $predecessorHandoffId
     task_id = $taskId
-    title = "Method C Novel Complex Problem — Narrow Damage-Following Band Fix (Replace Bounding-Box Corridor, Re-Run From Cycle 0)"
+    title = "Method C Novel Complex Problem — Narrow-Band Re-Run Final Handoff Request (Submit Completion Evidence for Independent Review and Goal Closeout)"
     goal_id = "METHOD_C_MODE2_LPANEL_V1"
     canonical_rules_sha256 = $rulesSha
     artifact_commit = $commitSha
-    checkpoint_artifact = "docs/validation/METHOD_C_NOVEL_NARROW_BAND_CAMPAIGN_REPORT.md"
+    checkpoint_artifact = "docs/validation/METHOD_C_NOVEL_INCLINED_NOTCH_HOLE_NARROW_BAND_REPORT.md"
     checkpoint_artifact_sha256 = $reportSha
     research_contract = [ordered]@{
         goal_id = "METHOD_C_MODE2_LPANEL_V1"
@@ -90,6 +90,7 @@ $payload = [ordered]@{
         post_peak_load_drop_pct = 28.12
         peak_reaction_force_kn = 0.8043678998947144
         terminal_reaction_force_kn = 0.5781657099723816
+        load_drop_comparison = "Narrow band stopped at initial hole boundary contact in Cycle 9 with 28.12% load drop (0.8044 -> 0.5782 kN) vs. bounding box run advancing past boundary to 59.70% load drop (0.8030 -> 0.3236 kN)"
         transfer_gate_pass_rate = "9/9 (100%)"
         max_transfer_force_delta_pct = -0.8238
         mesh_growth_scaling = "5,678 elements scaling dynamically to 8,597 elements (Cycle 9), achieving 68.9% reduction vs bounding box (27,608 elements), with >97.4% quads and min det(J) > 0"
@@ -102,9 +103,9 @@ $payload = [ordered]@{
     }
     evidence_manifest = [ordered]@{
         validation_report = [ordered]@{
-            path = "docs/validation/METHOD_C_NOVEL_NARROW_BAND_CAMPAIGN_REPORT.md"
+            path = "docs/validation/METHOD_C_NOVEL_INCLINED_NOTCH_HOLE_NARROW_BAND_REPORT.md"
             sha256 = $reportSha
-            github_url = "https://github.com/PRVSTUDENT/adaptive-remeshing-phase-field-thesis/blob/$commitSha/docs/validation/METHOD_C_NOVEL_NARROW_BAND_CAMPAIGN_REPORT.md"
+            github_url = "https://github.com/PRVSTUDENT/adaptive-remeshing-phase-field-thesis/blob/$commitSha/docs/validation/METHOD_C_NOVEL_INCLINED_NOTCH_HOLE_NARROW_BAND_REPORT.md"
         }
         cycle9_summary = [ordered]@{
             path = "models/novel_inclined_notch_hole/campaign_results_narrow_band/PK_METHOD_C_NOVEL_CYCLE9_SUMMARY.json"

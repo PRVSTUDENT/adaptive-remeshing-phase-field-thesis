@@ -1,30 +1,30 @@
 {
   "task_id": "METHOD-C-NOVEL-INCLINED-NOTCH-HOLE",
-  "title": "Method C Novel Complex Problem — Narrow Damage-Following Band Fix (Replace Bounding-Box Corridor, Re-Run From Cycle 0)",
+  "title": "Method C Novel Complex Problem — Narrow-Band Re-Run Final Handoff Request (Submit Completion Evidence for Independent Review and Goal Closeout)",
   "task_status": "COMPLETED_READY_FOR_INDEPENDENT_REVIEW",
   "master_goal_status": "OPEN",
   "status": "COMPLETED_READY_FOR_INDEPENDENT_REVIEW",
   "review_verdict": "APPROVE",
-  "review_correlation_id": "HND-METHOD-C-MODE2-LPANEL-015",
+  "review_correlation_id": "HND-METHOD-C-MODE2-LPANEL-016",
   "classification": "METHOD_C_INCREMENTAL_ADAPTIVE_REMESHING",
   "assigned_agent": "gemini-antigravity",
   "active_pbs_job_id": null,
   "last_successful_pbs_job_id": "1424910.mmaster02",
   "last_failed_pbs_job_id": "1424881.mmaster02",
-  "checkpoint_artifact": "docs/validation/METHOD_C_NOVEL_NARROW_BAND_CAMPAIGN_REPORT.md",
-  "checkpoint_artifact_sha256": "02F25841F6358960001633E00DE183D1B6A7E57ACEEEB8EBDAFFEF7C8C4E90BB",
-  "review_directive": "The user has directed a fix (25 Nov 2026 ~06:09): the novel inclined-notch-plus-hole corridor is too wide and must be replaced with a narrow band like Case 3, then the campaign re-run. (1) FIX THE CORRIDOR: replace bounding-box corridor with a NARROW damage-following band around the crack path (band half-width = 0.025 mm ~ 3.3 * l0). Keep h_ref = 0.0035 mm inside band and h_bg = 0.035 mm outside. Keep cKDTree transfer, single-increment Step 1 hold and RIKS Step 2, +/-5% force gates and no-healing checks. (2) ACCEPTANCE TEST: mesh generator must produce a narrow band hugging crack, element count substantially below 27,608. (3) RE-RUN: re-run in a fresh run directory; do not overwrite bounding-box run (HND-014). (4) EVIDENCE: commit/push per cycle with mesh+damage images and summaries. Local PC only, 0 PBS (cumulative 73), frozen UEL CE8D5EDC untouched, HPC 1424916 untouched, stall checks in force.",
+  "checkpoint_artifact": "docs/validation/METHOD_C_NOVEL_INCLINED_NOTCH_HOLE_NARROW_BAND_REPORT.md",
+  "checkpoint_artifact_sha256": "41C7D014B159DC73B666939CF47BEF70DA1EEB180EE4E931035273ADFE214E8D",
+  "review_directive": "The user directed that the narrow-band re-run be finished as it stands, with no extension past the hole. Submit the final completion handoff for the narrow-band re-run now, following the bridge loop: send final work to ChatGPT/Muse for confirmation, await review, and if approved with goal completed, stop. Handoff includes: validation report docs/validation/METHOD_C_NOVEL_INCLINED_NOTCH_HOLE_NARROW_BAND_REPORT.md, per-cycle ledger Cycles 0-9, narrow-band corridor definition and acceptance-test (thin strip, 68.9% element reduction vs bounding box at 8,597 vs 27,608), crack path and tip progression, gates, peak and terminal loads, load-drop comparison (28.1% vs 59.7%), Cycle 9 summary/image with commit-pinned URLs, image manifest, unit test suite (14/14 PASS), evidence manifest, budget declaration (0 PBS, cumulative 73, frozen UEL CE8D5EDC unchanged). Do not overwrite bounding-box run.",
   "predecessor_task": {
     "task_id": "METHOD-C-NOVEL-INCLINED-NOTCH-HOLE",
-    "checkpoint_artifact": "docs/validation/METHOD_C_NOVEL_INCLINED_NOTCH_HOLE_REPORT.md",
+    "checkpoint_artifact": "docs/validation/METHOD_C_NOVEL_NARROW_BAND_CAMPAIGN_REPORT.md",
     "classification": "METHOD_C_INCREMENTAL_ADAPTIVE_REMESHING",
     "review_verdict": "APPROVE",
-    "correlation_id": "HND-METHOD-C-MODE2-LPANEL-014"
+    "correlation_id": "HND-METHOD-C-MODE2-LPANEL-016"
   },
-  "correlation_id": "HND-METHOD-C-MODE2-LPANEL-016",
-  "predecessor_correlation_id": "HND-METHOD-C-MODE2-LPANEL-015",
+  "correlation_id": "HND-METHOD-C-MODE2-LPANEL-017",
+  "predecessor_correlation_id": "HND-METHOD-C-MODE2-LPANEL-016",
   "scientific_operation": "method_c_lpanel_setup_and_validation",
-  "scientific_operation_id": "method_c_novel_inclined_notch_hole_narrow_band",
+  "scientific_operation_id": "method_c_novel_inclined_notch_hole_narrow_band_final_handoff",
   "scientific_checkpoint_required": true,
   "frozen_uel_sha256": "CE8D5EDCD2911DCB018BB15275271F874E7EA62B8FB48CF4A8297469A83ACDD6",
   "native_interface_sha256": "E5C98B6F601B1CD586571F8E24F357D15ABBD1C5D5487B52903BA249734279B2",
@@ -35,5 +35,5 @@
   "cumulative_pbs_submissions": 73,
   "current_cycle_completed": 9,
   "cycle0_status": "CONVERGED_AUDITED",
-  "notes": "Reopened per HND-METHOD-C-MODE2-LPANEL-015 to replace bounding-box corridor with a narrow damage-following band (half-width 0.025 mm ~ 3.3 * l0, like Case 3) and re-run the campaign from Cycle 0 in a fresh directory (campaign_results_narrow_band/). Previous bounding-box run (HND-014) preserved intact. Completed Cycles 0 to 9 with 100% transfer gate pass (max jump 0.8238%), 68.9% element reduction (8,597 vs 27,608), and terminal hole contact at r=0.1000 mm == R_hole. Local PC only, 0 PBS, cumulative 73 preserved, frozen UEL CE8D5EDC untouched, MASTER_GOAL_STATUS = OPEN."
+  "notes": "Narrow-band re-run finalized at Cycle 9 per user directive (crack reached circular hole boundary at r = 0.1000 mm == R_hole; stopping criterion CONNECTED_DAMAGE_REACHED_BOUNDARY triggered). Submitted final completion handoff under HND-METHOD-C-MODE2-LPANEL-017 for independent review and master goal closeout. 0 PBS consumed, cumulative 73 preserved, frozen UEL CE8D5EDC unchanged, MASTER_GOAL_STATUS = OPEN."
 }
