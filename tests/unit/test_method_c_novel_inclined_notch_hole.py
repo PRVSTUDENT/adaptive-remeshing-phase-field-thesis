@@ -67,12 +67,14 @@ def test_material_parameters_and_resolution():
 
 
 def test_corridor_specification_and_wake_preservation():
-    # Initial state at notch root
+    # Initial state at notch root (narrow damage-following band)
     spec0 = mesh_gen.compute_corridor_spec(orch.NOTCH_TIP_X, orch.NOTCH_TIP_Y)
     assert spec0["x_min"] <= orch.NOTCH_TIP_X
-    assert spec0["x_max"] >= orch.NOTCH_TIP_X + 0.08
-    assert spec0["y_min"] <= orch.NOTCH_TIP_Y - 0.06
+    assert spec0["x_max"] >= orch.NOTCH_TIP_X
+    assert spec0["y_min"] <= orch.NOTCH_TIP_Y
     assert spec0["y_max"] >= orch.NOTCH_TIP_Y
+    assert spec0["domain_area_fraction_pct"] < 2.0, "Narrow band must occupy < 2.0% of domain"
+    assert spec0["half_width"] == 0.025, "Band half-width must be 0.025 mm (~3.3 * l0)"
 
     # Advancing state curving down-right towards hole
     adv_tip_x = 0.50
@@ -84,8 +86,8 @@ def test_corridor_specification_and_wake_preservation():
     assert spec1["x_min"] <= orch.NOTCH_TIP_X
     assert spec1["y_max"] >= orch.NOTCH_TIP_Y
     # Forward advance: ahead of new tip
-    assert spec1["x_max"] >= adv_tip_x + 0.08
-    assert spec1["y_min"] <= adv_tip_y - 0.06
+    assert spec1["x_max"] >= adv_tip_x
+    assert spec1["domain_area_fraction_pct"] < 2.0, "Advancing band must remain < 2.0% of domain"
 
 
 def test_physical_mesh_quality_audit():

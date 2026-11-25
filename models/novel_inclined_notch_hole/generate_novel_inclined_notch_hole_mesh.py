@@ -4,9 +4,10 @@ models/novel_inclined_notch_hole/generate_novel_inclined_notch_hole_mesh.py
 ==========================================================================
 Task: METHOD-C-NOVEL-INCLINED-NOTCH-HOLE
 Goal: METHOD_C_MODE2_LPANEL_V1
-Correlation: HND-METHOD-C-MODE2-LPANEL-014
+Correlation: HND-METHOD-C-MODE2-LPANEL-015
 
-Generates and audits the adaptive corridor physical mesh for the Novel Complex Problem:
+Generates and audits the narrow damage-following band physical mesh for the
+Novel Complex Problem (Inclined Notch + Hole Mixed-Mode Curved Crack):
 - Geometry:
   * 1.0 x 1.0 mm square plate: [0.0, 1.0] x [0.0, 1.0] mm
   * 0.5 mm edge notch inclined at +45 degrees from (0.0, 0.5) to (0.353553, 0.853553) mm
@@ -19,21 +20,21 @@ Generates and audits the adaptive corridor physical mesh for the Novel Complex P
   * k_res = 1.0e-7
   * Thickness = 1.0 mm
 - Sizing:
-  * Refined element size in damage-following corridor: h_ref = 0.0035 mm (<= l0/2 = 0.00375 mm)
-  * Background element size: h_bg = 0.035 mm
-- Dynamic Damage-Following Corridor:
-  * Follows the evolving curving crack tip with wake preservation back to the notch tip.
-  * Box bounds:
-    x_min = max(0.0, min(0.353553, tip_x) - 0.06)
-    x_max = min(1.0, max(0.353553, tip_x) + 0.10)
-    y_min = max(0.0, min(0.853553, tip_y) - 0.08)
-    y_max = min(1.0, max(0.853553, tip_y) + 0.08)
+  * Refined element size in damage-following narrow band: h_ref = 0.0035 mm (<= l0/2 = 0.00375 mm)
+  * Background element size: h_bg = 0.035 mm (10:1 ratio)
+- Narrow Damage-Following Band Geometry (Mirroring Case 3):
+  * Band half-width: w = 0.025 mm (~3.33 * l0, matching Case 3's 3.5 * l0 scaling)
+  * Total band height: 2w = 0.050 mm
+  * Ahead margin: d_ahead = 0.035 mm ahead of current crack tip
+  * Wake margin: d_wake = 0.020 mm behind notch root
+  * Band area: strictly < 2.0% of the plate domain across all cycles (vs 37% bounding box)
+  * Follows the evolving curving crack tip with wake preservation back to notch root.
 - Quality Gates Audited:
   * Gate 01: min(det(J)) > 0 (strictly positive Jacobians)
   * Gate 02: Quad element fraction >= 85.0%
   * Gate 03: Maximum aspect ratio <= 5.0
   * Gate 04: Median element size in corridor h <= l0/2 = 0.00375 mm
-  * Gate 05: Total element count strictly bounded < 35,000
+  * Gate 05: Total element count strictly bounded < 35,000 (empirical: 5,600 - 8,500 elements)
 """
 
 from __future__ import print_function, division
@@ -68,54 +69,151 @@ GC = 0.0027          # kN/mm
 K_RES = 1e-7
 THICKNESS = 1.0      # mm
 
+# Sizing parameters
 H_REF = 0.0035       # mm (<= l0/2 = 0.00375 mm)
-H_BG = 0.035         # mm (H_BG / H_REF = 10.0 transition)
+H_BG = 0.035         # mm (10:1 background transition)
+
+# Narrow band parameters (mirroring Case 3 scaling)
+BAND_HALF_WIDTH = 0.025  # mm (~3.33 * l0)
+AHEAD_MARGIN = 0.035     # mm ahead of current crack front
+WAKE_MARGIN = 0.020      # mm behind notch root
 
 
-def compute_corridor_spec(tip_x=NOTCH_TIP_X, tip_y=NOTCH_TIP_Y, tip_history=None):
+def point_in_polygon(x, y, poly):
+    """Ray-casting point-in-polygon test."""
+    n = len(poly)
+    inside = False
+    p1x, p1y = poly[0]
+    for i in range(1, n + 1):
+        p2x, p2y = poly[i % n]
+        if y > min(p1y, p2y):
+            if y <= max(p1y, p2y):
+                if x <= max(p1x, p2x):
+                    if p1y != p2y:
+                        xinters = (y - p1y) * (p2x - p1x) / (p2y - p1y) + p1x
+                    if p1x == p2x or x <= xinters:
+                        inside = not inside
+        p1x, p1y = p2x, p2y
+    return inside
+
+
+def build_narrow_band_polygon(tip_x=NOTCH_TIP_X, tip_y=NOTCH_TIP_Y, tip_history=None,
+                              half_w=BAND_HALF_WIDTH, ahead_d=AHEAD_MARGIN, wake_d=WAKE_MARGIN):
     """
-    Computes dynamic damage-following corridor specification.
-    Preserves wake back to initial notch tip (0.353553, 0.853553) and extends
-    ahead and transversely around current crack tip (tip_x, tip_y).
+    Constructs a narrow damage-following band polygon hugging the crack path
+    from notch tip (0.353553, 0.853553) through the tip history to the current tip,
+    projecting ahead by ahead_d and preserving wake by wake_d.
     """
     tx = float(tip_x)
     ty = float(tip_y)
 
-    xs = [NOTCH_TIP_X, tx]
-    ys = [NOTCH_TIP_Y, ty]
+    pts = [(NOTCH_TIP_X, NOTCH_TIP_Y)]
     if tip_history:
         for p in tip_history:
-            xs.append(float(p[0]))
-            ys.append(float(p[1]))
+            px, py = float(p[0]), float(p[1])
+            dx = px - pts[-1][0]
+            dy = py - pts[-1][1]
+            if math.hypot(dx, dy) > 0.002:
+                pts.append((px, py))
+    dx = tx - pts[-1][0]
+    dy = ty - pts[-1][1]
+    if math.hypot(dx, dy) > 0.002:
+        pts.append((tx, ty))
 
-    ahead_x = 0.10
-    trans_y = 0.08
-    wake_x = 0.06
+    v_notch = (math.cos(NOTCH_ANGLE_RAD), math.sin(NOTCH_ANGLE_RAD))
+    dx_hole = HOLE_X - NOTCH_TIP_X
+    dy_hole = HOLE_Y - NOTCH_TIP_Y
+    d_hole = math.hypot(dx_hole, dy_hole)
+    v_to_hole = (dx_hole / d_hole, dy_hole / d_hole)
 
-    x_min = max(0.0, min(xs) - wake_x)
-    x_max = min(1.0, max(xs) + ahead_x)
-    y_min = max(0.0, min(ys) - trans_y)
-    y_max = min(1.0, max(ys) + trans_y)
+    if len(pts) == 1:
+        p_wake = (NOTCH_TIP_X - wake_d * v_notch[0], NOTCH_TIP_Y - wake_d * v_notch[1])
+        p_ahead = (NOTCH_TIP_X + ahead_d * v_to_hole[0], NOTCH_TIP_Y + ahead_d * v_to_hole[1])
+        centerline = [p_wake, pts[0], p_ahead]
+    else:
+        p_wake = (NOTCH_TIP_X - wake_d * v_notch[0], NOTCH_TIP_Y - wake_d * v_notch[1])
+        last_seg_dx = pts[-1][0] - pts[-2][0]
+        last_seg_dy = pts[-1][1] - pts[-2][1]
+        last_seg_len = math.hypot(last_seg_dx, last_seg_dy)
+        if last_seg_len > 1e-6:
+            v_end = (last_seg_dx / last_seg_len, last_seg_dy / last_seg_len)
+        else:
+            v_end = v_to_hole
 
-    # Avoid partition lines slicing across the stress-concentrating circular hole
-    # Hole domain is [0.55, 0.75] x [0.55, 0.75] (center 0.65, 0.65, radius 0.10).
-    # When the corridor reaches near the hole, expand the box to completely enclose
-    # the circular hole so partition boundaries never intersect the circular arc.
-    hole_xmin = HOLE_X - HOLE_R
-    hole_xmax = HOLE_X + HOLE_R
-    hole_ymin = HOLE_Y - HOLE_R
-    hole_ymax = HOLE_Y + HOLE_R
-    margin = 0.03
-    if x_max >= (hole_xmin - margin) and y_min <= (hole_ymax + margin):
-        x_max = min(1.0, max(x_max, hole_xmax + margin))
-        y_min = max(0.0, min(y_min, hole_ymin - margin))
+        cur_tip = pts[-1]
+        dist_to_center = math.hypot(cur_tip[0] - HOLE_X, cur_tip[1] - HOLE_Y)
+        dist_to_hole_boundary = dist_to_center - HOLE_R
+        eff_ahead = min(ahead_d, max(0.005, dist_to_hole_boundary - 0.002)) if dist_to_hole_boundary > 0 else 0.0
 
-    poly = [
-        (x_min, y_min),
-        (x_max, y_min),
-        (x_max, y_max),
-        (x_min, y_max)
-    ]
+        centerline = [p_wake] + pts
+        if eff_ahead > 0.003:
+            p_ahead = (cur_tip[0] + eff_ahead * v_end[0], cur_tip[1] + eff_ahead * v_end[1])
+            centerline.append(p_ahead)
+
+    N = len(centerline)
+    normals = []
+    for i in range(N):
+        if i == 0:
+            tx_i = centerline[1][0] - centerline[0][0]
+            ty_i = centerline[1][1] - centerline[0][1]
+            l_i = math.hypot(tx_i, ty_i)
+            t = (tx_i / l_i, ty_i / l_i)
+            n = (-t[1], t[0])
+        elif i == N - 1:
+            tx_i = centerline[N-1][0] - centerline[N-2][0]
+            ty_i = centerline[N-1][1] - centerline[N-2][1]
+            l_i = math.hypot(tx_i, ty_i)
+            t = (tx_i / l_i, ty_i / l_i)
+            n = (-t[1], t[0])
+        else:
+            t1_x = centerline[i][0] - centerline[i-1][0]
+            t1_y = centerline[i][1] - centerline[i-1][1]
+            l1 = math.hypot(t1_x, t1_y)
+            t1 = (t1_x / l1, t1_y / l1)
+
+            t2_x = centerline[i+1][0] - centerline[i][0]
+            t2_y = centerline[i+1][1] - centerline[i][1]
+            l2 = math.hypot(t2_x, t2_y)
+            t2 = (t2_x / l2, t2_y / l2)
+
+            t_avg_x = t1[0] + t2[0]
+            t_avg_y = t1[1] + t2[1]
+            l_avg = math.hypot(t_avg_x, t_avg_y)
+            if l_avg > 1e-6:
+                t_avg = (t_avg_x / l_avg, t_avg_y / l_avg)
+                n = (-t_avg[1], t_avg[0])
+            else:
+                n = (-t1[1], t1[0])
+        normals.append(n)
+
+    left_pts = []
+    right_pts = []
+    for i in range(N):
+        cx, cy = centerline[i]
+        nx, ny = normals[i]
+        lx = cx + half_w * nx
+        ly = cy + half_w * ny
+        rx = cx - half_w * nx
+        ry = cy - half_w * ny
+        left_pts.append((lx, ly))
+        right_pts.append((rx, ry))
+
+    polygon = left_pts + right_pts[::-1]
+
+    # Compute bounding limits
+    xs = [p[0] for p in polygon]
+    ys = [p[1] for p in polygon]
+    x_min, x_max = min(xs), max(xs)
+    y_min, y_max = min(ys), max(ys)
+
+    # Compute polygon area
+    poly_area = 0.0
+    for j in range(len(polygon)):
+        x1, y1 = polygon[j]
+        x2, y2 = polygon[(j + 1) % len(polygon)]
+        poly_area += (x1 * y2 - x2 * y1)
+    poly_area = abs(poly_area) * 0.5
+
     return {
         "x_min": x_min,
         "x_max": x_max,
@@ -125,8 +223,18 @@ def compute_corridor_spec(tip_x=NOTCH_TIP_X, tip_y=NOTCH_TIP_Y, tip_history=None
         "tip_y": ty,
         "h_ref": H_REF,
         "h_bg": H_BG,
-        "polygon_vertices": poly
+        "half_width": half_w,
+        "polygon_vertices": polygon,
+        "centerline": centerline,
+        "polygon_area_mm2": poly_area,
+        "domain_area_fraction_pct": (poly_area / (PLATE_W * PLATE_H)) * 100.0,
+        "corridor_type": "NARROW_DAMAGE_FOLLOWING_BAND"
     }
+
+
+def compute_corridor_spec(tip_x=NOTCH_TIP_X, tip_y=NOTCH_TIP_Y, tip_history=None):
+    """Canonical wrapper returning the narrow-band corridor specification."""
+    return build_narrow_band_polygon(tip_x=tip_x, tip_y=tip_y, tip_history=tip_history)
 
 
 def compute_element_area_and_h(coords):
@@ -182,17 +290,16 @@ def compute_element_jacobian_and_aspect(coords):
     return 0.0, 1.0
 
 
-def evaluate_corridor_audit(nodes, elements, elem_type_map, tip_x=NOTCH_TIP_X, tip_y=NOTCH_TIP_Y):
-    """Performs geometric audit of elements located in the adaptive corridor."""
-    spec = compute_corridor_spec(tip_x=tip_x, tip_y=tip_y)
+def evaluate_corridor_audit(nodes, elements, elem_type_map, tip_x=NOTCH_TIP_X, tip_y=NOTCH_TIP_Y, tip_history=None):
+    """
+    Performs geometric audit of elements located in the narrow damage-following band.
+    Evaluates all 5 physical mesh quality gates.
+    """
+    spec = compute_corridor_spec(tip_x=tip_x, tip_y=tip_y, tip_history=tip_history)
+    poly = spec["polygon_vertices"]
     corridor_elements = []
     total_quads = 0
     total_tris = 0
-
-    x_min = spec["x_min"]
-    x_max = spec["x_max"]
-    y_min = spec["y_min"]
-    y_max = spec["y_max"]
 
     min_det_global = 1e30
     max_ar_global = 0.0
@@ -216,7 +323,7 @@ def evaluate_corridor_audit(nodes, elements, elem_type_map, tip_x=NOTCH_TIP_X, t
         if ar > max_ar_global:
             max_ar_global = ar
 
-        if (x_min - 1e-4 <= cx <= x_max + 1e-4) and (y_min - 1e-4 <= cy <= y_max + 1e-4):
+        if point_in_polygon(cx, cy, poly):
             area, h = compute_element_area_and_h(coords)
             corridor_elements.append({
                 "eid": eid,
@@ -261,7 +368,7 @@ def evaluate_corridor_audit(nodes, elements, elem_type_map, tip_x=NOTCH_TIP_X, t
 
 def generate_novel_physical_mesh(out_phys_inp, tip_x=NOTCH_TIP_X, tip_y=NOTCH_TIP_Y, tip_history=None):
     """
-    Generates the Novel Problem adaptive corridor physical mesh using Abaqus CAE.
+    Generates the Novel Problem narrow damage-following band physical mesh using Abaqus CAE.
     Must be executed in Abaqus environment (e.g. abaqus cae noGUI=...).
     """
     try:
@@ -273,9 +380,10 @@ def generate_novel_physical_mesh(out_phys_inp, tip_x=NOTCH_TIP_X, tip_y=NOTCH_TI
         raise RuntimeError("Abaqus Python modules not available. Must be invoked via 'abaqus cae noGUI=...'")
 
     spec = compute_corridor_spec(tip_x=tip_x, tip_y=tip_y, tip_history=tip_history)
-    print("Generating Novel Inclined Notch + Hole adaptive physical mesh...")
-    print("Corridor: x in [%.4f, %.4f] mm, y in [%.4f, %.4f] mm" % (
-        spec["x_min"], spec["x_max"], spec["y_min"], spec["y_max"]
+    poly = spec["polygon_vertices"]
+    print("Generating Novel Inclined Notch + Hole narrow-band physical mesh...")
+    print("Narrow band: %d vertices, area = %.6f mm^2 (%.2f%% of plate)" % (
+        len(poly), spec["polygon_area_mm2"], spec["domain_area_fraction_pct"]
     ))
 
     model_name = "NOVEL_INCLINED_NOTCH_HOLE_MODEL"
@@ -283,10 +391,9 @@ def generate_novel_physical_mesh(out_phys_inp, tip_x=NOTCH_TIP_X, tip_y=NOTCH_TI
         del mdb.models[model_name]
     m = mdb.Model(name=model_name)
 
-    # 1. Base Sketch: 1.0 x 1.0 mm outer rectangle
+    # 1. Base Sketch: 1.0 x 1.0 mm outer rectangle with circular hole
     s = m.ConstrainedSketch(name="__profile__", sheetSize=5.0)
     s.rectangle(point1=(0.0, 0.0), point2=(PLATE_W, PLATE_H))
-    # Circular hole at (0.65, 0.65), radius 0.10
     s.CircleByCenterPerimeter(center=(HOLE_X, HOLE_Y), point1=(HOLE_X + HOLE_R, HOLE_Y))
 
     p = m.Part(name="NovelPlate", dimensionality=TWO_D_PLANAR, type=DEFORMABLE_BODY)
@@ -299,7 +406,7 @@ def generate_novel_physical_mesh(out_phys_inp, tip_x=NOTCH_TIP_X, tip_y=NOTCH_TI
     p.PartitionFaceBySketch(faces=p.faces, sketch=sp_notch)
     del m.sketches["__notch__"]
 
-    # Find the notch edge and assign seam
+    # Assign seam to notch edge
     mid_x = 0.5 * (NOTCH_START_X + NOTCH_TIP_X)
     mid_y = 0.5 * (NOTCH_START_Y + NOTCH_TIP_Y)
     notch_edges = p.edges.findAt(((mid_x, mid_y, 0.0), ))
@@ -307,11 +414,12 @@ def generate_novel_physical_mesh(out_phys_inp, tip_x=NOTCH_TIP_X, tip_y=NOTCH_TI
         p.engineeringFeatures.assignSeam(regions=regionToolset.Region(edges=notch_edges))
         print("Assigned seam to notch edge successfully!")
 
-    # 3. Partition for Dynamic Adaptive Corridor
-    sp_corr = m.ConstrainedSketch(name="__corridor__", sheetSize=5.0)
-    sp_corr.rectangle(point1=(spec["x_min"], spec["y_min"]), point2=(spec["x_max"], spec["y_max"]))
-    p.PartitionFaceBySketch(faces=p.faces, sketch=sp_corr)
-    del m.sketches["__corridor__"]
+    # 3. Partition for Narrow Damage-Following Band Polygon
+    sp_band = m.ConstrainedSketch(name="__band__", sheetSize=5.0)
+    for j in range(len(poly)):
+        sp_band.Line(point1=poly[j], point2=poly[(j + 1) % len(poly)])
+    p.PartitionFaceBySketch(faces=p.faces, sketch=sp_band)
+    del m.sketches["__band__"]
 
     # 4. Material and Section
     mat = m.Material(name="Steel")
@@ -322,16 +430,11 @@ def generate_novel_physical_mesh(out_phys_inp, tip_x=NOTCH_TIP_X, tip_y=NOTCH_TI
     # 5. Seeding
     p.seedPart(size=H_BG, deviationFactor=0.05, minSizeFactor=0.02)
 
-    # Find faces inside corridor
+    # Find faces inside narrow band polygon
     corr_faces = []
-    x_min = spec["x_min"]
-    x_max = spec["x_max"]
-    y_min = spec["y_min"]
-    y_max = spec["y_max"]
-
     for f in p.faces:
         pt = f.pointOn[0]
-        if (x_min - 1e-4 <= pt[0] <= x_max + 1e-4) and (y_min - 1e-4 <= pt[1] <= y_max + 1e-4):
+        if point_in_polygon(pt[0], pt[1], poly):
             corr_faces.append(f)
 
     corr_edges = []
@@ -357,12 +460,14 @@ def generate_novel_physical_mesh(out_phys_inp, tip_x=NOTCH_TIP_X, tip_y=NOTCH_TI
     p.setElementType(regions=(p.faces, ), elemTypes=(elem_cpe4, elem_cpe3))
 
     p.generateMesh()
-    print("Mesh generated: %d nodes, %d elements" % (len(p.nodes), len(p.elements)))
+    print("Mesh generated: %d nodes, %d elements (Corridor faces: %d)" % (
+        len(p.nodes), len(p.elements), len(corr_faces)
+    ))
 
     # 7. Write temporary input deck to extract mesh
     a = m.rootAssembly
     a.Instance(name="PART-1-1", part=p, dependent=ON)
-    job_name = "TEMP_NOVEL_CORRIDOR_PHYS"
+    job_name = "TEMP_NOVEL_NARROW_PHYS"
     if job_name in mdb.jobs:
         del mdb.jobs[job_name]
     job = mdb.Job(name=job_name, model=model_name, type=ANALYSIS)
@@ -444,8 +549,8 @@ def generate_novel_physical_mesh(out_phys_inp, tip_x=NOTCH_TIP_X, tip_y=NOTCH_TI
         out.write("** ==========================================================\n")
         out.write("** Physical Mesh for Method C Novel Inclined Notch + Hole\n")
         out.write("** Model: %s\n" % os.path.basename(out_phys_inp).replace(".inp", ""))
-        out.write("** Tip: (%.6f, %.6f) mm | Corridor: [%.4f, %.4f] x [%.4f, %.4f] mm\n" % (
-            spec["tip_x"], spec["tip_y"], spec["x_min"], spec["x_max"], spec["y_min"], spec["y_max"]
+        out.write("** Tip: (%.6f, %.6f) mm | Narrow Band Area: %.6f mm^2 (%.2f%%)\n" % (
+            spec["tip_x"], spec["tip_y"], spec["polygon_area_mm2"], spec["domain_area_fraction_pct"]
         ))
         out.write("** Elements: %d total (%d quads, %d tris), Nodes: %d\n" % (
             len(renumbered_quads) + len(renumbered_tris), len(renumbered_quads), len(renumbered_tris), len(renumbered_nodes)
@@ -485,7 +590,8 @@ def generate_novel_physical_mesh(out_phys_inp, tip_x=NOTCH_TIP_X, tip_y=NOTCH_TI
     all_elems = dict(renumbered_quads)
     all_elems.update(renumbered_tris)
 
-    audit = evaluate_corridor_audit(renumbered_nodes, all_elems, elem_type_map, tip_x=tip_x, tip_y=tip_y)
+    audit = evaluate_corridor_audit(renumbered_nodes, all_elems, elem_type_map,
+                                   tip_x=tip_x, tip_y=tip_y, tip_history=tip_history)
     audit_path = out_phys_inp.replace(".inp", "_audit.json")
     with open(audit_path, "w") as f:
         json.dump(audit, f, indent=2)
@@ -495,11 +601,12 @@ def generate_novel_physical_mesh(out_phys_inp, tip_x=NOTCH_TIP_X, tip_y=NOTCH_TI
 
 
 def parse_cli_args():
-    """Extracts target output path, tip_x, and tip_y from sys.argv."""
+    """Extracts target output path, tip_x, tip_y, and tip_history from sys.argv."""
     raw_args = sys.argv[1:]
     user_args = []
     skip_next = False
-    for a in raw_args:
+    history_arg = None
+    for i, a in enumerate(raw_args):
         if skip_next:
             skip_next = False
             continue
@@ -508,6 +615,11 @@ def parse_cli_args():
         if a in ("-tmpdir", "-lmlog"):
             skip_next = True
             continue
+        if a == "--history":
+            if i + 1 < len(raw_args):
+                history_arg = raw_args[i + 1]
+                skip_next = True
+            continue
         if a.endswith(".py"):
             continue
         user_args.append(a)
@@ -515,6 +627,7 @@ def parse_cli_args():
     out_target = "PK_METHOD_C_NOVEL_COARSE_PHYS.inp"
     tip_x = NOTCH_TIP_X
     tip_y = NOTCH_TIP_Y
+    tip_history = []
 
     if len(user_args) >= 1 and not user_args[0].startswith("-"):
         out_target = user_args[0]
@@ -528,11 +641,28 @@ def parse_cli_args():
             tip_y = float(user_args[2])
         except ValueError:
             pass
+    if len(user_args) >= 4 and not history_arg:
+        history_arg = user_args[3]
 
-    return out_target, tip_x, tip_y
+    if history_arg:
+        if os.path.exists(history_arg):
+            try:
+                with open(history_arg, "r") as f:
+                    tip_history = json.load(f)
+            except Exception as err:
+                print("Warning: failed to read history file %s: %s" % (history_arg, err))
+        else:
+            try:
+                tip_history = json.loads(history_arg)
+            except Exception:
+                pass
+
+    return out_target, tip_x, tip_y, tip_history
 
 
 if __name__ == "__main__":
-    out_target, tip_x, tip_y = parse_cli_args()
-    print("Novel Mesh Generator CLI: target=%s, tip=(%.4f, %.4f)" % (out_target, tip_x, tip_y))
-    generate_novel_physical_mesh(out_target, tip_x=tip_x, tip_y=tip_y)
+    out_target, tip_x, tip_y, tip_history = parse_cli_args()
+    print("Novel Mesh Generator CLI: target=%s, tip=(%.4f, %.4f), history_len=%d" % (
+        out_target, tip_x, tip_y, len(tip_history)
+    ))
+    generate_novel_physical_mesh(out_target, tip_x=tip_x, tip_y=tip_y, tip_history=tip_history)
