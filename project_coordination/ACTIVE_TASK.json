@@ -1,11 +1,11 @@
 {
-  "task_id": "METHOD-C-LPANEL-ADAPTIVE-CORRIDOR-FIX-AND-RERUN",
-  "title": "Method C L-Panel Adaptive Corridor Fix (Damage-Following Remeshing like Case 3) and Campaign Re-run",
+  "task_id": "METHOD-C-LPANEL-ADAPTIVE-CAMPAIGN-CLOSEOUT",
+  "title": "Method C L-Panel Dynamic Adaptive Campaign Closeout and Master Goal Status Maintenance",
   "task_status": "COMPLETED_READY_FOR_INDEPENDENT_REVIEW",
   "master_goal_status": "OPEN",
   "status": "COMPLETED_READY_FOR_INDEPENDENT_REVIEW",
   "review_verdict": "APPROVE",
-  "review_correlation_id": "HND-METHOD-C-MODE2-LPANEL-010",
+  "review_correlation_id": "HND-METHOD-C-MODE2-LPANEL-011",
   "classification": "METHOD_C_INCREMENTAL_ADAPTIVE_REMESHING",
   "assigned_agent": "gemini-antigravity",
   "active_pbs_job_id": null,
@@ -13,18 +13,18 @@
   "last_failed_pbs_job_id": "1424881.mmaster02",
   "checkpoint_artifact": "docs/validation/METHOD_C_LPANEL_DYNAMIC_ADAPTIVE_CAMPAIGN_REPORT.md",
   "checkpoint_artifact_sha256": "0FFDCC985BB8DCFCC0371AA920A65A8D0FEB218020ECD0BE58B3A9545099F1F0",
-  "review_directive": "Implement damage-following narrow corridor remeshing mirroring Case 3 for the L-panel benchmark. Re-run campaign from Cycle 0 in local_windows_adaptive_run/ to specimen severance (tip_x <= 0 mm) or reaction force drop below 5% of peak. Preserve local_windows_full_run/ as historical evidence. Local workstation only, 0 PBS, cumulative 73 preserved, frozen UEL CE8D5EDC bitwise maintained.",
+  "review_directive": "Close out adaptive L-panel campaign and STOP: (1) confirm all summaries/images committed and pushed; no further cycles or solver fixes; (2) send FINAL handoff HND-METHOD-C-MODE2-LPANEL-012 with adaptive L-panel closure state, Cycle 11 snap-through diagnosis, d_max=1.0013 overshoot disclosure, cKDTree transfer disclosure, and statement that novel problem awaits user definition; (3) mark session inactive and STOP. Master goal METHOD_C_MODE2_LPANEL_V1 remains OPEN. Local only, 0 PBS, cumulative 73 preserved, frozen UEL CE8D5EDC untouched.",
   "predecessor_task": {
-    "task_id": "METHOD-C-LPANEL-CAMPAIGN-CLOSEOUT",
-    "checkpoint_artifact": "docs/validation/METHOD_C_LPANEL_FULL_COMPLETION_REPORT.md",
+    "task_id": "METHOD-C-LPANEL-ADAPTIVE-CORRIDOR-FIX-AND-RERUN",
+    "checkpoint_artifact": "docs/validation/METHOD_C_LPANEL_DYNAMIC_ADAPTIVE_CAMPAIGN_REPORT.md",
     "classification": "METHOD_C_INCREMENTAL_ADAPTIVE_REMESHING",
     "review_verdict": "APPROVE",
-    "correlation_id": "HND-METHOD-C-MODE2-LPANEL-009"
+    "correlation_id": "HND-METHOD-C-MODE2-LPANEL-011"
   },
-  "correlation_id": "HND-METHOD-C-MODE2-LPANEL-011",
-  "predecessor_correlation_id": "HND-METHOD-C-MODE2-LPANEL-010",
-  "scientific_operation": "method_c_lpanel_adaptive_corridor_fix_and_rerun",
-  "scientific_operation_id": "method_c_lpanel_adaptive_corridor_fix_and_rerun",
+  "correlation_id": "HND-METHOD-C-MODE2-LPANEL-012",
+  "predecessor_correlation_id": "HND-METHOD-C-MODE2-LPANEL-011",
+  "scientific_operation": "method_c_lpanel_setup_and_validation",
+  "scientific_operation_id": "method_c_lpanel_setup_and_validation",
   "scientific_checkpoint_required": true,
   "frozen_uel_sha256": "CE8D5EDCD2911DCB018BB15275271F874E7EA62B8FB48CF4A8297469A83ACDD6",
   "native_interface_sha256": "E5C98B6F601B1CD586571F8E24F357D15ABBD1C5D5487B52903BA249734279B2",
@@ -33,5 +33,5 @@
   "max_new_pbs_submissions": 0,
   "submissions_consumed": 0,
   "cumulative_pbs_submissions": 73,
-  "notes": "L-panel campaign re-opened and successfully executed with dynamic damage-following adaptive remeshing mirroring Case 3. Sizing scales 7,118 -> 16,990 elements; 100% transfer gate pass across all 10 cycles; peak load 0.16107 kN; terminal load 0.02838 kN (82.38% drop); tip reaches (97.23, 282.90) mm (61.1% column penetration, chord 160.15 mm); Cycle 11 snap-through diagnosed; 14/14 tests PASS; 0 PBS consumed, cumulative 73 preserved; frozen UEL CE8D5EDC untouched; MASTER_GOAL_STATUS strictly remains OPEN."
+  "notes": "Adaptive L-panel campaign formally closed out at Cycle 10. Cycle 11 thin-ligament snap-through verified from solver logs; d_max=1.0013 overshoot disclosed; cKDTree state transfer disclosed; all evidence committed and pushed; master goal METHOD_C_MODE2_LPANEL_V1 strictly remains OPEN awaiting user definition of the novel complex problem."
 }
