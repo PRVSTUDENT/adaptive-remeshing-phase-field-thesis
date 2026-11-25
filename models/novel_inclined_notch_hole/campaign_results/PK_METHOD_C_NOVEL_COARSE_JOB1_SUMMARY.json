@@ -1,0 +1,31 @@
+{
+  "cycle": 0,
+  "job_name": "PK_METHOD_C_NOVEL_COARSE_JOB1",
+  "status": "CONVERGED_AUDITED",
+  "benchmark": "Novel Inclined Notch + Hole Mixed-Mode Curved Crack",
+  "donor_uy_mm": 0.0,
+  "terminal_uy_mm": 0.0044999998062849045,
+  "terminal_rf2_kn": 0.6571366786956787,
+  "peak_rf2_kn": 0.6571366786956787,
+  "tip_mm": [
+    0.35355339,
+    0.85355339
+  ],
+  "tip_history_chord_sum_mm": 0.0,
+  "max_damage": 0.2722504585981369,
+  "mesh_elements": 8387,
+  "mesh_nodes": 8510,
+  "gate_results": {},
+  "elapsed_seconds": 65.0169563293457,
+  "completion": false,
+  "completion_reason": "IN_PROGRESS",
+  "input_sha256": "6966A3A0D0EE46DCE07B6F6D1C5153C8A0A40FC331931A1429072904B47DBB70",
+  "mesh_sha256": "79C335B7D7A7042563A7BB5D9A9354F3EC25728EEEE5A232B10488868BA6E868",
+  "source_sha256": "CE8D5EDCD2911DCB018BB15275271F874E7EA62B8FB48CF4A8297469A83ACDD6",
+  "donor_cutoff": null,
+  "pbs_submissions": 0,
+  "cumulative_pbs_submissions": 73,
+  "transfer_implementation_sha256": "0223946D7EF539F7B3FB25B9B59B12012767EB280C86E52F5913EFF187B68C30",
+  "transfer_implementation": "cKDTree nearest-neighbour nodal damage and Gauss-point history transfer",
+  "donor_checkpoint_sha256": null
+}
