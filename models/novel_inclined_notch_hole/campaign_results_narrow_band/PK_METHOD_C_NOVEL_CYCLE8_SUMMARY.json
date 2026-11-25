@@ -1,0 +1,49 @@
+{
+  "cycle": 8,
+  "job_name": "PK_METHOD_C_NOVEL_CYCLE8",
+  "status": "CONVERGED_AUDITED",
+  "benchmark": "Novel Inclined Notch + Hole Mixed-Mode Curved Crack",
+  "donor_uy_mm": 0.008171807043254375,
+  "terminal_uy_mm": 0.008679943159222603,
+  "terminal_rf2_kn": 0.612787127494812,
+  "peak_rf2_kn": 0.8043678998947144,
+  "tip_mm": [
+    0.611670136,
+    0.784091115
+  ],
+  "tip_history_chord_sum_mm": 0.278485,
+  "max_damage": 1.001646876335144,
+  "mesh_elements": 8099,
+  "mesh_nodes": 8221,
+  "gate_results": {
+    "force_continuity_delta_pct": -0.3538024630707086,
+    "force_continuity_pass": true,
+    "energy_continuity_delta_sdv17_pct": 1.0108521501335357,
+    "energy_continuity_delta_sdv18_pct": -0.3538072113969725,
+    "global_max_damage_nonhealing_pass": true,
+    "evaluation_timing": "after two-step job; failure forbids donor acceptance and further cycles",
+    "hold_energies": {
+      "SDV17": 0.0013312143080044304,
+      "SDV18": 0.0025904132843677266
+    },
+    "donor_energies": {
+      "SDV17": 0.0013178923646994206,
+      "SDV18": 0.002599610895183146
+    }
+  },
+  "elapsed_seconds": 75.01475644111633,
+  "completion": false,
+  "completion_reason": "IN_PROGRESS",
+  "input_sha256": "2475CD279B573303506706E680005D3605BB99B5A123F72FE30DF8F5283DA64F",
+  "mesh_sha256": "627F5304894B16E66224D7D60A64F19D8943DEAEC3EE70D53D8F4D0F428D4066",
+  "source_sha256": "CE8D5EDCD2911DCB018BB15275271F874E7EA62B8FB48CF4A8297469A83ACDD6",
+  "donor_cutoff": {
+    "frame": 28,
+    "time": 0.048405807465314865
+  },
+  "pbs_submissions": 0,
+  "cumulative_pbs_submissions": 73,
+  "transfer_implementation_sha256": "87AE611413F37237320D13901C9E2FAA25EC91D7E3E4495D1E1B0DF6F3D7B997",
+  "transfer_implementation": "cKDTree nearest-neighbour nodal damage and Gauss-point history transfer",
+  "donor_checkpoint_sha256": "08689584C564A15AFDE514941C593BF36126A4786F33E035A2F916AAF692BA9F"
+}
