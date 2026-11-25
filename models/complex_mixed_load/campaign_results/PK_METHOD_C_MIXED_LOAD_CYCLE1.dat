@@ -1,0 +1,1117 @@
+1
+
+   Abaqus 2024                                  Date 25-Nov-2026   Time 14:58:34
+   For use by Supplied by Team-SolidSQUAD under license from Dassault Systemes or its subsidiary.
+
+
+
+                         The Abaqus Software is a product of:
+
+                           Dassault Systemes SIMULIA Corp.
+                           1301 Atwood Avenue, Suite 101W
+                              Johnston, RI 02919, USA
+ 
+
+
+                   The Abaqus Software is available only under license
+                   from Dassault Systemes or its subsidiary and may be
+                   used or reproduced only in accordance with the terms
+                   of such license.
+ 
+                          On machine PRUTHVI 
+                          you are authorized to run
+                          Abaqus/Standard until 31-Dec-2055
+
+                          Your site id is:  
+
+
+ 
+                    For assistance or any other information you may
+                    obtain contact information for your local office
+                    from the world wide web at:
+
+                      https://www.3ds.com/products-services/simulia/services-support/
+
+ 
+                * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * 
+                *                                                         * 
+                *                   *****************                     * 
+                *                   *  N O T I C E  *                     * 
+                *                   *****************                     * 
+                *                                                         * 
+                *                                                         * 
+                *                       Abaqus 2024                       * 
+                *                                                         * 
+                *       BUILD ID: 2023_09_21-14.55.25 RELr426 190762      * 
+                *                                                         * 
+                *                                                         * 
+                *  Please make sure you are using                         * 
+                *  release Abaqus 2024 manuals                            * 
+                *  plus the notes accompanying this release.              * 
+                *                                                         * 
+                *                                                         * 
+                *                                                         * 
+                *                                                         * 
+                * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * 
+
+
+ 
+
+
+
+     PROCESSING PART, INSTANCE, AND ASSEMBLY INFORMATION
+   *******************************************************
+
+
+     END PROCESSING PART, INSTANCE, AND ASSEMBLY INFORMATION
+   ***********************************************************
+
+
+
+
+     OPTIONS BEING PROCESSED
+   ***************************
+
+
+  *USER ELEMENT, NODES=4, TYPE=U1, PROPERTIES=6, COORDINATES=2, VARIABLES=18, UNSYMM
+  *USER ELEMENT, NODES=4, TYPE=U2, PROPERTIES=6, COORDINATES=2, VARIABLES=18, UNSYMM
+  *USER ELEMENT, NODES=3, TYPE=U3, PROPERTIES=6, COORDINATES=2, VARIABLES=18, UNSYMM
+  *USER ELEMENT, NODES=3, TYPE=U4, PROPERTIES=6, COORDINATES=2, VARIABLES=18, UNSYMM
+  *HEADING
+          Problem 3 Combined Tension + Shear Adaptive Remeshing                                                                                                                                                                                                                                                                                                                                                                                                                                                                           
+  *ELEMENT, TYPE=U1, ELSET=PHASE_QUAD
+  *ELEMENT, TYPE=U3, ELSET=PHASE_TRI
+  *ELEMENT, TYPE=U2, ELSET=DISP_QUAD
+  *ELEMENT, TYPE=U4, ELSET=DISP_TRI
+  *ELEMENT, TYPE=CPE4, ELSET=umatelem_quad
+  *ELEMENT, TYPE=CPE3, ELSET=umatelem_tri
+  *ELSET, ELSET=All_elem
+  *ELSET, ELSET=umatelem
+  *MATERIAL, NAME=M_COMPANION
+  *USER MATERIAL, CONSTANTS=3
+  *DEPVAR
+  *INITIAL CONDITIONS, TYPE=SOLUTION
+  *SOLID SECTION, ELSET=All_elem, MATERIAL=M_COMPANION
+  *USER ELEMENT, NODES=4, TYPE=U1, PROPERTIES=6, COORDINATES=2, VARIABLES=18, UNSYMM
+  *USER ELEMENT, NODES=4, TYPE=U2, PROPERTIES=6, COORDINATES=2, VARIABLES=18, UNSYMM
+  *USER ELEMENT, NODES=3, TYPE=U3, PROPERTIES=6, COORDINATES=2, VARIABLES=18, UNSYMM
+  *USER ELEMENT, NODES=3, TYPE=U4, PROPERTIES=6, COORDINATES=2, VARIABLES=18, UNSYMM
+  *SOLID SECTION, ELSET=All_elem, MATERIAL=M_COMPANION
+  *INITIAL CONDITIONS, TYPE=SOLUTION
+  *BOUNDARY
+  *BOUNDARY, AMPLITUDE=CONST_HOLD
+  *BOUNDARY, OP=MOD
+  *BOUNDARY
+  *BOUNDARY, AMPLITUDE=CONST_HOLD
+  *EQUATION
+  *EQUATION
+  *EQUATION
+  *EQUATION
+  *EQUATION
+  *EQUATION
+  *EQUATION
+  *EQUATION
+  *EQUATION
+  *EQUATION
+  *EQUATION
+  *EQUATION
+  *EQUATION
+  *EQUATION
+  *EQUATION
+  *EQUATION
+  *EQUATION
+  *EQUATION
+  *EQUATION
+  *EQUATION
+  *EQUATION
+  *EQUATION
+  *EQUATION
+  *EQUATION
+  *EQUATION
+  *EQUATION
+  *EQUATION
+  *EQUATION
+  *EQUATION
+  *EQUATION
+  *EQUATION
+  *EQUATION
+  *EQUATION
+  *EQUATION
+  *EQUATION
+  *EQUATION
+  *EQUATION
+  *EQUATION
+  *EQUATION
+  *EQUATION
+  *EQUATION
+  *EQUATION
+  *EQUATION
+  *EQUATION
+  *EQUATION
+  *EQUATION
+  *EQUATION
+  *EQUATION
+  *EQUATION
+  *EQUATION
+
+ ***NOTE: DUE TO EXCESSIVE REPORTING, THE ECHO OF THE *MPC and *EQUATION 
+          OPTIONS IS BEING SUPPRESSED.
+  *UEL PROPERTY, ELSET=PHASE_QUAD
+  *UEL PROPERTY, ELSET=DISP_QUAD
+  *UEL PROPERTY, ELSET=PHASE_TRI
+  *UEL PROPERTY, ELSET=DISP_TRI
+  *OUTPUT, FIELD, FREQUENCY=1
+  *OUTPUT, FIELD, FREQUENCY=1
+  *ELEMENT OUTPUT, ELSET=umatelem
+  *ELEMENT OUTPUT, ELSET=umatelem
+  *INITIAL CONDITIONS, TYPE=SOLUTION
+  *OUTPUT, FIELD, FREQUENCY=1
+  *OUTPUT, FIELD, FREQUENCY=1
+  *ELEMENT OUTPUT, ELSET=umatelem
+  *ELEMENT OUTPUT, ELSET=umatelem
+  *INITIAL CONDITIONS, TYPE=SOLUTION
+  *INITIAL CONDITIONS, TYPE=SOLUTION
+  *OUTPUT, FIELD, FREQUENCY=1
+  *OUTPUT, FIELD, FREQUENCY=1
+  *ELEMENT OUTPUT, ELSET=umatelem
+  *ELEMENT OUTPUT, ELSET=umatelem
+
+ ***NOTE: MPCS (EXTERNAL or INTERNAL, including those generated from rigid body 
+          definitions), KINEMATIC COUPLINGS, AND/OR EQUATIONS WILL ACTIVATE 
+          ADDITIONAL DEGREES OF FREEDOM
+  
+                               E L E M E N T   Q U A L I T Y  C H E C K S        
+  
+  
+ ***NOTES: DISTORTED ISOPARAMETRIC ELEMENTS: ANGLE BETWEEN ISOPARAMETRIC LINES 
+           IS LESS THAN 45 DEGREES OR GREATER THAN 135 DEGREES.
+  
+           TETRAHEDRAL QUALITY MEASURE: VOLUME OF TETRAHEDRON DIVIDED BY THE 
+           VOLUME OF EQUILATERAL TETRAHEDRON WITH SAME CIRCUMSPHERE RADIUS; 
+           0 FOR DEGENERATE TETRAHEDRON AND 1 FOR EQUILATERIAL TETRAHEDRON. IT 
+           IS RECOMMENDED THAT THE TETRAHEDRAL QUALITY MEASURE BE GREATER THAN 
+           0.02, THE MIN INTERIOR (DIHEDRAL) ANGLE BE GREATER THAN 10 DEGREES, 
+           AND THE MAX INTERIOR (DIHEDRAL) ANGLE BE LESS THAN 160 DEGREES. 
+  
+           MODIFIED TETRAHEDRAL QUALITY MEASURE: ANGLES BETWEEN THE TWO LINE 
+           SEGMENTS ON EACH EDGE; THE EDGES OF MODIFIED TETRAHEDRAL SHOULD BE 
+           AS STRAIGHT AS POSSIBLE. IT IS RECOMMENDED THAT THE ANGLE BETWEEN 
+           THE TWO LINE SEGMENTS ON EACH EDGE IS BETWEEN 160 AND 180 DEGREES. 
+  
+           TRIANGULAR QUALITY MEASURE: AREA OF TRIANGLE DIVIDED BY THE AREA OF 
+           EQUILATERAL TRIANGLE WITH SAME CIRCUMCIRCLE RADIUS; 0 FOR DEGENERATE 
+           TRIANGLE AND 1 FOR EQUILATERAL TRIANGLE. IT IS RECOMMENDED THAT THE
+           TRIANGULAR QUALITY MEASURE BE GREATER THAN 0.01, THE MIN INTERIOR 
+           ANGLE BE GREATER THAN 10 DEGREES, AND THE MAX INTERIOR ANGLE BE LESS 
+           THAN 160 DEGREES. 
+  
+           NODAL ADJUSTMENTS ARISING FROM CONTACT INTERACTIONS AND/OR TIE 
+           CONSTRAINTS CAN CAUSE SEVERE ELEMENT DISTORTION. IT MAY BE NECESSARY 
+           TO REMESH IN ORDER TO REDUCE THE AMOUNT OF ADJUSTMENT. 
+
+ ***WARNING: 3 elements are distorted. Either the isoparametric angles are out 
+             of the suggested limits or the triangular or tetrahedral quality 
+             measure is bad. The elements have been identified in element set 
+             WarnElemDistorted.
+  
+ --------------------------------------------------------------------------------
+ Distorted isoparametric elements
+  
+  Element   Min/max angle   Adjusted nodes 
+ --------- ---------------- -------------- 
+     11369          38.4847       NO       
+     13010          42.1262       NO       
+     14425          44.7881       NO       
+  
+  
+  *STEP, NAME=Step-1, NLGEOM=NO, INC=100
+  *OUTPUT, FIELD, FREQUENCY=1
+  *STEP, NAME=Step-2, NLGEOM=NO, INC=1000
+  *OUTPUT, FIELD, FREQUENCY=1
+  *STEP, NAME=Step-1, NLGEOM=NO, INC=100
+  *STEP, NAME=Step-2, NLGEOM=NO, INC=1000
+  *STEP, NAME=Step-1, NLGEOM=NO, INC=100
+  *STATIC
+  *BOUNDARY
+  *BOUNDARY, AMPLITUDE=CONST_HOLD
+  *OUTPUT, FIELD, FREQUENCY=1
+  *NODE OUTPUT
+  *NODE OUTPUT, NSET=N_RP
+  *ELEMENT OUTPUT, ELSET=umatelem
+  *NODE PRINT, FREQ=1, NSET=N_RP
+  *END STEP
+
+ ***WARNING: THE *ELEMENT OUTPUT OPTION IS NOT SUPPORTED FOR USER ELEMENTS
+
+ ***WARNING: THE *ELEMENT OUTPUT OPTION IS NOT SUPPORTED FOR USER ELEMENTS
+
+ ***WARNING: THE *ELEMENT OUTPUT OPTION IS NOT SUPPORTED FOR USER ELEMENTS
+
+ ***WARNING: THE *ELEMENT OUTPUT OPTION IS NOT SUPPORTED FOR USER ELEMENTS
+  *STEP, NAME=Step-2, NLGEOM=NO, INC=1000
+  *STATIC, RIKS
+  *BOUNDARY, OP=MOD
+  *OUTPUT, FIELD, FREQUENCY=1
+  *NODE OUTPUT
+  *NODE OUTPUT, NSET=N_RP
+  *ELEMENT OUTPUT, ELSET=umatelem
+  *NODE PRINT, FREQ=1, NSET=N_RP
+  *END STEP
+
+ ***WARNING: THE NLGEOM FLAG SHOULD BE ACTIVATED FOR THE RIKS STEP. OTHERWISE, 
+             THE GEOMETRIC NONLINEARITY WILL NOT BE CONSIDERED.
+
+ ***WARNING: THE *ELEMENT OUTPUT OPTION IS NOT SUPPORTED FOR USER ELEMENTS
+
+ ***WARNING: THE *ELEMENT OUTPUT OPTION IS NOT SUPPORTED FOR USER ELEMENTS
+
+ ***WARNING: THE *ELEMENT OUTPUT OPTION IS NOT SUPPORTED FOR USER ELEMENTS
+
+ ***WARNING: THE *ELEMENT OUTPUT OPTION IS NOT SUPPORTED FOR USER ELEMENTS
+  *STEP, NAME=Step-1, NLGEOM=NO, INC=100
+  *STATIC
+  *BOUNDARY
+  *BOUNDARY, AMPLITUDE=CONST_HOLD
+  *END STEP
+  *STEP, NAME=Step-2, NLGEOM=NO, INC=1000
+  *STATIC, RIKS
+  *BOUNDARY, OP=MOD
+  *END STEP
+
+
+
+                            P R O B L E M   S I Z E
+
+
+          NUMBER OF ELEMENTS IS                                 17034
+          NUMBER OF NODES IS                                     5818
+          NUMBER OF NODES DEFINED BY THE USER                    5818
+          TOTAL NUMBER OF VARIABLES IN THE MODEL                17453
+          (DEGREES OF FREEDOM PLUS MAX NO. OF ANY LAGRANGE MULTIPLIER
+           VARIABLES. INCLUDE *PRINT,SOLVE=YES TO GET THE ACTUAL NUMBER.)
+
+
+
+                              END OF USER INPUT PROCESSING
+
+
+
+     JOB TIME SUMMARY
+       USER TIME (SEC)      =     0.60    
+       SYSTEM TIME (SEC)    =     0.10    
+       TOTAL CPU TIME (SEC) =     0.70    
+       WALLCLOCK TIME (SEC) =            1
+1
+
+   Abaqus 2024                                  Date 25-Nov-2026   Time 14:58:50
+   For use by Supplied by Team-SolidSQUAD under license from Dassault Systemes or its subsidiary.
+
+     Problem 3 Combined Tension + Shear Adaptive Remeshing                                     STEP    1  INCREMENT    1
+                                                                                          TIME COMPLETED IN THIS STEP   0.00    
+
+
+                        S T E P       1     S T A T I C   A N A L Y S I S
+
+
+                                                                                          
+
+     AUTOMATIC TIME CONTROL WITH -
+          A SUGGESTED INITIAL TIME INCREMENT OF                 1.00    
+          AND A TOTAL TIME PERIOD OF                            1.00    
+          THE MINIMUM TIME INCREMENT ALLOWED IS                1.000E-08
+          THE MAXIMUM TIME INCREMENT ALLOWED IS                 1.00    
+
+     LINEAR EQUATION SOLVER TYPE         DIRECT SPARSE
+
+          UNSYMMETRIC MATRIX STORAGE AND SOLUTION WILL BE USED
+  
+                   M E M O R Y   E S T I M A T E
+  
+ PROCESS      FLOATING PT       MINIMUM MEMORY        MEMORY TO
+              OPERATIONS           REQUIRED          MINIMIZE I/O
+             PER ITERATION           (MB)               (MB)
+  
+     1          3.15E+08               27                 71
+  
+ NOTE:
+      (1) SINCE ABAQUS DOES NOT PRE-ALLOCATE MEMORY AND ONLY ALLOCATES MEMORY AS NEEDED DURING THE ANALYSIS,
+          THE MEMORY REQUIREMENT PRINTED HERE CAN ONLY BE VIEWED AS A GENERAL GUIDELINE BASED ON THE BEST
+          KNOWLEDGE AVAILABLE AT THE BEGINNING OF A STEP BEFORE THE SOLUTION PROCESS HAS BEGUN.
+      (2) THE ESTIMATE IS NORMALLY UPDATED AT THE BEGINNING OF EVERY STEP. IT IS THE MAXIMUM VALUE OF THE
+          ESTIMATE FROM THE CURRENT STEP TO THE LAST STEP OF THE ANALYSIS, WITH UNSYMMETRIC SOLUTION TAKEN
+          INTO ACCOUNT IF APPLICABLE. 
+      (3) SINCE THE ESTIMATE IS BASED ON THE ACTIVE DEGREES OF FREEDOM IN THE FIRST ITERATION OF THE 
+          CURRENT STEP, THE MEMORY ESTIMATE MIGHT BE SIGNIFICANTLY DIFFERENT THAN ACTUAL USAGE FOR 
+          PROBLEMS WITH SUBSTANTIAL CHANGES IN ACTIVE DEGREES OF FREEDOM BETWEEN STEPS (OR EVEN WITHIN
+          THE SAME STEP). EXAMPLES ARE: PROBLEMS WITH SIGNIFICANT CONTACT CHANGES, PROBLEMS WITH MODEL
+          CHANGE, PROBLEMS WITH BOTH STATIC STEP AND STEADY STATE DYNAMIC PROCEDURES WHERE ACOUSTIC 
+          ELEMENTS WILL ONLY BE ACTIVATED IN THE STEADY STATE DYNAMIC STEPS.
+      (4) FOR MULTI-PROCESS EXECUTION, THE ESTIMATED VALUE OF FLOATING POINT OPERATIONS FOR EACH PROCESS
+          IS BASED ON AN INITIAL SCHEDULING OF OPERATIONS AND MIGHT NOT REFLECT THE ACTUAL FLOATING 
+          POINT OPERATIONS COMPLETED ON EACH PROCESS. OPERATIONS ARE DYNAMICALLY BALANCED DURING EXECUTION, 
+          SO THE ACTUAL BALANCE OF OPERATIONS BETWEEN PROCESSES IS EXPECTED TO BE BETTER THAN THE ESTIMATE
+          PRINTED HERE.
+      (5) THE UPPER LIMIT OF MEMORY THAT CAN BE ALLOCATED BY ABAQUS WILL IN GENERAL DEPEND ON THE VALUE OF
+          THE "MEMORY" PARAMETER AND THE AMOUNT OF PHYSICAL MEMORY AVAILABLE ON THE MACHINE. PLEASE SEE
+          THE "ABAQUS ANALYSIS USER'S MANUAL" FOR MORE DETAILS. THE ACTUAL USAGE OF MEMORY AND OF DISK
+          SPACE FOR SCRATCH DATA WILL DEPEND ON THIS UPPER LIMIT AS WELL AS THE MEMORY REQUIRED TO MINIMIZE
+          I/O. IF THE MEMORY UPPER LIMIT IS GREATER THAN THE MEMORY REQUIRED TO MINIMIZE I/O, THEN THE ACTUAL
+          MEMORY USAGE WILL BE CLOSE TO THE ESTIMATED "MEMORY TO MINIMIZE I/O" VALUE, AND THE SCRATCH DISK
+          USAGE WILL BE CLOSE-TO-ZERO; OTHERWISE, THE ACTUAL MEMORY USED WILL BE CLOSE TO THE PREVIOUSLY
+          MENTIONED MEMORY LIMIT, AND THE SCRATCH DISK USAGE WILL BE ROUGHLY PROPORTIONAL TO THE DIFFERENCE
+          BETWEEN THE ESTIMATED "MEMORY TO MINIMIZE I/O" AND THE MEMORY UPPER LIMIT. HOWEVER ACCURATE
+          ESTIMATE OF THE SCRATCH DISK SPACE IS NOT POSSIBLE.
+      (6) USING "*RESTART, WRITE" CAN GENERATE A LARGE AMOUNT OF DATA WRITTEN IN THE WORK DIRECTORY.
+
+
+                                INCREMENT     1 SUMMARY
+
+
+ TIME INCREMENT COMPLETED   1.00    ,  FRACTION OF STEP COMPLETED   1.00    
+ STEP TIME COMPLETED        1.00    ,  TOTAL TIME COMPLETED         1.00    
+  
+  
+  
+  
+                                       N O D E   O U T P U T
+  
+  
+  
+  
+   THE FOLLOWING TABLE IS PRINTED FOR NODES BELONGING TO NODE SET N_RP
+  
+       NODE FOOT-  U1             U2             RF1            RF2          
+            NOTE
+  
+     999999      2.2499999E-03  4.4999998E-03  1.6024142E-01  7.4584853E-01
+
+ MAXIMUM         2.2500E-03  4.5000E-03  0.1602      0.7458    
+ AT NODE            999999      999999      999999      999999
+
+ MINIMUM         2.2500E-03  4.5000E-03  0.1602      0.7458    
+ AT NODE            999999      999999      999999      999999
+1
+
+   Abaqus 2024                                  Date 25-Nov-2026   Time 14:58:50
+   For use by Supplied by Team-SolidSQUAD under license from Dassault Systemes or its subsidiary.
+
+     Problem 3 Combined Tension + Shear Adaptive Remeshing                                     STEP    2  INCREMENT    1
+                                                                                          TIME COMPLETED IN THIS STEP   0.00    
+
+
+                        S T E P       2     S T A T I C   A N A L Y S I S
+
+
+                                                                                          
+
+     AUTOMATIC LOAD CONTROL WITH -
+          A SUGGESTED INITIAL INCREMENT IN ARC LENGTH           1.000E-02
+          AND A TOTAL ARC LENGTH SCALE FACTOR OF                 1.00    
+          THE MINIMUM ARC LENGTH INCREMENT ALLOWED IS           1.000E-14
+          THE MAXIMUM ARC LENGTH INCREMENT ALLOWED IS           5.000E-02
+
+     LINEAR EQUATION SOLVER TYPE         DIRECT SPARSE
+
+     MODIFIED RIKS METHOD IS USED - AMPLITUDE REFERENCES ARE IGNORED
+
+     THE STEP ENDS WHEN LOAD PROPORTIONALITY FACTOR EXCEEDS    1.00    
+
+          UNSYMMETRIC MATRIX STORAGE AND SOLUTION WILL BE USED
+  
+                   M E M O R Y   E S T I M A T E
+  
+ PROCESS      FLOATING PT       MINIMUM MEMORY        MEMORY TO
+              OPERATIONS           REQUIRED          MINIMIZE I/O
+             PER ITERATION           (MB)               (MB)
+  
+     1          3.15E+08               25                 72
+  
+ NOTE:
+      (1) SINCE ABAQUS DOES NOT PRE-ALLOCATE MEMORY AND ONLY ALLOCATES MEMORY AS NEEDED DURING THE ANALYSIS,
+          THE MEMORY REQUIREMENT PRINTED HERE CAN ONLY BE VIEWED AS A GENERAL GUIDELINE BASED ON THE BEST
+          KNOWLEDGE AVAILABLE AT THE BEGINNING OF A STEP BEFORE THE SOLUTION PROCESS HAS BEGUN.
+      (2) THE ESTIMATE IS NORMALLY UPDATED AT THE BEGINNING OF EVERY STEP. IT IS THE MAXIMUM VALUE OF THE
+          ESTIMATE FROM THE CURRENT STEP TO THE LAST STEP OF THE ANALYSIS, WITH UNSYMMETRIC SOLUTION TAKEN
+          INTO ACCOUNT IF APPLICABLE. 
+      (3) SINCE THE ESTIMATE IS BASED ON THE ACTIVE DEGREES OF FREEDOM IN THE FIRST ITERATION OF THE 
+          CURRENT STEP, THE MEMORY ESTIMATE MIGHT BE SIGNIFICANTLY DIFFERENT THAN ACTUAL USAGE FOR 
+          PROBLEMS WITH SUBSTANTIAL CHANGES IN ACTIVE DEGREES OF FREEDOM BETWEEN STEPS (OR EVEN WITHIN
+          THE SAME STEP). EXAMPLES ARE: PROBLEMS WITH SIGNIFICANT CONTACT CHANGES, PROBLEMS WITH MODEL
+          CHANGE, PROBLEMS WITH BOTH STATIC STEP AND STEADY STATE DYNAMIC PROCEDURES WHERE ACOUSTIC 
+          ELEMENTS WILL ONLY BE ACTIVATED IN THE STEADY STATE DYNAMIC STEPS.
+      (4) FOR MULTI-PROCESS EXECUTION, THE ESTIMATED VALUE OF FLOATING POINT OPERATIONS FOR EACH PROCESS
+          IS BASED ON AN INITIAL SCHEDULING OF OPERATIONS AND MIGHT NOT REFLECT THE ACTUAL FLOATING 
+          POINT OPERATIONS COMPLETED ON EACH PROCESS. OPERATIONS ARE DYNAMICALLY BALANCED DURING EXECUTION, 
+          SO THE ACTUAL BALANCE OF OPERATIONS BETWEEN PROCESSES IS EXPECTED TO BE BETTER THAN THE ESTIMATE
+          PRINTED HERE.
+      (5) THE UPPER LIMIT OF MEMORY THAT CAN BE ALLOCATED BY ABAQUS WILL IN GENERAL DEPEND ON THE VALUE OF
+          THE "MEMORY" PARAMETER AND THE AMOUNT OF PHYSICAL MEMORY AVAILABLE ON THE MACHINE. PLEASE SEE
+          THE "ABAQUS ANALYSIS USER'S MANUAL" FOR MORE DETAILS. THE ACTUAL USAGE OF MEMORY AND OF DISK
+          SPACE FOR SCRATCH DATA WILL DEPEND ON THIS UPPER LIMIT AS WELL AS THE MEMORY REQUIRED TO MINIMIZE
+          I/O. IF THE MEMORY UPPER LIMIT IS GREATER THAN THE MEMORY REQUIRED TO MINIMIZE I/O, THEN THE ACTUAL
+          MEMORY USAGE WILL BE CLOSE TO THE ESTIMATED "MEMORY TO MINIMIZE I/O" VALUE, AND THE SCRATCH DISK
+          USAGE WILL BE CLOSE-TO-ZERO; OTHERWISE, THE ACTUAL MEMORY USED WILL BE CLOSE TO THE PREVIOUSLY
+          MENTIONED MEMORY LIMIT, AND THE SCRATCH DISK USAGE WILL BE ROUGHLY PROPORTIONAL TO THE DIFFERENCE
+          BETWEEN THE ESTIMATED "MEMORY TO MINIMIZE I/O" AND THE MEMORY UPPER LIMIT. HOWEVER ACCURATE
+          ESTIMATE OF THE SCRATCH DISK SPACE IS NOT POSSIBLE.
+      (6) USING "*RESTART, WRITE" CAN GENERATE A LARGE AMOUNT OF DATA WRITTEN IN THE WORK DIRECTORY.
+
+
+                                INCREMENT     1 SUMMARY
+
+
+     CURRENT LOAD PROPORTIONALITY FACTOR         1.0100E-02
+     TOTAL ARC LENGTH   1.000E-02, INCREMENT OF ARC LENGTH   1.000E-02
+  
+  
+  
+  
+                                       N O D E   O U T P U T
+  
+  
+  
+  
+   THE FOLLOWING TABLE IS PRINTED FOR NODES BELONGING TO NODE SET N_RP
+  
+       NODE FOOT-  U1             U2             RF1            RF2          
+            NOTE
+  
+     999999      2.2525249E-03  4.5050499E-03  1.6041365E-01  7.4663068E-01
+
+ MAXIMUM         2.2525E-03  4.5050E-03  0.1604      0.7466    
+ AT NODE            999999      999999      999999      999999
+
+ MINIMUM         2.2525E-03  4.5050E-03  0.1604      0.7466    
+ AT NODE            999999      999999      999999      999999
+
+
+                                INCREMENT     2 SUMMARY
+
+
+     CURRENT LOAD PROPORTIONALITY FACTOR         2.0195E-02
+     TOTAL ARC LENGTH   2.000E-02, INCREMENT OF ARC LENGTH   1.000E-02
+  
+  
+  
+  
+                                       N O D E   O U T P U T
+  
+  
+  
+  
+   THE FOLLOWING TABLE IS PRINTED FOR NODES BELONGING TO NODE SET N_RP
+  
+       NODE FOOT-  U1             U2             RF1            RF2          
+            NOTE
+  
+     999999      2.2550487E-03  4.5100973E-03  1.6058337E-01  7.4740099E-01
+
+ MAXIMUM         2.2550E-03  4.5101E-03  0.1606      0.7474    
+ AT NODE            999999      999999      999999      999999
+
+ MINIMUM         2.2550E-03  4.5101E-03  0.1606      0.7474    
+ AT NODE            999999      999999      999999      999999
+
+
+                                INCREMENT     3 SUMMARY
+
+
+     CURRENT LOAD PROPORTIONALITY FACTOR         3.5310E-02
+     TOTAL ARC LENGTH   3.500E-02, INCREMENT OF ARC LENGTH   1.500E-02
+  
+  
+  
+  
+                                       N O D E   O U T P U T
+  
+  
+  
+  
+   THE FOLLOWING TABLE IS PRINTED FOR NODES BELONGING TO NODE SET N_RP
+  
+       NODE FOOT-  U1             U2             RF1            RF2          
+            NOTE
+  
+     999999      2.2588273E-03  4.5176547E-03  1.6083507E-01  7.4854837E-01
+
+ MAXIMUM         2.2588E-03  4.5177E-03  0.1608      0.7485    
+ AT NODE            999999      999999      999999      999999
+
+ MINIMUM         2.2588E-03  4.5177E-03  0.1608      0.7485    
+ AT NODE            999999      999999      999999      999999
+
+
+                                INCREMENT     4 SUMMARY
+
+
+     CURRENT LOAD PROPORTIONALITY FACTOR         5.7988E-02
+     TOTAL ARC LENGTH   5.750E-02, INCREMENT OF ARC LENGTH   2.250E-02
+  
+  
+  
+  
+                                       N O D E   O U T P U T
+  
+  
+  
+  
+   THE FOLLOWING TABLE IS PRINTED FOR NODES BELONGING TO NODE SET N_RP
+  
+       NODE FOOT-  U1             U2             RF1            RF2          
+            NOTE
+  
+     999999      2.2644968E-03  4.5289936E-03  1.6121233E-01  7.5026869E-01
+
+ MAXIMUM         2.2645E-03  4.5290E-03  0.1612      0.7503    
+ AT NODE            999999      999999      999999      999999
+
+ MINIMUM         2.2645E-03  4.5290E-03  0.1612      0.7503    
+ AT NODE            999999      999999      999999      999999
+
+
+                                INCREMENT     5 SUMMARY
+
+
+     CURRENT LOAD PROPORTIONALITY FACTOR         9.2012E-02
+     TOTAL ARC LENGTH   9.125E-02, INCREMENT OF ARC LENGTH   3.375E-02
+  
+  
+  
+  
+                                       N O D E   O U T P U T
+  
+  
+  
+  
+   THE FOLLOWING TABLE IS PRINTED FOR NODES BELONGING TO NODE SET N_RP
+  
+       NODE FOOT-  U1             U2             RF1            RF2          
+            NOTE
+  
+     999999      2.2730030E-03  4.5460059E-03  1.6177793E-01  7.5284701E-01
+
+ MAXIMUM         2.2730E-03  4.5460E-03  0.1618      0.7528    
+ AT NODE            999999      999999      999999      999999
+
+ MINIMUM         2.2730E-03  4.5460E-03  0.1618      0.7528    
+ AT NODE            999999      999999      999999      999999
+
+
+                                INCREMENT     6 SUMMARY
+
+
+     CURRENT LOAD PROPORTIONALITY FACTOR         0.1424    
+     TOTAL ARC LENGTH   0.141    , INCREMENT OF ARC LENGTH   5.000E-02
+  
+  
+  
+  
+                                       N O D E   O U T P U T
+  
+  
+  
+  
+   THE FOLLOWING TABLE IS PRINTED FOR NODES BELONGING TO NODE SET N_RP
+  
+       NODE FOOT-  U1             U2             RF1            RF2          
+            NOTE
+  
+     999999      2.2856064E-03  4.5712128E-03  1.6261522E-01  7.5666199E-01
+
+ MAXIMUM         2.2856E-03  4.5712E-03  0.1626      0.7567    
+ AT NODE            999999      999999      999999      999999
+
+ MINIMUM         2.2856E-03  4.5712E-03  0.1626      0.7567    
+ AT NODE            999999      999999      999999      999999
+
+
+                                INCREMENT     7 SUMMARY
+
+
+     CURRENT LOAD PROPORTIONALITY FACTOR         0.1929    
+     TOTAL ARC LENGTH   0.191    , INCREMENT OF ARC LENGTH   5.000E-02
+  
+  
+  
+  
+                                       N O D E   O U T P U T
+  
+  
+  
+  
+   THE FOLLOWING TABLE IS PRINTED FOR NODES BELONGING TO NODE SET N_RP
+  
+       NODE FOOT-  U1             U2             RF1            RF2          
+            NOTE
+  
+     999999      2.2982178E-03  4.5964356E-03  1.6345202E-01  7.6046513E-01
+
+ MAXIMUM         2.2982E-03  4.5964E-03  0.1635      0.7605    
+ AT NODE            999999      999999      999999      999999
+
+ MINIMUM         2.2982E-03  4.5964E-03  0.1635      0.7605    
+ AT NODE            999999      999999      999999      999999
+
+
+                                INCREMENT     8 SUMMARY
+
+
+     CURRENT LOAD PROPORTIONALITY FACTOR         0.2433    
+     TOTAL ARC LENGTH   0.241    , INCREMENT OF ARC LENGTH   5.000E-02
+  
+  
+  
+  
+                                       N O D E   O U T P U T
+  
+  
+  
+  
+   THE FOLLOWING TABLE IS PRINTED FOR NODES BELONGING TO NODE SET N_RP
+  
+       NODE FOOT-  U1             U2             RF1            RF2          
+            NOTE
+  
+     999999      2.3108332E-03  4.6216665E-03  1.6428826E-01  7.6426082E-01
+
+ MAXIMUM         2.3108E-03  4.6217E-03  0.1643      0.7643    
+ AT NODE            999999      999999      999999      999999
+
+ MINIMUM         2.3108E-03  4.6217E-03  0.1643      0.7643    
+ AT NODE            999999      999999      999999      999999
+
+
+                                INCREMENT     9 SUMMARY
+
+
+     CURRENT LOAD PROPORTIONALITY FACTOR         0.2938    
+     TOTAL ARC LENGTH   0.291    , INCREMENT OF ARC LENGTH   5.000E-02
+  
+  
+  
+  
+                                       N O D E   O U T P U T
+  
+  
+  
+  
+   THE FOLLOWING TABLE IS PRINTED FOR NODES BELONGING TO NODE SET N_RP
+  
+       NODE FOOT-  U1             U2             RF1            RF2          
+            NOTE
+  
+     999999      2.3234517E-03  4.6469035E-03  1.6512382E-01  7.6804998E-01
+
+ MAXIMUM         2.3235E-03  4.6469E-03  0.1651      0.7680    
+ AT NODE            999999      999999      999999      999999
+
+ MINIMUM         2.3235E-03  4.6469E-03  0.1651      0.7680    
+ AT NODE            999999      999999      999999      999999
+
+
+                                INCREMENT    10 SUMMARY
+
+
+     CURRENT LOAD PROPORTIONALITY FACTOR         0.3443    
+     TOTAL ARC LENGTH   0.341    , INCREMENT OF ARC LENGTH   5.000E-02
+  
+  
+  
+  
+                                       N O D E   O U T P U T
+  
+  
+  
+  
+   THE FOLLOWING TABLE IS PRINTED FOR NODES BELONGING TO NODE SET N_RP
+  
+       NODE FOOT-  U1             U2             RF1            RF2          
+            NOTE
+  
+     999999      2.3360730E-03  4.6721460E-03  1.6595864E-01  7.7183284E-01
+
+ MAXIMUM         2.3361E-03  4.6721E-03  0.1660      0.7718    
+ AT NODE            999999      999999      999999      999999
+
+ MINIMUM         2.3361E-03  4.6721E-03  0.1660      0.7718    
+ AT NODE            999999      999999      999999      999999
+
+
+                                INCREMENT    11 SUMMARY
+
+
+     CURRENT LOAD PROPORTIONALITY FACTOR         0.3948    
+     TOTAL ARC LENGTH   0.391    , INCREMENT OF ARC LENGTH   5.000E-02
+  
+  
+  
+  
+                                       N O D E   O U T P U T
+  
+  
+  
+  
+   THE FOLLOWING TABLE IS PRINTED FOR NODES BELONGING TO NODE SET N_RP
+  
+       NODE FOOT-  U1             U2             RF1            RF2          
+            NOTE
+  
+     999999      2.3486969E-03  4.6973939E-03  1.6679272E-01  7.7560945E-01
+
+ MAXIMUM         2.3487E-03  4.6974E-03  0.1668      0.7756    
+ AT NODE            999999      999999      999999      999999
+
+ MINIMUM         2.3487E-03  4.6974E-03  0.1668      0.7756    
+ AT NODE            999999      999999      999999      999999
+
+
+                                INCREMENT    12 SUMMARY
+
+
+     CURRENT LOAD PROPORTIONALITY FACTOR         0.4453    
+     TOTAL ARC LENGTH   0.441    , INCREMENT OF ARC LENGTH   5.000E-02
+  
+  
+  
+  
+                                       N O D E   O U T P U T
+  
+  
+  
+  
+   THE FOLLOWING TABLE IS PRINTED FOR NODES BELONGING TO NODE SET N_RP
+  
+       NODE FOOT-  U1             U2             RF1            RF2          
+            NOTE
+  
+     999999      2.3613236E-03  4.7226472E-03  1.6762604E-01  7.7937980E-01
+
+ MAXIMUM         2.3613E-03  4.7226E-03  0.1676      0.7794    
+ AT NODE            999999      999999      999999      999999
+
+ MINIMUM         2.3613E-03  4.7226E-03  0.1676      0.7794    
+ AT NODE            999999      999999      999999      999999
+
+
+                                INCREMENT    13 SUMMARY
+
+
+     CURRENT LOAD PROPORTIONALITY FACTOR         0.4958    
+     TOTAL ARC LENGTH   0.491    , INCREMENT OF ARC LENGTH   5.000E-02
+  
+  
+  
+  
+                                       N O D E   O U T P U T
+  
+  
+  
+  
+   THE FOLLOWING TABLE IS PRINTED FOR NODES BELONGING TO NODE SET N_RP
+  
+       NODE FOOT-  U1             U2             RF1            RF2          
+            NOTE
+  
+     999999      2.3739529E-03  4.7479059E-03  1.6845859E-01  7.8314382E-01
+
+ MAXIMUM         2.3740E-03  4.7479E-03  0.1685      0.7831    
+ AT NODE            999999      999999      999999      999999
+
+ MINIMUM         2.3740E-03  4.7479E-03  0.1685      0.7831    
+ AT NODE            999999      999999      999999      999999
+
+
+                                INCREMENT    14 SUMMARY
+
+
+     CURRENT LOAD PROPORTIONALITY FACTOR         0.5463    
+     TOTAL ARC LENGTH   0.541    , INCREMENT OF ARC LENGTH   5.000E-02
+  
+  
+  
+  
+                                       N O D E   O U T P U T
+  
+  
+  
+  
+   THE FOLLOWING TABLE IS PRINTED FOR NODES BELONGING TO NODE SET N_RP
+  
+       NODE FOOT-  U1             U2             RF1            RF2          
+            NOTE
+  
+     999999      2.3865851E-03  4.7731702E-03  1.6929039E-01  7.8690147E-01
+
+ MAXIMUM         2.3866E-03  4.7732E-03  0.1693      0.7869    
+ AT NODE            999999      999999      999999      999999
+
+ MINIMUM         2.3866E-03  4.7732E-03  0.1693      0.7869    
+ AT NODE            999999      999999      999999      999999
+
+
+                                INCREMENT    15 SUMMARY
+
+
+     CURRENT LOAD PROPORTIONALITY FACTOR         0.5969    
+     TOTAL ARC LENGTH   0.591    , INCREMENT OF ARC LENGTH   5.000E-02
+  
+  
+  
+  
+                                       N O D E   O U T P U T
+  
+  
+  
+  
+   THE FOLLOWING TABLE IS PRINTED FOR NODES BELONGING TO NODE SET N_RP
+  
+       NODE FOOT-  U1             U2             RF1            RF2          
+            NOTE
+  
+     999999      2.3992201E-03  4.7984402E-03  1.7012142E-01  7.9065267E-01
+
+ MAXIMUM         2.3992E-03  4.7984E-03  0.1701      0.7907    
+ AT NODE            999999      999999      999999      999999
+
+ MINIMUM         2.3992E-03  4.7984E-03  0.1701      0.7907    
+ AT NODE            999999      999999      999999      999999
+
+
+                                INCREMENT    16 SUMMARY
+
+
+     CURRENT LOAD PROPORTIONALITY FACTOR         0.6474    
+     TOTAL ARC LENGTH   0.641    , INCREMENT OF ARC LENGTH   5.000E-02
+  
+  
+  
+  
+                                       N O D E   O U T P U T
+  
+  
+  
+  
+   THE FOLLOWING TABLE IS PRINTED FOR NODES BELONGING TO NODE SET N_RP
+  
+       NODE FOOT-  U1             U2             RF1            RF2          
+            NOTE
+  
+     999999      2.4118579E-03  4.8237159E-03  1.7095170E-01  7.9439736E-01
+
+ MAXIMUM         2.4119E-03  4.8237E-03  0.1710      0.7944    
+ AT NODE            999999      999999      999999      999999
+
+ MINIMUM         2.4119E-03  4.8237E-03  0.1710      0.7944    
+ AT NODE            999999      999999      999999      999999
+
+
+                                INCREMENT    17 SUMMARY
+
+
+     CURRENT LOAD PROPORTIONALITY FACTOR         0.6980    
+     TOTAL ARC LENGTH   0.691    , INCREMENT OF ARC LENGTH   5.000E-02
+  
+  
+  
+  
+                                       N O D E   O U T P U T
+  
+  
+  
+  
+   THE FOLLOWING TABLE IS PRINTED FOR NODES BELONGING TO NODE SET N_RP
+  
+       NODE FOOT-  U1             U2             RF1            RF2          
+            NOTE
+  
+     999999      2.4244988E-03  4.8489975E-03  1.7178122E-01  7.9813547E-01
+
+ MAXIMUM         2.4245E-03  4.8490E-03  0.1718      0.7981    
+ AT NODE            999999      999999      999999      999999
+
+ MINIMUM         2.4245E-03  4.8490E-03  0.1718      0.7981    
+ AT NODE            999999      999999      999999      999999
+
+
+                                INCREMENT    18 SUMMARY
+
+
+     CURRENT LOAD PROPORTIONALITY FACTOR         0.7486    
+     TOTAL ARC LENGTH   0.741    , INCREMENT OF ARC LENGTH   5.000E-02
+  
+  
+  
+  
+                                       N O D E   O U T P U T
+  
+  
+  
+  
+   THE FOLLOWING TABLE IS PRINTED FOR NODES BELONGING TO NODE SET N_RP
+  
+       NODE FOOT-  U1             U2             RF1            RF2          
+            NOTE
+  
+     999999      2.4371426E-03  4.8742852E-03  1.7260999E-01  8.0186691E-01
+
+ MAXIMUM         2.4371E-03  4.8743E-03  0.1726      0.8019    
+ AT NODE            999999      999999      999999      999999
+
+ MINIMUM         2.4371E-03  4.8743E-03  0.1726      0.8019    
+ AT NODE            999999      999999      999999      999999
+
+
+                                INCREMENT    19 SUMMARY
+
+
+     CURRENT LOAD PROPORTIONALITY FACTOR         0.7992    
+     TOTAL ARC LENGTH   0.791    , INCREMENT OF ARC LENGTH   5.000E-02
+  
+  
+  
+  
+                                       N O D E   O U T P U T
+  
+  
+  
+  
+   THE FOLLOWING TABLE IS PRINTED FOR NODES BELONGING TO NODE SET N_RP
+  
+       NODE FOOT-  U1             U2             RF1            RF2          
+            NOTE
+  
+     999999      2.4497895E-03  4.8995791E-03  1.7343802E-01  8.0559162E-01
+
+ MAXIMUM         2.4498E-03  4.8996E-03  0.1734      0.8056    
+ AT NODE            999999      999999      999999      999999
+
+ MINIMUM         2.4498E-03  4.8996E-03  0.1734      0.8056    
+ AT NODE            999999      999999      999999      999999
+
+
+                                INCREMENT    20 SUMMARY
+
+
+     CURRENT LOAD PROPORTIONALITY FACTOR         0.8498    
+     TOTAL ARC LENGTH   0.841    , INCREMENT OF ARC LENGTH   5.000E-02
+  
+  
+  
+  
+                                       N O D E   O U T P U T
+  
+  
+  
+  
+   THE FOLLOWING TABLE IS PRINTED FOR NODES BELONGING TO NODE SET N_RP
+  
+       NODE FOOT-  U1             U2             RF1            RF2          
+            NOTE
+  
+     999999      2.4624396E-03  4.9248793E-03  1.7426531E-01  8.0930950E-01
+
+ MAXIMUM         2.4624E-03  4.9249E-03  0.1743      0.8093    
+ AT NODE            999999      999999      999999      999999
+
+ MINIMUM         2.4624E-03  4.9249E-03  0.1743      0.8093    
+ AT NODE            999999      999999      999999      999999
+
+
+                                INCREMENT    21 SUMMARY
+
+
+     CURRENT LOAD PROPORTIONALITY FACTOR         0.9004    
+     TOTAL ARC LENGTH   0.891    , INCREMENT OF ARC LENGTH   5.000E-02
+  
+  
+  
+  
+                                       N O D E   O U T P U T
+  
+  
+  
+  
+   THE FOLLOWING TABLE IS PRINTED FOR NODES BELONGING TO NODE SET N_RP
+  
+       NODE FOOT-  U1             U2             RF1            RF2          
+            NOTE
+  
+     999999      2.4750930E-03  4.9501860E-03  1.7509186E-01  8.1302047E-01
+
+ MAXIMUM         2.4751E-03  4.9502E-03  0.1751      0.8130    
+ AT NODE            999999      999999      999999      999999
+
+ MINIMUM         2.4751E-03  4.9502E-03  0.1751      0.8130    
+ AT NODE            999999      999999      999999      999999
+
+
+                                INCREMENT    22 SUMMARY
+
+
+     CURRENT LOAD PROPORTIONALITY FACTOR         0.9510    
+     TOTAL ARC LENGTH   0.941    , INCREMENT OF ARC LENGTH   5.000E-02
+  
+  
+  
+  
+                                       N O D E   O U T P U T
+  
+  
+  
+  
+   THE FOLLOWING TABLE IS PRINTED FOR NODES BELONGING TO NODE SET N_RP
+  
+       NODE FOOT-  U1             U2             RF1            RF2          
+            NOTE
+  
+     999999      2.4877496E-03  4.9754993E-03  1.7591768E-01  8.1672444E-01
+
+ MAXIMUM         2.4877E-03  4.9755E-03  0.1759      0.8167    
+ AT NODE            999999      999999      999999      999999
+
+ MINIMUM         2.4877E-03  4.9755E-03  0.1759      0.8167    
+ AT NODE            999999      999999      999999      999999
+
+
+                                INCREMENT    23 SUMMARY
+
+
+     CURRENT LOAD PROPORTIONALITY FACTOR          1.002    
+     TOTAL ARC LENGTH   0.991    , INCREMENT OF ARC LENGTH   5.000E-02
+  
+  
+  
+  
+                                       N O D E   O U T P U T
+  
+  
+  
+  
+   THE FOLLOWING TABLE IS PRINTED FOR NODES BELONGING TO NODE SET N_RP
+  
+       NODE FOOT-  U1             U2             RF1            RF2          
+            NOTE
+  
+     999999      2.5004097E-03  5.0008194E-03  1.7674277E-01  8.2042132E-01
+
+ MAXIMUM         2.5004E-03  5.0008E-03  0.1767      0.8204    
+ AT NODE            999999      999999      999999      999999
+
+ MINIMUM         2.5004E-03  5.0008E-03  0.1767      0.8204    
+ AT NODE            999999      999999      999999      999999
+
+
+          THE ANALYSIS HAS BEEN COMPLETED
+
+
+
+                              ANALYSIS COMPLETE
+                              WITH     10 WARNING MESSAGES ON THE DAT FILE
+
+
+
+     JOB TIME SUMMARY
+       USER TIME (SEC)      =      48.    
+       SYSTEM TIME (SEC)    =      5.1    
+       TOTAL CPU TIME (SEC) =      53.    
+       WALLCLOCK TIME (SEC) =           20
