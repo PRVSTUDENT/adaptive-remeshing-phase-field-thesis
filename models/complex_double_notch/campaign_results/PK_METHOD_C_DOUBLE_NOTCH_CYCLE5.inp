@@ -4,7 +4,7 @@
 ** Model: PK_METHOD_C_DOUBLE_NOTCH_CYCLE5
 ** Discretization: 20222 nodes, 20038 physical elements (19656 quads, 382 tris)
 ** Material: E = 210.0000 GPa, nu = 0.30, Gc = 2.700000e-03 kN/mm, l0 = 0.0075 mm
-** Load Advance: donor uy = 0.006595 mm -> target uy = 0.007095 mm
+** Load Advance: donor uy = 0.006595 mm -> target uy = 0.006895 mm
 ** Subroutine: models/pandey_kumar_mode1/f42_mixed_uel.for
 ** ==========================================================
 *HEADING
@@ -140625,13 +140625,13 @@ SDV
 U2, RF2
 *END STEP
 ** ==========================================================
-** STEP 2: Forward Crack Propagation to target_uy = 0.007095 mm
+** STEP 2: Forward Crack Propagation to target_uy = 0.006895 mm
 ** ==========================================================
 *STEP, NAME=Step-2, NLGEOM=NO, INC=1000
 *STATIC, RIKS
 0.01, 1.0, 1.0E-14, 0.05, 1.0
 *BOUNDARY, OP=MOD
-N_RP, 2, 2, 7.09452705e-03
+N_RP, 2, 2, 6.89452705e-03
 *OUTPUT, FIELD, FREQUENCY=1
 *NODE OUTPUT
 U

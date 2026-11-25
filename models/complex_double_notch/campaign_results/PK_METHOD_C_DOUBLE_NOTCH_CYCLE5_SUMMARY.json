@@ -4,22 +4,22 @@
   "status": "CONVERGED_AUDITED",
   "benchmark": "Problem 2: Double Notch Symmetrical Crack Coalescence",
   "donor_uy_mm": 0.006594527047127485,
-  "terminal_uy_mm": 0.007149494253098965,
-  "terminal_rf2_kn": 0.4275314211845398,
+  "terminal_uy_mm": 0.006907275412231684,
+  "terminal_rf2_kn": 0.5120153427124023,
   "peak_rf2_kn": 0.6644667983055115,
   "left_tip_mm": [
-    0.434238106,
-    0.842838466
+    0.41447854,
+    0.842838287
   ],
   "right_tip_mm": [
-    0.569261849,
-    0.842839777
+    0.589021444,
+    0.842839956
   ],
-  "tip_distance_mm": 0.135024,
+  "tip_distance_mm": 0.174543,
   "coalesced": false,
-  "left_crack_arc_length_s1_mm": 0.087469,
-  "right_crack_arc_length_s2_mm": 0.085831,
-  "max_damage": 0.9903289278348287,
+  "left_crack_arc_length_s1_mm": 0.06771,
+  "right_crack_arc_length_s2_mm": 0.066072,
+  "max_damage": 0.989597886800766,
   "mesh_elements": 20038,
   "mesh_nodes": 20222,
   "gate_results": {
@@ -38,11 +38,11 @@
       "SDV18": 0.0019970260267534626
     }
   },
-  "elapsed_seconds": 85.01948976516724,
+  "elapsed_seconds": 70.01606178283691,
   "completion": false,
   "completion_reason": "IN_PROGRESS",
   "donor_checkpoint_sha256": "573C9F3294FACDB155AC3D07C65673650B1CE2EFF8DC31168F7F628292A637E9",
-  "input_sha256": "FA82CF32413BEDCC862D98EAF609B0806CA68D5FBD303E70667B772A7EA8FD0B",
+  "input_sha256": "F0BB1AC6B74B2C026D7006A538AF541875CC44FA7AFF866941B7724C803340BB",
   "mesh_sha256": "069CA21EEFA9C35FA11291774F0782F1D4FA0D95204DAA00020E8C0740632A77",
   "source_sha256": "CE8D5EDCD2911DCB018BB15275271F874E7EA62B8FB48CF4A8297469A83ACDD6",
   "donor_cutoff": {
@@ -51,6 +51,6 @@
   },
   "pbs_submissions": 0,
   "cumulative_pbs_submissions": 73,
-  "transfer_implementation_sha256": "81AE81FCFA181A84616435DCF49B4F2A8E87DF51172EC4774B48758422A36A02",
+  "transfer_implementation_sha256": "1BED3CB233DFE38D59DA5020047A67F772DC9889BED23D669683E241EEB506D9",
   "transfer_implementation": "cKDTree nearest-neighbour nodal damage and Gauss-point history transfer"
 }
