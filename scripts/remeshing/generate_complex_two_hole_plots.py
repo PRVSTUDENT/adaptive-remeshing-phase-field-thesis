@@ -210,10 +210,12 @@ def generate_synthesis_figure(cycles, out_path):
     if tip1_x:
         all_t1_x = [0.353553] + tip1_x
         all_t1_y = [0.853553] + tip1_y
-        ax4.plot(all_t1_x, all_t1_y, 'ro-', lw=2.0, markersize=5, label='Crack 1 Path (Notch $\\to$ Hole 1)')
+        ax4.plot(all_t1_x, all_t1_y, 'ro-', lw=2.0, markersize=5,
+                 label=r'Crack 1 Path (Notch root $\to$ arrests at $x \approx 0.50$, misses Hole 1)')
     # Crack 2 trajectory
     if tip2_x:
-        ax4.plot(tip2_x, tip2_y, 'ms-', lw=2.2, markersize=6, label='Crack 2 Path (Hole 1 $\\to$ Hole 2)')
+        ax4.plot(tip2_x, tip2_y, 'ms-', lw=2.2, markersize=6,
+                 label=r'Crack 2 Path (Hole 1 $\to$ Hole 2 boundary contact)')
         
     ax4.set_xlim([-0.05, 1.05])
     ax4.set_ylim([-0.05, 1.05])

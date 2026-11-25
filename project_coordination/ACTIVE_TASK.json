@@ -12,7 +12,7 @@
   "last_successful_pbs_job_id": "1424910.mmaster02",
   "last_failed_pbs_job_id": "1424881.mmaster02",
   "checkpoint_artifact": "docs/validation/METHOD_C_COMPLEX_PROBLEM1_TWO_HOLE_REPORT.md",
-  "checkpoint_artifact_sha256": "BAD1B40E2D94628C15CE00EE0CD12A1BB3B92009D31035029BFAECF49374FBD2",
+  "checkpoint_artifact_sha256": "B49C26F75D10034177D2DBD572C41BD09D9F568F56EFB4D6F9AEE220E6498C45",
   "review_directive": "Run three complex models IN SEQUENCE: Problem 1 (notch + two holes) first, then Problem 2 (double notch), then Problem 3 (notch + hole under tension + shear). After each problem completes, send a handoff via bridge and wait for review before starting the next problem. Local PC only, 0 PBS, cumulative 73 preserved, frozen UEL CE8D5EDC unchanged.",
   "predecessor_task": {
     "task_id": "METHOD-C-NOVEL-INCLINED-NOTCH-HOLE",
@@ -21,8 +21,8 @@
     "review_verdict": "APPROVE",
     "correlation_id": "HND-METHOD-C-MODE2-LPANEL-017"
   },
-  "correlation_id": "HND-METHOD-C-COMPLEX-002",
-  "predecessor_correlation_id": "HND-METHOD-C-COMPLEX-001",
+  "correlation_id": "HND-METHOD-C-COMPLEX-003",
+  "predecessor_correlation_id": "HND-METHOD-C-COMPLEX-002",
   "scientific_operation": "method_c_complex_models_sequential",
   "scientific_operation_id": "method_c_complex_problem1_two_hole",
   "scientific_checkpoint_required": true,
@@ -33,5 +33,5 @@
   "current_problem": 1,
   "current_cycle_completed": 5,
   "cycle0_status": "CONVERGED_AUDITED",
-  "notes": "Problem 1 (inclined notch + two holes in series) completed through Cycle 5 via CONNECTED_DAMAGE_ENTERED_HOLE2. 100% transfer gate pass (<=5%), 0 PBS, cumulative 73 preserved, frozen UEL CE8D5EDC unchanged, 11/11 tests pass. Ready for review under HND-METHOD-C-COMPLEX-002."
+  "notes": "Problem 1 (inclined notch + two holes in series) completed through Cycle 5 via CONNECTED_DAMAGE_ENTERED_HOLE2. Report revised to reflect dual disconnected crack physics (Crack 1 arrests at x=0.50, Crack 2 enters Hole 2), exact summary file hashes verified, bridge rules/policy synced to METHOD_C_COMPLEX_MODELS_V1, 12/12 tests pass, 0 PBS, cumulative 73 preserved, frozen UEL CE8D5EDC unchanged. Ready for re-submission under HND-METHOD-C-COMPLEX-003."
 }

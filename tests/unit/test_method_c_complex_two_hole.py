@@ -286,3 +286,27 @@ def test_campaign_synthesis_figures_and_manifest():
         assert len(entry["mesh_sha256"]) == 64
         assert entry["source_sha256"] == "CE8D5EDCD2911DCB018BB15275271F874E7EA62B8FB48CF4A8297469A83ACDD6"
 
+
+def test_report_and_summary_file_hashes():
+    """Verify that all 6 summary file hashes and Cycle 4 checkpoint match exact authentic hashes."""
+    results_dir = REPO_ROOT / "models" / "complex_two_hole" / "campaign_results"
+    expected_summary_hashes = {
+        "PK_METHOD_C_TWO_HOLE_COARSE_JOB1_SUMMARY.json": "280B0B56E6A98DF01792FA43C1837AFC3289F66F7BB16620A71807B1E0F0572B",
+        "PK_METHOD_C_TWO_HOLE_CYCLE1_SUMMARY.json": "1986490CAB6CBDA5DA22799F03ACB650883B7E48907B4165A171BE8B4E89025B",
+        "PK_METHOD_C_TWO_HOLE_CYCLE2_SUMMARY.json": "1C8CDD1EFF9809E39FF721DCA72BD6EE1286761F930D72F7BAA11F30CEACE660",
+        "PK_METHOD_C_TWO_HOLE_CYCLE3_SUMMARY.json": "6A630950E0459C31227194B6E9A95C2BDAAD467051AF7C683F2418806C68E7BD",
+        "PK_METHOD_C_TWO_HOLE_CYCLE4_SUMMARY.json": "EE123F8B17F8006CD46CDCD7FD72148646E42E7ACA2B3728531DD1E9C857D0CD",
+        "PK_METHOD_C_TWO_HOLE_CYCLE5_SUMMARY.json": "B9CE2B1725162F9902BF04E6F00D3D5806065A9CBF5C6E32325C28DFCFB945E4",
+    }
+    for fname, exp_hash in expected_summary_hashes.items():
+        fpath = results_dir / fname
+        assert fpath.exists()
+        actual_hash = orch.compute_sha256(str(fpath))
+        assert actual_hash == exp_hash, f"Hash mismatch for {fname}: {actual_hash} != {exp_hash}"
+
+    # Cycle 4 checkpoint hash
+    c4_chk = results_dir / "PK_METHOD_C_TWO_HOLE_CYCLE4_checkpoint.json"
+    assert c4_chk.exists()
+    assert orch.compute_sha256(str(c4_chk)) == "F8E5C0EC90DC655EE373D694D24954AEF6888C082B3297C067FF8CC35B1ADE52"
+
+
