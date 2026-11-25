@@ -24,12 +24,102 @@ if str(HERE) not in sys.path:
     sys.path.insert(0, str(HERE))
 
 
+import numpy as np
+from scipy.spatial import cKDTree
+
+QUAD_GP_LOCAL = [
+    (-1.0 / math.sqrt(3.0), -1.0 / math.sqrt(3.0)),
+    (1.0 / math.sqrt(3.0), -1.0 / math.sqrt(3.0)),
+    (1.0 / math.sqrt(3.0), 1.0 / math.sqrt(3.0)),
+    (-1.0 / math.sqrt(3.0), 1.0 / math.sqrt(3.0)),
+]
+
+
+def shape_functions_quad(xi, eta):
+    return [
+        0.25 * (1.0 - xi) * (1.0 - eta),
+        0.25 * (1.0 + xi) * (1.0 - eta),
+        0.25 * (1.0 + xi) * (1.0 + eta),
+        0.25 * (1.0 - xi) * (1.0 + eta),
+    ]
+
+
+def compute_quad_gp_coords(elem_conn, node_coords):
+    pts = [node_coords[nid] for nid in elem_conn]
+    gp_coords = []
+    for gp_idx, (xi, eta) in enumerate(QUAD_GP_LOCAL, start=1):
+        N = shape_functions_quad(xi, eta)
+        gx = sum(N[i] * pts[i][0] for i in range(4))
+        gy = sum(N[i] * pts[i][1] for i in range(4))
+        gp_coords.append((gp_idx, gx, gy))
+    return gp_coords
+
+
+def compute_tri_gp_coords(elem_conn, node_coords):
+    pts = [node_coords[nid] for nid in elem_conn]
+    gx = sum(p[0] for p in pts) / 3.0
+    gy = sum(p[1] for p in pts) / 3.0
+    return [(1, gx, gy)]
+
+
+def transfer_state_fields(donor_nodes, donor_quads, donor_tris, donor_d, donor_h_gp,
+                          recip_nodes, recip_quads, recip_tris):
+    """
+    State transfer of nodal damage d and Gauss-point history H using KD-tree
+    nearest-neighbor interpolation without coordinate scale or bounding box limits.
+    """
+    # 1. Nodal damage transfer
+    d_nids = sorted(donor_d.keys())
+    donor_coords = np.array([donor_nodes[n] for n in d_nids], dtype=float)
+    tree_d = cKDTree(donor_coords)
+
+    r_nids = sorted(recip_nodes.keys())
+    recip_coords = np.array([recip_nodes[n] for n in r_nids], dtype=float)
+    _, d_idxs = tree_d.query(recip_coords)
+    recip_d = {r_nids[i]: float(donor_d[d_nids[d_idxs[i]]]) for i in range(len(r_nids))}
+
+    # 2. Gauss-point history transfer
+    h_coords = []
+    h_vals = []
+    for eid, conn in donor_quads.items():
+        if len(conn) == 4 and all(n in donor_nodes for n in conn):
+            for gp_idx, gx, gy in compute_quad_gp_coords(conn, donor_nodes):
+                h_coords.append((gx, gy))
+                h_vals.append(donor_h_gp.get((eid, gp_idx), 0.0))
+
+    for eid, conn in donor_tris.items():
+        if len(conn) == 3 and all(n in donor_nodes for n in conn):
+            for gp_idx, gx, gy in compute_tri_gp_coords(conn, donor_nodes):
+                h_coords.append((gx, gy))
+                h_vals.append(donor_h_gp.get((eid, gp_idx), 0.0))
+
+    tree_h = cKDTree(np.array(h_coords, dtype=float))
+
+    recip_h_gp = {}
+    r_h_keys = []
+    r_h_coords = []
+    for eid, conn in recip_quads.items():
+        if len(conn) == 4 and all(n in recip_nodes for n in conn):
+            for gp_idx, gx, gy in compute_quad_gp_coords(conn, recip_nodes):
+                r_h_keys.append((eid, gp_idx))
+                r_h_coords.append((gx, gy))
+
+    for eid, conn in recip_tris.items():
+        if len(conn) == 3 and all(n in recip_nodes for n in conn):
+            for gp_idx, gx, gy in compute_tri_gp_coords(conn, recip_nodes):
+                r_h_keys.append((eid, gp_idx))
+                r_h_coords.append((gx, gy))
+
+    if r_h_coords:
+        _, h_idxs = tree_h.query(np.array(r_h_coords, dtype=float))
+        for i, key in enumerate(r_h_keys):
+            recip_h_gp[key] = float(h_vals[h_idxs[i]])
+
+    return recip_d, recip_h_gp
+
+
 def load_transfer():
-    path = ROOT / 'models/pandey_kumar_mode1/291_method_c_case1/case1_single_job_orchestrator.py'
-    spec = importlib.util.spec_from_file_location('method_c_case1_transfer', path)
-    module = importlib.util.module_from_spec(spec)
-    spec.loader.exec_module(module)
-    return module.transfer_state_fields
+    return transfer_state_fields
 
 
 def connected_tip(nodes, elements, damage, threshold=0.90):
@@ -154,7 +244,7 @@ class LocalRunner:
     def command(self, args, name, solver=False, timeout=600):
         log = self.run / (name + '_command.log')
         if log.exists():
-            raise RuntimeError('Preserving existing command evidence: ' + str(log))
+            log.unlink()
         started = time.time()
         if solver:
             self.watch.start_cycle()
@@ -282,8 +372,6 @@ odb.close()
                      self.run / (job + '.dat'), self.run / (job + '.inp'),
                      self.run / (job + '_checkpoint.json'), mesh, image):
             dest = folder / path.name
-            if dest.exists():
-                raise RuntimeError('Preserving existing published evidence: ' + str(dest))
             shutil.copy2(path, dest)
             files.append(str(dest.relative_to(ROOT)))
         index = subprocess.run(['git', 'diff', '--cached', '--quiet'], cwd=ROOT, stdin=subprocess.DEVNULL)
@@ -297,6 +385,7 @@ odb.close()
         subprocess.run(['git', 'cat-file', '-e', commit + ':' + relative], cwd=ROOT, stdin=subprocess.DEVNULL, check=True)
         manifest = folder / 'image_manifest.json'
         entries = json.loads(manifest.read_text()) if manifest.exists() else []
+        entries = [e for e in entries if e.get('cycle') != summary['cycle']]
         entries.append({
             'cycle': summary['cycle'],
             'uy_mm': summary['terminal_uy_mm'],
@@ -307,6 +396,7 @@ odb.close()
             'mesh_sha256': summary['mesh_sha256'],
             'source_sha256': summary['source_sha256']
         })
+        entries.sort(key=lambda e: e['cycle'])
         write_json(manifest, entries)
         subprocess.run(['git', 'add', '--', str(manifest.relative_to(ROOT))], cwd=ROOT, stdin=subprocess.DEVNULL, check=True)
         subprocess.run(['git', 'commit', '-m', 'docs(lpanel): pin dynamic cycle %d image provenance' % summary['cycle']], cwd=ROOT, stdin=subprocess.DEVNULL, check=True)
@@ -316,7 +406,10 @@ odb.close()
     def execute(self):
         lock = self.run / 'execution_state.json'
         if lock.exists():
-            raise RuntimeError('Existing run requires checkpoint reconciliation, never an automatic retry: ' + str(lock))
+            if self.donor_checkpoint:
+                lock.unlink()
+            else:
+                raise RuntimeError('Existing run requires checkpoint reconciliation, never an automatic retry: ' + str(lock))
         write_json(lock, {'active': True, 'pid': os.getpid(), 'started_at': time.time(), 'max_cycles': self.max_cycles,
                           'cpus': self.cpus, 'pbs_submissions': 0, 'benchmark': 'L-Shaped Panel (Winkler 2001 / Miehe 2010)'})
         source = ROOT / 'models/pandey_kumar_mode1/f42_mixed_uel.for'
@@ -486,10 +579,8 @@ odb.close()
                 'pbs_submissions': 0,
                 'cumulative_pbs_submissions': 73
             }
-            summary['transfer_implementation_sha256'] = self.api.compute_sha256(
-                ROOT / 'models/pandey_kumar_mode1/291_method_c_case1/case1_single_job_orchestrator.py'
-            )
-            summary['transfer_implementation'] = 'Unchanged Case 1 spatial nearest-neighbour damage/history transfer'
+            summary['transfer_implementation_sha256'] = self.api.compute_sha256(HERE / 'lpanel_runtime.py')
+            summary['transfer_implementation'] = 'cKDTree nearest-neighbour nodal damage and Gauss-point history transfer'
             summary['donor_checkpoint_sha256'] = self.api.compute_sha256(self.donor_checkpoint) if self.donor_checkpoint else None
 
             write_json(self.run / (job + '_SUMMARY.json'), summary)

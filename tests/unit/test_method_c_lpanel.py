@@ -345,3 +345,55 @@ def test_lpanel_cycle11_cutback_diagnosis():
     assert "2.6946296E-02" in dat_text  # terminal RF2 = 0.02695 kN (83.1% load drop)
 
 
+def test_lpanel_ckdtree_state_transfer():
+    """
+    Verifies that KD-tree state transfer faithfully transfers nodal damage and Gauss-point history
+    between nonmatching L-panel meshes without zero-drop or spatial binning loss.
+    """
+    coarse_path = os.path.join(LPANEL_DIR, "PK_METHOD_C_LPANEL_COARSE_PHYS.inp")
+    mid_path = os.path.join(LPANEL_DIR, "PK_METHOD_C_LPANEL_MID_PHYS.inp")
+    if not (os.path.exists(coarse_path) and os.path.exists(mid_path)):
+        pytest.skip("Both coarse and mid meshes required for transfer test")
+
+    d_nodes, d_quads, d_tris, _ = orch.parse_physical_mesh(coarse_path)
+    r_nodes, r_quads, r_tris, _ = orch.parse_physical_mesh(mid_path)
+
+    # Set up known damage field with peak at corner (250, 250)
+    donor_d = {}
+    for nid, (x, y) in d_nodes.items():
+        dist = math.hypot(x - 250.0, y - 250.0)
+        donor_d[nid] = max(0.0, 1.0 - dist / 50.0)
+
+    # Set up known history field at Gauss points
+    donor_h = {}
+    for eid in d_quads:
+        for gp in range(1, 5):
+            donor_h[(eid, gp)] = 0.005
+    for eid in d_tris:
+        donor_h[(eid, 1)] = 0.005
+
+    # Execute KD-tree state transfer
+    rd, rh = lpanel_runtime.transfer_state_fields(
+        d_nodes, d_quads, d_tris, donor_d, donor_h,
+        r_nodes, r_quads, r_tris
+    )
+
+    # Assertions
+    assert len(rd) == len(r_nodes), "All receiver nodes must receive damage"
+    assert len(rh) == len(r_quads) * 4 + len(r_tris) * 1, "All receiver GPs must receive history"
+
+    # Peak damage preserved
+    max_d_donor = max(donor_d.values())
+    max_d_recip = max(rd.values())
+    assert abs(max_d_recip - max_d_donor) < 1e-3, "Peak damage must be preserved"
+
+    # History preserved uniformly
+    assert all(abs(val - 0.005) < 1e-6 for val in rh.values()), "All history values must match donor"
+
+    # Active corner zone has no zeroed damage
+    corner_box_nodes = [nid for nid, (x, y) in r_nodes.items() if 245.0 <= x <= 255.0 and 245.0 <= y <= 255.0]
+    assert len(corner_box_nodes) > 0
+    assert all(rd[n] > 0.5 for n in corner_box_nodes), "Corner zone damage must remain > 0.5"
+
+
+
