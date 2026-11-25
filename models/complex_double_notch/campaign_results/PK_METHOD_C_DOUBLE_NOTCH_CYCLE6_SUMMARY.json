@@ -3,9 +3,9 @@
   "job_name": "PK_METHOD_C_DOUBLE_NOTCH_CYCLE6",
   "status": "TRANSFER_GATE_FAILED",
   "benchmark": "Problem 2: Double Notch Symmetrical Crack Coalescence",
-  "donor_uy_mm": 0.007129045203328133,
-  "terminal_uy_mm": 0.007663093041628599,
-  "terminal_rf2_kn": 0.000314106437144801,
+  "donor_uy_mm": 0.007149494253098965,
+  "terminal_uy_mm": 0.007651203311979771,
+  "terminal_rf2_kn": 0.0004347391950432211,
   "peak_rf2_kn": 0.6644667983055115,
   "left_tip_mm": [
     0.648918986,
@@ -17,37 +17,37 @@
   ],
   "tip_distance_mm": 0.297838,
   "coalesced": true,
-  "left_crack_arc_length_s1_mm": 0.302531,
-  "right_crack_arc_length_s2_mm": 0.304547,
-  "max_damage": 0.9986973504225413,
-  "mesh_elements": 20014,
-  "mesh_nodes": 20187,
+  "left_crack_arc_length_s1_mm": 0.302308,
+  "right_crack_arc_length_s2_mm": 0.304168,
+  "max_damage": 0.9987960656483968,
+  "mesh_elements": 20258,
+  "mesh_nodes": 20447,
   "gate_results": {
-    "force_continuity_delta_pct": -6.4640485356252135,
+    "force_continuity_delta_pct": -6.515661206724806,
     "force_continuity_pass": false,
-    "energy_continuity_delta_sdv17_pct": 6.3250536805713,
-    "energy_continuity_delta_sdv18_pct": -6.462871861511812,
+    "energy_continuity_delta_sdv17_pct": 6.366811854999537,
+    "energy_continuity_delta_sdv18_pct": -6.514598209288818,
     "global_max_damage_nonhealing_pass": true,
     "evaluation_timing": "after two-step job; failure forbids donor acceptance and further cycles",
     "hold_energies": {
-      "SDV17": 0.0010608771750412328,
-      "SDV18": 0.0014299256371658894
+      "SDV17": 0.0010688861647805612,
+      "SDV18": 0.001428736815869168
     },
     "donor_energies": {
-      "SDV17": 0.0009977678245321085,
-      "SDV18": 0.0015287251871243957
+      "SDV17": 0.0010049057089702746,
+      "SDV18": 0.0015282993799050333
     }
   },
-  "elapsed_seconds": 55.01315760612488,
+  "elapsed_seconds": 65.0160264968872,
   "completion": false,
   "completion_reason": "TRANSFER_GATE_FAILED",
-  "donor_checkpoint_sha256": "468A6FFB3FE881674BEC86EC852A43B2FF6091A24B2DF7642FC6A6698D5614B9",
-  "input_sha256": "54AC8D1C58CC00D9EE78FD5B63FA549C97F3DAF8030ABD13B30B2FDC486C4B86",
-  "mesh_sha256": "57A487C74798A369B1D9887CD518AE9F3F873587EF4E6600A918DAB6655C0DED",
+  "donor_checkpoint_sha256": "DE9DD497358F9E0E0AAFB1C06437F65F9D1F13E6C5818A6511A23EEA1E8E9A41",
+  "input_sha256": "8E5052E1358D2EF5176D207A819DC6DA52F996A05798DB5B29137DF8769C5255",
+  "mesh_sha256": "C81FA6830DEC01993F2F3BB25360F5A5C5E12AC9AD388A952AD864FB679EAB79",
   "source_sha256": "CE8D5EDCD2911DCB018BB15275271F874E7EA62B8FB48CF4A8297469A83ACDD6",
   "donor_cutoff": {
     "frame": 14,
-    "time": 0.07128741592168808
+    "time": 0.09765460342168808
   },
   "pbs_submissions": 0,
   "cumulative_pbs_submissions": 73,
