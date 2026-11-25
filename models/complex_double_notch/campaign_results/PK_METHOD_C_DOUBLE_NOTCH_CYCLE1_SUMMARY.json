@@ -1,0 +1,56 @@
+{
+  "cycle": 1,
+  "job_name": "PK_METHOD_C_DOUBLE_NOTCH_CYCLE1",
+  "status": "CONVERGED_AUDITED",
+  "benchmark": "Problem 2: Double Notch Symmetrical Crack Coalescence",
+  "donor_uy_mm": 0.0044999998062849045,
+  "terminal_uy_mm": 0.0050108726136386395,
+  "terminal_rf2_kn": 0.598338782787323,
+  "peak_rf2_kn": 0.598338782787323,
+  "left_tip_mm": [
+    0.35355339,
+    0.85355339
+  ],
+  "right_tip_mm": [
+    0.64644661,
+    0.85355339
+  ],
+  "tip_distance_mm": 0.292893,
+  "coalesced": false,
+  "left_crack_arc_length_s1_mm": 0.0,
+  "right_crack_arc_length_s2_mm": 0.0,
+  "max_damage": 0.3409596383571625,
+  "mesh_elements": 17150,
+  "mesh_nodes": 17322,
+  "gate_results": {
+    "force_continuity_delta_pct": -0.00898890871582545,
+    "force_continuity_pass": true,
+    "energy_continuity_delta_sdv17_pct": 0.3305436839788664,
+    "energy_continuity_delta_sdv18_pct": -0.0077116687623808265,
+    "global_max_damage_nonhealing_pass": true,
+    "evaluation_timing": "after two-step job; failure forbids donor acceptance and further cycles",
+    "hold_energies": {
+      "SDV17": 2.8592234955180803e-05,
+      "SDV18": 0.0012247847575409126
+    },
+    "donor_energies": {
+      "SDV17": 2.849803649548698e-05,
+      "SDV18": 0.0012248792161688028
+    }
+  },
+  "elapsed_seconds": 95.01974081993103,
+  "completion": false,
+  "completion_reason": "IN_PROGRESS",
+  "donor_checkpoint_sha256": "C6E7AAB84E098E588147762B7662FB3F51091814BEE7D5EDC0C8EB44384F2EDF",
+  "input_sha256": "0F3BCEAF28BE4FD34A309897F6ECEE578AE6A4ADE2C9D156F8811BDBD08167BB",
+  "mesh_sha256": "FD2E4F1434FC8DD2894782EA2E95AC64DDD30514E9595A9AA2E7BF9B5993FDCD",
+  "source_sha256": "CE8D5EDCD2911DCB018BB15275271F874E7EA62B8FB48CF4A8297469A83ACDD6",
+  "donor_cutoff": {
+    "frame": 22,
+    "time": 1.0
+  },
+  "pbs_submissions": 0,
+  "cumulative_pbs_submissions": 73,
+  "transfer_implementation_sha256": "B5924D5A0916395386D24E5FD8D72480709A665D8A967192AF04C8FB7029F49F",
+  "transfer_implementation": "cKDTree nearest-neighbour nodal damage and Gauss-point history transfer"
+}
