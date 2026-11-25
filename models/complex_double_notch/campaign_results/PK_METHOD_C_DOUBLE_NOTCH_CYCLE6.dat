@@ -1,6 +1,6 @@
 1
 
-   Abaqus 2024                                  Date 25-Nov-2026   Time 13:53:36
+   Abaqus 2024                                  Date 25-Nov-2026   Time 14:02:03
    For use by Supplied by Team-SolidSQUAD under license from Dassault Systemes or its subsidiary.
 
 
@@ -187,7 +187,7 @@
            CONSTRAINTS CAN CAUSE SEVERE ELEMENT DISTORTION. IT MAY BE NECESSARY 
            TO REMESH IN ORDER TO REDUCE THE AMOUNT OF ADJUSTMENT. 
 
- ***WARNING: 2 elements are distorted. Either the isoparametric angles are out 
+ ***WARNING: 5 elements are distorted. Either the isoparametric angles are out 
              of the suggested limits or the triangular or tetrahedral quality 
              measure is bad. The elements have been identified in element set 
              WarnElemDistorted.
@@ -197,14 +197,17 @@
   
   Element   Min/max angle   Adjusted nodes 
  --------- ---------------- -------------- 
-     44687          38.7788       NO       
+     42585           42.516       NO       
+     44692          37.3524       NO       
+     56012          40.0711       NO       
+     58268          44.5637       NO       
   
  --------------------------------------------------------------------------------
  Distorted triangular elements
   
  Element   Quality measure     Min angle        Max angle     Adjusted nodes 
  --------- ---------------- ---------------- ---------------- -------------- 
-     60000        0.0535979          8.70546          146.598       NO       
+     59967        0.0244213          6.18851          154.115       NO       
   
   
   *STEP, NAME=Step-1, NLGEOM=NO, INC=100
@@ -266,10 +269,10 @@
                             P R O B L E M   S I Z E
 
 
-          NUMBER OF ELEMENTS IS                                 60114
-          NUMBER OF NODES IS                                    20223
-          NUMBER OF NODES DEFINED BY THE USER                   20223
-          TOTAL NUMBER OF VARIABLES IN THE MODEL                60667
+          NUMBER OF ELEMENTS IS                                 60081
+          NUMBER OF NODES IS                                    20193
+          NUMBER OF NODES DEFINED BY THE USER                   20193
+          TOTAL NUMBER OF VARIABLES IN THE MODEL                60577
           (DEGREES OF FREEDOM PLUS MAX NO. OF ANY LAGRANGE MULTIPLIER
            VARIABLES. INCLUDE *PRINT,SOLVE=YES TO GET THE ACTUAL NUMBER.)
 
@@ -280,13 +283,13 @@
 
 
      JOB TIME SUMMARY
-       USER TIME (SEC)      =      1.8    
-       SYSTEM TIME (SEC)    =     0.20    
+       USER TIME (SEC)      =      1.7    
+       SYSTEM TIME (SEC)    =     0.30    
        TOTAL CPU TIME (SEC) =      2.0    
        WALLCLOCK TIME (SEC) =            2
 1
 
-   Abaqus 2024                                  Date 25-Nov-2026   Time 13:53:54
+   Abaqus 2024                                  Date 25-Nov-2026   Time 14:02:20
    For use by Supplied by Team-SolidSQUAD under license from Dassault Systemes or its subsidiary.
 
      Method C Problem 2 Double-Notch Benchmark Model                                           STEP    1  INCREMENT    1
@@ -314,7 +317,7 @@
               OPERATIONS           REQUIRED          MINIMIZE I/O
              PER ITERATION           (MB)               (MB)
   
-     1          2.34E+09               46                213
+     1          2.50E+09               46                217
   
  NOTE:
       (1) SINCE ABAQUS DOES NOT PRE-ALLOCATE MEMORY AND ONLY ALLOCATES MEMORY AS NEEDED DURING THE ANALYSIS,
@@ -366,16 +369,16 @@
        NODE FOOT-  U2             RF2          
             NOTE
   
-     999999      7.1494943E-03  3.9940856E-01
+     999999      6.9072754E-03  4.9632236E-01
 
- MAXIMUM         7.1495E-03  0.3994    
+ MAXIMUM         6.9073E-03  0.4963    
  AT NODE            999999      999999
 
- MINIMUM         7.1495E-03  0.3994    
+ MINIMUM         6.9073E-03  0.4963    
  AT NODE            999999      999999
 1
 
-   Abaqus 2024                                  Date 25-Nov-2026   Time 13:53:56
+   Abaqus 2024                                  Date 25-Nov-2026   Time 14:02:22
    For use by Supplied by Team-SolidSQUAD under license from Dassault Systemes or its subsidiary.
 
      Method C Problem 2 Double-Notch Benchmark Model                                           STEP    2  INCREMENT    1
@@ -407,7 +410,7 @@
               OPERATIONS           REQUIRED          MINIMIZE I/O
              PER ITERATION           (MB)               (MB)
   
-     1          2.34E+09               44                216
+     1          2.50E+09               45                220
   
  NOTE:
       (1) SINCE ABAQUS DOES NOT PRE-ALLOCATE MEMORY AND ONLY ALLOCATES MEMORY AS NEEDED DURING THE ANALYSIS,
@@ -443,7 +446,7 @@
                                 INCREMENT     1 SUMMARY
 
 
-     CURRENT LOAD PROPORTIONALITY FACTOR         0.1266    
+     CURRENT LOAD PROPORTIONALITY FACTOR         4.8300E-02
      TOTAL ARC LENGTH   2.500E-03, INCREMENT OF ARC LENGTH   2.500E-03
   
   
@@ -459,19 +462,19 @@
        NODE FOOT-  U2             RF2          
             NOTE
   
-     999999      7.2127942E-03  3.7039892E-01
+     999999      6.9459152E-03  4.8278749E-01
 
- MAXIMUM         7.2128E-03  0.3704    
+ MAXIMUM         6.9459E-03  0.4828    
  AT NODE            999999      999999
 
- MINIMUM         7.2128E-03  0.3704    
+ MINIMUM         6.9459E-03  0.4828    
  AT NODE            999999      999999
 
 
                                 INCREMENT     2 SUMMARY
 
 
-     CURRENT LOAD PROPORTIONALITY FACTOR         0.2793    
+     CURRENT LOAD PROPORTIONALITY FACTOR         0.1007    
      TOTAL ARC LENGTH   5.000E-03, INCREMENT OF ARC LENGTH   2.500E-03
   
   
@@ -487,19 +490,19 @@
        NODE FOOT-  U2             RF2          
             NOTE
   
-     999999      7.2891449E-03  3.3193788E-01
+     999999      6.9878433E-03  4.6758638E-01
 
- MAXIMUM         7.2891E-03  0.3319    
+ MAXIMUM         6.9878E-03  0.4676    
  AT NODE            999999      999999
 
- MINIMUM         7.2891E-03  0.3319    
+ MINIMUM         6.9878E-03  0.4676    
  AT NODE            999999      999999
 
 
                                 INCREMENT     3 SUMMARY
 
 
-     CURRENT LOAD PROPORTIONALITY FACTOR         0.4720    
+     CURRENT LOAD PROPORTIONALITY FACTOR         0.1590    
      TOTAL ARC LENGTH   8.750E-03, INCREMENT OF ARC LENGTH   3.750E-03
   
   
@@ -515,19 +518,19 @@
        NODE FOOT-  U2             RF2          
             NOTE
   
-     999999      7.3854878E-03  2.7611730E-01
+     999999      7.0344575E-03  4.5047793E-01
 
- MAXIMUM         7.3855E-03  0.2761    
+ MAXIMUM         7.0345E-03  0.4505    
  AT NODE            999999      999999
 
- MINIMUM         7.3855E-03  0.2761    
+ MINIMUM         7.0345E-03  0.4505    
  AT NODE            999999      999999
 
 
                                 INCREMENT     4 SUMMARY
 
 
-     CURRENT LOAD PROPORTIONALITY FACTOR         0.7142    
+     CURRENT LOAD PROPORTIONALITY FACTOR         0.2245    
      TOTAL ARC LENGTH   1.438E-02, INCREMENT OF ARC LENGTH   5.625E-03
   
   
@@ -543,19 +546,19 @@
        NODE FOOT-  U2             RF2          
             NOTE
   
-     999999      7.5065950E-03  1.8428141E-01
+     999999      7.0869083E-03  4.3097038E-01
 
- MAXIMUM         7.5066E-03  0.1843    
+ MAXIMUM         7.0869E-03  0.4310    
  AT NODE            999999      999999
 
- MINIMUM         7.5066E-03  0.1843    
+ MINIMUM         7.0869E-03  0.4310    
  AT NODE            999999      999999
 
 
                                 INCREMENT     5 SUMMARY
 
 
-     CURRENT LOAD PROPORTIONALITY FACTOR         0.8732    
+     CURRENT LOAD PROPORTIONALITY FACTOR         0.3000    
      TOTAL ARC LENGTH   2.281E-02, INCREMENT OF ARC LENGTH   8.438E-03
   
   
@@ -571,19 +574,19 @@
        NODE FOOT-  U2             RF2          
             NOTE
   
-     999999      7.5860970E-03  5.0427222E-02
+     999999      7.1473094E-03  4.0813053E-01
 
- MAXIMUM         7.5861E-03  5.0427E-02
+ MAXIMUM         7.1473E-03  0.4081    
  AT NODE            999999      999999
 
- MINIMUM         7.5861E-03  5.0427E-02
+ MINIMUM         7.1473E-03  0.4081    
  AT NODE            999999      999999
 
 
                                 INCREMENT     6 SUMMARY
 
 
-     CURRENT LOAD PROPORTIONALITY FACTOR         0.8221    
+     CURRENT LOAD PROPORTIONALITY FACTOR         0.3897    
      TOTAL ARC LENGTH   3.547E-02, INCREMENT OF ARC LENGTH   1.266E-02
   
   
@@ -599,20 +602,20 @@
        NODE FOOT-  U2             RF2          
             NOTE
   
-     999999      7.5605275E-03  2.0922689E-03
+     999999      7.2190349E-03  3.8030754E-01
 
- MAXIMUM         7.5605E-03  2.0923E-03
+ MAXIMUM         7.2190E-03  0.3803    
  AT NODE            999999      999999
 
- MINIMUM         7.5605E-03  2.0923E-03
+ MINIMUM         7.2190E-03  0.3803    
  AT NODE            999999      999999
 
 
                                 INCREMENT     7 SUMMARY
 
 
-     CURRENT LOAD PROPORTIONALITY FACTOR         0.8587    
-     TOTAL ARC LENGTH   5.445E-02, INCREMENT OF ARC LENGTH   1.898E-02
+     CURRENT LOAD PROPORTIONALITY FACTOR         0.4870    
+     TOTAL ARC LENGTH   4.021E-02, INCREMENT OF ARC LENGTH   4.746E-03
   
   
   
@@ -627,20 +630,20 @@
        NODE FOOT-  U2             RF2          
             NOTE
   
-     999999      7.5788353E-03  4.9782202E-04
+     999999      7.2968488E-03  3.4422734E-01
 
- MAXIMUM         7.5788E-03  4.9782E-04
+ MAXIMUM         7.2968E-03  0.3442    
  AT NODE            999999      999999
 
- MINIMUM         7.5788E-03  4.9782E-04
+ MINIMUM         7.2968E-03  0.3442    
  AT NODE            999999      999999
 
 
                                 INCREMENT     8 SUMMARY
 
 
-     CURRENT LOAD PROPORTIONALITY FACTOR         0.8651    
-     TOTAL ARC LENGTH   5.623E-02, INCREMENT OF ARC LENGTH   1.780E-03
+     CURRENT LOAD PROPORTIONALITY FACTOR         0.6101    
+     TOTAL ARC LENGTH   4.733E-02, INCREMENT OF ARC LENGTH   7.119E-03
   
   
   
@@ -655,20 +658,20 @@
        NODE FOOT-  U2             RF2          
             NOTE
   
-     999999      7.5820592E-03  4.2782075E-04
+     999999      7.3953385E-03  2.9302345E-01
 
- MAXIMUM         7.5821E-03  4.2782E-04
+ MAXIMUM         7.3953E-03  0.2930    
  AT NODE            999999      999999
 
- MINIMUM         7.5821E-03  4.2782E-04
+ MINIMUM         7.3953E-03  0.2930    
  AT NODE            999999      999999
 
 
                                 INCREMENT     9 SUMMARY
 
 
-     CURRENT LOAD PROPORTIONALITY FACTOR         0.8687    
-     TOTAL ARC LENGTH   5.890E-02, INCREMENT OF ARC LENGTH   2.670E-03
+     CURRENT LOAD PROPORTIONALITY FACTOR         0.7687    
+     TOTAL ARC LENGTH   5.801E-02, INCREMENT OF ARC LENGTH   1.068E-02
   
   
   
@@ -683,20 +686,20 @@
        NODE FOOT-  U2             RF2          
             NOTE
   
-     999999      7.5838390E-03  4.1494340E-04
+     999999      7.5222522E-03  2.1096892E-01
 
- MAXIMUM         7.5838E-03  4.1494E-04
+ MAXIMUM         7.5223E-03  0.2110    
  AT NODE            999999      999999
 
- MINIMUM         7.5838E-03  4.1494E-04
+ MINIMUM         7.5223E-03  0.2110    
  AT NODE            999999      999999
 
 
                                 INCREMENT    10 SUMMARY
 
 
-     CURRENT LOAD PROPORTIONALITY FACTOR         0.8721    
-     TOTAL ARC LENGTH   6.291E-02, INCREMENT OF ARC LENGTH   4.005E-03
+     CURRENT LOAD PROPORTIONALITY FACTOR         0.9178    
+     TOTAL ARC LENGTH   7.403E-02, INCREMENT OF ARC LENGTH   1.602E-02
   
   
   
@@ -711,20 +714,20 @@
        NODE FOOT-  U2             RF2          
             NOTE
   
-     999999      7.5855652E-03  4.1124723E-04
+     999999      7.6415471E-03  7.9217131E-02
 
- MAXIMUM         7.5856E-03  4.1125E-04
+ MAXIMUM         7.6415E-03  7.9217E-02
  AT NODE            999999      999999
 
- MINIMUM         7.5856E-03  4.1125E-04
+ MINIMUM         7.6415E-03  7.9217E-02
  AT NODE            999999      999999
 
 
                                 INCREMENT    11 SUMMARY
 
 
-     CURRENT LOAD PROPORTIONALITY FACTOR         0.8763    
-     TOTAL ARC LENGTH   6.891E-02, INCREMENT OF ARC LENGTH   6.007E-03
+     CURRENT LOAD PROPORTIONALITY FACTOR         0.9186    
+     TOTAL ARC LENGTH   9.806E-02, INCREMENT OF ARC LENGTH   2.403E-02
   
   
   
@@ -739,20 +742,20 @@
        NODE FOOT-  U2             RF2          
             NOTE
   
-     999999      7.5876452E-03  4.0939892E-04
+     999999      7.6421789E-03  4.4367445E-03
 
- MAXIMUM         7.5876E-03  4.0940E-04
+ MAXIMUM         7.6422E-03  4.4367E-03
  AT NODE            999999      999999
 
- MINIMUM         7.5876E-03  4.0940E-04
+ MINIMUM         7.6422E-03  4.4367E-03
  AT NODE            999999      999999
 
 
                                 INCREMENT    12 SUMMARY
 
 
-     CURRENT LOAD PROPORTIONALITY FACTOR         0.8820    
-     TOTAL ARC LENGTH   7.792E-02, INCREMENT OF ARC LENGTH   9.010E-03
+     CURRENT LOAD PROPORTIONALITY FACTOR         0.9848    
+     TOTAL ARC LENGTH   0.134    , INCREMENT OF ARC LENGTH   3.604E-02
   
   
   
@@ -767,20 +770,20 @@
        NODE FOOT-  U2             RF2          
             NOTE
   
-     999999      7.5904754E-03  4.0830845E-04
+     999999      7.6951290E-03  5.4343095E-04
 
- MAXIMUM         7.5905E-03  4.0831E-04
+ MAXIMUM         7.6951E-03  5.4343E-04
  AT NODE            999999      999999
 
- MINIMUM         7.5905E-03  4.0831E-04
+ MINIMUM         7.6951E-03  5.4343E-04
  AT NODE            999999      999999
 
 
                                 INCREMENT    13 SUMMARY
 
 
-     CURRENT LOAD PROPORTIONALITY FACTOR         0.8901    
-     TOTAL ARC LENGTH   9.144E-02, INCREMENT OF ARC LENGTH   1.352E-02
+     CURRENT LOAD PROPORTIONALITY FACTOR         0.9927    
+     TOTAL ARC LENGTH   0.137    , INCREMENT OF ARC LENGTH   3.125E-03
   
   
   
@@ -795,20 +798,20 @@
        NODE FOOT-  U2             RF2          
             NOTE
   
-     999999      7.5945539E-03  4.0758037E-04
+     999999      7.7014501E-03  4.1754678E-04
 
- MAXIMUM         7.5946E-03  4.0758E-04
+ MAXIMUM         7.7015E-03  4.1755E-04
  AT NODE            999999      999999
 
- MINIMUM         7.5946E-03  4.0758E-04
+ MINIMUM         7.7015E-03  4.1755E-04
  AT NODE            999999      999999
 
 
                                 INCREMENT    14 SUMMARY
 
 
-     CURRENT LOAD PROPORTIONALITY FACTOR         0.9022    
-     TOTAL ARC LENGTH   0.112    , INCREMENT OF ARC LENGTH   2.027E-02
+     CURRENT LOAD PROPORTIONALITY FACTOR         0.9979    
+     TOTAL ARC LENGTH   0.142    , INCREMENT OF ARC LENGTH   4.688E-03
   
   
   
@@ -823,20 +826,20 @@
        NODE FOOT-  U2             RF2          
             NOTE
   
-     999999      7.6005727E-03  4.0703239E-04
+     999999      7.7055848E-03  3.9972153E-04
 
- MAXIMUM         7.6006E-03  4.0703E-04
+ MAXIMUM         7.7056E-03  3.9972E-04
  AT NODE            999999      999999
 
- MINIMUM         7.6006E-03  4.0703E-04
+ MINIMUM         7.7056E-03  3.9972E-04
  AT NODE            999999      999999
 
 
                                 INCREMENT    15 SUMMARY
 
 
-     CURRENT LOAD PROPORTIONALITY FACTOR         0.9201    
-     TOTAL ARC LENGTH   0.142    , INCREMENT OF ARC LENGTH   3.041E-02
+     CURRENT LOAD PROPORTIONALITY FACTOR          1.004    
+     TOTAL ARC LENGTH   0.149    , INCREMENT OF ARC LENGTH   7.031E-03
   
   
   
@@ -851,96 +854,12 @@
        NODE FOOT-  U2             RF2          
             NOTE
   
-     999999      7.6095427E-03  4.0652111E-04
+     999999      7.7104875E-03  3.9457455E-04
 
- MAXIMUM         7.6095E-03  4.0652E-04
+ MAXIMUM         7.7105E-03  3.9457E-04
  AT NODE            999999      999999
 
- MINIMUM         7.6095E-03  4.0652E-04
- AT NODE            999999      999999
-
-
-                                INCREMENT    16 SUMMARY
-
-
-     CURRENT LOAD PROPORTIONALITY FACTOR         0.9469    
-     TOTAL ARC LENGTH   0.188    , INCREMENT OF ARC LENGTH   4.561E-02
-  
-  
-  
-  
-                                       N O D E   O U T P U T
-  
-  
-  
-  
-   THE FOLLOWING TABLE IS PRINTED FOR NODES BELONGING TO NODE SET N_RP
-  
-       NODE FOOT-  U2             RF2          
-            NOTE
-  
-     999999      7.6229510E-03  4.0589804E-04
-
- MAXIMUM         7.6230E-03  4.0590E-04
- AT NODE            999999      999999
-
- MINIMUM         7.6230E-03  4.0590E-04
- AT NODE            999999      999999
-
-
-                                INCREMENT    17 SUMMARY
-
-
-     CURRENT LOAD PROPORTIONALITY FACTOR         0.9763    
-     TOTAL ARC LENGTH   0.238    , INCREMENT OF ARC LENGTH   5.000E-02
-  
-  
-  
-  
-                                       N O D E   O U T P U T
-  
-  
-  
-  
-   THE FOLLOWING TABLE IS PRINTED FOR NODES BELONGING TO NODE SET N_RP
-  
-       NODE FOOT-  U2             RF2          
-            NOTE
-  
-     999999      7.6376316E-03  4.0513462E-04
-
- MAXIMUM         7.6376E-03  4.0513E-04
- AT NODE            999999      999999
-
- MINIMUM         7.6376E-03  4.0513E-04
- AT NODE            999999      999999
-
-
-                                INCREMENT    18 SUMMARY
-
-
-     CURRENT LOAD PROPORTIONALITY FACTOR          1.006    
-     TOTAL ARC LENGTH   0.288    , INCREMENT OF ARC LENGTH   5.000E-02
-  
-  
-  
-  
-                                       N O D E   O U T P U T
-  
-  
-  
-  
-   THE FOLLOWING TABLE IS PRINTED FOR NODES BELONGING TO NODE SET N_RP
-  
-       NODE FOOT-  U2             RF2          
-            NOTE
-  
-     999999      7.6523078E-03  4.0420767E-04
-
- MAXIMUM         7.6523E-03  4.0421E-04
- AT NODE            999999      999999
-
- MINIMUM         7.6523E-03  4.0421E-04
+ MINIMUM         7.7105E-03  3.9457E-04
  AT NODE            999999      999999
 
 
@@ -954,7 +873,7 @@
 
 
      JOB TIME SUMMARY
-       USER TIME (SEC)      =     1.48E+02
-       SYSTEM TIME (SEC)    =      5.0    
-       TOTAL CPU TIME (SEC) =     1.53E+02
-       WALLCLOCK TIME (SEC) =           55
+       USER TIME (SEC)      =     1.29E+02
+       SYSTEM TIME (SEC)    =      4.9    
+       TOTAL CPU TIME (SEC) =     1.34E+02
+       WALLCLOCK TIME (SEC) =           48

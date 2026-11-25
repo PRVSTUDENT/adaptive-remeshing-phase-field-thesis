@@ -1,11 +1,11 @@
 {
   "cycle": 6,
   "job_name": "PK_METHOD_C_DOUBLE_NOTCH_CYCLE6",
-  "status": "TRANSFER_GATE_FAILED",
+  "status": "CONVERGED_AUDITED",
   "benchmark": "Problem 2: Double Notch Symmetrical Crack Coalescence",
-  "donor_uy_mm": 0.007149494253098965,
-  "terminal_uy_mm": 0.007652307860553265,
-  "terminal_rf2_kn": 0.00040420767618343234,
+  "donor_uy_mm": 0.006907275412231684,
+  "terminal_uy_mm": 0.0077104875817894936,
+  "terminal_rf2_kn": 0.00039457454113289714,
   "peak_rf2_kn": 0.6644667983055115,
   "left_tip_mm": [
     0.648918986,
@@ -17,40 +17,40 @@
   ],
   "tip_distance_mm": 0.297838,
   "coalesced": true,
-  "left_crack_arc_length_s1_mm": 0.302308,
-  "right_crack_arc_length_s2_mm": 0.304168,
-  "max_damage": 0.9989658296108246,
-  "mesh_elements": 20038,
-  "mesh_nodes": 20222,
+  "left_crack_arc_length_s1_mm": 0.302295,
+  "right_crack_arc_length_s2_mm": 0.304155,
+  "max_damage": 0.9989675581455231,
+  "mesh_elements": 20027,
+  "mesh_nodes": 20192,
   "gate_results": {
-    "force_continuity_delta_pct": -6.57796613784851,
-    "force_continuity_pass": false,
-    "energy_continuity_delta_sdv17_pct": 6.112194083731662,
-    "energy_continuity_delta_sdv18_pct": -6.576902979408777,
+    "force_continuity_delta_pct": -3.0649431351476197,
+    "force_continuity_pass": true,
+    "energy_continuity_delta_sdv17_pct": 5.063973460371796,
+    "energy_continuity_delta_sdv18_pct": -3.063918334759509,
     "global_max_damage_nonhealing_pass": true,
     "evaluation_timing": "after two-step job; failure forbids donor acceptance and further cycles",
     "hold_energies": {
-      "SDV17": 0.0010663274962610374,
-      "SDV18": 0.0014277846124537733
+      "SDV17": 0.0008138677670432764,
+      "SDV18": 0.0017141176017813986
     },
     "donor_energies": {
-      "SDV17": 0.0010049057089702746,
-      "SDV18": 0.0015282993799050333
+      "SDV17": 0.0007746401932440261,
+      "SDV18": 0.0017682967707534746
     }
   },
-  "elapsed_seconds": 95.01911449432373,
-  "completion": false,
-  "completion_reason": "TRANSFER_GATE_FAILED",
-  "donor_checkpoint_sha256": "DE9DD497358F9E0E0AAFB1C06437F65F9D1F13E6C5818A6511A23EEA1E8E9A41",
-  "input_sha256": "F048A166C2ABE67CA131200021B1BA5A013EAB3AA96B415D309AFA1110E1E641",
-  "mesh_sha256": "069CA21EEFA9C35FA11291774F0782F1D4FA0D95204DAA00020E8C0740632A77",
+  "elapsed_seconds": 85.01899933815002,
+  "completion": true,
+  "completion_reason": "CONNECTED_DAMAGE_COALESCENCE",
+  "donor_checkpoint_sha256": "428098B5167826EDD50E6FF51B64659ACB6F0A1E0E5AA3632879E58B0AEDE1E6",
+  "input_sha256": "C3764143FCD7B4D847C9E5EF7E85CE5B40E33286672335AC34990001E6683ACB",
+  "mesh_sha256": "FAAE7019E30026F90F9F8C0001AE83AAEB38A87DE133C950B3C3B807C7F1C285",
   "source_sha256": "CE8D5EDCD2911DCB018BB15275271F874E7EA62B8FB48CF4A8297469A83ACDD6",
   "donor_cutoff": {
-    "frame": 14,
-    "time": 0.09765460342168808
+    "frame": 9,
+    "time": 0.11283203214406967
   },
   "pbs_submissions": 0,
   "cumulative_pbs_submissions": 73,
-  "transfer_implementation_sha256": "9C0A130D2C4F20366426B060959106A98BC8516CD5FD572220B7B6A6F8EC58C4",
+  "transfer_implementation_sha256": "1BED3CB233DFE38D59DA5020047A67F772DC9889BED23D669683E241EEB506D9",
   "transfer_implementation": "cKDTree nearest-neighbour nodal damage and Gauss-point history transfer"
 }
