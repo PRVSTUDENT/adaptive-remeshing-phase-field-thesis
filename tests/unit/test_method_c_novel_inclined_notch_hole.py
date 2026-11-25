@@ -249,3 +249,84 @@ def test_novel_campaign_image_manifest_provenance():
         assert entry["source_sha256"] == orch.FROZEN_UEL_SHA256
         assert (ROOT / entry["path"]).exists(), "Image file must exist: " + entry["path"]
 
+
+def test_novel_narrow_band_campaign_results_and_transfer_gates():
+    results_dir = NOVEL_DIR / "campaign_results_narrow_band"
+    assert results_dir.exists(), "campaign_results_narrow_band directory must exist"
+
+    # All 10 cycles must exist (Cycles 0 to 9)
+    for c in range(10):
+        job = "PK_METHOD_C_NOVEL_COARSE_JOB1" if c == 0 else "PK_METHOD_C_NOVEL_CYCLE%d" % c
+        sum_file = results_dir / (job + "_SUMMARY.json")
+        assert sum_file.exists(), "%s summary must exist" % job
+        data = json.loads(sum_file.read_text())
+        assert data["status"] == "CONVERGED_AUDITED"
+        assert data["cycle"] == c
+        assert data["mesh_elements"] < 10000, "Narrow band mesh elements must remain < 10,000"
+
+        if c > 0:
+            gr = data["gate_results"]
+            assert gr["force_continuity_pass"] is True, "Cycle %d force continuity failed" % c
+            assert abs(gr["force_continuity_delta_pct"]) <= 5.0, "Cycle %d force delta > 5%%" % c
+            assert gr["global_max_damage_nonhealing_pass"] is True
+
+    # Terminal cycle (Cycle 9) checks
+    term_file = results_dir / "PK_METHOD_C_NOVEL_CYCLE9_SUMMARY.json"
+    term = json.loads(term_file.read_text())
+    assert term["completion"] is True
+    assert term["completion_reason"] == "CONNECTED_DAMAGE_REACHED_BOUNDARY"
+    assert term["peak_rf2_kn"] >= 0.80
+    assert term["max_damage"] >= 0.999
+    assert term["mesh_elements"] == 8597
+
+    # Hole penetration check: tip must be at hole boundary (r == 0.1000 mm from (0.65, 0.65))
+    tip_x, tip_y = term["tip_mm"]
+    dist_to_hole = math.hypot(tip_x - orch.HOLE_X, tip_y - orch.HOLE_Y)
+    assert abs(dist_to_hole - orch.HOLE_R) <= 0.001, (
+        "Tip should reach hole boundary: got dist %.4f, expected %.4f" % (dist_to_hole, orch.HOLE_R)
+    )
+
+
+def test_novel_narrow_band_image_manifest_provenance():
+    manifest_path = NOVEL_DIR / "campaign_results_narrow_band" / "image_manifest.json"
+    assert manifest_path.exists(), "narrow band image_manifest.json must exist"
+    entries = json.loads(manifest_path.read_text())
+    assert len(entries) == 10, "Must contain all 10 cycle image entries (Cycles 0 to 9)"
+
+    for entry in entries:
+        assert "cycle" in entry
+        assert "path" in entry
+        assert "commit" in entry
+        assert "url" in entry
+        assert "image_sha256" in entry
+        assert entry["source_sha256"] == orch.FROZEN_UEL_SHA256
+        assert (ROOT / entry["path"]).exists(), "Image file must exist: " + entry["path"]
+
+
+def test_narrow_band_element_reduction_vs_bounding_box():
+    bb_summary = json.loads((NOVEL_DIR / "campaign_results" / "PK_METHOD_C_NOVEL_CYCLE8_SUMMARY.json").read_text())
+    nb_summary = json.loads((NOVEL_DIR / "campaign_results_narrow_band" / "PK_METHOD_C_NOVEL_CYCLE9_SUMMARY.json").read_text())
+
+    bb_elements = bb_summary["mesh_elements"]  # 27,608
+    nb_elements = nb_summary["mesh_elements"]  # 8,597
+
+    reduction_pct = 100.0 * (bb_elements - nb_elements) / bb_elements
+    assert bb_elements == 27608
+    assert nb_elements == 8597
+    assert reduction_pct > 68.0, "Narrow band must achieve >68% element reduction vs bounding box"
+
+
+def test_novel_narrow_band_synthesis_artifacts():
+    results_dir = NOVEL_DIR / "campaign_results_narrow_band"
+    grid = results_dir / "fig_narrow_band_progression_grid.png"
+    comp = results_dir / "fig_bounding_box_vs_narrow_band.png"
+    gif = results_dir / "inclined_notch_hole_narrow_band_cycles_0_9.gif"
+    mp4 = results_dir / "inclined_notch_hole_narrow_band_cycles_0_9.mp4"
+
+    assert grid.exists() and grid.stat().st_size > 100000, "Progression grid figure must exist"
+    assert comp.exists() and comp.stat().st_size > 100000, "Comparison figure must exist"
+    assert gif.exists() and gif.stat().st_size > 100000, "Animated GIF must exist"
+    assert mp4.exists() and mp4.stat().st_size > 100000, "MP4 video must exist"
+
+
+
