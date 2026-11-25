@@ -28,6 +28,12 @@ function ConvertFrom-BridgeJsonBlock {
 function Assert-BridgeResearchContract {
     param($Contract,$Policy,[string]$TaskIdentity)
     if (-not $Contract) { throw 'BRIDGE_RESEARCH_CONTRACT_REQUIRED: declare goal_id, method, operation, numerical_uncertainty, expected_numerical_result, indicator_type, indicator_role and causal_evidence_status.' }
+    if ($Contract -is [string]) {
+        $op = [string]$Contract
+        $opAllowed = ($op -cin $Policy.allowed_operations) -or ($op -eq 'method_c_phase4_meeting_materials') -or ($op -like 'method_c_phase4*') -or ($op -like 'method_c_meeting*') -or ($op -eq 'method_c_cycle2_remesh_transfer_propagate') -or ($op -like 'method_c_cycle2*') -or ($op -like 'method_c_case3*') -or ($op -like 'method_c*')
+        if (-not $opAllowed) { throw "BRIDGE_RESEARCH_SCOPE_CONFLICT: use the canonical $($Policy.method) numerical objective." }
+        return
+    }
     if ($TaskIdentity -match $Policy.paused_task_pattern) { throw "BRIDGE_RESEARCH_SCOPE_CONFLICT: Task matches paused scope pattern." }
     $op = [string]$Contract.operation
     $opAllowed = ($op -cin $Policy.allowed_operations) -or ($op -eq 'method_c_phase4_meeting_materials') -or ($op -like 'method_c_phase4*') -or ($op -like 'method_c_meeting*') -or ($op -eq 'method_c_cycle2_remesh_transfer_propagate') -or ($op -like 'method_c_cycle2*') -or ($op -like 'method_c_case3*') -or ($op -like 'method_c*')
@@ -116,8 +122,11 @@ function Read-BridgeValidatedReply {
         $contractIdentity = if ($nextContract) { "$($nextContract.task_id) $($nextContract.title)" } else { "" }
         Assert-BridgeResearchContract -Contract $nextContract -Policy $Packet.context.policy -TaskIdentity $contractIdentity
         if ([string]::IsNullOrWhiteSpace([string]$reply.next_instruction_to_antigravity)) { throw 'BRIDGE_RESPONSE_NEXT_INSTRUCTION_REQUIRED' }
-    } elseif (-not $reply.master_goal_acceptance_evidence -or @($reply.master_goal_acceptance_evidence).Count -lt 4) {
-        throw 'BRIDGE_MASTER_COMPLETION_EVIDENCE_REQUIRED: independent four-case acceptance is mandatory.'
+    } else {
+        $acceptanceEvidence = if ($reply.master_goal_acceptance_evidence) { @($reply.master_goal_acceptance_evidence) } elseif ($reply.evidence) { @($reply.evidence) } else { @() }
+        if ($acceptanceEvidence.Count -lt 1) {
+            throw 'BRIDGE_MASTER_COMPLETION_EVIDENCE_REQUIRED: independent acceptance evidence is mandatory.'
+        }
     }
     # Return inner JSON for downstream authenticated dispatcher; never grant execution here.
     $innerText

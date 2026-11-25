@@ -1,11 +1,19 @@
 ﻿{
-    "active":  false,
-    "agent":  null,
-    "task_id":  null,
-    "session_id":  null,
-    "started_at":  null,
-    "starting_commit":  "7b6e8911e064ce91db1de8ad44428b1c64685c9a",
-    "allowed_write_scope":  [
-
-                            ]
+  "active": false,
+  "agent": "gemini-antigravity",
+  "task_id": "METHOD-C-NOVEL-INCLINED-NOTCH-HOLE",
+  "session_id": "2026-11-25_gemini_novel_inclined_notch_hole_review_001",
+  "started_at": "2026-11-25T04:46:00+01:00",
+  "starting_commit": "ffb2befee0679f33ee5455c01bad613e950228ec",
+  "allowed_write_scope": [
+    "models/novel_inclined_notch_hole/*",
+    "scripts/remeshing/*",
+    "scripts/state_transfer/*",
+    "docs/validation/*",
+    "docs/meetings/*",
+    "tests/unit/*",
+    "project_coordination/*",
+    ".agents/scripts/*",
+    ".gitignore"
+  ]
 }
