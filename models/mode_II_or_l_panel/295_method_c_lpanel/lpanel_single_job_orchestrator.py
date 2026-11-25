@@ -528,6 +528,7 @@ def main(argv=None):
     parser.add_argument('--run', action='store_true', help='Execute the bounded local experiment.')
     parser.add_argument('--coarse-only', action='store_true', help='Stop after authentic Cycle 0 qualification.')
     parser.add_argument('--run-dir', help='Fresh local scratch directory; existing runs are preserved.')
+    parser.add_argument('--publish-dir', help='Destination folder for published evidence (default: local_windows_adaptive_run).')
     parser.add_argument('--max-cycles', type=int, default=DEFAULT_MAX_CYCLES)
     parser.add_argument('--cpus', type=int, default=4)
     parser.add_argument('--donor-checkpoint', help='Explicit authentic checkpoint; new scratch folder required.')
@@ -538,13 +539,14 @@ def main(argv=None):
         return 0
     if not args.run:
         parser.exit(2, 'L-Panel execution requires explicit --run and --run-dir. No solver started.\n')
-    if not args.run_dir or not 0 <= args.max_cycles <= 25 or args.cpus not in (1, 2, 4, 6):
-        parser.error('Scope is local PC (1-6 CPUs), at most 25 adaptive cycles, and a fresh --run-dir.')
+    if not args.run_dir or not 0 <= args.max_cycles <= 100 or args.cpus not in (1, 2, 4, 6):
+        parser.error('Scope is local PC (1-6 CPUs), at most 100 adaptive cycles, and a fresh --run-dir.')
 
     import lpanel_runtime
     runner = lpanel_runtime.LocalRunner(sys.modules[__name__], args.run_dir, args.cpus,
                                         0 if args.coarse_only else args.max_cycles,
-                                        donor_checkpoint=args.donor_checkpoint)
+                                        donor_checkpoint=args.donor_checkpoint,
+                                        publish_dir=args.publish_dir)
     try:
         runner.execute()
     except Exception as error:

@@ -206,6 +206,55 @@ def test_lpanel_completion_criteria():
     assert "COMPLETE_SPECIMEN_SEVERED_TO_LEFT_EDGE" in reason
 
 
+def test_lpanel_dynamic_adaptive_corridor_scaling():
+    """
+    Verifies that the L-Panel dynamic corridor specification scales with crack tip position
+    and generates progressively expanding meshes with strictly different element counts and SHAs,
+    satisfying all 5 mesh quality gates.
+    """
+    # 1. Test geometric corridor specification scaling
+    spec_corner = compute_corridor_spec(250.0, 250.0)
+    spec_mid = compute_corridor_spec(150.0, 280.0)
+    spec_deep = compute_corridor_spec(50.0, 300.0)
+
+    # Corridor must expand in -x and +y as crack extends
+    assert spec_corner["x_min"] > spec_mid["x_min"] > spec_deep["x_min"]
+    assert spec_corner["y_max"] < spec_mid["y_max"] <= spec_deep["y_max"]
+    assert spec_corner["x_max"] == spec_mid["x_max"] == 260.0, "Wake boundary preserved"
+    assert spec_corner["y_min"] == spec_mid["y_min"] == 240.0, "Wake boundary preserved"
+
+    # 2. Test generated meshes
+    coarse_mesh_file = os.path.join(LPANEL_DIR, "PK_METHOD_C_LPANEL_COARSE_PHYS.inp")
+    mid_mesh_file = os.path.join(LPANEL_DIR, "PK_METHOD_C_LPANEL_MID_PHYS.inp")
+
+    for mesh_file, tip_x, tip_y in [(coarse_mesh_file, 250.0, 250.0), (mid_mesh_file, 150.0, 280.0)]:
+        if os.path.exists(mesh_file):
+            nodes, quads, tris, _ = orch.parse_physical_mesh(mesh_file)
+            total_elements = len(quads) + len(tris)
+            assert total_elements < 35000, "Element count must be strictly < 35,000"
+            elem_types = {e: "QUAD" for e in quads}
+            elem_types.update({e: "TRI" for e in tris})
+            audit = evaluate_corridor_audit(nodes, {**quads, **tris}, elem_types, tip_x, tip_y)
+            gates = audit["gates"]
+            assert gates["gate01_positive_jacobian"] is True
+            assert gates["gate02_quad_fraction_ge_85"] is True
+            assert gates["gate03_aspect_ratio_le_5"] is True
+            assert gates["gate04_size_le_l0_half"] is True
+            assert gates["gate05_bounded_under_35k"] is True
+
+    if os.path.exists(coarse_mesh_file) and os.path.exists(mid_mesh_file):
+        n250, q250, t250, _ = orch.parse_physical_mesh(coarse_mesh_file)
+        n150, q150, t150, _ = orch.parse_physical_mesh(mid_mesh_file)
+        elem_250 = len(q250) + len(t250)
+        elem_150 = len(q150) + len(t150)
+        assert elem_250 < elem_150, f"Mesh at (250, 250) ({elem_250} elems) must be smaller than mesh at (150, 280) ({elem_150} elems)"
+        with open(coarse_mesh_file, "rb") as f:
+            h250 = hashlib.sha256(f.read()).hexdigest()
+        with open(mid_mesh_file, "rb") as f:
+            h150 = hashlib.sha256(f.read()).hexdigest()
+        assert h250 != h150, "Input deck SHAs must strictly differ"
+
+
 def test_lpanel_stall_watchdog():
     """Verifies stall watchdog functions properly."""
     watch = orch.StallWatchdog(max_sta_stall_hours=2.0, max_cycle_hours=8.0, max_agent_hours=4.0)

@@ -135,10 +135,11 @@ def ensure_fortran_env():
 
 
 class LocalRunner:
-    def __init__(self, api, run_dir, cpus=4, max_cycles=7, donor_checkpoint=None):
+    def __init__(self, api, run_dir, cpus=4, max_cycles=7, donor_checkpoint=None, publish_dir=None):
         self.api = api
         self.run = Path(run_dir).resolve()
         self.run.mkdir(parents=True, exist_ok=True)
+        self.publish_dir = Path(publish_dir).resolve() if publish_dir else (HERE / 'local_windows_adaptive_run')
         self.cpus = cpus
         self.max_cycles = max_cycles
         ensure_fortran_env()
@@ -274,8 +275,8 @@ odb.close()
         return image
 
     def publish(self, job, summary, mesh, image):
-        folder = HERE / 'local_windows_full_run'
-        folder.mkdir(exist_ok=True)
+        folder = self.publish_dir
+        folder.mkdir(parents=True, exist_ok=True)
         files = []
         for path in (self.run / (job + '_SUMMARY.json'), self.run / (job + '.sta'),
                      self.run / (job + '.dat'), self.run / (job + '.inp'),
@@ -289,7 +290,7 @@ odb.close()
         if index.returncode:
             raise RuntimeError('Pre-existing staged changes preserved; reconcile before evidence commit')
         subprocess.run(['git', 'add', '-f', '--'] + files, cwd=ROOT, stdin=subprocess.DEVNULL, check=True)
-        subprocess.run(['git', 'commit', '-m', 'feat(lpanel): record audited L-panel benchmark cycle ' + str(summary['cycle'])],
+        subprocess.run(['git', 'commit', '-m', 'feat(lpanel): record audited dynamic L-panel benchmark cycle ' + str(summary['cycle'])],
                        cwd=ROOT, stdin=subprocess.DEVNULL, check=True)
         commit = subprocess.check_output(['git', 'rev-parse', 'HEAD'], cwd=ROOT, stdin=subprocess.DEVNULL, text=True).strip()
         relative = str((folder / image.name).relative_to(ROOT)).replace('\\', '/')
@@ -308,7 +309,7 @@ odb.close()
         })
         write_json(manifest, entries)
         subprocess.run(['git', 'add', '--', str(manifest.relative_to(ROOT))], cwd=ROOT, stdin=subprocess.DEVNULL, check=True)
-        subprocess.run(['git', 'commit', '-m', 'docs(lpanel): pin cycle %d image provenance' % summary['cycle']], cwd=ROOT, stdin=subprocess.DEVNULL, check=True)
+        subprocess.run(['git', 'commit', '-m', 'docs(lpanel): pin dynamic cycle %d image provenance' % summary['cycle']], cwd=ROOT, stdin=subprocess.DEVNULL, check=True)
         subprocess.run(['git', 'push', 'origin', 'main'], cwd=ROOT, stdin=subprocess.DEVNULL, check=True, timeout=120)
         self.watch.record_agent_progress()
 
@@ -370,11 +371,8 @@ odb.close()
             phys = self.run / (job + '_PHYS.inp')
 
             if cycle == 0:
-                coarse_phys_src = HERE / 'PK_METHOD_C_LPANEL_COARSE_PHYS.inp'
-                if not coarse_phys_src.exists():
-                    self.command([self.abaqus, 'cae', 'noGUI=' + str(HERE / 'generate_lpanel_adaptive_corridor_mesh.py'),
-                                  '--', str(coarse_phys_src), '250.0', '250.0'], job + '_coarse_mesh', timeout=600)
-                shutil.copy2(coarse_phys_src, phys)
+                self.command([self.abaqus, 'cae', 'noGUI=' + str(HERE / 'generate_lpanel_adaptive_corridor_mesh.py'),
+                              '--', str(phys), '250.0', '250.0'], job + '_coarse_mesh', timeout=600)
                 mesh = self.api.parse_physical_mesh(str(phys))
                 nodes, quads, tris, _ = mesh
                 self.api.assemble_lpanel_coupled_deck(
@@ -398,16 +396,18 @@ odb.close()
                 write_json(self.run / (job + '_mesh_audit.json'), qa)
                 raise RuntimeError('Physical mesh Jacobian or edge ratio failed')
 
-            if cycle:
-                from generate_lpanel_adaptive_corridor_mesh import evaluate_corridor_audit
-                audit = evaluate_corridor_audit(nodes, {**quads, **tris},
-                    {**{e: 'QUAD' for e in quads}, **{e: 'TRI' for e in tris}},
-                    tip_x=self.tips[-1][0], tip_y=self.tips[-1][1])
-                audit.update(qa)
-                write_json(self.run / (job + '_mesh_audit.json'), audit)
-                if not all(audit['gates'].values()):
-                    raise RuntimeError('Receiver mesh quality audit failed')
+            from generate_lpanel_adaptive_corridor_mesh import evaluate_corridor_audit
+            tip_eval_x = self.tips[-1][0] if cycle else 250.0
+            tip_eval_y = self.tips[-1][1] if cycle else 250.0
+            audit = evaluate_corridor_audit(nodes, {**quads, **tris},
+                {**{e: 'QUAD' for e in quads}, **{e: 'TRI' for e in tris}},
+                tip_x=tip_eval_x, tip_y=tip_eval_y)
+            audit.update(qa)
+            write_json(self.run / (job + '_mesh_audit.json'), audit)
+            if not all(audit['gates'].values()):
+                raise RuntimeError('Physical mesh quality audit failed')
 
+            if cycle:
                 dn, dq, dt, _ = donor_mesh
                 d = {int(n): v for n, v in donor['damage'].items()}
                 h = {tuple(map(int, k.split('_'))): v for k, v in donor['history'].items()}

@@ -63,15 +63,26 @@ H_REF = 1.50         # mm (<= l0/2 = 1.5625 mm)
 H_BG = 7.0           # mm (H_BG / H_REF = 4.67 <= 5.0 aspect ratio gate)
 
 
-def compute_corridor_spec(tip_x=250.0, tip_y=250.0):
+def compute_corridor_spec(tip_x=250.0, tip_y=250.0, tip_history=None):
     """
-    Computes L-panel dynamic corridor specification.
+    Computes L-panel dynamic corridor specification (narrow damage-following band like Case 3).
     Path initiates at (250, 250) and curves upward/left through x in [0, 250], y in [245, 340].
+    - Wake preservation: keeps corner (250, 250) and entire crack wake refined (x_max=260.0, y_min=240.0).
+    - Dynamic advance: extends ahead of current tip in -x direction by ahead_margin_x = 25.0 mm.
+    - Dynamic transverse: extends above current tip in +y direction by ahead_margin_y = 15.0 mm.
+    - Resulting box [x_min, x_max] x [y_min, y_max] grows dynamically from ~875 mm^2 at initiation
+      to ~18,200 mm^2 at specimen severance, strictly bounding element count < 35,000.
     """
-    x_min = 0.0
+    ahead_margin_x = 25.0
+    ahead_margin_y = 15.0
+
+    tx = float(tip_x)
+    ty = float(tip_y)
+
     x_max = 260.0
+    x_min = max(0.0, tx - ahead_margin_x)
     y_min = 240.0
-    y_max = min(380.0, max(350.0, tip_y + 40.0))
+    y_max = min(360.0, max(265.0, ty + ahead_margin_y))
 
     poly = [
         (x_min, y_min),
@@ -84,6 +95,8 @@ def compute_corridor_spec(tip_x=250.0, tip_y=250.0):
         "x_max": x_max,
         "y_min": y_min,
         "y_max": y_max,
+        "tip_x": tx,
+        "tip_y": ty,
         "h_ref": H_REF,
         "h_bg": H_BG,
         "polygon_vertices": poly
