@@ -1,0 +1,38 @@
+{
+  "cycle": 0,
+  "job_name": "PK_METHOD_C_DOUBLE_NOTCH_COARSE_JOB1",
+  "status": "CONVERGED_AUDITED",
+  "benchmark": "Problem 2: Double Notch Symmetrical Crack Coalescence",
+  "donor_uy_mm": 0.0,
+  "terminal_uy_mm": 0.0044999998062849045,
+  "terminal_rf2_kn": 0.5443977117538452,
+  "peak_rf2_kn": 0.5443977117538452,
+  "left_tip_mm": [
+    0.35355339,
+    0.85355339
+  ],
+  "right_tip_mm": [
+    0.64644661,
+    0.85355339
+  ],
+  "tip_distance_mm": 0.292893,
+  "coalesced": false,
+  "left_crack_arc_length_s1_mm": 0.0,
+  "right_crack_arc_length_s2_mm": 0.0,
+  "max_damage": 0.24677757918834686,
+  "mesh_elements": 17150,
+  "mesh_nodes": 17322,
+  "gate_results": {},
+  "elapsed_seconds": 85.01694774627686,
+  "completion": false,
+  "completion_reason": "IN_PROGRESS",
+  "donor_checkpoint_sha256": null,
+  "input_sha256": "1DC2D79F6E6AED23D8B32CA577A51A9285A467D248162CF7D129653705AECFD6",
+  "mesh_sha256": "8EC42F2F9894B8D7C92DA3D2886AFF4FC18D1FD9B9521D04ED5637A3A51A6FE7",
+  "source_sha256": "CE8D5EDCD2911DCB018BB15275271F874E7EA62B8FB48CF4A8297469A83ACDD6",
+  "donor_cutoff": null,
+  "pbs_submissions": 0,
+  "cumulative_pbs_submissions": 73,
+  "transfer_implementation_sha256": "B5924D5A0916395386D24E5FD8D72480709A665D8A967192AF04C8FB7029F49F",
+  "transfer_implementation": "cKDTree nearest-neighbour nodal damage and Gauss-point history transfer"
+}
