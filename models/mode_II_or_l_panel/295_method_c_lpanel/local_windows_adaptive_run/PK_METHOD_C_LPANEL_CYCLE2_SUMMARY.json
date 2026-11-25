@@ -1,0 +1,49 @@
+{
+  "cycle": 2,
+  "job_name": "PK_METHOD_C_LPANEL_CYCLE2",
+  "status": "CONVERGED_AUDITED",
+  "benchmark": "L-Shaped Panel (Winkler 2001 / Miehe 2010 Fig. 19)",
+  "donor_uy_mm": 0.22037401795387268,
+  "terminal_uy_mm": 0.24084648489952087,
+  "terminal_rf2_kn": 0.1427174061536789,
+  "peak_rf2_kn": 0.1427174061536789,
+  "tip_mm": [
+    250.0,
+    250.0
+  ],
+  "tip_history_chord_sum_mm": 0.0,
+  "max_damage": 0.3257584273815155,
+  "mesh_elements": 7118,
+  "mesh_nodes": 7172,
+  "gate_results": {
+    "force_continuity_delta_pct": -0.005635776087673664,
+    "force_continuity_pass": true,
+    "energy_continuity_delta_sdv17_pct": 0.2988013408627408,
+    "energy_continuity_delta_sdv18_pct": -0.00563552542213259,
+    "global_max_damage_nonhealing_pass": true,
+    "evaluation_timing": "after two-step job; failure forbids donor acceptance and further cycles",
+    "hold_energies": {
+      "SDV17": 0.0002716134069472528,
+      "SDV18": 0.014507802304088838
+    },
+    "donor_energies": {
+      "SDV17": 0.00027080424024628373,
+      "SDV18": 0.014508619941054016
+    }
+  },
+  "elapsed_seconds": 65.01399779319763,
+  "completion": false,
+  "completion_reason": "IN_PROGRESS",
+  "input_sha256": "CA4C958CB091E37847E15060A8F070271E532646F4C569E61FF23E005D4A65F8",
+  "mesh_sha256": "01361DD6149C1EADDA87E8FC0C81A670BDE341B19DF4AA29EDBE7540DF43638C",
+  "source_sha256": "CE8D5EDCD2911DCB018BB15275271F874E7EA62B8FB48CF4A8297469A83ACDD6",
+  "donor_cutoff": {
+    "frame": 25,
+    "time": 1.0089062452316284
+  },
+  "pbs_submissions": 0,
+  "cumulative_pbs_submissions": 73,
+  "transfer_implementation_sha256": "CCFE33814C6ADE6D8EAF6DE9DFD17C98E622497AAF3B16A6BFFC267F9F532621",
+  "transfer_implementation": "Unchanged Case 1 spatial nearest-neighbour damage/history transfer",
+  "donor_checkpoint_sha256": "EF7738D1A6648A2C39FD8BB1995E26B1A94ECC0D75AB0BEB2C9B29F6295E56C7"
+}
