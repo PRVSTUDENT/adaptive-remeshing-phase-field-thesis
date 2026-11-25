@@ -1,11 +1,11 @@
 {
   "task_id": "METHOD-C-LPANEL-ADAPTIVE-CAMPAIGN-CLOSEOUT",
   "title": "Method C L-Panel Dynamic Adaptive Campaign Closeout and Master Goal Status Maintenance",
-  "task_status": "COMPLETED_READY_FOR_INDEPENDENT_REVIEW",
+  "task_status": "REVIEWED_APPROVED",
   "master_goal_status": "OPEN",
-  "status": "COMPLETED_READY_FOR_INDEPENDENT_REVIEW",
+  "status": "REVIEWED_APPROVED",
   "review_verdict": "APPROVE",
-  "review_correlation_id": "HND-METHOD-C-MODE2-LPANEL-011",
+  "review_correlation_id": "HND-METHOD-C-MODE2-LPANEL-012",
   "classification": "METHOD_C_INCREMENTAL_ADAPTIVE_REMESHING",
   "assigned_agent": "gemini-antigravity",
   "active_pbs_job_id": null,
@@ -13,7 +13,7 @@
   "last_failed_pbs_job_id": "1424881.mmaster02",
   "checkpoint_artifact": "docs/validation/METHOD_C_LPANEL_DYNAMIC_ADAPTIVE_CAMPAIGN_REPORT.md",
   "checkpoint_artifact_sha256": "0FFDCC985BB8DCFCC0371AA920A65A8D0FEB218020ECD0BE58B3A9545099F1F0",
-  "review_directive": "Close out adaptive L-panel campaign and STOP: (1) confirm all summaries/images committed and pushed; no further cycles or solver fixes; (2) send FINAL handoff HND-METHOD-C-MODE2-LPANEL-012 with adaptive L-panel closure state, Cycle 11 snap-through diagnosis, d_max=1.0013 overshoot disclosure, cKDTree transfer disclosure, and statement that novel problem awaits user definition; (3) mark session inactive and STOP. Master goal METHOD_C_MODE2_LPANEL_V1 remains OPEN. Local only, 0 PBS, cumulative 73 preserved, frozen UEL CE8D5EDC untouched.",
+  "review_directive": "STOP. The adaptive L-panel campaign is CLOSED and this closeout is APPROVED. Confirm the session is marked inactive (ACTIVE_SESSION.json active: false) and do NOT run any further L-panel cycles, do NOT attempt a Cycle 11 solver fix, and do NOT start the novel complex problem. The master goal METHOD_C_MODE2_LPANEL_V1 remains OPEN only because the novel complex problem awaits the user's definition; the loop resumes ONLY when the user defines it and a new dispatch is issued. Limits: local PC only, 0 PBS, cumulative 73 preserved, frozen UEL CE8D5EDC untouched, do not touch HPC job 1424916.",
   "predecessor_task": {
     "task_id": "METHOD-C-LPANEL-ADAPTIVE-CORRIDOR-FIX-AND-RERUN",
     "checkpoint_artifact": "docs/validation/METHOD_C_LPANEL_DYNAMIC_ADAPTIVE_CAMPAIGN_REPORT.md",
@@ -33,5 +33,5 @@
   "max_new_pbs_submissions": 0,
   "submissions_consumed": 0,
   "cumulative_pbs_submissions": 73,
-  "notes": "Adaptive L-panel campaign formally closed out at Cycle 10. Cycle 11 thin-ligament snap-through verified from solver logs; d_max=1.0013 overshoot disclosed; cKDTree state transfer disclosed; all evidence committed and pushed; master goal METHOD_C_MODE2_LPANEL_V1 strictly remains OPEN awaiting user definition of the novel complex problem."
+  "notes": "Adaptive L-panel campaign officially closed out and approved by Independent Scientific Supervision (Muse / ChatGPT) under HND-METHOD-C-MODE2-LPANEL-012. Session inactive; master goal METHOD_C_MODE2_LPANEL_V1 strictly remains OPEN awaiting user definition of the novel complex problem."
 }
