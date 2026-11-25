@@ -1,0 +1,56 @@
+{
+  "cycle": 6,
+  "job_name": "PK_METHOD_C_DOUBLE_NOTCH_CYCLE6",
+  "status": "TRANSFER_GATE_FAILED",
+  "benchmark": "Problem 2: Double Notch Symmetrical Crack Coalescence",
+  "donor_uy_mm": 0.007129045203328133,
+  "terminal_uy_mm": 0.007641438860446215,
+  "terminal_rf2_kn": 0.050670623779296875,
+  "peak_rf2_kn": 0.6644667983055115,
+  "left_tip_mm": [
+    0.485456645,
+    0.839296222
+  ],
+  "right_tip_mm": [
+    0.51430577,
+    0.843130767
+  ],
+  "tip_distance_mm": 0.029103,
+  "coalesced": false,
+  "left_crack_arc_length_s1_mm": 0.13878,
+  "right_crack_arc_length_s2_mm": 0.141159,
+  "max_damage": 0.9965518017609915,
+  "mesh_elements": 19556,
+  "mesh_nodes": 19736,
+  "gate_results": {
+    "force_continuity_delta_pct": -6.450748324496522,
+    "force_continuity_pass": false,
+    "energy_continuity_delta_sdv17_pct": 6.326867837108994,
+    "energy_continuity_delta_sdv18_pct": -6.449570293531212,
+    "global_max_damage_nonhealing_pass": true,
+    "evaluation_timing": "after two-step job; failure forbids donor acceptance and further cycles",
+    "hold_energies": {
+      "SDV17": 0.0010608952761114526,
+      "SDV18": 0.0014301289815858913
+    },
+    "donor_energies": {
+      "SDV17": 0.0009977678245321085,
+      "SDV18": 0.0015287251871243957
+    }
+  },
+  "elapsed_seconds": 55.012850761413574,
+  "completion": false,
+  "completion_reason": "TRANSFER_GATE_FAILED",
+  "donor_checkpoint_sha256": "468A6FFB3FE881674BEC86EC852A43B2FF6091A24B2DF7642FC6A6698D5614B9",
+  "input_sha256": "B9261743CC0C6E289D1125B6658642B81E0BF4B2FE169F9B8731CAACBE1E084B",
+  "mesh_sha256": "A9F9439140C7C3EA2CC2973D64CC19CF78996DD2E3DE88A0C6BB9AFB9F37907D",
+  "source_sha256": "CE8D5EDCD2911DCB018BB15275271F874E7EA62B8FB48CF4A8297469A83ACDD6",
+  "donor_cutoff": {
+    "frame": 14,
+    "time": 0.07128741592168808
+  },
+  "pbs_submissions": 0,
+  "cumulative_pbs_submissions": 73,
+  "transfer_implementation_sha256": "81AE81FCFA181A84616435DCF49B4F2A8E87DF51172EC4774B48758422A36A02",
+  "transfer_implementation": "cKDTree nearest-neighbour nodal damage and Gauss-point history transfer"
+}
