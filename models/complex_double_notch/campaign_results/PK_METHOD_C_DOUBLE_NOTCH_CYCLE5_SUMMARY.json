@@ -4,46 +4,46 @@
   "status": "CONVERGED_AUDITED",
   "benchmark": "Problem 2: Double Notch Symmetrical Crack Coalescence",
   "donor_uy_mm": 0.006594527047127485,
-  "terminal_uy_mm": 0.007129045203328133,
-  "terminal_rf2_kn": 0.42887774109840393,
+  "terminal_uy_mm": 0.007149494253098965,
+  "terminal_rf2_kn": 0.4275314211845398,
   "peak_rf2_kn": 0.6644667983055115,
   "left_tip_mm": [
-    0.434134841,
-    0.839877903
+    0.434238106,
+    0.842838466
   ],
   "right_tip_mm": [
-    0.565812349,
-    0.838588774
+    0.569261849,
+    0.842839777
   ],
-  "tip_distance_mm": 0.131684,
+  "tip_distance_mm": 0.135024,
   "coalesced": false,
-  "left_crack_arc_length_s1_mm": 0.087455,
-  "right_crack_arc_length_s2_mm": 0.089452,
-  "max_damage": 0.9878208736578623,
-  "mesh_elements": 17937,
-  "mesh_nodes": 18097,
+  "left_crack_arc_length_s1_mm": 0.087469,
+  "right_crack_arc_length_s2_mm": 0.085831,
+  "max_damage": 0.9903289278348287,
+  "mesh_elements": 20038,
+  "mesh_nodes": 20222,
   "gate_results": {
-    "force_continuity_delta_pct": -1.4650799674964725,
+    "force_continuity_delta_pct": -1.3722661761741584,
     "force_continuity_pass": true,
-    "energy_continuity_delta_sdv17_pct": 4.629980522822327,
-    "energy_continuity_delta_sdv18_pct": -1.4765966356392153,
+    "energy_continuity_delta_sdv17_pct": 4.252661566926887,
+    "energy_continuity_delta_sdv18_pct": -1.383800366598547,
     "global_max_damage_nonhealing_pass": true,
     "evaluation_timing": "after two-step job; failure forbids donor acceptance and further cycles",
     "hold_energies": {
-      "SDV17": 0.0005029067103356084,
-      "SDV18": 0.0019675380076295814
+      "SDV17": 0.0005010931170050118,
+      "SDV18": 0.0019693911732741798
     },
     "donor_energies": {
       "SDV17": 0.0004806525890788179,
       "SDV18": 0.0019970260267534626
     }
   },
-  "elapsed_seconds": 80.02262210845947,
+  "elapsed_seconds": 85.01948976516724,
   "completion": false,
   "completion_reason": "IN_PROGRESS",
   "donor_checkpoint_sha256": "573C9F3294FACDB155AC3D07C65673650B1CE2EFF8DC31168F7F628292A637E9",
-  "input_sha256": "631E3453DF260F8AFBAB847102FA17FACF69B59E7DEE03AB534E1E99564F049F",
-  "mesh_sha256": "71A4AB2ACA5B8261FA754717059174DCBCA174F9D381C9C80C30F477DDFF63FC",
+  "input_sha256": "FA82CF32413BEDCC862D98EAF609B0806CA68D5FBD303E70667B772A7EA8FD0B",
+  "mesh_sha256": "069CA21EEFA9C35FA11291774F0782F1D4FA0D95204DAA00020E8C0740632A77",
   "source_sha256": "CE8D5EDCD2911DCB018BB15275271F874E7EA62B8FB48CF4A8297469A83ACDD6",
   "donor_cutoff": {
     "frame": 16,
