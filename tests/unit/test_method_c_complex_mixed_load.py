@@ -268,7 +268,7 @@ def test_reaction_force_reporting_contract():
 
 
 def test_transfer_gate_evaluator():
-    """Verify Step 1 fixed-load hold force continuity gate (<= 5.0% on RF2)."""
+    """Verify Step 1 fixed-load hold force continuity gate (<= 5.0% on RF2) and damage non-healing gate."""
     donor_rf2 = 0.7200
     hold_rf2_pass = 0.7180  # Delta = -0.278% <= 5.0%
     hold_rf2_fail = 0.6500  # Delta = -9.722% > 5.0%
@@ -278,6 +278,30 @@ def test_transfer_gate_evaluator():
 
     assert abs(delta_pass) <= 5.0
     assert abs(delta_fail) > 5.0
+
+    # Audit actual campaign cycle summaries (Cycles 1 to 8)
+    res_dir = REPO_ROOT / "models" / "complex_mixed_load" / "campaign_results"
+    for c in range(1, 9):
+        sum_path = res_dir / f"PK_METHOD_C_MIXED_LOAD_CYCLE{c}_SUMMARY.json"
+        assert sum_path.exists()
+        cdata = json.loads(sum_path.read_text(encoding="utf-8"))
+        gates = cdata["gate_results"]
+
+        # All 8 cycles must pass force continuity on RF2 (<= 5.0%) and RF1 (<= 5.0%)
+        assert gates["force_continuity_pass"] is True
+        assert abs(gates["delta_rf2_pct"]) <= 5.0
+        assert abs(gates["delta_rf1_pct"]) <= 5.0
+
+        if c == 6:
+            # Cycle 6: Disclosed transfer gate failure on hold damage non-healing
+            assert cdata["status"] == "TRANSFER_GATE_FAILED"
+            assert gates["damage_nonhealing_pass"] is False
+            donor_d = gates["donor_max_damage"]
+            hold_d = gates["hold_max_damage"]
+            assert hold_d < donor_d - 1e-4, "Cycle 6 hold damage drop must exceed 1e-4 tolerance"
+        else:
+            # Cycles 1-5, 7, 8: Damage non-healing gate must pass
+            assert gates["damage_nonhealing_pass"] is True
 
 
 def test_accounting_and_governance():
@@ -368,4 +392,10 @@ def test_report_and_summary_file_hashes():
         assert ckpt_file.exists(), f"Checkpoint file {filename} must exist"
         file_sha = hashlib.sha256(ckpt_file.read_bytes()).hexdigest().upper()
         assert file_sha == expected_hash, f"Hash mismatch for {filename}: {file_sha} != {expected_hash}"
+
+    # Verify report SHA256
+    report_file = REPO_ROOT / "docs" / "validation" / "METHOD_C_COMPLEX_PROBLEM3_MIXED_LOAD_REPORT.md"
+    assert report_file.exists(), "Validation report must exist"
+    report_sha = hashlib.sha256(report_file.read_bytes()).hexdigest().upper()
+    assert report_sha == "D50B6615241B5C2651804FBD5F3D06BEC205BEC80210193FCCB972D05FF1DB49"
 
