@@ -1,0 +1,5 @@
+# Method C Problem 3 video session
+
+Source commit: 0d2ce786039af1338eb718df5cd854b8d60cb395. Post-processing only; no simulation, PBS, UEL, existing report or summary changes. Source: committed cycle PNGs and summaries, coarse through Cycle 8. Output: models/complex_mixed_load/campaign_results/video_mixed_load_geometry_bc_adaptive_remesh.mp4; SHA-256: 9384AEFE777064A5BFB3F885A0508F16341A7BF32C700F3B9FE2E6A553972DCB.
+
+Verification: H.264, 1920x1080, 21 seconds; complete decoding and playback; each segment compared with its source composition; displayed numeric values checked against all nine summary JSONs. Cycle 6 displayed TRANSFER_GATE_FAILED. Cycle 8 summary status CONVERGED_AUDITED and completion reason CONNECTED_DAMAGE_ENTERED_HOLE are both shown. No scientific interpretation or numerical action was performed.
