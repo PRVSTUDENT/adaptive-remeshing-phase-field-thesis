@@ -24,7 +24,7 @@ ROOT = pathlib.Path("models/pandey_kumar_mode1/290_method_c_case3_rerun")
 FRAMES = ROOT / "how_it_works/frames"
 VIDEO = ROOT / "video_method_c_how_it_works.mp4"
 DURATIONS = [3, 5, 7, 5, 7, 8, 9, 9, 6, 8, 6, 7, 7]
-OLD_REV = "ec16cbf84e5daa33245f8501f9c9bab812274567"
+OLD_REV = "452bd64af3e13e1944afd384b0ec871d39f26882"
 NAVY, BLUE, TEAL, PAPER = "#152a40", "#2079aa", "#087f75", "#f5f8fb"
 CMAP = matplotlib.colormaps["turbo"]
 
@@ -116,11 +116,25 @@ def geometry(fig, config, path=False, milestones=None):
 
 
 def interpolation_scene():
-    caption = ("Each new node takes the value interpolated from the old mesh AT ITS POSITION (bilinear interpolation in Case 3).\n"
-               "Corners keep their value; new nodes on edges and in the centre take averages. Gauss-point history (H) is\n"
-               "interpolated the same way, from the old Gauss points to the new ones. Displacement (u) is nodal and transfers like damage (d).")
-    fig=page(6,"One element becomes four — what happens to the values?",caption,
-             "SIMPLIFIED CONCEPTUAL EXAMPLE • VALUES ARE NODAL")
+    fig=page(6,"One element becomes four — what happens to the values?", "",
+             "One → four is NOT a rule — it is only this toy example.")
+    fig.texts[2].set_color('#b0372d')
+    fig.patches.append(Rectangle((.035,.02),.93,.285,transform=fig.transFigure,
+                                 facecolor='#e5eef5',edgecolor='none',zorder=-1))
+    caption_left=("Each new node takes the value interpolated from the old mesh\n"
+                  "AT ITS POSITION (bilinear interpolation in Case 3).\n"
+                  "Corners keep their value; new nodes on edges and in the\n"
+                  "centre take averages. Gauss-point history (H) is interpolated\n"
+                  "the same way, from the old Gauss points to the new ones.\n"
+                  "Displacement (u) is nodal and transfers like damage (d).")
+    caption_right=("The framework fixes the refined element SIZE (h_ref),\n"
+                   "not the number of new elements. The number is a consequence\n"
+                   "of the size ratio and the corridor area — it is never set directly.\n"
+                   "The new mesh is generated from scratch each cycle and is not\n"
+                   "aligned to the old mesh's element boundaries — that is why\n"
+                   "the values must be interpolated rather than copied.")
+    panel_text(fig,.05,.285,caption_left,18.5,va='top',linespacing=1.35)
+    panel_text(fig,.51,.285,caption_right,18.5,va='top',linespacing=1.35)
     nodes={(0.,1.):.90,(1.,1.):.80,(0.,0.):.70,(1.,0.):.60,
            (.5,1.):.85,(0.,.5):.80,(1.,.5):.70,(.5,0.):.65,(.5,.5):.75}
     assert abs(nodes[(.5,1.)]-(.90+.80)/2)<1e-12
@@ -130,7 +144,7 @@ def interpolation_scene():
     assert abs(nodes[(.5,.5)]-(.90+.80+.70+.60)/4)<1e-12
     # Rows are bottom-to-top; imshow interpolates the same bilinear field.
     z=np.array([[.70,.60],[.90,.80]])
-    for axis,subdivide in [([.08,.36,.34,.40],False),([.57,.36,.34,.40],True)]:
+    for axis,subdivide in [([.08,.51,.34,.26],False),([.57,.51,.34,.26],True)]:
         ax=fig.add_axes(axis);ax.set_xlim(-.16,1.16);ax.set_ylim(-.15,1.15);ax.set_aspect('equal');ax.axis('off')
         ax.imshow(z,extent=(0,1,0,1),origin='lower',interpolation='bilinear',cmap=CMAP,vmin=0,vmax=1)
         ax.add_patch(Rectangle((0,0),1,1,fill=False,edgecolor=NAVY,lw=2))
@@ -142,14 +156,19 @@ def interpolation_scene():
             ax.plot(x,y,'o',color=NAVY,markeredgecolor='white',markersize=8,zorder=4)
             ax.annotate(f'{value:.2f}',(x,y),xytext=(7,7),textcoords='offset points',fontsize=14,weight='bold',color=NAVY,
                         bbox=dict(boxstyle='round,pad=.15',facecolor='white',edgecolor='none',alpha=.9),zorder=5)
-    panel_text(fig,.105,.80,'One coarse element (donor)',20,weight='bold')
-    panel_text(fig,.58,.80,'Same element, subdivided into four',20,weight='bold')
-    panel_text(fig,.08,.325,'Values live at the NODES — a gradient, not one number.',15,color='#435f73')
-    panel_text(fig,.52,.325,'The four new elements do NOT all get the same value.',15,color='#435f73',weight='bold')
-    panel_text(fig,.52,.295,'Their average damage is 0.83 / 0.78 / 0.73 / 0.68',15,color='#435f73')
-    panel_text(fig,.52,.268,'(top-left / top-right / bottom-left / bottom-right) — they follow the gradient.',13.5,color='#435f73')
-    cbar(fig,[.10,.29,.32,.017])
-    panel_text(fig,.06,.205,"Later campaigns use cKDTree nearest-neighbour instead of bilinear — same idea, each new node takes the nearest old node's value.",13.5,color='#536f82')
+    panel_text(fig,.105,.79,'One coarse element (donor)',19,weight='bold')
+    panel_text(fig,.58,.79,'Same element, subdivided into four',19,weight='bold')
+    panel_text(fig,.08,.485,'Values live at the NODES — a gradient, not one number.',14,color='#435f73')
+    panel_text(fig,.52,.485,'The four new elements do NOT all get the same value.',14,color='#435f73',weight='bold')
+    panel_text(fig,.52,.46,'Their average damage is 0.83 / 0.78 / 0.73 / 0.68',14,color='#435f73')
+    panel_text(fig,.52,.437,'(top-left / top-right / bottom-left / bottom-right) — they follow the gradient.',12.5,color='#435f73')
+    color_axis=fig.add_axes([.475,.535,.012,.19])
+    bar=matplotlib.colorbar.ColorbarBase(color_axis,cmap=CMAP,norm=colors.Normalize(0,1))
+    bar.set_ticks([0,.5,1]);bar.set_label('damage d',fontsize=13);bar.ax.tick_params(labelsize=12)
+    panel_text(fig,.05,.405,"How many new elements cover one old element? It depends on the size ratio (area scales as the square of the ratio).",15.5,color=TEAL,weight='bold')
+    panel_text(fig,.05,.375,"Toy example: old element is 2x h_ref → 2 x 2 = 4 new elements. If it were 3x h_ref → 3 x 3 = 9.",15.5,color=TEAL)
+    panel_text(fig,.05,.345,"Real Case 3: coarse elements h = 2.0 mm, refined h_ref = 0.140 mm (ratio about 14) → about 200 refined elements per coarse element's area.",15.5,color=TEAL)
+    panel_text(fig,.05,.315,"Later campaigns use cKDTree nearest-neighbour instead of bilinear — same idea, each new node takes the nearest old node's value.",13.5,color='#536f82')
     # Check the requested values, with conventional decimal half-up rounding.
     from decimal import Decimal, ROUND_HALF_UP
     groups=[['.90','.85','.80','.75'],['.85','.80','.75','.70'],['.80','.75','.70','.65'],['.75','.70','.65','.60']]
@@ -160,21 +179,21 @@ def interpolation_scene():
 
 
 def main():
-    # Unchanged scenes are copied byte-for-byte from the previous committed
-    # version, with their file names shifted after the new sixth scene.
+    # Copy the eleven unaffected scenes byte-for-byte from the prior commit.
     dest=pathlib.Path(sys.argv[1]) if len(sys.argv)>1 else ROOT
     frames=dest/'how_it_works/frames';video=dest/'video_method_c_how_it_works.mp4';frames.mkdir(parents=True,exist_ok=True)
     paths=[frames/f'scene_{i:02}.png' for i in range(1,14)]
     if video.exists() or any(p.exists() for p in paths):raise FileExistsError('Output exists; use an empty staging directory')
     oldprefix='models/pandey_kumar_mode1/290_method_c_case3_rerun/how_it_works/frames/'
-    for new in list(range(1,5))+list(range(8,14)):
-        old=new if new<=4 else new-1
-        paths[new-1].write_bytes(subprocess.check_output(['git','show',f'{OLD_REV}:{oldprefix}scene_{old:02}.png']))
+    for new in list(range(1,5))+list(range(7,14)):
+        paths[new-1].write_bytes(subprocess.check_output(['git','show',f'{OLD_REV}:{oldprefix}scene_{new:02}.png']))
     caption5=("The mesh generator rebuilds the mesh from scratch. Inside the corridor it places small elements of fixed size h_ref;\n"
               "outside, coarse background elements (h_bg). The count grows because the corridor — which was coarse — is now packed\n"
               "with small elements. The elements themselves never get smaller. (In this toy demo the refinement looks like splitting;\n"
-              "the real framework regenerates the whole mesh each cycle.)")
-    fig=page(5,'Cycle 1 | Remesh',caption5,'SIMPLIFIED CONCEPTUAL MESH')
+              "the real framework regenerates the whole mesh each cycle.)\n"
+              "The new mesh is not a subdivision of the old mesh; it is a fresh mesh, and its elements do not line up with the old ones.")
+    fig=page(5,'Cycle 1 | Remesh',caption5,'SIMPLIFIED CONCEPTUAL MESH',caption_size=18)
+    fig.patches[-1].set_y(.02);fig.patches[-1].set_height(.19)
     toy_main(fig,refined=1);fig.savefig(paths[4],dpi=100,facecolor=fig.get_facecolor());plt.close(fig)
     fig=interpolation_scene();fig.savefig(paths[5],dpi=100,facecolor=fig.get_facecolor());plt.close(fig)
     caption7=("Python interpolates nodal displacement (u) and damage (d), and Gauss-point history (H), from the old mesh to\n"
@@ -187,7 +206,7 @@ def main():
     panel_text(fig,.57,.285,'New nodes take interpolated values — see previous scene.',14,color='#435f73')
     cbar(fig,[.12,.235,.32,.018])
     before=io.BytesIO();fig.savefig(before,format='png',dpi=100,facecolor=fig.get_facecolor());before.seek(0);before_transfer=Image.open(before).convert('RGB').copy()
-    toy(right,refined=1);fig.savefig(paths[6],dpi=100,facecolor=fig.get_facecolor());plt.close(fig)
+    plt.close(fig)
     # Preserve the unchanged PNGs; correct their embedded old scene numbers
     # in the video only, without altering the committed artwork.
     font=ImageFont.truetype('C:/Windows/Fonts/arial.ttf',23)
