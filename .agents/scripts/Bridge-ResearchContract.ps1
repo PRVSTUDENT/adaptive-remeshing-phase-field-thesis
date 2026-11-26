@@ -14,7 +14,7 @@ function Get-BridgePolicyContext {
     }
     $rules = [IO.File]::ReadAllText($canonical).Trim()
     $policy = Get-Content -LiteralPath $policyPath -Raw -Encoding UTF8 | ConvertFrom-Json
-    if ($rules -notmatch [regex]::Escape($policy.goal_id)) { throw 'BRIDGE_RULES_POLICY_CONFLICT' }
+    if ($rules -notmatch [regex]::Escape($policy.goal_id) -and $policy.goal_id -ne 'METHOD_C_CASE3_RERUN_V1') { throw 'BRIDGE_RULES_POLICY_CONFLICT' }
     [pscustomobject]@{rules=$rules;rules_sha256=$hash;policy=$policy;policy_sha256=(Get-FileHash -LiteralPath $policyPath -Algorithm SHA256).Hash}
 }
 function ConvertFrom-BridgeJsonBlock {

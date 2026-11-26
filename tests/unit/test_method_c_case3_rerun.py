@@ -13,7 +13,7 @@ Unit test suite verifying:
 4. Adaptive remesh step count comparison (53 steps vs 56 original, 3 steps eliminated)
 5. Physical observables at terminal severance (Cycle 53)
 6. Case 3 orchestrator dry-run plan verification
-7. Comparison summary artifact integrity
+7. Re-evaluation methodology disclosure and summary dataset integrity
 8. Comparison figure generation and presence
 """
 
@@ -137,24 +137,39 @@ def test_case3_adaptive_step_count_comparison():
     - Original run: 56 adaptive remesh steps (Cycles 0 to 56, 57 cycles).
     - Improved framework: 53 adaptive remesh steps (Cycles 0 to 53, 54 cycles).
     - Step count reduction: exactly 3 steps fewer (Cycles 54, 55, 56 eliminated).
+    - Re-evaluation disclosure and mesh budget verification.
     """
     assert os.path.isfile(SUMMARY_PATH), "Summary artifact must exist: %s" % SUMMARY_PATH
     with open(SUMMARY_PATH, "r") as f:
         data = json.load(f)
+
+    assert data.get("evaluation_mode") == "RE_EVALUATION_OF_ORIGINAL_TRAJECTORY_UNDER_FIXED_STOPPING_LOGIC"
+    assert "re-evaluates the original Case 3" in data.get("evaluation_disclosure", "")
 
     orig = data["original_run"]
     rerun = data["improved_framework_rerun"]
 
     assert orig["adaptive_remesh_steps"] == 56, "Original run must record 56 adaptive remesh steps"
     assert orig["terminal_cycle"] == 56, "Original run terminal cycle must be 56"
-    assert orig["total_cycles_executed"] == 57, "Original run total cycles must be 57"
+    assert orig.get("total_cycles_evaluated", orig.get("total_cycles_executed")) == 57
 
     assert rerun["adaptive_remesh_steps"] == 53, "Improved framework must take 53 adaptive remesh steps"
     assert rerun["terminal_cycle"] == 53, "Improved framework terminal cycle must be 53"
-    assert rerun["total_cycles_executed"] == 54, "Improved framework total cycles must be 54"
+    assert rerun.get("total_cycles_evaluated", rerun.get("total_cycles_retained")) == 54
 
     assert rerun["adaptive_step_reduction"] == 3, "Adaptive step reduction must be exactly 3 steps"
     assert abs(rerun["adaptive_step_reduction_pct"] - 5.357) < 0.1, "Reduction pct must be ~5.36%"
+
+    # Verify cycle comparison table entries
+    c_table = {r["cycle_idx"]: r for r in data["cycle_comparison_table"]}
+    assert 53 in c_table, "Cycle 53 must be in comparison table"
+    assert c_table[53]["mesh_total_elements"] == 28697, "Cycle 53 element count must be 28,697"
+    assert c_table[53]["mesh_quad_pct"] == 97.87, "Cycle 53 quad percentage must be 97.87%"
+    assert c_table[53]["cumulative_arc_length_mm"] == 63.2282, "Cycle 53 cumulative arc length must be 63.2282 mm"
+    assert c_table[53]["retained_under_fixed_stopping_logic"] is True, "Cycle 53 must be retained"
+
+    assert 54 in c_table, "Cycle 54 must be in comparison table"
+    assert c_table[54]["retained_under_fixed_stopping_logic"] is False, "Cycle 54 must be eliminated"
 
 
 def test_case3_physical_observables_at_severance():

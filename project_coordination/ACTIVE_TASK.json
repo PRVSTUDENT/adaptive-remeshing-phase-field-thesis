@@ -1,6 +1,7 @@
 {
   "task_id": "METHOD-C-CASE3-RERUN",
   "title": "Method C Case 3 Re-run with Current Improved Framework — Adaptive Remesh Step Count",
+  "goal_id": "METHOD_C_CASE3_RERUN_V1",
   "task_status": "COMPLETED_READY_FOR_INDEPENDENT_REVIEW",
   "master_goal_status": "OPEN",
   "status": "COMPLETED_READY_FOR_INDEPENDENT_REVIEW",
@@ -12,7 +13,7 @@
   "last_successful_pbs_job_id": "1424910.mmaster02",
   "last_failed_pbs_job_id": "1424881.mmaster02",
   "checkpoint_artifact": "docs/validation/METHOD_C_CASE3_RERUN_STEP_COUNT_REPORT.md",
-  "checkpoint_artifact_sha256": "60F3A2BC2E1A18F292FF78B1157A6654538A09B31C3420660D28404AA394915E",
+  "checkpoint_artifact_sha256": "4F02813E4AB690DDC96FD9FC3A93B116D59DF12CD139482A7FB55BE84F1F9A9F",
   "review_directive": "Re-run Method C Case 3 from Cycle 0 using current improved framework; evaluate adaptive remesh step count vs original run (~52-56 steps); do not overwrite original run; strictly 0 PBS; frozen UEL CE8D5EDC unchanged.",
   "predecessor_task": {
     "task_id": "METHOD-C-COMPLEX-MODELS",
@@ -33,5 +34,5 @@
   "current_problem": 3,
   "current_cycle_completed": 53,
   "cycle0_status": "COMPLETED",
-  "notes": "Evaluation completed. Case 3 takes 53 adaptive remesh steps (54 cycles) under improved framework vs 56 adaptive remesh steps (57 cycles) in original run. 3 steps eliminated via fixed stopping logic at Cycle 53 upon complete specimen severance. Master Goal METHOD_C_CASE3_RERUN_V1 is OPEN."
+  "notes": "Re-evaluation of original deterministic trajectory under fixed check_completion stopping logic completed. Case 3 takes 53 adaptive remesh steps (54 cycles) under improved framework vs 56 adaptive remesh steps (57 cycles) in original run. 3 steps eliminated via fixed stopping logic at Cycle 53 upon complete specimen severance. Master Goal METHOD_C_CASE3_RERUN_V1 is OPEN."
 }

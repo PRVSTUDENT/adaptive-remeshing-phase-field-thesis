@@ -1,9 +1,16 @@
 ﻿{
-  "active": false,
-  "agent": null,
-  "task_id": null,
-  "session_id": null,
-  "started_at": null,
-  "starting_commit": null,
-  "allowed_write_scope": []
+  "active": true,
+  "agent": "gemini-antigravity",
+  "task_id": "METHOD-C-CASE3-RERUN",
+  "session_id": "2026-11-26_0910_gemini-antigravity_method_c_case3_rerun",
+  "started_at": "2026-11-26T09:10:00+01:00",
+  "starting_commit": "472b1a752b20d3c13f43d5140fc2cec0c4243956",
+  "allowed_write_scope": [
+    "models/pandey_kumar_mode1/290_method_c_case3_rerun/**",
+    "docs/validation/METHOD_C_CASE3_RERUN_STEP_COUNT_REPORT.md",
+    "tests/unit/test_method_c_case3_rerun.py",
+    "project_coordination/**",
+    ".agents/scripts/**",
+    "results/figures/**"
+  ]
 }

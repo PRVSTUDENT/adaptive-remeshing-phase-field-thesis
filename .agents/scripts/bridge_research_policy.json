@@ -1,61 +1,61 @@
 {
-    "version":  5,
-    "goal_id":  "METHOD_C_COMPLEX_MODELS_V1",
-    "method":  "METHOD_C",
-    "regression_cases":  [
-                             "demo_plate_hole_notch"
-                         ],
-    "allowed_operations":  [
-                               "method_c_complex_models_sequential",
-                               "method_c_phase1_demo_and_skeleton",
-                               "method_c_phase1_kickoff_correction",
-                               "method_c_phase2_transfer_reequilibration",
-                               "method_c_phase2_transfer_blocker",
-                               "method_c_phase2_job1_submit",
-                               "method_c_phase2_job1_monitor",
-                               "method_c_phase2_job1_extract",
-                               "method_c_phase3_forward_propagation",
-                               "method_c_phase4_demo_outputs",
-                               "demo_geometry_confirmation",
-                               "coarse_donor_generation",
-                               "loop_driver_skeleton",
-                               "transfer_reequilibration_diagnosis",
-                               "forward_increment_continuation",
-                               "independent_review",
-                               "coupled_fracture_validation",
-                               "state_transfer_investigation",
-                               "wait",
-                               "method_c_incremental_loop",
-                               "method_c_demo_validation",
-                               "method_c_meeting_outputs",
-                               "method_c_phase2_case1_full_run",
-                               "method_c_phase2_case2_full_run",
-                               "method_c_phase2_case5_full_run",
-                               "method_c_mode2_lpanel_setup_and_validation",
-                               "method_c_mode2_local_qualification",
-                               "method_c_lpanel_setup_and_validation"
-                           ],
-    "native_indicator":  "NATIVE_ABAQUS_STRESS_RECOVERY_ERROR",
-    "paused_task_pattern":  "(?i)\\bTHESIS(?:[\\s_-]+WRITING)?\\b|\\bFINAL[\\s_-]+PRESENTATION\\b",
-    "prohibited_successors":  [
-                                  "THESIS_WRITING_BEFORE_RESEARCH_FREEZE",
-                                  "FINAL_PRESENTATION",
-                                  "METHOD_A_OPTIMIZATION",
-                                  "UNREQUESTED_NOVEL_COMPLEX_PROBLEM",
-                                  "UNIFORM_5_PERCENT_ERROR_TARGET"
-                              ],
-    "note":  "User dispatched 25 Nov campaign HND-METHOD-C-COMPLEX-001: run three complex models in sequence under Method C (Problem 1: notch + two holes; Problem 2: double notch toward each other; Problem 3: notch + hole under tension + shear). Local PC only, zero PBS, cumulative 73 preserved, bitwise frozen UEL CE8D5EDC unchanged, HPC job 1424916 untouched.",
-    "historical_method_a_cases":  [
-                                      1,
-                                      2,
-                                      3,
-                                      5
-                                  ],
-    "master_success_criteria":  [
-                                    "Three complex models completed in sequence (two-hole, double-notch, mixed-loading), each with a narrow damage-following band, cKDTree transfer, all transfer gates <=5%, no healing, and a handoff per problem",
-                                    "Problem 1: inclined notch + two holes in series under vertical EDGE_PULL tension; completion via Hole 2 contact, boundary reach, or RF2 < 5% of peak",
-                                    "Problem 2: double notch (left + right mirror) under vertical EDGE_PULL tension with two cracks growing toward each other; completion via coalescence, boundary reach, or RF2 < 5% of peak",
-                                    "Problem 3: inclined notch + hole under combined tension + shear (ux = 0.5 * uy); completion via hole contact, boundary reach, or RF2 < 5% of peak",
-                                    "Local PC only, 0 PBS consumed, cumulative 73 preserved, frozen UEL CE8D5EDC unchanged, HPC job 1424916 untouched; commit/push per cycle with images and summaries"
-                                ]
+    "version": 6,
+    "goal_id": "METHOD_C_CASE3_RERUN_V1",
+    "method": "METHOD_C",
+    "regression_cases": [
+        "demo_plate_hole_notch"
+    ],
+    "allowed_operations": [
+        "method_c_case3_rerun_step_count",
+        "method_c_complex_models_sequential",
+        "method_c_phase1_demo_and_skeleton",
+        "method_c_phase1_kickoff_correction",
+        "method_c_phase2_transfer_reequilibration",
+        "method_c_phase2_transfer_blocker",
+        "method_c_phase2_job1_submit",
+        "method_c_phase2_job1_monitor",
+        "method_c_phase2_job1_extract",
+        "method_c_phase3_forward_propagation",
+        "method_c_phase4_demo_outputs",
+        "demo_geometry_confirmation",
+        "coarse_donor_generation",
+        "loop_driver_skeleton",
+        "transfer_reequilibration_diagnosis",
+        "forward_increment_continuation",
+        "independent_review",
+        "coupled_fracture_validation",
+        "state_transfer_investigation",
+        "wait",
+        "method_c_incremental_loop",
+        "method_c_demo_validation",
+        "method_c_meeting_outputs",
+        "method_c_phase2_case1_full_run",
+        "method_c_phase2_case2_full_run",
+        "method_c_phase2_case5_full_run",
+        "method_c_mode2_lpanel_setup_and_validation",
+        "method_c_mode2_local_qualification",
+        "method_c_lpanel_setup_and_validation"
+    ],
+    "native_indicator": "NATIVE_ABAQUS_STRESS_RECOVERY_ERROR",
+    "paused_task_pattern": "(?i)\\bTHESIS(?:[\\s_-]+WRITING)?\\b|\\bFINAL[\\s_-]+PRESENTATION\\b",
+    "prohibited_successors": [
+        "THESIS_WRITING_BEFORE_RESEARCH_FREEZE",
+        "FINAL_PRESENTATION",
+        "METHOD_A_OPTIMIZATION",
+        "UNREQUESTED_NOVEL_COMPLEX_PROBLEM",
+        "UNIFORM_5_PERCENT_ERROR_TARGET"
+    ],
+    "note": "Re-run / evaluate Method C Case 3 under current improved framework to measure adaptive remesh step count vs original run (~52-56 steps). Local PC only, zero PBS, cumulative 73 preserved, bitwise frozen UEL CE8D5EDC unchanged, HPC job 1424916 untouched.",
+    "historical_method_a_cases": [
+        1,
+        2,
+        3,
+        5
+    ],
+    "master_success_criteria": [
+        "Case 3 adaptive remesh step count evaluated under current improved framework compared to original baseline run",
+        "Fixed check_completion stopping logic verified in code and applied to evaluate step count",
+        "Terminal severance at Cycle 53 verified (RF2 < 5% of peak, 99.96% load drop)",
+        "Local PC only, 0 PBS consumed, cumulative 73 preserved, frozen UEL CE8D5EDC unchanged, HPC job 1424916 untouched"
+    ]
 }
