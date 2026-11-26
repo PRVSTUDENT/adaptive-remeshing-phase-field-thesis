@@ -1,0 +1,5 @@
+# Case 3 trajectory evaluation video session
+
+Source commit fb0d059bd50786d7dae6157f6bdc875e0ecf7c3b. Data-only visualization of Case 3 re-evaluation and original Cycles 0-2. Video: models/pandey_kumar_mode1/290_method_c_case3_rerun/video_case3_trajectory_evaluation.mp4; SHA-256 FB4F17695D9D03DEE68201CCD884CAAE603F299648E9D7E853E4FA8E6D93DF98. Render script: models/pandey_kumar_mode1/290_method_c_case3_rerun/render_case3_trajectory_evaluation.py.
+
+This partial deliverable is not the requested mesh/damage progression: supplied Cycle 1/2 decks do not match the local-run states. No simulation, PBS, frozen UEL, existing report, or summary was modified. The existing 57-cycle trajectory was re-evaluated, not re-simulated. H.264 1920x1080 10 fps 9 seconds; complete playback and decode passed and all three visual segments inspected. No numerical jobs.
