@@ -8,6 +8,7 @@ import io
 import json
 import pathlib
 import subprocess
+import sys
 import tempfile
 
 import matplotlib
@@ -15,13 +16,15 @@ matplotlib.use("Agg")
 import matplotlib.pyplot as plt
 from matplotlib import colors
 from matplotlib.patches import Circle, FancyArrowPatch, Rectangle
-from PIL import Image
+from PIL import Image, ImageDraw, ImageFont
+import numpy as np
 
 REV = "860f462a95c27a3c936fb282916206b7dfcfc4a3"
 ROOT = pathlib.Path("models/pandey_kumar_mode1/290_method_c_case3_rerun")
 FRAMES = ROOT / "how_it_works/frames"
 VIDEO = ROOT / "video_method_c_how_it_works.mp4"
-DURATIONS = [3, 5, 7, 5, 7, 9, 9, 6, 8, 6, 7, 7]
+DURATIONS = [3, 5, 7, 5, 7, 8, 9, 9, 6, 8, 6, 7, 7]
+OLD_REV = "ec16cbf84e5daa33245f8501f9c9bab812274567"
 NAVY, BLUE, TEAL, PAPER = "#152a40", "#2079aa", "#087f75", "#f5f8fb"
 CMAP = matplotlib.colormaps["turbo"]
 
@@ -30,15 +33,15 @@ def committed(path):
     return json.loads(subprocess.check_output(["git", "show", f"{REV}:{path}"]))
 
 
-def page(number, title, caption, tag=None):
+def page(number, title, caption, tag=None, caption_size=19):
     fig = plt.figure(figsize=(19.2, 10.8), dpi=100, facecolor=PAPER)
     fig.patches.append(Rectangle((0, .895), 1, .105, transform=fig.transFigure, facecolor=NAVY, zorder=-1))
     fig.text(.04, .94, title, fontsize=27, color="white", weight="bold", va="center")
-    fig.text(.96, .94, f"{number:02d} / 12", fontsize=16, color="#c5d4e1", va="center", ha="right")
+    fig.text(.96, .94, f"{number:02d} / 13", fontsize=16, color="#c5d4e1", va="center", ha="right")
     if tag:
         fig.text(.04, .86, tag, fontsize=15, color="#28729c", weight="bold")
     fig.patches.append(Rectangle((.035, .035), .93, .15, transform=fig.transFigure, facecolor="#e5eef5", edgecolor="none", zorder=-1))
-    fig.text(.055, .11, caption, fontsize=19, color=NAVY, va="center", linespacing=1.4)
+    fig.text(.055, .11, caption, fontsize=caption_size, color=NAVY, va="center", linespacing=1.4)
     return fig
 
 
@@ -112,94 +115,97 @@ def geometry(fig, config, path=False, milestones=None):
     return ax
 
 
+def interpolation_scene():
+    caption = ("Each new node takes the value interpolated from the old mesh AT ITS POSITION (bilinear interpolation in Case 3).\n"
+               "Corners keep their value; new nodes on edges and in the centre take averages. Gauss-point history (H) is\n"
+               "interpolated the same way, from the old Gauss points to the new ones. Displacement (u) is nodal and transfers like damage (d).")
+    fig=page(6,"One element becomes four — what happens to the values?",caption,
+             "SIMPLIFIED CONCEPTUAL EXAMPLE • VALUES ARE NODAL")
+    nodes={(0.,1.):.90,(1.,1.):.80,(0.,0.):.70,(1.,0.):.60,
+           (.5,1.):.85,(0.,.5):.80,(1.,.5):.70,(.5,0.):.65,(.5,.5):.75}
+    assert abs(nodes[(.5,1.)]-(.90+.80)/2)<1e-12
+    assert abs(nodes[(0.,.5)]-(.90+.70)/2)<1e-12
+    assert abs(nodes[(1.,.5)]-(.80+.60)/2)<1e-12
+    assert abs(nodes[(.5,0.)]-(.70+.60)/2)<1e-12
+    assert abs(nodes[(.5,.5)]-(.90+.80+.70+.60)/4)<1e-12
+    # Rows are bottom-to-top; imshow interpolates the same bilinear field.
+    z=np.array([[.70,.60],[.90,.80]])
+    for axis,subdivide in [([.08,.36,.34,.40],False),([.57,.36,.34,.40],True)]:
+        ax=fig.add_axes(axis);ax.set_xlim(-.16,1.16);ax.set_ylim(-.15,1.15);ax.set_aspect('equal');ax.axis('off')
+        ax.imshow(z,extent=(0,1,0,1),origin='lower',interpolation='bilinear',cmap=CMAP,vmin=0,vmax=1)
+        ax.add_patch(Rectangle((0,0),1,1,fill=False,edgecolor=NAVY,lw=2))
+        if subdivide:
+            ax.plot([.5,.5],[0,1],color='white',lw=2);ax.plot([0,1],[.5,.5],color='white',lw=2)
+        for (x,y),value in nodes.items():
+            if not subdivide and x not in (0.,1.):continue
+            if not subdivide and y not in (0.,1.):continue
+            ax.plot(x,y,'o',color=NAVY,markeredgecolor='white',markersize=8,zorder=4)
+            ax.annotate(f'{value:.2f}',(x,y),xytext=(7,7),textcoords='offset points',fontsize=14,weight='bold',color=NAVY,
+                        bbox=dict(boxstyle='round,pad=.15',facecolor='white',edgecolor='none',alpha=.9),zorder=5)
+    panel_text(fig,.105,.80,'One coarse element (donor)',20,weight='bold')
+    panel_text(fig,.58,.80,'Same element, subdivided into four',20,weight='bold')
+    panel_text(fig,.08,.325,'Values live at the NODES — a gradient, not one number.',15,color='#435f73')
+    panel_text(fig,.52,.325,'The four new elements do NOT all get the same value.',15,color='#435f73',weight='bold')
+    panel_text(fig,.52,.295,'Their average damage is 0.83 / 0.78 / 0.73 / 0.68',15,color='#435f73')
+    panel_text(fig,.52,.268,'(top-left / top-right / bottom-left / bottom-right) — they follow the gradient.',13.5,color='#435f73')
+    cbar(fig,[.10,.29,.32,.017])
+    panel_text(fig,.06,.205,"Later campaigns use cKDTree nearest-neighbour instead of bilinear — same idea, each new node takes the nearest old node's value.",13.5,color='#536f82')
+    # Check the requested values, with conventional decimal half-up rounding.
+    from decimal import Decimal, ROUND_HALF_UP
+    groups=[['.90','.85','.80','.75'],['.85','.80','.75','.70'],['.80','.75','.70','.65'],['.75','.70','.65','.60']]
+    means=[sum(Decimal(x) for x in group)/4 for group in groups]
+    assert means==list(map(Decimal,['.825','.775','.725','.675']))
+    assert [x.quantize(Decimal('.01'),rounding=ROUND_HALF_UP) for x in means]==list(map(Decimal,['.83','.78','.73','.68']))
+    return fig
+
+
 def main():
-    cfg = committed("configs/remeshing/f1728_case3_notched_plate_pins.json")
-    summary = committed("models/pandey_kumar_mode1/290_method_c_case3_rerun/METHOD_C_CASE3_RERUN_SUMMARY.json")
-    assert cfg["loading"]["loading_type"] == "PIN_HOLE_PULL"
-    assert (cfg["geometry"]["plate_width"], cfg["geometry"]["plate_height"]) == (65, 120)
-    assert summary["evaluation_mode"] == "RE_EVALUATION_OF_ORIGINAL_TRAJECTORY_UNDER_FIXED_STOPPING_LOGIC"
-    milestones = {r["cycle_idx"]: r for r in summary["cycle_comparison_table"]}
-    c52, c53 = milestones[52], milestones[53]
-    assert summary["improved_framework_rerun"]["adaptive_remesh_steps"] == 53
-    FRAMES.mkdir(parents=True, exist_ok=True)
-    paths = [FRAMES / f"scene_{i:02}.png" for i in range(1, 13)]
-    if VIDEO.exists() or any(p.exists() for p in paths): raise FileExistsError("Output exists; refusing overwrite")
-    figures = []
-    fig = page(1, "How Method C Works", "Solve → remesh → transfer → re-equilibrate → advance. Repeat one cycle at a time.")
-    panel_text(fig, .12, .66, "Adaptive remeshing\nwith history transfer", 42, weight="bold", linespacing=1.3)
-    panel_text(fig, .12, .43, "A visual guide using the Case 3 plate", 25, color="#377398")
-    panel_text(fig, .12, .33, "Silent explainer  •  conceptual mesh diagrams", 18, color="#5b6f80")
-    figures.append(fig)
-
-    fig = page(2, "The problem | Case 3", "A notched plate is pulled through the upper pin hole; the lower pin hole is fixed.")
-    geometry(fig, cfg)
-    panel_text(fig, .05, .23, "65 × 120 mm plate\nE = 210 GPa   ν = 0.3\nℓ₀ = 0.285 mm   Gc = 0.00228 kN/mm", 17, linespacing=1.55)
-    figures.append(fig)
-
-    fig = page(3, "Cycle 0 | Coarse mesh", "The solver finds the response. Damage d and history H develop near the crack tip.", "SIMPLIFIED CONCEPTUAL MESH • NOT THE CASE 3 MESH")
-    toy_main(fig, arrows=True); figures.append(fig)
-
-    fig = page(4, "Damage marks the region to refine", "In this toy example, elements with d ≥ 0.5 mark a corridor around the crack.\nThe F1852 driver uses the damage-envelope branch once maximum damage reaches 0.5.", "SIMPLIFIED CONCEPTUAL MESH • MARKED REGION IS ILLUSTRATIVE")
-    toy_main(fig, highlighted=True); panel_text(fig, .70, .47, "Dashed outline:\nillustrative corridor", 18, color="#ae6017"); figures.append(fig)
-
-    fig = page(5, "Cycle 1 | Remesh", "The tip region gets more elements of the same fixed small size.\nThe number of elements grows; h_ref does not shrink.", "SIMPLIFIED CONCEPTUAL MESH")
-    toy_main(fig, refined=1); figures.append(fig)
-
-    fig = page(6, "Transfer damage and history", "Python interpolates nodal displacement u and damage d, and Gauss-point history H,\nfrom the old mesh to the new mesh. The transfer is not Abaqus *MAP SOLUTION.", "SIMPLIFIED CONCEPTUAL MESH • INHERITANCE IS ILLUSTRATIVE")
+    # Unchanged scenes are copied byte-for-byte from the previous committed
+    # version, with their file names shifted after the new sixth scene.
+    dest=pathlib.Path(sys.argv[1]) if len(sys.argv)>1 else ROOT
+    frames=dest/'how_it_works/frames';video=dest/'video_method_c_how_it_works.mp4';frames.mkdir(parents=True,exist_ok=True)
+    paths=[frames/f'scene_{i:02}.png' for i in range(1,14)]
+    if video.exists() or any(p.exists() for p in paths):raise FileExistsError('Output exists; use an empty staging directory')
+    oldprefix='models/pandey_kumar_mode1/290_method_c_case3_rerun/how_it_works/frames/'
+    for new in list(range(1,5))+list(range(8,14)):
+        old=new if new<=4 else new-1
+        paths[new-1].write_bytes(subprocess.check_output(['git','show',f'{OLD_REV}:{oldprefix}scene_{old:02}.png']))
+    caption5=("The mesh generator rebuilds the mesh from scratch. Inside the corridor it places small elements of fixed size h_ref;\n"
+              "outside, coarse background elements (h_bg). The count grows because the corridor — which was coarse — is now packed\n"
+              "with small elements. The elements themselves never get smaller. (In this toy demo the refinement looks like splitting;\n"
+              "the real framework regenerates the whole mesh each cycle.)")
+    fig=page(5,'Cycle 1 | Remesh',caption5,'SIMPLIFIED CONCEPTUAL MESH')
+    toy_main(fig,refined=1);fig.savefig(paths[4],dpi=100,facecolor=fig.get_facecolor());plt.close(fig)
+    fig=interpolation_scene();fig.savefig(paths[5],dpi=100,facecolor=fig.get_facecolor());plt.close(fig)
+    caption7=("Python interpolates nodal displacement (u) and damage (d), and Gauss-point history (H), from the old mesh to\n"
+              "the new mesh — node by node, as in the previous scene. The transfer is not Abaqus *MAP SOLUTION.")
+    fig=page(7,'Transfer damage and history',caption7,'SIMPLIFIED CONCEPTUAL MESH • INHERITANCE IS ILLUSTRATIVE')
     left=axblank(fig,[.045,.32,.39,.38]);toy(left);right=axblank(fig,[.565,.32,.39,.38]);toy(right,refined=1,pale=True)
-    panel_text(fig,.11,.75,"Old mesh | 8 elements",18,weight="bold");panel_text(fig,.63,.75,"New mesh | 14 elements",18,weight="bold")
-    arrow=FancyArrowPatch((.46,.51),(.55,.51),transform=fig.transFigure,arrowstyle="-|>",mutation_scale=28,lw=3,color=BLUE);fig.add_artist(arrow)
-    panel_text(fig,.465,.58,"u, d, H",16,color=BLUE,weight="bold");cbar(fig,[.33,.23,.34,.018])
-    # Only the post-transfer state is saved as the scene PNG.  A matching
-    # uncoloured schematic is rendered in memory for the first three seconds.
-    before=io.BytesIO();fig.savefig(before,format='png',dpi=100,facecolor=fig.get_facecolor());before.seek(0)
-    before_transfer=Image.open(before).convert('RGB').tobytes()
-    toy(right,refined=1);figures.append(fig)
-
-    fig = page(7, "Step 1 | Re-equilibrate at the same load", "Hold the load fixed and solve for equilibrium on the new mesh.\nCompare reaction forces against the transfer gate; a check can fail.", "SIMPLIFIED CONCEPTUAL MESH")
-    ax=toy_main(fig,refined=1,arrows=True)
-    for x,y in [(1.5,.5),(2.5,.5),(3.5,.5),(1.5,1.5),(2.5,1.5),(3.5,1.5)]:
-        ax.annotate("",(x+.12,y+.12),(x,y),arrowprops=dict(arrowstyle="->",lw=1.2,color="white"))
-    panel_text(fig,.69,.50,"External pull\n        ↕ balance\nInternal resistance",18,linespacing=1.5)
-    panel_text(fig,.69,.28,"Example gate: |ΔRF2| ≤ 5%\nCase 3 Cycle 1: −11.31% (failed)",16,color="#a43b35",linespacing=1.5)
-    figures.append(fig)
-
-    fig = page(8, "Step 2 | Advance the load", "The load advances with RIKS. In this illustration the crack extends and damage spreads.", "SIMPLIFIED CONCEPTUAL MESH")
-    toy_main(fig,refined=1,advance=1,arrows=1.8);panel_text(fig,.70,.45,"Load ↑\nCrack advances →",20,color=BLUE,linespacing=1.5,weight="bold");figures.append(fig)
-
-    fig = page(9, "Cycle 2 | Repeat the loop", "Refine at the new tip, transfer the state, hold the load to re-equilibrate, then advance.", "SIMPLIFIED CONCEPTUAL MESH")
-    toy_main(fig,refined=2,advance=1);panel_text(fig,.69,.46,"Refine → transfer\n→ hold → advance",19,color=TEAL,linespacing=1.6,weight="bold");figures.append(fig)
-
-    fig = page(10, "Cycle 3 | The refined band follows", "More fixed-size elements follow the crack. The toy damage field never heals.", "SIMPLIFIED CONCEPTUAL MESH")
-    toy_main(fig,refined=3,advance=2);panel_text(fig,.69,.45,"8 → 14 → 20 → 26\nh_ref stays fixed",20,color=TEAL,linespacing=1.5,weight="bold");figures.append(fig)
-
-    fig = page(11, "Case 3 | Full trajectory and stopping", "A revised rule stops at Cycle 53, eliminating three post-severance steps.\nThis re-evaluates recorded states; no new Abaqus cycles were run.", "CONCEPTUAL CRACK PATH • NOT A SIMULATION FIELD")
-    geometry(fig,cfg,path=True)
-    panel_text(fig,.70,.76,"Cycle 52",20,weight="bold",va="top")
-    panel_text(fig,.70,.71,f"s = {c52['cumulative_arc_length_mm']:.2f} mm\nRF2 = {c52['terminal_rf2_kN']:.3f} kN\n{c52['rf2_ratio_pct']:.2f}% of peak",16,linespacing=1.5,va="top")
-    panel_text(fig,.70,.51,"Cycle 53",20,weight="bold",va="top")
-    panel_text(fig,.70,.46,f"Tip reaches x = 65 mm\nRF2 = {c53['terminal_rf2_kN']:.6f} kN\n{c53['rf2_ratio_pct']:.3f}% of peak",16,linespacing=1.5,va="top")
-    figures.append(fig)
-
-    fig = page(12, "The tools and their roles", "Python performs state transfer; Abaqus/Standard solves equilibrium and the load advance.")
-    lines=["Abaqus/Standard — finite-element solver for each cycle.","UEL (f42_mixed_uel.for) — phase-field response and history at Gauss points.","UEXTERNALDB — commits trial history at the end of an accepted increment.","*STATIC — fixed-load re-equilibration; one-increment target when it converges.","*STATIC, RIKS — arc-length load advance through softening.","*NODE OUTPUT / U — records displacements for transfer.","odbAccess — reads u, d and H from the output database.","Python orchestrator — maps the fields; it does not use *MAP SOLUTION."]
-    for i,line in enumerate(lines):panel_text(fig,.075,.82-i*.075,"•  "+line,18,color=NAVY)
-    figures.append(fig)
-
-    for i,(fig,path) in enumerate(zip(figures,paths),1):
-        fig.savefig(path,dpi=100,facecolor=fig.get_facecolor());plt.close(fig);print('Rendered',i,path,flush=True)
+    panel_text(fig,.11,.75,'Old mesh | 8 elements',18,weight='bold');panel_text(fig,.63,.75,'New mesh | 14 elements',18,weight='bold')
+    fig.add_artist(FancyArrowPatch((.46,.51),(.55,.51),transform=fig.transFigure,arrowstyle='-|>',mutation_scale=28,lw=3,color=BLUE))
+    panel_text(fig,.465,.58,'u, d, H',16,color=BLUE,weight='bold')
+    panel_text(fig,.57,.285,'New nodes take interpolated values — see previous scene.',14,color='#435f73')
+    cbar(fig,[.12,.235,.32,.018])
+    before=io.BytesIO();fig.savefig(before,format='png',dpi=100,facecolor=fig.get_facecolor());before.seek(0);before_transfer=Image.open(before).convert('RGB').copy()
+    toy(right,refined=1);fig.savefig(paths[6],dpi=100,facecolor=fig.get_facecolor());plt.close(fig)
+    # Preserve the unchanged PNGs; correct their embedded old scene numbers
+    # in the video only, without altering the committed artwork.
+    font=ImageFont.truetype('C:/Windows/Fonts/arial.ttf',23)
+    def numbering(im,i):
+        im=im.copy();d=ImageDraw.Draw(im);d.rectangle((1680,38,1890,90),fill=NAVY);d.text((1843,65),f'{i:02} / 13',font=font,fill='#c5d4e1',anchor='rm');return im.tobytes()
+    before_raw=numbering(before_transfer,7)
     cmd=['ffmpeg','-v','error','-y','-f','rawvideo','-pix_fmt','rgb24','-s','1920x1080','-r','10','-i','-','-c:v','libx264','-preset','medium','-crf','18','-pix_fmt','yuv420p','-movflags','+faststart']
-    with tempfile.NamedTemporaryFile(suffix='.mp4',delete=False,dir=ROOT) as tmp: temp=pathlib.Path(tmp.name)
+    with tempfile.NamedTemporaryFile(suffix='.mp4',delete=False,dir=dest) as tmp:temp=pathlib.Path(tmp.name)
     try:
         proc=subprocess.Popen(cmd+[str(temp)],stdin=subprocess.PIPE)
-        for index,(path,seconds) in enumerate(zip(paths,DURATIONS)):
-            raw=Image.open(path).convert('RGB').tobytes()
-            for frame in range(seconds*10):proc.stdin.write(before_transfer if index==5 and frame<30 else raw)
+        for index,(path,seconds) in enumerate(zip(paths,DURATIONS),1):
+            raw=numbering(Image.open(path).convert('RGB'),index)
+            for frame in range(seconds*10):proc.stdin.write(before_raw if index==7 and frame<30 else raw)
         proc.stdin.close()
         if proc.wait():raise RuntimeError('ffmpeg failed')
-        temp.replace(VIDEO)
+        temp.replace(video)
     finally:temp.unlink(missing_ok=True)
-    print('Created',VIDEO,'duration',sum(DURATIONS),flush=True)
+    print('Created',video,'duration',sum(DURATIONS),'seconds',flush=True)
 
 
-if __name__ == '__main__': main()
+if __name__=='__main__':main()
