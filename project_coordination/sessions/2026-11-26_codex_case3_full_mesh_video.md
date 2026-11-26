@@ -1,0 +1,5 @@
+# Case 3 full mesh and damage video session
+
+The video includes original Cycles 0?56 in sequence; revised stopping point Cycle 53 and original post-severance Cycles 54?56 are identified on frames. Source states and summary are committed; original local input decks are read-only and individually SHA-256 identified in the manifest. The user approved local read access. No Abaqus job, PBS job, UEL modification, or existing simulation/report/summary edit occurred.
+
+All 57 decks match the damage node-ID sets and recorded crack-tip coordinates; far-side coordinates match to reported precision. Each frame records mesh and state hashes plus summary metrics in the manifest. Cutback-terminated states are visibly identified. Rendering was interrupted once to add the cutback disclosure; the subsequent full render completed. An ffmpeg verification initially failed because ffmpeg 9 does not support -vsync; using -fps_mode passthrough succeeded. The full H.264 file is 1920x1080 at 10 fps, 117.000 seconds, with all 58 segments decoded and compared against ordered source images. SHA-256: 9f536ec487b608b441910764f37f41cc6a8d2742c2b84a04bb1f91e2dfac1bef.
