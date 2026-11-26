@@ -23,8 +23,8 @@ REV = "860f462a95c27a3c936fb282916206b7dfcfc4a3"
 ROOT = pathlib.Path("models/pandey_kumar_mode1/290_method_c_case3_rerun")
 FRAMES = ROOT / "how_it_works/frames"
 VIDEO = ROOT / "video_method_c_how_it_works.mp4"
-DURATIONS = [3, 5, 7, 5, 7, 8, 9, 9, 6, 8, 6, 7, 7]
-OLD_REV = "452bd64af3e13e1944afd384b0ec871d39f26882"
+DURATIONS = [3, 5, 7, 5, 7, 8, 9, 9, 9, 6, 8, 6, 7, 7]
+OLD_REV = "26a36efe92c797c9bbcaa4b96af1f5f313f5ec06"
 NAVY, BLUE, TEAL, PAPER = "#152a40", "#2079aa", "#087f75", "#f5f8fb"
 CMAP = matplotlib.colormaps["turbo"]
 
@@ -37,7 +37,7 @@ def page(number, title, caption, tag=None, caption_size=19):
     fig = plt.figure(figsize=(19.2, 10.8), dpi=100, facecolor=PAPER)
     fig.patches.append(Rectangle((0, .895), 1, .105, transform=fig.transFigure, facecolor=NAVY, zorder=-1))
     fig.text(.04, .94, title, fontsize=27, color="white", weight="bold", va="center")
-    fig.text(.96, .94, f"{number:02d} / 13", fontsize=16, color="#c5d4e1", va="center", ha="right")
+    fig.text(.96, .94, f"{number:02d} / 14", fontsize=16, color="#c5d4e1", va="center", ha="right")
     if tag:
         fig.text(.04, .86, tag, fontsize=15, color="#28729c", weight="bold")
     fig.patches.append(Rectangle((.035, .035), .93, .15, transform=fig.transFigure, facecolor="#e5eef5", edgecolor="none", zorder=-1))
@@ -178,27 +178,60 @@ def interpolation_scene():
     return fig
 
 
+def odd_grid_scene():
+    caption=("Each of the 16 receiver nodes takes the value interpolated at its own position.\n"
+             "With 3 × 3 elements, the geometric centre is inside the middle element — not a node.")
+    fig=page(7,'3 × 3 example | How are the values transferred?',caption,
+             'SIMPLIFIED ALIGNED TOY • REAL REMESHING DOES NOT REQUIRE ALIGNMENT')
+    donor=np.array([[.70,.60],[.90,.80]])
+    for rect,refined in [([.07,.29,.36,.48],False),([.52,.29,.38,.48],True)]:
+        ax=fig.add_axes(rect);ax.set_xlim(-.20,1.23);ax.set_ylim(-.16,1.17);ax.set_aspect('equal');ax.axis('off')
+        ax.imshow(donor,extent=(0,1,0,1),origin='lower',interpolation='bilinear',cmap=CMAP,vmin=0,vmax=1)
+        ax.add_patch(Rectangle((0,0),1,1,fill=False,edgecolor=NAVY,lw=2))
+        divisions=3 if refined else 1
+        if refined:
+            for n in (1,2):
+                ax.plot([n/3,n/3],[0,1],color='white',lw=2)
+                ax.plot([0,1],[n/3,n/3],color='white',lw=2)
+        for j in range(divisions+1):
+            for i in range(divisions+1):
+                x=i/divisions;y=j/divisions
+                # Bilinear interpolation of the original four corner values.
+                value=(1-x)*(1-y)*.70+x*(1-y)*.60+(1-x)*y*.90+x*y*.80
+                ax.plot(x,y,'o',color=NAVY,markeredgecolor='white',markersize=7,zorder=4)
+                ax.annotate(f'{value:.2f}',(x,y),xytext=(4,5),textcoords='offset points',fontsize=12,weight='bold',color=NAVY,
+                            bbox=dict(boxstyle='round,pad=.10',facecolor='white',edgecolor='none',alpha=.92),zorder=5)
+        if refined:
+            # With four equally spaced node coordinates, x=y=1/2 is not a node.
+            ax.plot(.5,.5,marker='o',ms=9,color='#20d5dc',markeredgecolor=NAVY,zorder=6)
+            ax.annotate('centre: d = 0.75\ninside an element\n(not a node)',(.5,.5),(1.08,.85),fontsize=13,
+                        color=NAVY,arrowprops=dict(arrowstyle='->',color=TEAL,lw=1.5))
+    panel_text(fig,.10,.78,'Donor element | 4 corner nodes',19,weight='bold')
+    panel_text(fig,.55,.78,'3 × 3 small elements | 16 receiver nodes',19,weight='bold')
+    fig.add_artist(FancyArrowPatch((.43,.53),(.52,.53),transform=fig.transFigure,arrowstyle='-|>',mutation_scale=26,lw=2.5,color=BLUE))
+    panel_text(fig,.435,.58,'interpolate',15,color=BLUE,weight='bold')
+    panel_text(fig,.08,.265,'Example: d(1/3, 2/3) = (4/9)(0.90) + (2/9)(0.80) + (2/9)(0.70) + (1/9)(0.60) = 0.80',14,color='#435f73')
+    panel_text(fig,.08,.23,'Node labels are rounded to two decimals.',14,color='#435f73')
+    cbar(fig,[.60,.245,.27,.017])
+    assert abs((.90+.80+.70+.60)/4-.75)<1e-12
+    assert all(abs(.5-i/3)>1e-12 for i in range(4))
+    return fig
+
+
 def main():
-    # Copy the eleven unaffected scenes byte-for-byte from the prior commit.
+    # Copy every existing scene byte-for-byte; insert the new example at 7.
     dest=pathlib.Path(sys.argv[1]) if len(sys.argv)>1 else ROOT
     frames=dest/'how_it_works/frames';video=dest/'video_method_c_how_it_works.mp4';frames.mkdir(parents=True,exist_ok=True)
-    paths=[frames/f'scene_{i:02}.png' for i in range(1,14)]
+    paths=[frames/f'scene_{i:02}.png' for i in range(1,15)]
     if video.exists() or any(p.exists() for p in paths):raise FileExistsError('Output exists; use an empty staging directory')
     oldprefix='models/pandey_kumar_mode1/290_method_c_case3_rerun/how_it_works/frames/'
-    for new in list(range(1,5))+list(range(7,14)):
-        paths[new-1].write_bytes(subprocess.check_output(['git','show',f'{OLD_REV}:{oldprefix}scene_{new:02}.png']))
-    caption5=("The mesh generator rebuilds the mesh from scratch. Inside the corridor it places small elements of fixed size h_ref;\n"
-              "outside, coarse background elements (h_bg). The count grows because the corridor — which was coarse — is now packed\n"
-              "with small elements. The elements themselves never get smaller. (In this toy demo the refinement looks like splitting;\n"
-              "the real framework regenerates the whole mesh each cycle.)\n"
-              "The new mesh is not a subdivision of the old mesh; it is a fresh mesh, and its elements do not line up with the old ones.")
-    fig=page(5,'Cycle 1 | Remesh',caption5,'SIMPLIFIED CONCEPTUAL MESH',caption_size=18)
-    fig.patches[-1].set_y(.02);fig.patches[-1].set_height(.19)
-    toy_main(fig,refined=1);fig.savefig(paths[4],dpi=100,facecolor=fig.get_facecolor());plt.close(fig)
-    fig=interpolation_scene();fig.savefig(paths[5],dpi=100,facecolor=fig.get_facecolor());plt.close(fig)
+    for new in list(range(1,7))+list(range(8,15)):
+        old=new if new<=6 else new-1
+        paths[new-1].write_bytes(subprocess.check_output(['git','show',f'{OLD_REV}:{oldprefix}scene_{old:02}.png']))
+    fig=odd_grid_scene();fig.savefig(paths[6],dpi=100,facecolor=fig.get_facecolor());plt.close(fig)
     caption7=("Python interpolates nodal displacement (u) and damage (d), and Gauss-point history (H), from the old mesh to\n"
               "the new mesh — node by node, as in the previous scene. The transfer is not Abaqus *MAP SOLUTION.")
-    fig=page(7,'Transfer damage and history',caption7,'SIMPLIFIED CONCEPTUAL MESH • INHERITANCE IS ILLUSTRATIVE')
+    fig=page(8,'Transfer damage and history',caption7,'SIMPLIFIED CONCEPTUAL MESH • INHERITANCE IS ILLUSTRATIVE')
     left=axblank(fig,[.045,.32,.39,.38]);toy(left);right=axblank(fig,[.565,.32,.39,.38]);toy(right,refined=1,pale=True)
     panel_text(fig,.11,.75,'Old mesh | 8 elements',18,weight='bold');panel_text(fig,.63,.75,'New mesh | 14 elements',18,weight='bold')
     fig.add_artist(FancyArrowPatch((.46,.51),(.55,.51),transform=fig.transFigure,arrowstyle='-|>',mutation_scale=28,lw=3,color=BLUE))
@@ -211,15 +244,15 @@ def main():
     # in the video only, without altering the committed artwork.
     font=ImageFont.truetype('C:/Windows/Fonts/arial.ttf',23)
     def numbering(im,i):
-        im=im.copy();d=ImageDraw.Draw(im);d.rectangle((1680,38,1890,90),fill=NAVY);d.text((1843,65),f'{i:02} / 13',font=font,fill='#c5d4e1',anchor='rm');return im.tobytes()
-    before_raw=numbering(before_transfer,7)
+        im=im.copy();d=ImageDraw.Draw(im);d.rectangle((1680,38,1890,90),fill=NAVY);d.text((1843,65),f'{i:02} / 14',font=font,fill='#c5d4e1',anchor='rm');return im.tobytes()
+    before_raw=numbering(before_transfer,8)
     cmd=['ffmpeg','-v','error','-y','-f','rawvideo','-pix_fmt','rgb24','-s','1920x1080','-r','10','-i','-','-c:v','libx264','-preset','medium','-crf','18','-pix_fmt','yuv420p','-movflags','+faststart']
     with tempfile.NamedTemporaryFile(suffix='.mp4',delete=False,dir=dest) as tmp:temp=pathlib.Path(tmp.name)
     try:
         proc=subprocess.Popen(cmd+[str(temp)],stdin=subprocess.PIPE)
         for index,(path,seconds) in enumerate(zip(paths,DURATIONS),1):
             raw=numbering(Image.open(path).convert('RGB'),index)
-            for frame in range(seconds*10):proc.stdin.write(before_raw if index==7 and frame<30 else raw)
+            for frame in range(seconds*10):proc.stdin.write(before_raw if index==8 and frame<30 else raw)
         proc.stdin.close()
         if proc.wait():raise RuntimeError('ffmpeg failed')
         temp.replace(video)
