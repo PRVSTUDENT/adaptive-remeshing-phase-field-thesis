@@ -1,0 +1,106 @@
+#!/bin/bash
+#PBS -N PK_COST_C5_COMB
+#PBS -l select=1:ncpus=1:mpiprocs=1:ompthreads=1:mem=8gb
+#PBS -l walltime=72:00:00
+#PBS -q entry_imfdfkmq
+#PBS -j oe
+#PBS -r n
+#PBS -o /scratchtemp/pr21vyci/runs/cost_analysis/case5_combined/pbs_execution.log
+#PBS -m abe
+#PBS -M pr21vyci@mailserver.tu-freiberg.de
+
+set -euo pipefail
+
+BASE_DIR="/scratchtemp/pr21vyci/runs/cost_analysis"
+COMBINED_DIR="${BASE_DIR}/case5_combined"
+NORMAL_DIR="${BASE_DIR}/case5_normal"
+METHOD_C_DIR="${BASE_DIR}/case5_method_c"
+
+mkdir -p "${COMBINED_DIR}"
+cd "${COMBINED_DIR}"
+
+export JOB_NAME="PK_COST_C5_COMB"
+export NOTIFICATION_CONFIG="${NOTIFICATION_CONFIG:-${HOME}/.config/adaptive-remeshing/notifications.env}"
+
+if [ -f "${COMBINED_DIR}/job_notifications.sh" ]; then
+    source "${COMBINED_DIR}/job_notifications.sh"
+elif [ -f "${HOME}/projects/adaptive-remeshing/scripts/hpc/notifications/job_notifications.sh" ]; then
+    source "${HOME}/projects/adaptive-remeshing/scripts/hpc/notifications/job_notifications.sh"
+fi
+
+if type notification_load_config >/dev/null 2>&1; then
+    notification_load_config
+    notification_install_terminal_trap
+    notify_start
+fi
+
+if ! type module >/dev/null 2>&1; then source /etc/profile.d/lmod.sh; fi
+module purge
+module load gcc/11.4.0 intel/2024.2.0 abaqus/2023
+
+echo "================================================================="
+echo "Case 5 Combined Cost Analysis (Normal Baseline + Method C)"
+echo "Host: $(hostname)"
+echo "Start time: $(date)"
+echo "================================================================="
+
+# -------------------------------------------------------------
+# Part 1: Case 5 Normal Baseline Analysis
+# -------------------------------------------------------------
+echo ">>> Starting Part 1: Case 5 Normal Baseline Analysis"
+cd "${NORMAL_DIR}"
+abaqus job=PK_COST_CASE5_NORMAL input=PK_COST_CASE5_NORMAL user=f42_mixed_uel.for cpus=1 standard_memory="8000 MB" interactive
+
+echo ">>> Extracting Case 5 Normal metrics..."
+python3 "${BASE_DIR}/extract_cost_metrics.py" \
+    --dir "${NORMAL_DIR}" \
+    --case 5 \
+    --mode normal \
+    --out-json "${NORMAL_DIR}/case5_normal_metrics.json"
+
+echo ">>> Cleaning bulky solver files for Case 5 Normal..."
+rm -f PK_COST_CASE5_NORMAL.odb PK_COST_CASE5_NORMAL.res PK_COST_CASE5_NORMAL.sim \
+      PK_COST_CASE5_NORMAL.stt PK_COST_CASE5_NORMAL.mdl PK_COST_CASE5_NORMAL.abq \
+      PK_COST_CASE5_NORMAL.sel PK_COST_CASE5_NORMAL.pac PK_COST_CASE5_NORMAL.rpy*
+
+# -------------------------------------------------------------
+# Part 2: Case 5 Method C Adaptive Analysis
+# -------------------------------------------------------------
+echo ">>> Starting Part 2: Case 5 Method C Adaptive Analysis"
+cd "${METHOD_C_DIR}"
+python3 case5_single_job_orchestrator.py \
+    --run-dir "${METHOD_C_DIR}" \
+    --cpus 1 \
+    --n-adaptive-steps 10 \
+    --load-increment 0.0005 \
+    --coarse-u2 0.0050
+
+echo ">>> Extracting Case 5 Method C metrics..."
+python3 "${BASE_DIR}/extract_cost_metrics.py" \
+    --dir "${METHOD_C_DIR}" \
+    --case 5 \
+    --mode method_c \
+    --out-json "${METHOD_C_DIR}/case5_method_c_metrics.json"
+
+# -------------------------------------------------------------
+# Part 3: Compare Case 5 Normal vs Method C
+# -------------------------------------------------------------
+echo ">>> Generating Case 5 Cost Comparison..."
+cd "${BASE_DIR}"
+python3 "${BASE_DIR}/extract_cost_metrics.py" \
+    --case 5 \
+    --compare \
+    --normal-json "${NORMAL_DIR}/case5_normal_metrics.json" \
+    --method-c-json "${METHOD_C_DIR}/case5_method_c_metrics.json" \
+    --out-json "${BASE_DIR}/case5_cost_comparison.json" \
+    --out-csv "${BASE_DIR}/case5_cost_comparison.csv"
+
+echo ">>> Cleaning bulky solver files for Case 5 Method C..."
+rm -f "${METHOD_C_DIR}"/*.odb "${METHOD_C_DIR}"/*.res "${METHOD_C_DIR}"/*.sim \
+      "${METHOD_C_DIR}"/*.stt "${METHOD_C_DIR}"/*.mdl "${METHOD_C_DIR}"/*.abq \
+      "${METHOD_C_DIR}"/*.sel "${METHOD_C_DIR}"/*.pac
+
+echo "================================================================="
+echo "Case 5 Combined Cost Analysis Finished Successfully"
+echo "End time: $(date)"
+echo "================================================================="
