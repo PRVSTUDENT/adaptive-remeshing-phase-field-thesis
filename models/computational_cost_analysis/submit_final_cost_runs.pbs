@@ -1,0 +1,142 @@
+#!/bin/bash
+#PBS -N PK_COST_FINAL
+#PBS -l select=1:ncpus=1:mpiprocs=1:ompthreads=1:mem=8gb
+#PBS -l walltime=72:00:00
+#PBS -q entry_imfdfkmq
+#PBS -j oe
+#PBS -r n
+#PBS -o /scratchtemp/pr21vyci/runs/cost_analysis/pbs_execution.log
+#PBS -m abe
+#PBS -M pr21vyci@mailserver.tu-freiberg.de
+
+set -euo pipefail
+
+BASE_DIR="/scratchtemp/pr21vyci/runs/cost_analysis"
+C3_MC_DIR="${BASE_DIR}/case3_method_c"
+C5_NORM_DIR="${BASE_DIR}/case5_normal"
+C5_MC_DIR="${BASE_DIR}/case5_method_c"
+
+mkdir -p "${BASE_DIR}"
+cd "${BASE_DIR}"
+
+export JOB_NAME="PK_COST_FINAL"
+export NOTIFICATION_CONFIG="${NOTIFICATION_CONFIG:-${HOME}/.config/adaptive-remeshing/notifications.env}"
+
+if [ -f "${BASE_DIR}/job_notifications.sh" ]; then
+    source "${BASE_DIR}/job_notifications.sh"
+elif [ -f "${HOME}/projects/adaptive-remeshing/scripts/hpc/notifications/job_notifications.sh" ]; then
+    source "${HOME}/projects/adaptive-remeshing/scripts/hpc/notifications/job_notifications.sh"
+fi
+
+if type notification_load_config >/dev/null 2>&1; then
+    notification_load_config
+    notification_install_terminal_trap
+    notify_start
+fi
+
+if ! type module >/dev/null 2>&1; then source /etc/profile.d/lmod.sh; fi
+module purge
+module load gcc/11.4.0 intel/2024.2.0 abaqus/2023
+
+echo "================================================================="
+echo "Final Cost Runs: Case 3 Method C + Case 5 Normal + Case 5 Method C"
+echo "Host: $(hostname)"
+echo "Start time: $(date)"
+echo "================================================================="
+
+# =============================================================
+# PART 1: Case 3 Method C Adaptive Analysis
+# =============================================================
+echo ">>> [1/3] Starting Case 3 Method C Adaptive Analysis..."
+cd "${C3_MC_DIR}"
+python3 case3_single_job_orchestrator.py \
+    --run-dir "${C3_MC_DIR}" \
+    --cpus 1 \
+    --n-adaptive-steps 60 \
+    --load-increment-mm 0.010 \
+    --coarse-u2-mm 0.050
+
+echo ">>> Extracting Case 3 Method C metrics..."
+python3 "${BASE_DIR}/extract_cost_metrics.py" \
+    --dir "${C3_MC_DIR}" \
+    --case 3 \
+    --mode method_c \
+    --out-json "${C3_MC_DIR}/case3_method_c_metrics.json"
+
+echo ">>> Generating Case 3 Cost Comparison..."
+cd "${BASE_DIR}"
+python3 "${BASE_DIR}/extract_cost_metrics.py" \
+    --case 3 \
+    --compare \
+    --normal-json "${BASE_DIR}/case3_normal/case3_normal_metrics.json" \
+    --method-c-json "${C3_MC_DIR}/case3_method_c_metrics.json" \
+    --out-json "${BASE_DIR}/case3_cost_comparison.json" \
+    --out-csv "${BASE_DIR}/case3_cost_comparison.csv"
+
+echo ">>> Cleaning bulky solver files for Case 3 Method C..."
+rm -f "${C3_MC_DIR}"/*.odb "${C3_MC_DIR}"/*.res "${C3_MC_DIR}"/*.sim \
+      "${C3_MC_DIR}"/*.stt "${C3_MC_DIR}"/*.mdl "${C3_MC_DIR}"/*.abq \
+      "${C3_MC_DIR}"/*.sel "${C3_MC_DIR}"/*.pac
+
+# =============================================================
+# PART 2: Case 5 Normal Baseline Analysis
+# =============================================================
+echo ">>> [2/3] Starting Case 5 Normal Baseline Analysis..."
+cd "${C5_NORM_DIR}"
+rm -f PK_COST_CASE5_NORMAL.lck
+set +e
+abaqus job=PK_COST_CASE5_NORMAL input=PK_COST_CASE5_NORMAL user=f42_mixed_uel.for cpus=1 standard_memory="8000 MB" interactive
+C5_NORM_EXIT=$?
+set -e
+echo "Case 5 Normal solver exited with: ${C5_NORM_EXIT}"
+
+echo ">>> Extracting Case 5 Normal metrics..."
+python3 "${BASE_DIR}/extract_cost_metrics.py" \
+    --dir "${C5_NORM_DIR}" \
+    --case 5 \
+    --mode normal \
+    --out-json "${C5_NORM_DIR}/case5_normal_metrics.json"
+
+echo ">>> Cleaning bulky solver files for Case 5 Normal..."
+rm -f "${C5_NORM_DIR}"/*.odb "${C5_NORM_DIR}"/*.res "${C5_NORM_DIR}"/*.sim \
+      "${C5_NORM_DIR}"/*.stt "${C5_NORM_DIR}"/*.mdl "${C5_NORM_DIR}"/*.abq \
+      "${C5_NORM_DIR}"/*.sel "${C5_NORM_DIR}"/*.pac
+
+# =============================================================
+# PART 3: Case 5 Method C Adaptive Analysis
+# =============================================================
+echo ">>> [3/3] Starting Case 5 Method C Adaptive Analysis..."
+cd "${C5_MC_DIR}"
+python3 case5_single_job_orchestrator.py \
+    --run-dir "${C5_MC_DIR}" \
+    --cpus 1 \
+    --n-adaptive-steps 10 \
+    --load-increment 0.0005 \
+    --coarse-u2 0.0050
+
+echo ">>> Extracting Case 5 Method C metrics..."
+python3 "${BASE_DIR}/extract_cost_metrics.py" \
+    --dir "${C5_MC_DIR}" \
+    --case 5 \
+    --mode method_c \
+    --out-json "${C5_MC_DIR}/case5_method_c_metrics.json"
+
+echo ">>> Generating Case 5 Cost Comparison..."
+cd "${BASE_DIR}"
+python3 "${BASE_DIR}/extract_cost_metrics.py" \
+    --case 5 \
+    --compare \
+    --normal-json "${C5_NORM_DIR}/case5_normal_metrics.json" \
+    --method-c-json "${C5_MC_DIR}/case5_method_c_metrics.json" \
+    --out-json "${BASE_DIR}/case5_cost_comparison.json" \
+    --out-csv "${BASE_DIR}/case5_cost_comparison.csv"
+
+echo ">>> Cleaning bulky solver files for Case 5 Method C..."
+rm -f "${C5_MC_DIR}"/*.odb "${C5_MC_DIR}"/*.res "${C5_MC_DIR}"/*.sim \
+      "${C5_MC_DIR}"/*.stt "${C5_MC_DIR}"/*.mdl "${C5_MC_DIR}"/*.abq \
+      "${C5_MC_DIR}"/*.sel "${C5_MC_DIR}"/*.pac
+
+echo "================================================================="
+echo "All Cost Runs Finished Successfully!"
+echo "End time: $(date)"
+echo "================================================================="

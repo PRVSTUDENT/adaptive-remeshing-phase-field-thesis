@@ -9,7 +9,7 @@
   "review_correlation_id": "HND-METHOD-C-COST-ANALYSIS-002",
   "classification": "METHOD_C_COMPUTATIONAL_COST_ANALYSIS",
   "assigned_agent": "gemini-antigravity",
-  "active_pbs_job_id": "1425066.mmaster02",
+  "active_pbs_job_id": "1425067.mmaster02",
   "last_successful_pbs_job_id": "1425064.mmaster02",
   "last_failed_pbs_job_id": "1425065.mmaster02",
   "checkpoint_artifact": "docs/validation/METHOD_C_COMPUTATIONAL_COST_REPORT.md",
@@ -29,9 +29,9 @@
   "scientific_checkpoint_required": true,
   "frozen_uel_sha256": "CE8D5EDCD2911DCB018BB15275271F874E7EA62B8FB48CF4A8297469A83ACDD6",
   "max_new_pbs_submissions": 8,
-  "submissions_consumed": 7,
-  "cumulative_pbs_submissions": 80,
-  "current_case": 3,
-  "current_step": "case3_combined_running_job_1425066",
+  "submissions_consumed": 8,
+  "cumulative_pbs_submissions": 81,
+  "current_case": "3_and_5",
+  "current_step": "final_cost_runs_running_job_1425067",
   "notes": "HND-002 amendment applied: run all 8 jobs strictly sequentially (one at a time) across Cases 1, 2, 3, 5; extract and commit metrics per job; clean /scratchtemp after each job; send ONE final handoff with complete 4-case report docs/validation/METHOD_C_COMPUTATIONAL_COST_REPORT.md when all 8 jobs finish."
 }
