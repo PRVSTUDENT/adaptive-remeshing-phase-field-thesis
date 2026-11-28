@@ -1,0 +1,137 @@
+{
+  "case_id": 2,
+  "metrics": {
+    "wall_time_s": {
+      "normal": 1693.0,
+      "method_c": 649.2,
+      "ratio_mc_to_normal": 0.3835
+    },
+    "cpu_time_s": {
+      "normal": 1690.0,
+      "method_c": 600.0,
+      "ratio_mc_to_normal": 0.355
+    },
+    "increments": {
+      "normal": 598,
+      "method_c": 252,
+      "ratio_mc_to_normal": 0.4214
+    },
+    "iterations": {
+      "normal": 3053,
+      "method_c": 1406,
+      "ratio_mc_to_normal": 0.4605
+    },
+    "elements": {
+      "normal_fixed": 12334,
+      "method_c_initial": 2906,
+      "method_c_terminal": 9959,
+      "ratio_terminal_to_normal": 0.8074
+    },
+    "dofs": {
+      "normal_fixed": 37046,
+      "method_c_peak": 29936,
+      "ratio_mc_to_normal": 0.8081
+    },
+    "peak_memory_mb": {
+      "normal": 2048.0,
+      "method_c": 2048.0,
+      "ratio_mc_to_normal": 1.0
+    },
+    "output_size_total_mb": {
+      "normal": 8.38,
+      "method_c": 602.32,
+      "ratio_mc_to_normal": 71.8759
+    }
+  },
+  "method_c_cycles": 5,
+  "normal_raw": {
+    "job_name": "PK_COST_CASE2_NORMAL",
+    "analysis_type": "NORMAL_BASELINE",
+    "wall_time_s": 1693.0,
+    "cpu_time_s": 1690.0,
+    "total_increments": 598,
+    "total_iterations": 3053,
+    "cutbacks": 0,
+    "peak_memory_mb": 2048.0,
+    "physical_elements": 12334,
+    "total_elements": 37002,
+    "nodes": 12349,
+    "active_dofs": 37046,
+    "output_size_total_mb": 8.38,
+    "output_size_odb_mb": 0.0,
+    "output_size_logs_mb": 2.37
+  },
+  "method_c_raw": {
+    "analysis_type": "METHOD_C_ADAPTIVE",
+    "total_cycles": 5,
+    "wall_time_s": 649.2,
+    "cpu_time_s": 600.0,
+    "total_increments": 252,
+    "total_iterations": 1406,
+    "peak_memory_mb": 2048.0,
+    "initial_elements": 2906,
+    "terminal_elements": 9959,
+    "peak_elements": 9959,
+    "peak_active_dofs": 29936,
+    "output_size_total_mb": 602.32,
+    "output_size_odb_mb": 249.9,
+    "output_size_logs_mb": 1.47,
+    "per_cycle_metrics": [
+      {
+        "cycle": 0,
+        "job_name": "PK_METHOD_C_CASE2_COARSE_JOB1",
+        "wall_time_s": 40.0,
+        "cpu_time_s": 37.0,
+        "increments": 50,
+        "iterations": 258,
+        "elements": 2906,
+        "nodes": 3010,
+        "d_max": 0.14597586840391158
+      },
+      {
+        "cycle": 1,
+        "job_name": "PK_METHOD_C_CASE2_CYCLE1",
+        "wall_time_s": 94.1,
+        "cpu_time_s": 83.0,
+        "increments": 29,
+        "iterations": 183,
+        "elements": 9959,
+        "nodes": 9970,
+        "d_max": 0.6589100360870361
+      },
+      {
+        "cycle": 2,
+        "job_name": "PK_METHOD_C_CASE2_CYCLE2",
+        "wall_time_s": 103.2,
+        "cpu_time_s": 92.0,
+        "increments": 33,
+        "iterations": 204,
+        "elements": 9959,
+        "nodes": 9970,
+        "d_max": 0.9849492510159811
+      },
+      {
+        "cycle": 3,
+        "job_name": "PK_METHOD_C_CASE2_CYCLE3",
+        "wall_time_s": 87.0,
+        "cpu_time_s": 76.0,
+        "increments": 28,
+        "iterations": 168,
+        "elements": 9959,
+        "nodes": 9970,
+        "d_max": 0.9931537806987762
+      },
+      {
+        "cycle": 4,
+        "job_name": "PK_METHOD_C_CASE2_CYCLE4",
+        "wall_time_s": 324.9,
+        "cpu_time_s": 312.0,
+        "increments": 112,
+        "iterations": 593,
+        "elements": 9959,
+        "nodes": 9970,
+        "d_max": 0.9978033105532328
+      }
+    ]
+  }
+}
