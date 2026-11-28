@@ -1,80 +1,90 @@
 {
   "case_id": 3,
+  "benchmark": "Pandey & Kumar (2025) Section 4.3 (Case 3: Mode-I Cracked Plate with Holes)",
+  "provenance_summary": "Case 3 Normal Baseline is a new 1-CPU HPC execution (Job 1425066). Case 3 Method C was NOT executed on HPC under this goal (Job 1425067 failed due to script error, PBS budget exhausted); data is cited from verified local Windows framework re-evaluation.",
+  "hpc_execution_normal_only": true,
   "metrics": {
     "wall_time_s": {
-      "normal": 2289.0,
-      "method_c": 2500.0,
-      "ratio_mc_to_normal": 1.0922
+      "normal_hpc_job_1425066": 2289.0,
+      "method_c_local_workstation_reference": 2500.0,
+      "note": "Not directly comparable as speedup because Normal locked prematurely at u2=0.058 mm (33% load drop) whereas Method C traversed both ligaments to complete specimen severance across 54 cycles."
     },
     "cpu_time_s": {
-      "normal": 2280.0,
-      "method_c": 2450.0,
-      "ratio_mc_to_normal": 1.0746
+      "normal_hpc_job_1425066": 2280.0,
+      "method_c_local_workstation_reference": 2450.0
     },
     "increments": {
-      "normal": 307,
-      "method_c": 5514,
-      "ratio_mc_to_normal": 17.9609
+      "normal_authoritative_job_1425066": 234,
+      "normal_combined_including_failed_job_1425065": 307,
+      "method_c_local_workstation_54_cycles": 5514,
+      "increment_explanation": "Authoritative solve of Job 1425066 solved 234 increments (58 Step 1 displacement-controlled + 176 Step 2 RIKS). Earlier un-regularized job 1425065 solved 73 increments before cutback failure (234 + 73 = 307 total increments across both attempts)."
     },
     "iterations": {
-      "normal": 1582,
-      "method_c": 16343,
-      "ratio_mc_to_normal": 10.3306
+      "normal_authoritative_job_1425066": 1102,
+      "normal_combined_including_failed_job_1425065": 1582,
+      "method_c_local_workstation_54_cycles": 16343
     },
     "elements": {
-      "normal_fixed": 26431,
+      "normal_fixed_mesh": 26431,
       "method_c_initial": 2906,
-      "method_c_terminal": 8421,
-      "ratio_terminal_to_normal": 0.3186
+      "method_c_terminal": 28697,
+      "method_c_peak": 28710
     },
     "dofs": {
-      "normal_fixed": 79184,
-      "method_c_peak": 27645,
-      "ratio_mc_to_normal": 0.3491
+      "normal_fixed_mesh": 79184,
+      "method_c_active_corridor_peak": 27645,
+      "method_c_global_peak": 86130,
+      "corridor_dof_reduction_pct": 65.09
     },
-    "peak_memory_mb": {
-      "normal": 2048.0,
-      "method_c": 2048.0,
-      "ratio_mc_to_normal": 1.0
+    "physical_outcome": {
+      "normal_hpc_job_1425066": "LOCKED_PREMATURELY (at u2=0.05816 mm, RF2=2.441 kN, 33% load drop due to severe unadapted mesh distortion; failed to reach central hole)",
+      "method_c_local_reference": "COMPLETE_SEVERANCE (traversed both ligaments: notch to hole to far boundary, s=63.23 mm, RF2=0.00169 kN, 99.96% load drop)"
     },
-    "output_size_total_mb": {
-      "normal": 56.93,
-      "method_c": 244.06,
-      "ratio_mc_to_normal": 4.287
+    "disk_output": {
+      "retained_size_mb": {
+        "normal": 56.93,
+        "method_c_reference": 39.56
+      },
+      "normal_odb_mb": 44.42,
+      "normal_logs_mb": 1.32
     }
   },
-  "method_c_cycles": 54,
   "normal_raw": {
-    "job_name": "PK_COST_CASE3_NORMAL",
-    "analysis_type": "NORMAL_BASELINE",
+    "pbs_job_id": "1425066.mmaster02",
+    "failed_predecessor_job_id": "1425065.mmaster02",
+    "job_name": "PK_COST_C3_COMB",
+    "analysis_type": "NORMAL_BASELINE_HPC_RUN",
+    "machine": "TU Freiberg HPC (1 CPU, 8 GB, normal_imfdfkmq)",
     "wall_time_s": 2289.0,
     "cpu_time_s": 2280.0,
-    "total_increments": 307,
-    "total_iterations": 1582,
-    "cutbacks": 74,
-    "peak_memory_mb": 2048.0,
+    "total_increments": 234,
+    "total_iterations": 1102,
+    "cutbacks": 0,
     "physical_elements": 26431,
-    "total_elements": 79293,
-    "nodes": 26395,
     "active_dofs": 79184,
-    "output_size_total_mb": 56.93,
-    "output_size_odb_mb": 44.42,
-    "output_size_logs_mb": 1.32
+    "peak_rf2_kn": 4.3318,
+    "terminal_rf2_kn": 2.441,
+    "terminal_u2_mm": 0.05816,
+    "output_size_retained_mb": 56.93
   },
   "method_c_raw": {
-    "analysis_type": "METHOD_C_ADAPTIVE",
+    "hpc_execution_status": "NOT_EXECUTED_ON_HPC_BUDGET_EXHAUSTED",
+    "unexecuted_reason": "Job 1425067 (PK_COST_FINAL) failed after 520 s due to script syntax error during cleanup; PBS cumulative budget ceiling of 81 was reached, prohibiting further HPC submissions.",
+    "reference_citation": "models/pandey_kumar_mode1/290_method_c_case3_rerun/METHOD_C_CASE3_RERUN_SUMMARY.json",
+    "reference_machine": "Local Windows Workstation (4 CPUs)",
+    "analysis_type": "LOCAL_WORKSTATION_METHOD_C_RE_EVALUATION",
     "total_cycles": 54,
     "wall_time_s": 2500.0,
     "cpu_time_s": 2450.0,
     "total_increments": 5514,
     "total_iterations": 16343,
-    "peak_memory_mb": 2048.0,
     "initial_elements": 2906,
-    "terminal_elements": 8421,
-    "peak_elements": 9215,
+    "terminal_elements": 28697,
+    "peak_elements": 28710,
     "peak_active_dofs": 27645,
-    "output_size_total_mb": 244.06,
-    "output_size_odb_mb": 0.0,
-    "output_size_logs_mb": 2.5
+    "peak_rf2_kn": 4.331822,
+    "terminal_rf2_kn": 0.001694,
+    "terminal_load_drop_pct": 99.96,
+    "output_size_retained_mb": 39.56
   }
 }

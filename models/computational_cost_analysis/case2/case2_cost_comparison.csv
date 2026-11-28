@@ -1,9 +1,17 @@
-Metric,Normal_Baseline,Method_C_Adaptive,Ratio_MC_to_Normal
-Wall Time (s),1693.00,649.20,0.3835
-CPU Time (s),1690.00,600.00,0.3550
-Increments,598,252,0.4214
-Iterations,3053,1406,0.4605
-Elements (Physical),12334,9959 (term),0.8074
-Active DOFs,37046,29936,0.8081
-Peak Memory (MB),2048.0,2048.0,1.0000
-Output Size (MB),8.38,602.32,71.8759
+Metric,Normal_Baseline_Job_1425062,Method_C_Adaptive_Job_1425064,Comparison_Ratio_or_Speedup
+Wall Time (s) [Successful Run],1693.00,649.20,2.61x Speedup (61.65% reduction)
+Wall Time (s) [Incl Failed Job 1425063],1693.00,691.20,2.45x Speedup (59.17% reduction)
+CPU Time (s) [Successful Run],1690.00,600.00,2.82x Speedup (64.50% reduction)
+CPU Time (s) [Incl Failed Job 1425063],1690.00,640.00,2.64x Speedup (62.13% reduction)
+Increments,598,252,57.86% Reduction
+Iterations,3053,1406,53.95% Reduction
+Physical Elements,12334 (fixed),9959 (terminal),19.26% Element Reduction
+Active DOFs,37046 (fixed),29936 (peak),19.19% DOF Reduction
+Peak Memory (MB),2048.0,2048.0,1.00x
+Peak Force RF2 (kN),0.612450,0.619999,+1.23%
+Terminal Force RF2 (kN),0.008500,0.011462,Full Severance (>98% load drop)
+Terminal Disp u2 (mm),0.009395,0.009153,Method C stopped at 5% threshold
+Force Continuity Gates,N/A,4/4 PASS (max 1.18% <= 5%),100% Pass Rate
+Damage Monotonicity,Monotonic,Zero Healing Verified,Pass
+Retained Output Size (MB),8.38,21.14,Post-purge committed size
+Pre-Purge Scratch Size (MB),33.99,602.32,Raw solver scratch on /scratchtemp

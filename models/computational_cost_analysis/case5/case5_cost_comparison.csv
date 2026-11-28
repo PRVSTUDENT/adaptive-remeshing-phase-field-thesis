@@ -1,9 +1,12 @@
-Metric,Normal_Baseline,Method_C_Adaptive,Ratio_MC_to_Normal
-Wall Time (s),14467.00,959.50,0.0663
-CPU Time (s),14400.00,910.00,0.0632
-Increments,411,412,1.0024
-Iterations,2150,1850,0.8605
-Elements (Physical),15708,15708 (term),1.0000
-Active DOFs,47124,47124,1.0000
-Peak Memory (MB),2048.0,2048.0,1.0000
-Output Size (MB),82.50,0.54,0.0065
+Metric,Normal_Historical_HPC_Job_1424423,Method_C_Local_Workstation_R2,Cross_Platform_Context_Note
+Execution Machine,HPC cluster (historical F1859 job),Local Workstation (4 CPUs),NOT a 1-CPU HPC result under this goal
+Wall Time (s),14467.00 (241.1 min),959.50 (15.99 min),15.08x Cross-Platform Speedup (93.37% reduction)
+CPU Time (s),14400.00,910.00,15.82x CPU Speedup
+Increments,411,412,1.00x
+Iterations,2150,1850,13.95% Reduction
+Physical Elements,15708 (fixed reference),2566 initial / 15708 terminal,83.66% Initial Mesh Reduction
+Active DOFs,47124 (fixed),47124 (terminal peak),Same resolution across multi-void corridor
+Peak Force RF2 (kN),0.732,0.728,-0.55% (excellent physical agreement)
+Fracture Trajectory,Multi-void snap-through,Traversed all 5 voids to far boundary,"dmax = 0.9994, 89.3% load drop"
+Force Continuity Gates,N/A,10/10 PASS (max 1.82% <= 5%),100% Pass Rate
+Retained Output Size (MB),82.50,0.54,Committed report outputs

@@ -1,9 +1,15 @@
-Metric,Normal_Baseline,Method_C_Adaptive,Ratio_MC_to_Normal
-Wall Time (s),1369.00,1044.60,0.7630
-CPU Time (s),1360.00,971.00,0.7140
-Increments,568,857,1.5088
-Iterations,2937,4454,1.5165
-Elements (Physical),9714,8553 (term),0.8805
-Active DOFs,29177,25670,0.8798
-Peak Memory (MB),2048.0,2048.0,1.0000
-Output Size (MB),7.00,4710.89,672.9843
+Metric,Normal_Baseline_Job_1425060,Method_C_Adaptive_Job_1425061,Comparison_Ratio_or_Speedup
+Wall Time (s),1369.00,1044.60,1.31x Speedup (23.70% reduction)
+CPU Time (s),1360.00,971.00,1.40x Speedup (28.60% reduction)
+Increments,568,857,1.51x
+Iterations,2937,4454,1.52x
+Physical Elements,9714 (fixed),8553 (terminal),11.95% Element Reduction
+Active DOFs,29177 (fixed),25670 (peak),12.02% DOF Reduction
+Peak Memory (MB),2048.0,2048.0,1.00x
+Peak Force RF2 (kN),0.770876,0.824695,+6.98%
+Terminal Force RF2 (kN),0.000843,0.010084,Full Severance (<1.3% peak)
+Terminal Disp u2 (mm),0.008401,0.009951,Consistent Fracture Endpoint
+Force Continuity Gates,N/A,4/4 PASS (max 4.29% <= 5%),100% Pass Rate
+Damage Monotonicity,Monotonic,Zero Healing Verified,Pass
+Retained Output Size (MB),7.00,21.50,Post-purge committed size
+Pre-Purge Scratch Size (MB),7.00,4710.89,Raw solver scratch on /scratchtemp

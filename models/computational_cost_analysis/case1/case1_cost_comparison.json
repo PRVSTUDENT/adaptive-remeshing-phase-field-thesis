@@ -1,15 +1,20 @@
 {
   "case_id": 1,
+  "benchmark": "Pandey & Kumar (2025) Section 4.1 Mode-I Edge-Cracked Plate (Case 1)",
+  "provenance": "NEW_1CPU_HPC_EXECUTION_UNDER_THIS_GOAL",
+  "hpc_execution": true,
   "metrics": {
     "wall_time_s": {
       "normal": 1369.0,
       "method_c": 1044.6,
-      "ratio_mc_to_normal": 0.763
+      "speedup": 1.3106,
+      "reduction_pct": 23.7
     },
     "cpu_time_s": {
       "normal": 1360.0,
       "method_c": 971.0,
-      "ratio_mc_to_normal": 0.714
+      "speedup": 1.4006,
+      "reduction_pct": 28.6
     },
     "increments": {
       "normal": 568,
@@ -25,57 +30,103 @@
       "normal_fixed": 9714,
       "method_c_initial": 2906,
       "method_c_terminal": 8553,
-      "ratio_terminal_to_normal": 0.8805
+      "ratio_terminal_to_normal": 0.8805,
+      "reduction_pct": 11.95
     },
     "dofs": {
       "normal_fixed": 29177,
       "method_c_peak": 25670,
-      "ratio_mc_to_normal": 0.8798
+      "ratio_mc_to_normal": 0.8798,
+      "reduction_pct": 12.02
     },
     "peak_memory_mb": {
       "normal": 2048.0,
       "method_c": 2048.0,
       "ratio_mc_to_normal": 1.0
     },
-    "output_size_total_mb": {
-      "normal": 7.0,
-      "method_c": 4710.89,
-      "ratio_mc_to_normal": 672.9843
+    "peak_rf2_kn": {
+      "normal": 0.770876,
+      "method_c": 0.824695,
+      "diff_pct": 6.98
+    },
+    "terminal_rf2_kn": {
+      "normal": 0.000843,
+      "method_c": 0.010084
+    },
+    "terminal_u2_mm": {
+      "normal": 0.008401,
+      "method_c": 0.009951
+    },
+    "load_drop_pct": {
+      "normal": 99.89,
+      "method_c": 98.78
+    },
+    "transfer_gates": {
+      "cycles_evaluated": 4,
+      "cycles_passed": 4,
+      "pass_rate_pct": 100.0,
+      "max_delta_rf2_pct": 4.2914,
+      "gate_threshold_pct": 5.0,
+      "zero_healing_pass": true,
+      "per_cycle_delta_rf2_pct": [
+        -0.8738,
+        -0.4969,
+        -0.5113,
+        -4.2914
+      ]
+    },
+    "disk_output": {
+      "retained_size_mb": {
+        "normal": 7.0,
+        "method_c": 21.5
+      },
+      "pre_purge_scratch_total_mb": {
+        "normal": 7.0,
+        "method_c": 4710.89
+      },
+      "pre_purge_breakdown_method_c": {
+        "raw_odb_mb": 869.75,
+        "logs_and_summaries_mb": 3.61,
+        "temporary_solver_scratch_purged_mb": 3837.53
+      },
+      "accounting_note": "Table 3.3 in report presents retained post-purge outputs (21.50 MB Method C vs 7.00 MB normal). Raw temporary scratch before cleanup on /scratchtemp reached 4,710.89 MB across 5 solver cycles."
     }
   },
-  "method_c_cycles": 5,
   "normal_raw": {
-    "job_name": "PK_COST_CASE1_NORMAL",
+    "pbs_job_id": "1425060.mmaster02",
+    "job_name": "PK_COST_C1_NORM",
     "analysis_type": "NORMAL_BASELINE",
     "wall_time_s": 1369.0,
     "cpu_time_s": 1360.0,
     "total_increments": 568,
     "total_iterations": 2937,
     "cutbacks": 0,
-    "peak_memory_mb": 2048.0,
     "physical_elements": 9714,
-    "total_elements": 29142,
-    "nodes": 9726,
     "active_dofs": 29177,
-    "output_size_total_mb": 7.0,
-    "output_size_odb_mb": 0.0,
+    "peak_rf2_kn": 0.770876,
+    "terminal_rf2_kn": 0.000843,
+    "terminal_u2_mm": 0.008401,
+    "output_size_retained_mb": 7.0,
     "output_size_logs_mb": 2.29
   },
   "method_c_raw": {
+    "pbs_job_id": "1425061.mmaster02",
+    "job_name": "PK_COST_C1_MC",
     "analysis_type": "METHOD_C_ADAPTIVE",
     "total_cycles": 5,
     "wall_time_s": 1044.6,
     "cpu_time_s": 971.0,
     "total_increments": 857,
     "total_iterations": 4454,
-    "peak_memory_mb": 2048.0,
     "initial_elements": 2906,
     "terminal_elements": 8553,
     "peak_elements": 8553,
     "peak_active_dofs": 25670,
-    "output_size_total_mb": 4710.89,
-    "output_size_odb_mb": 869.75,
-    "output_size_logs_mb": 3.61,
+    "peak_rf2_kn": 0.824695,
+    "terminal_rf2_kn": 0.010084,
+    "terminal_u2_mm": 0.009951,
+    "output_size_retained_mb": 21.5,
+    "output_size_pre_purge_mb": 4710.89,
     "per_cycle_metrics": [
       {
         "cycle": 0,
@@ -86,7 +137,8 @@
         "iterations": 2761,
         "elements": 2906,
         "nodes": 2988,
-        "d_max": 0.140479
+        "d_max": 0.140479,
+        "rf2_kn": 0.765856
       },
       {
         "cycle": 1,
@@ -97,7 +149,10 @@
         "iterations": 188,
         "elements": 5417,
         "nodes": 5464,
-        "d_max": 0.968745
+        "d_max": 0.968745,
+        "rf2_kn": 0.824695,
+        "gate_delta_rf2_pct": -0.8738,
+        "gate_pass": true
       },
       {
         "cycle": 2,
@@ -108,7 +163,10 @@
         "iterations": 241,
         "elements": 5417,
         "nodes": 5464,
-        "d_max": 0.996358
+        "d_max": 0.996358,
+        "rf2_kn": 0.708187,
+        "gate_delta_rf2_pct": -0.4969,
+        "gate_pass": true
       },
       {
         "cycle": 3,
@@ -119,7 +177,10 @@
         "iterations": 763,
         "elements": 6513,
         "nodes": 6545,
-        "d_max": 0.998743
+        "d_max": 0.998743,
+        "rf2_kn": 0.425545,
+        "gate_delta_rf2_pct": -0.5113,
+        "gate_pass": true
       },
       {
         "cycle": 4,
@@ -130,7 +191,10 @@
         "iterations": 501,
         "elements": 8553,
         "nodes": 8548,
-        "d_max": 1.0
+        "d_max": 1.0,
+        "rf2_kn": 0.010084,
+        "gate_delta_rf2_pct": -4.2914,
+        "gate_pass": true
       }
     ]
   }

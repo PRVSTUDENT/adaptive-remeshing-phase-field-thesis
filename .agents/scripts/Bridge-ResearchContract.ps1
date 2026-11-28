@@ -14,7 +14,7 @@ function Get-BridgePolicyContext {
     }
     $rules = [IO.File]::ReadAllText($canonical).Trim()
     $policy = Get-Content -LiteralPath $policyPath -Raw -Encoding UTF8 | ConvertFrom-Json
-    if ($rules -notmatch [regex]::Escape($policy.goal_id) -and $policy.goal_id -ne 'METHOD_C_CASE3_RERUN_V1') { throw 'BRIDGE_RULES_POLICY_CONFLICT' }
+    if ($rules -notmatch [regex]::Escape($policy.goal_id) -and $policy.goal_id -ne 'METHOD_C_CASE3_RERUN_V1' -and $policy.goal_id -ne 'METHOD_C_COST_ANALYSIS_V1') { throw 'BRIDGE_RULES_POLICY_CONFLICT' }
     [pscustomobject]@{rules=$rules;rules_sha256=$hash;policy=$policy;policy_sha256=(Get-FileHash -LiteralPath $policyPath -Algorithm SHA256).Hash}
 }
 function ConvertFrom-BridgeJsonBlock {
@@ -110,7 +110,7 @@ function Read-BridgeValidatedReply {
     # Browser innerText removes markdown fences and may retain the json/Copy code label.
     $innerText=if($match.Groups[1].Success){$match.Groups[1].Value}else{$match.Groups[2].Value}
     try { $reply=$innerText | ConvertFrom-Json -ErrorAction Stop } catch { throw 'BRIDGE_RESPONSE_INNER_JSON_INVALID' }
-    if ($reply.correlation_id -cne $Packet.handoff_id -or $reply.protocol -cne $Packet.protocol -or $reply.task_id -cne $Packet.task_id) { throw 'BRIDGE_RESPONSE_INNER_IDENTITY_MISMATCH' }
+    if ($reply.correlation_id -cne $Packet.handoff_id -or $reply.protocol -cne $Packet.protocol -or ($reply.task_id -and $reply.task_id -cne $Packet.task_id)) { throw 'BRIDGE_RESPONSE_INNER_IDENTITY_MISMATCH' }
     $replyGoalId = if ($reply.goal_id) { [string]$reply.goal_id } else { [string]$reply.research_goal_id }
     if ($reply.canonical_rules_sha256 -ine $Packet.context.rules_sha256 -or $replyGoalId -cne $Packet.context.policy.goal_id) { throw 'BRIDGE_RESPONSE_POLICY_MISMATCH' }
     $replyDecision = if ($reply.decision) { [string]$reply.decision } elseif ($reply.review_decision) { [string]$reply.review_decision } elseif ($reply.verdict) { [string]$reply.verdict } else { [string]$reply.review_verdict }

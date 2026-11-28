@@ -1,15 +1,20 @@
 {
   "case_id": 5,
+  "benchmark": "Pandey & Kumar (2025) Section 4.5 (Case 5: Plate with Seven Holes)",
+  "provenance_summary": "PRIOR-WORK CROSS-PLATFORM CONTEXT ONLY. Neither run was executed as a new 1-CPU HPC job under this goal (Job 1425067 failed before Part 2/3, exhausting the PBS budget). Normal is historical HPC job 1424423 (F1859_REF_C5); Method C is local Windows workstation run R2.",
+  "hpc_execution_under_this_goal": false,
   "metrics": {
     "wall_time_s": {
-      "normal": 14467.0,
-      "method_c": 959.5,
-      "ratio_mc_to_normal": 0.0663
+      "normal_historical_hpc_job_1424423": 14467.0,
+      "method_c_local_workstation_r2": 959.5,
+      "speedup_cross_platform": 15.0776,
+      "reduction_cross_platform_pct": 93.37,
+      "cross_platform_warning": "This 15.08x speedup is a CROSS-PLATFORM comparison between the historical cluster reference run (14,467 s) and the local Windows workstation Method C run (959.5 s, 4 CPUs). It is NOT a 1-CPU HPC result under this goal."
     },
     "cpu_time_s": {
-      "normal": 14400.0,
-      "method_c": 910.0,
-      "ratio_mc_to_normal": 0.0632
+      "normal_historical_hpc_job_1424423": 14400.0,
+      "method_c_local_workstation_r2": 910.0,
+      "speedup_cross_platform": 15.8242
     },
     "increments": {
       "normal": 411,
@@ -25,56 +30,69 @@
       "normal_fixed": 15708,
       "method_c_initial": 2566,
       "method_c_terminal": 15708,
-      "ratio_terminal_to_normal": 1.0
+      "initial_mesh_reduction_pct": 83.66
     },
     "dofs": {
       "normal_fixed": 47124,
-      "method_c_peak": 47124,
-      "ratio_mc_to_normal": 1.0
+      "method_c_peak": 47124
     },
-    "peak_memory_mb": {
-      "normal": 2048.0,
-      "method_c": 2048.0,
-      "ratio_mc_to_normal": 1.0
+    "peak_rf2_kn": {
+      "normal": 0.732,
+      "method_c": 0.728,
+      "diff_pct": 0.55
     },
-    "output_size_total_mb": {
-      "normal": 82.5,
-      "method_c": 0.54,
-      "ratio_mc_to_normal": 0.0065
+    "terminal_rf2_kn": {
+      "normal": 0.125,
+      "method_c": 0.078
+    },
+    "fracture_path": "Traversed all 5 circular voids (h1 -> h4 -> h2 -> h5 -> h3) to far plate boundary (xtip = 1.000 mm, dmax = 0.9994, 89.3% load drop)",
+    "transfer_gates": {
+      "cycles_evaluated": 10,
+      "cycles_passed": 10,
+      "pass_rate_pct": 100.0,
+      "max_delta_rf2_pct": 1.82,
+      "gate_threshold_pct": 5.0,
+      "zero_healing_pass": true
+    },
+    "disk_output": {
+      "retained_size_mb": {
+        "normal": 82.5,
+        "method_c": 0.54
+      }
     }
   },
-  "method_c_cycles": 11,
   "normal_raw": {
-    "job_name": "PK_COST_CASE5_NORMAL",
-    "analysis_type": "NORMAL_BASELINE",
+    "hpc_execution_under_this_goal": false,
+    "job_name": "F1859_REF_C5 (HPC Job 1424423)",
+    "analysis_type": "HISTORICAL_HPC_REFERENCE",
+    "machine": "TU Freiberg HPC cluster (prior F1859 campaign)",
+    "submission_date": "2026-11-20",
     "wall_time_s": 14467.0,
     "cpu_time_s": 14400.0,
     "total_increments": 411,
     "total_iterations": 2150,
-    "cutbacks": 0,
-    "peak_memory_mb": 2048.0,
     "physical_elements": 15708,
-    "total_elements": 47124,
-    "nodes": 16094,
     "active_dofs": 47124,
-    "output_size_total_mb": 82.5,
-    "output_size_odb_mb": 80.0,
-    "output_size_logs_mb": 2.5
+    "peak_rf2_kn": 0.732,
+    "output_size_retained_mb": 82.5
   },
   "method_c_raw": {
-    "analysis_type": "METHOD_C_ADAPTIVE",
+    "hpc_execution_under_this_goal": false,
+    "unexecuted_reason": "Job 1425067 failed at Part 1, exhausting the 8-job PBS budget ceiling (cumulative 81); no new PBS jobs permitted under this review.",
+    "job_name": "METHOD_C_CASE5_LOCAL_FULL_RUN_REPORT_R2",
+    "analysis_type": "LOCAL_WORKSTATION_METHOD_C",
+    "machine": "Local Windows Workstation (4 CPUs, commit 56546d9ac)",
     "total_cycles": 11,
     "wall_time_s": 959.5,
     "cpu_time_s": 910.0,
     "total_increments": 412,
     "total_iterations": 1850,
-    "peak_memory_mb": 2048.0,
     "initial_elements": 2566,
     "terminal_elements": 15708,
     "peak_elements": 15708,
     "peak_active_dofs": 47124,
-    "output_size_total_mb": 0.54,
-    "output_size_odb_mb": 0.0,
-    "output_size_logs_mb": 0.46
+    "peak_rf2_kn": 0.728,
+    "terminal_rf2_kn": 0.078,
+    "output_size_retained_mb": 0.54
   }
 }
