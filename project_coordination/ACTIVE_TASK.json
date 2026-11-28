@@ -2,11 +2,11 @@
   "task_id": "METHOD-C-COST-ANALYSIS",
   "title": "Method C Computational Cost Analysis — Normal vs Adaptive (Cases 1, 2, 3, 5)",
   "goal_id": "METHOD_C_COST_ANALYSIS_V1",
-  "task_status": "IN_PROGRESS_RE_REVIEW",
-  "master_goal_status": "OPEN",
-  "status": "IN_PROGRESS_RE_REVIEW",
-  "review_verdict": "REJECT",
-  "review_correlation_id": "HND-METHOD-C-COST-ANALYSIS-003",
+  "task_status": "REVIEWED_APPROVED",
+  "master_goal_status": "COMPLETE",
+  "status": "REVIEWED_APPROVED",
+  "review_verdict": "APPROVE",
+  "review_correlation_id": "HND-METHOD-C-COST-ANALYSIS-004",
   "classification": "METHOD_C_COMPUTATIONAL_COST_ANALYSIS",
   "assigned_agent": "gemini-antigravity",
   "active_pbs_job_id": null,
@@ -14,7 +14,7 @@
   "last_failed_pbs_job_id": "1425067.mmaster02",
   "checkpoint_artifact": "docs/validation/METHOD_C_COMPUTATIONAL_COST_REPORT.md",
   "checkpoint_artifact_sha256": "18DEC74E7065976EA48C905F7B29D1949550B153D0848A04F0E6A62D28D6CD7F",
-  "review_directive": "HND-METHOD-C-COST-ANALYSIS-003: Review rejected with 9 gaps. Do NOT claim master goal COMPLETE. Do NOT submit any new PBS jobs (budget exhausted at 81 ceiling). Correct report and metrics files, commit/push, and send corrected handoff for re-review: (1) Re-scope HPC comparison honestly (Cases 1 & 2 new HPC, Case 3 normal new HPC; Case 5 and Case 3 Method C moved to prior-work context); (2) Disclose Case 2 Method C cost both for successful job (649.2 s, 2.61x) and total investment (691.2 s, 2.45x); (3) Resolve Case 3 normal increments to authoritative 234 incs with footnote on 307 total; (4) Reconcile retained vs pre-purge disk output; (5) Provide peak/terminal RF2 and per-transfer gate data in all metrics files; (6) Explain Job 1425067 (failed batch script) and disclose that 3 authorized runs were not executed on HPC; (7) Correct Case 5 normal job name to F1859_REF_C5 (job 1424423); (8) Commit/push and dispatch HND-METHOD-C-COST-ANALYSIS-004.",
+  "review_directive": "STOP — GOAL METHOD_C_COST_ANALYSIS_V1 COMPLETE. The corrected report (commit b946d8ba) is APPROVED. Do not submit any new PBS job — the budget is exhausted (8 jobs, cumulative 73 to 81) and no further submission is authorized. Do not send another handoff for this goal. Close out the session: set project_coordination/ACTIVE_SESSION.json active=false, update project_coordination/ACTIVE_TASK.json to REVIEWED_APPROVED with master_goal_status COMPLETE, commit/push the session closeout, and stop.",
   "predecessor_task": {
     "task_id": "METHOD-C-CASE3-RERUN",
     "checkpoint_artifact": "docs/validation/METHOD_C_CASE3_RERUN_STEP_COUNT_REPORT.md",
@@ -32,6 +32,6 @@
   "submissions_consumed": 8,
   "cumulative_pbs_submissions": 81,
   "current_case": "completed_all_4_cases_reconciled",
-  "current_step": "ready_for_re_review_dispatch",
-  "notes": "HND-003 review defects GAP-1 through GAP-9 completely resolved: Re-scoped HPC comparison tables to include strictly new 1-CPU HPC runs (Cases 1 & 2); moved Case 5 and Case 3 Method C to separate clearly-labelled prior-work context section with explicit hardware and provenance; disclosed Case 2 Method C cost both for successful run (649.2 s, 2.61x speedup) and total investment including failed attempt 1425063 (691.2 s, 2.45x speedup); resolved Case 3 normal increments to authoritative 234 incs with footnote explaining 307 incs across both attempts; reconciled disk output accounting; provided peak/terminal RF2 and per-transfer gate data in all metrics files; audited all 8 PBS jobs (4 successful, 2 failed, 1 batch script defect, 3 unexecuted runs due to 81 ceiling reached); corrected Case 5 normal job name to F1859_REF_C5 (job 1424423)."
+  "current_step": "goal_complete_and_session_closed",
+  "notes": "HND-004 independently reviewed and officially APPROVED. Master goal METHOD_C_COST_ANALYSIS_V1 is COMPLETE. All 9 review gaps resolved. Re-scoped HPC comparison verified for Cases 1 & 2; Case 3 normal baseline locking verified; prior-work context documented for Case 3 Method C and Case 5; all 8 PBS jobs accounted for (cumulative ceiling 81 respected); force observables and transfer gate data verified; disk output reconciled. STOP directive applied."
 }
