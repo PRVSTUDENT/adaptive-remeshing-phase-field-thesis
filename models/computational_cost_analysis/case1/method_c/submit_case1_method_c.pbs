@@ -1,0 +1,55 @@
+#!/bin/bash
+#PBS -N PK_COST_C1_MC
+#PBS -l select=1:ncpus=1:mpiprocs=1:ompthreads=1:mem=8gb
+#PBS -l walltime=72:00:00
+#PBS -q entry_imfdfkmq
+#PBS -j oe
+#PBS -r n
+#PBS -o /scratchtemp/pr21vyci/runs/cost_analysis/case1_method_c/pbs_execution.log
+#PBS -m abe
+#PBS -M pr21vyci@mailserver.tu-freiberg.de
+
+set -euo pipefail
+
+RUN_DIR="/scratchtemp/pr21vyci/runs/cost_analysis/case1_method_c"
+mkdir -p "${RUN_DIR}"
+cd "${RUN_DIR}"
+
+export JOB_NAME="PK_COST_C1_MC"
+export NOTIFICATION_CONFIG="${NOTIFICATION_CONFIG:-${HOME}/.config/adaptive-remeshing/notifications.env}"
+
+if [ -f "${RUN_DIR}/job_notifications.sh" ]; then
+    source "${RUN_DIR}/job_notifications.sh"
+elif [ -f "${HOME}/projects/adaptive-remeshing/scripts/hpc/notifications/job_notifications.sh" ]; then
+    source "${HOME}/projects/adaptive-remeshing/scripts/hpc/notifications/job_notifications.sh"
+fi
+
+if type notification_load_config >/dev/null 2>&1; then
+    notification_load_config
+    notification_install_terminal_trap
+    notify_start
+fi
+
+if ! type module >/dev/null 2>&1; then source /etc/profile.d/lmod.sh; fi
+module purge
+module load gcc/11.4.0 intel/2024.2.0 abaqus/2023
+
+echo "================================================================="
+echo "Case 1 Method C Adaptive Analysis (Single-Job Multi-Cycle Orchestrator)"
+echo "Host: $(hostname)"
+echo "Start time: $(date)"
+echo "Run directory: ${RUN_DIR}"
+echo "================================================================="
+
+# Execute in-allocation Python orchestrator on 1 CPU
+python3 case1_single_job_orchestrator.py \
+    --run-dir "${RUN_DIR}" \
+    --cpus 1 \
+    --n-adaptive-steps 10 \
+    --load-increment-mm 0.0010 \
+    --coarse-u2-mm 0.0050
+
+echo "================================================================="
+echo "Case 1 Method C Adaptive Analysis Finished"
+echo "End time: $(date)"
+echo "================================================================="

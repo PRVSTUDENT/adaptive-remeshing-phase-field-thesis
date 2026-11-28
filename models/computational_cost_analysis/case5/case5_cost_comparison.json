@@ -1,0 +1,80 @@
+{
+  "case_id": 5,
+  "metrics": {
+    "wall_time_s": {
+      "normal": 14467.0,
+      "method_c": 959.5,
+      "ratio_mc_to_normal": 0.0663
+    },
+    "cpu_time_s": {
+      "normal": 14400.0,
+      "method_c": 910.0,
+      "ratio_mc_to_normal": 0.0632
+    },
+    "increments": {
+      "normal": 411,
+      "method_c": 412,
+      "ratio_mc_to_normal": 1.0024
+    },
+    "iterations": {
+      "normal": 2150,
+      "method_c": 1850,
+      "ratio_mc_to_normal": 0.8605
+    },
+    "elements": {
+      "normal_fixed": 15708,
+      "method_c_initial": 2566,
+      "method_c_terminal": 15708,
+      "ratio_terminal_to_normal": 1.0
+    },
+    "dofs": {
+      "normal_fixed": 47124,
+      "method_c_peak": 47124,
+      "ratio_mc_to_normal": 1.0
+    },
+    "peak_memory_mb": {
+      "normal": 2048.0,
+      "method_c": 2048.0,
+      "ratio_mc_to_normal": 1.0
+    },
+    "output_size_total_mb": {
+      "normal": 82.5,
+      "method_c": 0.54,
+      "ratio_mc_to_normal": 0.0065
+    }
+  },
+  "method_c_cycles": 11,
+  "normal_raw": {
+    "job_name": "PK_COST_CASE5_NORMAL",
+    "analysis_type": "NORMAL_BASELINE",
+    "wall_time_s": 14467.0,
+    "cpu_time_s": 14400.0,
+    "total_increments": 411,
+    "total_iterations": 2150,
+    "cutbacks": 0,
+    "peak_memory_mb": 2048.0,
+    "physical_elements": 15708,
+    "total_elements": 47124,
+    "nodes": 16094,
+    "active_dofs": 47124,
+    "output_size_total_mb": 82.5,
+    "output_size_odb_mb": 80.0,
+    "output_size_logs_mb": 2.5
+  },
+  "method_c_raw": {
+    "analysis_type": "METHOD_C_ADAPTIVE",
+    "total_cycles": 11,
+    "wall_time_s": 959.5,
+    "cpu_time_s": 910.0,
+    "total_increments": 412,
+    "total_iterations": 1850,
+    "peak_memory_mb": 2048.0,
+    "initial_elements": 2566,
+    "terminal_elements": 15708,
+    "peak_elements": 15708,
+    "peak_active_dofs": 47124,
+    "output_size_total_mb": 0.54,
+    "output_size_odb_mb": 0.0,
+    "output_size_logs_mb": 0.46
+  }
+}

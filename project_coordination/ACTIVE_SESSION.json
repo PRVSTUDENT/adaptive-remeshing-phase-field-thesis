@@ -2,8 +2,15 @@
   "active": false,
   "agent": null,
   "task_id": null,
-  "session_id": null,
-  "started_at": null,
-  "starting_commit": null,
-  "allowed_write_scope": []
+  "session_id": "2026-11-28_0608_gemini-antigravity_cost_analysis",
+  "started_at": "2026-11-28T06:08:00+01:00",
+  "starting_commit": "7456ef2cb39e76390a41ac6e36e8049cd274eb79",
+  "allowed_write_scope": [
+    "project_coordination/*",
+    "docs/validation/*",
+    "models/*",
+    "scripts/*",
+    "tests/*",
+    ".agents/*"
+  ]
 }

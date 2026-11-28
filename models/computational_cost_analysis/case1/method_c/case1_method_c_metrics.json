@@ -1,0 +1,73 @@
+{
+  "analysis_type": "METHOD_C_ADAPTIVE",
+  "total_cycles": 5,
+  "wall_time_s": 1044.6,
+  "cpu_time_s": 971.0,
+  "total_increments": 857,
+  "total_iterations": 4454,
+  "peak_memory_mb": 2048.0,
+  "initial_elements": 2906,
+  "terminal_elements": 8553,
+  "peak_elements": 8553,
+  "peak_active_dofs": 25670,
+  "output_size_total_mb": 4710.89,
+  "output_size_odb_mb": 869.75,
+  "output_size_logs_mb": 3.61,
+  "per_cycle_metrics": [
+    {
+      "cycle": 0,
+      "job_name": "PK_METHOD_C_CASE1_COARSE_JOB1",
+      "wall_time_s": 413.0,
+      "cpu_time_s": 385.0,
+      "increments": 550,
+      "iterations": 2761,
+      "elements": 2906,
+      "nodes": 2988,
+      "d_max": 0.140479
+    },
+    {
+      "cycle": 1,
+      "job_name": "PK_METHOD_C_CASE1_CYCLE1",
+      "wall_time_s": 56.4,
+      "cpu_time_s": 46.0,
+      "increments": 30,
+      "iterations": 188,
+      "elements": 5417,
+      "nodes": 5464,
+      "d_max": 0.968745
+    },
+    {
+      "cycle": 2,
+      "job_name": "PK_METHOD_C_CASE1_CYCLE2",
+      "wall_time_s": 70.3,
+      "cpu_time_s": 60.0,
+      "increments": 40,
+      "iterations": 241,
+      "elements": 5417,
+      "nodes": 5464,
+      "d_max": 0.996358
+    },
+    {
+      "cycle": 3,
+      "job_name": "PK_METHOD_C_CASE1_CYCLE3",
+      "wall_time_s": 271.2,
+      "cpu_time_s": 259.0,
+      "increments": 142,
+      "iterations": 763,
+      "elements": 6513,
+      "nodes": 6545,
+      "d_max": 0.998743
+    },
+    {
+      "cycle": 4,
+      "job_name": "PK_METHOD_C_CASE1_CYCLE4",
+      "wall_time_s": 233.7,
+      "cpu_time_s": 221.0,
+      "increments": 95,
+      "iterations": 501,
+      "elements": 8553,
+      "nodes": 8548,
+      "d_max": 1.0
+    }
+  ]
+}

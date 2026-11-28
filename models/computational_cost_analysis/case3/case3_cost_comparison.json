@@ -1,0 +1,80 @@
+{
+  "case_id": 3,
+  "metrics": {
+    "wall_time_s": {
+      "normal": 2289.0,
+      "method_c": 2500.0,
+      "ratio_mc_to_normal": 1.0922
+    },
+    "cpu_time_s": {
+      "normal": 2280.0,
+      "method_c": 2450.0,
+      "ratio_mc_to_normal": 1.0746
+    },
+    "increments": {
+      "normal": 307,
+      "method_c": 5514,
+      "ratio_mc_to_normal": 17.9609
+    },
+    "iterations": {
+      "normal": 1582,
+      "method_c": 16343,
+      "ratio_mc_to_normal": 10.3306
+    },
+    "elements": {
+      "normal_fixed": 26431,
+      "method_c_initial": 2906,
+      "method_c_terminal": 8421,
+      "ratio_terminal_to_normal": 0.3186
+    },
+    "dofs": {
+      "normal_fixed": 79184,
+      "method_c_peak": 27645,
+      "ratio_mc_to_normal": 0.3491
+    },
+    "peak_memory_mb": {
+      "normal": 2048.0,
+      "method_c": 2048.0,
+      "ratio_mc_to_normal": 1.0
+    },
+    "output_size_total_mb": {
+      "normal": 56.93,
+      "method_c": 244.06,
+      "ratio_mc_to_normal": 4.287
+    }
+  },
+  "method_c_cycles": 54,
+  "normal_raw": {
+    "job_name": "PK_COST_CASE3_NORMAL",
+    "analysis_type": "NORMAL_BASELINE",
+    "wall_time_s": 2289.0,
+    "cpu_time_s": 2280.0,
+    "total_increments": 307,
+    "total_iterations": 1582,
+    "cutbacks": 74,
+    "peak_memory_mb": 2048.0,
+    "physical_elements": 26431,
+    "total_elements": 79293,
+    "nodes": 26395,
+    "active_dofs": 79184,
+    "output_size_total_mb": 56.93,
+    "output_size_odb_mb": 44.42,
+    "output_size_logs_mb": 1.32
+  },
+  "method_c_raw": {
+    "analysis_type": "METHOD_C_ADAPTIVE",
+    "total_cycles": 54,
+    "wall_time_s": 2500.0,
+    "cpu_time_s": 2450.0,
+    "total_increments": 5514,
+    "total_iterations": 16343,
+    "peak_memory_mb": 2048.0,
+    "initial_elements": 2906,
+    "terminal_elements": 8421,
+    "peak_elements": 9215,
+    "peak_active_dofs": 27645,
+    "output_size_total_mb": 244.06,
+    "output_size_odb_mb": 0.0,
+    "output_size_logs_mb": 2.5
+  }
+}
