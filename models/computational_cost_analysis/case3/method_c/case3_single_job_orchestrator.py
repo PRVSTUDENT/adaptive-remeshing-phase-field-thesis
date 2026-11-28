@@ -1804,6 +1804,7 @@ class Case3SingleJobOrchestrator(object):
         else:
             # Step 0: Initial Coarse Solve
             coarse_job = "PK_METHOD_C_CASE3_COARSE_JOB1"
+            donor_job = coarse_job
             coarse_inp = os.path.join(self.run_dir, coarse_job + ".inp")
             coarse_sta = os.path.join(self.run_dir, coarse_job + ".sta")
 
@@ -1972,6 +1973,7 @@ class Case3SingleJobOrchestrator(object):
                     except Exception:
                         pass
 
+            donor_job = cycle_job
             cycle_idx += 1
 
         print("=================================================================")

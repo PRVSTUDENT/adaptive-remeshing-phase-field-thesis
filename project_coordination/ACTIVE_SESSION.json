@@ -1,10 +1,10 @@
 ﻿{
-  "active": false,
-  "agent": null,
-  "task_id": null,
-  "session_id": "2026-11-28_0930_gemini-antigravity_cost_analysis_closeout",
-  "started_at": "2026-11-28T09:30:00+01:00",
-  "starting_commit": "7b32b460f430677a0985c543cc370c7929b4fd1d",
+  "active": true,
+  "agent": "gemini-antigravity",
+  "task_id": "METHOD-C-COST-ANALYSIS-EXTENDED",
+  "session_id": "2026-11-28_1002_gemini-antigravity_cost_analysis_extended",
+  "started_at": "2026-11-28T10:02:00+01:00",
+  "starting_commit": "beed0c46b847082edec796d12f1f57ee7af0447e",
   "allowed_write_scope": [
     "project_coordination/*",
     "docs/validation/*",
